@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隋朝建筑成就 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .dynasty-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .dynasty-hero {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .dynasty-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .dynasty-period {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .achievement-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .achievement-image {
+            width: 100%;
+            height: 200px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        
+        .achievement-content {
+            padding: 25px;
+        }
+        
+        .achievement-content h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .achievement-meta {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .meta-tag {
+            background: #ecf0f1;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .view-details {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .view-details:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="timeline.html">时间维度</a>
+                <a href="geography.html">地理维度</a>
+                <a href="architects.html">建筑名家</a>
+                <a href="books.html">建筑书籍</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dynasty-container">
+        <a href="timeline.html" class="back-link">← 返回时间维度</a>
+        
+        <div class="dynasty-hero">
+            <h1 class="dynasty-title">隋朝建筑成就</h1>
+            <div class="dynasty-period">公元581年 - 公元618年 | 短暂统一，影响深远</div>
+        </div>
+
+        <div class="historical-context">
+            <h2>历史背景</h2>
+            <p>隋朝虽然只存在了37年，但在建筑领域取得了辉煌成就。隋文帝和隋炀帝时期，进行了大规模的城市建设、水利工程和交通设施建设，为后世建筑发展奠定了基础。</p>
+            <ul>
+                <li><strong>大兴城建设：</strong>隋文帝建造新都大兴城（唐代长安城前身），规模宏大规划整齐</li>
+                <li><strong>大运河工程：</strong>世界上最长的人工运河，体现高超的水利工程技术</li>
+                <li><strong>桥梁建设：</strong>赵州桥等杰出桥梁工程，技术水平世界领先</li>
+            </ul>
+        </div>
+
+        <h2>隋朝代表性建筑成就</h2>
+        
+        <div class="achievements-grid">
+            <!-- 赵州桥 -->
+            <div class="achievement-card">
+                <div class="achievement-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    🌉
+                </div>
+                <div class="achievement-content">
+                    <h3>赵州桥（安济桥）</h3>
+                    <p>世界现存最早、保存最完善的古代敞肩石拱桥，由工匠李春设计建造，体现了隋代高超的桥梁工程技术。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">桥梁建筑</span>
+                        <span class="meta-tag">石拱技术</span>
+                        <span class="meta-tag">河北赵县</span>
+                    </div>
+                    <a href="../achievements/zhaozhou-bridge.html" class="view-details">查看详情</a>
+                </div>
+            </div>
+
+            <!-- 隋大兴城 -->
+            <div class="achievement-card">
+                <div class="achievement-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                    🏛️
+                </div>
+                <div class="achievement-content">
+                    <h3>隋大兴城（唐长安城）</h3>
+                    <p>隋代新建的都城，规模宏大布局整齐，为唐代长安城奠定了基础，是中国古代都城规划的典范。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">都城规划</span>
+                        <span class="meta-tag">城市规划</span>
+                        <span class="meta-tag">陕西西安</span>
+                    </div>
+                    <a href="#" class="view-details">查看详情</a>
+                </div>
+            </div>
+
+            <!-- 大运河 -->
+            <div class="achievement-card">
+                <div class="achievement-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                    🚢
+                </div>
+                <div class="achievement-content">
+                    <h3>隋唐大运河</h3>
+                    <p>世界上最长的人工运河，连接南北水系，体现古代水利工程技术的最高水平，对经济发展有重大影响。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">水利工程</span>
+                        <span class="meta-tag">运河建设</span>
+                        <span class="meta-tag">南北贯通</span>
+                    </div>
+                    <a href="#" class="view-details">查看详情</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="historical-context">
+            <h2>隋朝建筑技术特点</h2>
+            <div class="tech-features">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4>🏗️ 结构创新</h4>
+                        <p>敞肩拱等新型结构技术的应用，桥梁建筑达到新高度</p>
+                    </div>
+                    <div>
+                        <h4>📐 规划科学</h4>
+                        <p>都城建设注重整体规划，功能分区明确</p>
+                    </div>
+                    <div>
+                        <h4>

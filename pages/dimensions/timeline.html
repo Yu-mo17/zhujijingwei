@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间维度 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <style>
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .dynasty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .dynasty-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border-left: 5px solid #3498db;
+        }
+        
+        .dynasty-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .dynasty-card.sui-dynasty {
+            border-left-color: #e74c3c;
+            background: linear-gradient(135deg, #fff 0%, #ffecec 100%);
+        }
+        
+        .dynasty-period {
+            font-size: 0.9rem;
+            color: #95a5a6;
+            margin-bottom: 10px;
+        }
+        
+        .dynasty-name {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .dynasty-achievements {
+            margin: 20px 0;
+        }
+        
+        .achievement-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .achievement-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .achievement-item a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: 500;
+            display: block;
+        }
+        
+        .achievement-item a:hover {
+            color: #2980b9;
+        }
+        
+        .explore-btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .explore-btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        
+        .timeline-visual {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="timeline.html" style="background: rgba(255,255,255,0.2);">时间维度</a>
+                <a href="geography.html">地理维度</a>
+                <a href="architects.html">建筑名家</a>
+                <a href="books.html">建筑书籍</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="timeline-container">
+        <div class="page-header">
+            <h1 class="page-title">时间维度 · 历史建筑演变</h1>
+            <p class="page-subtitle">从远古到明清，探索中国古代建筑的发展历程与技术突破</p>
+        </div>
+
+        <div class="timeline-visual">
+            <h2>中国古代历史时间轴</h2>
+            <p>从先秦时期到明清时代，中国建筑技术经历了漫长而精彩的发展历程</p>
+            <!-- 这里未来可以加入ECharts时间轴图表 -->
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
+                <p>🚧 时间轴可视化图表正在开发中...</p>
+                <small>未来这里将展示交互式历史时间轴</small>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; margin: 60px 0 30px; color: #2c3e50;">按朝代探索建筑成就</h2>
+        
+        <div class="dynasty-grid">
+            <!-- 先秦时期 -->
+            <div class="dynasty-card">
+                <div class="dynasty-period">公元前2070年 - 公元前221年</div>
+                <h3 class="dynasty-name">先秦时期</h3>
+                <p>中国建筑的起源与早期发展，包括夏商周时期的宫殿、祭祀建筑等</p>
+                <div class="dynasty-achievements">
+                    <div class="achievement-item">
+                        <a href="#">二里头遗址宫殿基址</a>
+                    </div>
+                    <div class="achievement-item">
+                        <a href="#">殷墟建筑遗迹</a>
+                    </div>
+                </div>
+                <a href="pre-qin.html" class="explore-btn">探索先秦建筑</a>
+            </div>
+
+            <!-- 秦汉时期 -->
+            <div class="dynasty-card">
+                <div class="dynasty-period">公元前221年 - 公元220年</div>
+                <h3 class="dynasty-name">秦汉时期</h3>
+                <p>统一帝国的建筑风格形成，宫殿、陵墓、长城等大型工程的建设</p>
+                <div class="dynasty-achievements">
+                    <div class="achievement-item">
+                        <a href="#">秦始皇陵</a>
+                    </div>
+                    <div class="achievement-item">
+                        <a href="#">汉代陶楼明器</a>
+                    </div>
+                </div>
+                <a href="qin-han.html" class="explore-btn">探索秦汉建筑</a>
+            </div>
+
+            <!-- 魏晋南北朝 -->
+            <div class="dynasty-card">
+                <div class="dynasty-period">公元220年 - 公元589年</div>
+                <h3 class="dynasty-name">魏晋南北朝</h3>
+                <p>佛教建筑传入与发展，石窟寺、佛塔等宗教建筑的兴盛时期</p>
+                <div class="dynasty-achievements">
+                    <div class="achievement-item">
+                        <a href="#">云冈石窟</a>
+                    </div>
+                    <div class="achievement-item">
+                        <a href="#">嵩岳寺塔</a>
+                    </div>
+                </div>
+                <a href="wei-jin.html" class="explore-btn">探索魏晋建筑</a>
+            </div>
+
+            <!-- 隋朝时期（重点） -->
+            <div class="dynasty-card sui-dynasty">
+                <div class="dynasty-period">公元581年 - 公元618年</div>
+                <h3 class="dynasty-name">隋朝时期</h3>
+                <p>短暂而辉煌的统一王朝，在桥梁、城市规划等领域取得重大突破</p>
+                <div class="dynasty-achievements">
+                    <div class="achievement-item">
+                        <a href="../achievements/zhaozhou-bridge.html">🌟 赵州桥 - 世界最早敞肩石拱桥</a>
+                    </div>
+                    <div class="achievement-item">
+                        <a href="sui-dynasty.html">隋大兴城（唐长安城前身）</a>
+                    </div>
+                </div>
+                <a href="sui-dynasty.html" class="explore-btn">探索隋朝建筑</a>
+            </div>
+
+            <!-- 唐朝时期 -->
+            <div class="dynasty-card">
+                <div class="dynasty-period">公元618年 - 公元907年</div>
+                <h3 class="dynasty-name">唐朝时期</h3>
+                <p>中国古代建筑的黄金时代，木构建筑技术达到巅峰</p>
+                <div class="dynasty-achievements">
+                    <div class="achievement-item">
+                        <a href="#">大明宫遗址</a>
+                    </div>
+                    <div class="achievement-item">
+                        <a href="#">佛光寺东大殿</a>
+                    </div>
+                </div>
+                <a href="tang-dynasty.html" class="explore-btn">探索唐朝建筑</a>
+            </div>
+
+            <!-- 宋元时期 -->
+            <div class="dynasty-card">
+                <div class="dynasty-period">公元960年 - 公元1368年</div>
+                <h3 class="dynasty-name">宋元时期</h3>
+                <p>建筑技术规范化，《营造法式》成书，砖石建筑进一步发展</p>
+                <div class="dynasty-achievements">
+                    <div class="achievement-item">
+                        <a href="#">《营造法式》</a>
+                    </div>
+                    <div class="achievement-item">
+                        <a href="#">应县木塔</a>
+                    </div>
+                </div>
+                <a href="song-yuan.html" class="explore-btn">探索宋元建筑</a>
+            </div>
+
+            <!-- 明清时期 -->
+            <div class="dynasty-card">
+                <div class="dynasty-period">公元1368年 - 公元1912年</div>
+                <h3 class="dynasty-name">明清时期</h3>
+                <p>古代建筑技术的集大成时期，宫殿、园林建筑达到完美境界</p>
+                <div class="dynasty-achievements">
+                    <div class="achievement-item">
+                        <a href="#">北京故宫</a>
+                    </div>
+                    <div class="achievement-item">
+                        <a href="#">苏州园林</a>
+                    </div>
+                </div>
+                <a href="ming-qing.html" class="explore-btn">探索明清建筑</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+</body>
+</html>
