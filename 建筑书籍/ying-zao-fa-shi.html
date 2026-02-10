@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《营造法式》 - 筑迹经纬</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* 基础样式 - 使用宋代美学色调 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f5f1; /* 浅米色背景，有纸质感 */
+        }
+        
+        /* 导航栏 - 使用宋代官式建筑的深色 */
+        .main-header {
+            background: #2c3e50; /* 与赵州桥页面统一 */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .main-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* 英雄区域 */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin: 40px auto;
+            padding: 40px;
+            max-width: 1200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .hero-content {
+            text-align: center; /* 整体内容居中 */
+        }
+        
+        .achievement-title {
+            font-size: 2.8rem;
+            color: #2c3e50; /* 与赵州桥页面统一 */
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .achievement-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d; /* 与赵州桥页面统一 */
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .meta-info {
+            background: #f8f9fa; /* 与赵州桥页面统一 */
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db; /* 与赵州桥页面统一 */
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .meta-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 120px;
+        }
+        
+        .meta-value {
+            color: #2c3e50;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #3498db; /* 与赵州桥页面统一 */
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #3498db;
+            color: #3498db;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .hero-image {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .hero-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        /* 核心解密卡片区 */
+        .cards-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #3498db;
+        }
+        
+        .section-subtitle {
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 一行两个 */
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card-icon {
+            height: 150px;
+            background: #f8f9fa; /* 与赵州桥页面统一 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #2c3e50;
+        }
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            margin: 10px 0;
+            line-height: 1.7;
+            color: #555;
+            flex-grow: 1;
+        }
+        
+        .card-highlight {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .card-highlight p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+        
+        /* 时空影响区 - 修改为垂直布局 */
+        .timeline-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 40px 20px;
+        }
+        
+        .timeline-container, .comparison-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .timeline-title, .comparison-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 时间轴样式 */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3498db;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-year {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            background: #3498db;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-left: 20px;
+        }
+        
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* 对比画廊 */
+        .comparison-item {
+            margin-bottom: 40px;
+        }
+        
+        .comparison-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .comparison-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .comparison-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-label {
+            text-align: center;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-quote {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        /* 结语与导航 */
+        .conclusion-section {
+            max-width: 1200px;
+            margin: 40px auto 60px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .conclusion-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .global-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .comparison-images {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievement-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .comparison-images {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline-year {
+                width: 50px;
+                height: 50px;
+                left: -25px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="#" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="#">时间维度</a>
+                <a href="#">地理维度</a>
+                <a href="#">建筑名家</a>
+                <a href="architecture-books.html">建筑书籍</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="achievement-title">《营造法式》</h1>
+            <p class="achievement-subtitle">公元1103年，北宋朝廷颁布了这部旷世奇书。它不仅仅是一本古籍，更是一套让复杂木构建筑得以标准化设计、精准化施工、可控化管理的完整体系。它定义了东方建筑的"语法"，紫禁城的辉煌、应县木塔的奇迹，皆源出于此。</p>
+            
+            <div class="meta-info">
+                <div class="meta-row">
+                    <div class="meta-label">成书年代：</div>
+                    <div class="meta-value">北宋崇宁二年（1103年）</div>
+                </div>
+                <div class="meta-row">
+                    <div class="meta-label">编修者：</div>
+                    <div class="meta-value">李诫（李明仲），时任将作少监（国家工程总局副长官）</div>
+                </div>
+                <div class="meta-row">
+                    <div class="meta-label">全书规模：</div>
+                    <div class="meta-value">34卷，357篇，3555条，附大量图样</div>
+                </div>
+                <div class="meta-row">
+                    <div class="meta-label">核心性质：</div>
+                    <div class="meta-value">中国第一部由中央政府颁布的建筑工程设计与施工的强制性国家标准</div>
+                </div>
+            </div>
+            
+            <div class="hero-buttons">
+                <a href="#cards" class="btn">探索核心奥秘</a>
+                <a href="#" class="btn btn-outline">观看解读视频</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1545569341-9c8d2b0a0c2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="《营造法式》古籍与建筑对照">
+            <div class="image-caption">《营造法式》书影与宋代建筑实景对照</div>
+        </div>
+    </section>
+
+    <!-- 核心解密卡片区 -->
+    <section id="cards" class="cards-section">
+        <h2 class="section-title">四大划时代贡献</h2>
+        <p class="section-subtitle">《营造法式》之所以成为建筑史上的里程碑，在于它实现了从经验传承到系统科学的革命性跨越</p>
+        
+        <div class="cards-container">
+            <!-- 卡片一 -->
+            <div class="card">
+                <div class="card-icon">📏</div>
+                <div class="card-content">
+                    <h3><span class="icon">📏</span>开创"材分制"——建筑的"乐高"语法</h3>
+                    <p><strong>核心概念：</strong>这是全书最伟大的发明。它以标准木枋断面——"材"为基本模数，将之分为八个等级。所有建筑构件的尺寸，都规定为"材"或其分数单位"分"的倍数。</p>
+                    <p><strong>何以伟大：</strong>这实现了前所未有的设计标准化（比例和谐永恒）、构件预制化（可异地批量生产）、施工装配化（效率极高）。它让建造一座宫殿，如同拼装一套精密复杂的积木。</p>
+                    <div class="card-highlight">
+                        <p>可视化建议：嵌入一个"材分制计算器"小互动：用户选择建筑等级（如"殿阁"），自动生成主要构件的尺寸比例图。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 卡片二 -->
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-content">
+                    <h3><span class="icon">📊</span>规定"功限料例"——古代的国家预算与审计系统</h3>
+                    <p><strong>核心概念：</strong>为杜绝工程腐败与浪费，该书对用工量（功限）和材料消耗（料例）做出了史上最详尽的规定。从砍伐一根柱子需要几个工，到绘制一幅彩画需要几两颜料，全部有据可查。</p>
+                    <p><strong>何以伟大：</strong>它使大型国家工程实现了精准的预算编制、成本控制和工期管理。这不仅仅是一部技术手册，更是一套高度成熟的古代工程项目管理与财政审计体系，展现了惊人的治理智慧。</p>
+                </div>
+            </div>
+            
+            <!-- 卡片三 -->
+            <div class="card">
+                <div class="card-icon">📐</div>
+                <div class="card-content">
+                    <h3><span class="icon">📐</span>绘制"图样"——失传工艺的全息备份</h3>
+                    <p><strong>核心概念：</strong>书中附有近600幅涵盖大木作、小木作、雕作、彩画作的工程图样。这些图样精准、写实，具有极高的技术价值。</p>
+                    <p><strong>何以伟大：</strong>许多宋代极尽精微的装饰与工艺，在现实中已难寻觅。这些图样成为了唯一传世的视觉档案。20世纪以来，正是依靠这些"图纸"，古建学家才成功识别、修复了众多国宝级建筑。它们是穿越千年的"施工蓝图"。</p>
+                </div>
+            </div>
+            
+            <!-- 卡片四 -->
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <div class="card-content">
+                    <h3><span class="icon">🎨</span>蕴含"道器合一"——理性与诗意的哲学统一</h3>
+                    <p><strong>核心概念：</strong>《营造法式》体现了"结构即装饰"的最高审美。最复杂的斗拱，首先是力学构件，其次才是艺术表现。装饰从结构逻辑中自然生长，而非后期附加。</p>
+                    <p><strong>何以伟大：</strong>它在严密的数学规则之上，为工匠的个人创造留下了灵活空间。在"材分"的总规则下，工匠可根据地域、功能、审美进行调适。这使其成为一部既严谨又开放，既重技术又重艺术的平衡之作。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 时空影响区 - 时间轴部分 -->
+    <section class="timeline-section">
+        <h2 class="section-title">《营造法式》的千年生命线</h2>
+        <p class="section-subtitle">一部典籍如何穿越千年，至今仍在塑造我们对东方建筑的理解？</p>
+        
+        <!-- 时间轴容器 -->
+        <div class="timeline-container">
+            <h3 class="timeline-title">一部典籍的千年旅程</h3>
+            <div class="timeline">
+                <!-- 时间轴项目1 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">1103</div>
+                    <div class="timeline-content">
+                        <h4>颁行天下，定为圭臬</h4>
+                        <p>《营造法式》由北宋朝廷正式颁行，成为官式建筑的强制性国家标准，统一了全国的建筑营造规范。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目2 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">12-13C</div>
+                    <div class="timeline-content">
+                        <h4>技术东传，影响深远</h4>
+                        <p>其技术体系随文化交流深刻影响辽、金建筑，并东渡至日本、朝鲜半岛（如韩国浮石寺无量寿殿），成为东亚建筑共同的技术源头。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目3 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">1734</div>
+                    <div class="timeline-content">
+                        <h4>清代继承，体系延续</h4>
+                        <p>清代颁布《工程做法则例》，是其模数思想的直接继承与官式建筑体系的延续，奠定了明清宫式建筑的基础。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目4 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">1925</div>
+                    <div class="timeline-content">
+                        <h4>遗珠重光，再现于世</h4>
+                        <p>学者朱启钤发现"陶本"《营造法式》，使这部沉寂已久的建筑瑰宝重见天日，开启了近代中国建筑史研究的新纪元。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目5 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">1930s</div>
+                    <div class="timeline-content">
+                        <h4>现代破译，解读密码</h4>
+                        <p>梁思成、林徽因等创建中国营造学社，以本书为"钥匙"，实地调查发现并解读了佛光寺、独乐寺、应县木塔等唐代至辽代遗构，震惊世界。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目6 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">至今</div>
+                    <div class="timeline-content">
+                        <h4>基石永固，文脉相承</h4>
+                        <p>成为中国古建筑研究、文物保护修复、历史院校教学的不可撼动的基石。每一处世界遗产的修缮背后，都有它的影子。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 对比画廊容器 -->
+        <div class="comparison-container">
+            <h3 class="comparison-title">书中的规定，地上的瑰宝</h3>
+            
+            <!-- 对比案例1 -->
+            <div class="comparison-item">
+                <div class="comparison-images">
+                    <div class="comparison-image">
+                        <img src="https://images.unsplash.com/photo-1545569341-9c8d2b0a0c2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="《营造法式》斗拱图样">
+                        <div class="image-label">《营造法式》"斗拱图样"</div>
+                    </div>
+                    <div class="comparison-image">
+                        <img src="https://images.unsplash.com/photo-1512529904539-2034f9e1c8b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="应县木塔斗拱实物">
+                        <div class="image-label">山西应县木塔斗拱实物</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 对比案例2 -->
+            <div class="comparison-item">
+                <div class="comparison-images">
+                    <div class="comparison-image">
+                        <img src="https://images.unsplash.com/photo-1545569341-9c8d2b0a0c2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="《营造法式》彩画图样">
+                        <div class="image-label">《营造法式》"五彩遍装"彩画纹样</div>
+                    </div>
+                    <div class="comparison-image">
+                        <img src="https://images.unsplash.com/photo-1594818379497-7d0c2fca5b0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="故宫太和殿彩画">
+                        <div class="image-label">故宫太和殿内檐彩画实景</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="comparison-quote">
+                "文字的标准，在木石之上获得了永恒的生命。"
+            </div>
+        </div>
+    </section>
+
+    <!-- 结语与导航 -->
+    <section class="conclusion-section">
+        <p class="conclusion-text">
+            《营造法式》的伟大，在于它将千千万万工匠的智慧，凝聚为可传承、可演进的文明基因。它是一把尺，度量出宋代建筑的理性辉煌；它是一座桥，连接起我们与伟大传统的深层对话。
+        </p>
+        
+        <div class="global-nav">
+            <a href="../pages/dimensions/books.html" class="nav-btn">返回到建筑名著</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <script>
+        // 这里可以添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 平滑滚动到卡片区域
+            const exploreBtn = document.querySelector('.btn');
+            if (exploreBtn && exploreBtn.getAttribute('href') === '#cards') {
+                exploreBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector('#cards').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            console.log('《营造法式》专题页加载完成！');
+        });
+    </script>
+</body>
+</html>

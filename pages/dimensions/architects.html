@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>建筑名家 - 筑迹经纬</title>
+    <style>
+        /* 基础样式 - 与时间维度页面保持一致 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        /* 导航栏 */
+        .main-header {
+            background: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .main-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* 页面容器 */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 页面标题区域 */
+        .page-header {
+            text-align: center;
+            margin: 40px 0 60px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 朝代筛选器 */
+        .dynasty-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .dynasty-filter {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .dynasty-filter:hover, .dynasty-filter.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        /* 建筑名家网格 */
+        .architects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .architect-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .architect-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .architect-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .architect-info {
+            padding: 25px;
+        }
+        
+        .architect-info h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .architect-period {
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .architect-description {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .architects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .dynasty-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .dynasty-filter {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="timeline.html">时间维度</a>
+                <a href="geography.html">地理维度</a>
+                <a href="architects.html" class="active">建筑名家</a>
+                <a href="books.html">建筑书籍</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 页面内容 -->
+    <div class="page-container">
+        <div class="page-header">
+            <h1 class="page-title">建筑名家</h1>
+            <p class="page-subtitle">认识历代建筑巨匠，了解他们的设计理念、技术贡献与代表作品</p>
+        </div>
+
+        <!-- 朝代筛选器 -->
+        <div class="dynasty-filters">
+            <button class="dynasty-filter active" data-dynasty="all">全部</button>
+            <button class="dynasty-filter" data-dynasty="sui">隋唐</button>
+            <button class="dynasty-filter" data-dynasty="song">宋元</button>
+            <button class="dynasty-filter" data-dynasty="ming">明清</button>
+        </div>
+
+        <!-- 建筑名家网格 -->
+        <div class="architects-grid">
+            <!-- 李春卡片 - 重点突出，可链接到李春详情页 -->
+            <a href="../../建筑师/li-chun.html" class="architect-card" data-dynasty="sui">
+                <div class="architect-image">
+                    <span>👨‍🔧</span>
+                </div>
+                <div class="architect-info">
+                    <h3>李春</h3>
+                    <div class="architect-period">隋朝（约公元600年）</div>
+                    <p class="architect-description">赵州桥总设计师，世界最早敞肩石拱桥的创造者，展现隋代高超的桥梁工程技术。</p>
+                </div>
+            </a>
+            
+            <!-- 宇文恺卡片 -->
+            <a href="#" class="architect-card" data-dynasty="sui">
+                <div class="architect-image">
+                    <span>🏛️</span>
+                </div>
+                <div class="architect-info">
+                    <h3>宇文恺</h3>
+                    <div class="architect-period">隋朝（555-612年）</div>
+                    <p class="architect-description">隋代著名建筑家，主持规划建设大兴城（唐长安城前身），都城规划大师。</p>
+                </div>
+            </a>
+            
+            <!-- 李诫卡片 -->
+            <a href="#" class="architect-card" data-dynasty="song">
+                <div class="architect-image">
+                    <span>📐</span>
+                </div>
+                <div class="architect-info">
+                    <h3>李诫</h3>
+                    <div class="architect-period">北宋（1035-1110年）</div>
+                    <p class="architect-description">《营造法式》作者，中国古代最完整的建筑技术规范书编纂者。</p>
+                </div>
+            </a>
+            
+            <!-- 蒯祥卡片 -->
+            <a href="#" class="architect-card" data-dynasty="ming">
+                <div class="architect-image">
+                    <span>🏯</span>
+                </div>
+                <div class="architect-info">
+                    <h3>蒯祥</h3>
+                    <div class="architect-period">明代（1397-1481年）</div>
+                    <p class="architect-description">明代著名建筑师，紫禁城主要设计者之一，被誉为"蒯鲁班"。</p>
+                </div>
+            </a>
+            
+            <!-- 雷发达卡片 -->
+            <a href="#" class="architect-card" data-dynasty="ming">
+                <div class="architect-image">
+                    <span>⚒️</span>
+                </div>
+                <div class="architect-info">
+                    <h3>雷发达</h3>
+                    <div class="architect-period">明末清初（1619-1693年）</div>
+                    <p class="architect-description">"样式雷"家族创始人，清代宫廷建筑世家，作品包括圆明园、颐和园等。</p>
+                </div>
+            </a>
+            
+            <!-- 喻皓卡片 -->
+            <a href="#" class="architect-card" data-dynasty="song">
+                <div class="architect-image">
+                    <span>🌉</span>
+                </div>
+                <div class="architect-info">
+                    <h3>喻皓</h3>
+                    <div class="architect-period">北宋（约960-1040年）</div>
+                    <p class="architect-description">北宋著名木工建筑师，以建造开封开宝寺塔闻名，著有《木经》。</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <script>
+        // 朝代筛选功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.dynasty-filter');
+            const architectCards = document.querySelectorAll('.architect-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有active类
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // 添加active类到当前按钮
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-dynasty');
+                    
+                    // 筛选建筑师卡片
+                    architectCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            const dynasty = card.getAttribute('data-dynasty');
+                            
+                            if (dynasty === filter) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

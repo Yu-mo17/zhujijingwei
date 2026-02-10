@@ -1,0 +1,48 @@
+{
+  "id": "ying-zao-fa-shi",
+  "title": "营造法式",
+  "author": "李诫",
+  "dynasty": "北宋",
+  "year": 1100,
+  "volumes": 34,
+  "chapters": 357,
+  "sections": 6,
+  
+  "contentStructure": {
+    "part1": {
+      "name": "总释总例",
+      "volumes": 2,
+      "description": "名词术语解释和通用规定"
+    },
+    "part2": {
+      "name": "制度",
+      "volumes": 13,
+      "description": "各种建筑制度和技术规范"
+    },
+    "part3": {
+      "name": "功限",
+      "volumes": 15,
+      "description": "各项工程用工定额标准"
+    },
+    "part4": {
+      "name": "料例",
+      "volumes": 6,
+      "description": "材料用量和工程质量要求"
+    }
+  },
+  
+  "technicalInnovations": [
+    "模数制设计方法",
+    "标准化构件体系", 
+    "科学工料计算方法",
+    "详细施工工艺说明"
+  ],
+  
+  "historicalSignificance": "中国古代最完整的建筑技术规范书，对后世建筑产生深远影响",
+  
+  "modernValue": [
+    "古建筑修复的重要依据",
+    "建筑史研究核心资料",
+    "传统建筑技艺传承载体"
+  ]
+}

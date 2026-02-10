@@ -1,0 +1,172 @@
+/* 赵州桥页面专用样式 */
+.hero-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin: 40px auto;
+    padding: 40px;
+    max-width: 1200px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.achievement-title {
+    font-size: 2.8rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.achievement-subtitle {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+.meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tag {
+    background: #ecf0f1;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #2c3e50;
+}
+
+.tag.architect a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.tag.architect a:hover {
+    text-decoration: underline;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.chart-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.section-subtitle {
+    color: #7f8c8d;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.chart-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid #e0e0e0;
+}
+
+.chart {
+    width: 100%;
+    height: 500px;
+}
+
+.tech-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.tech-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.tech-item {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.tech-item h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.culture-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.culture-content {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+blockquote {
+    font-style: italic;
+    color: #7f8c8d;
+    border-left: 4px solid #e74c3c;
+    padding-left: 20px;
+    margin: 20px 0;
+    font-size: 1.1rem;
+}
+
+blockquote footer {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #95a5a6;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .achievement-title {
+        font-size: 2.2rem;
+    }
+    
+    .chart {
+        height: 400px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+}

@@ -4,76 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>李春 - 筑迹经纬</title>
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/architect-detail.css">
-    <style>
-        /* 添加一些额外的内联样式，增强视觉效果 */
-        .architect-hero {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .architect-hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(to top, white, transparent);
-            z-index: 0;
-        }
-        
-        .work-image {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .work-image::before {
-            font-size: 5rem;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-        }
-        
-        .philosophy-item:nth-child(1) {
-            border-top-color: #e74c3c;
-        }
-        
-        .philosophy-item:nth-child(2) {
-            border-top-color: #3498db;
-        }
-        
-        .philosophy-item:nth-child(3) {
-            border-top-color: #2ecc71;
-        }
-        
-        .philosophy-item:hover:nth-child(1) {
-            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.1);
-        }
-        
-        .philosophy-item:hover:nth-child(2) {
-            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.1);
-        }
-        
-        .philosophy-item:hover:nth-child(3) {
-            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/architect-detail.css">
 </head>
 <body>
     <header class="main-header">
         <nav class="main-nav">
-            <a href="../../index.html" class="nav-logo">筑迹经纬</a>
+            <a href="../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="../dimensions/timeline.html">时间维度</a>
-                <a href="../dimensions/geography.html">地理维度</a>
-                <a href="../dimensions/architects.html">建筑名家</a>
-                <a href="../dimensions/books.html">建筑书籍</a>
+                <a href="../pages/dimensions/timeline.html">时间维度</a>
+                <a href="../pages/dimensions/geography.html">地理维度</a>
+                <a href="../pages/dimensions/architects.html">建筑名家</a>
+                <a href="../pages/dimensions/books.html">建筑书籍</a>
             </div>
         </nav>
     </header>
@@ -127,7 +69,7 @@
         <section class="major-works">
             <h2>代表作品</h2>
             <div class="works-grid">
-                <a href="../achievements/zhaozhou-bridge.html" class="work-card">
+                <a href="../建筑/zhaozhou-bridge.html" class="work-card">
                     <div class="work-image">
                         <!-- 赵州桥图示 -->
                     </div>
@@ -172,48 +114,6 @@
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script>
-        // 添加简单的交互效果
-        document.addEventListener('DOMContentLoaded', function() {
-            // 为成就列表项添加动画
-            const achievementItems = document.querySelectorAll('.achievement-highlight li');
-            achievementItems.forEach((item, index) => {
-                item.style.opacity = '0';
-                item.style.transform = 'translateX(-20px)';
-                
-                setTimeout(() => {
-                    item.style.transition = 'all 0.5s ease';
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateX(0)';
-                }, 100 * index);
-            });
-            
-            // 为理念卡片添加鼠标悬停效果
-            const philosophyItems = document.querySelectorAll('.philosophy-item');
-            philosophyItems.forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-            
-            // 为作品卡片添加点击效果
-            const workCard = document.querySelector('.work-card');
-            if (workCard) {
-                workCard.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    // 添加点击效果
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                        window.location.href = this.getAttribute('href');
-                    }, 300);
-                });
-            }
-        });
-    </script>
+    <script src="assets/js/li-chun.js"></script>
 </body>
 </html>
