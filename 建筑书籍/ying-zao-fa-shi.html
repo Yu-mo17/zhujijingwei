@@ -6,7 +6,6 @@
     <title>《营造法式》 - 筑迹经纬</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        /* 基础样式 - 使用宋代美学色调 */
         * {
             margin: 0;
             padding: 0;
@@ -17,12 +16,12 @@
             font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f8f5f1; /* 浅米色背景，有纸质感 */
+            background-color: #f8f5f1;
         }
         
-        /* 导航栏 - 使用宋代官式建筑的深色 */
+        /* 导航栏 */
         .main-header {
-            background: #2c3e50; /* 与赵州桥页面统一 */
+            background: #2c3e50;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         
@@ -75,46 +74,25 @@
         }
         
         .hero-content {
-            text-align: center; /* 整体内容居中 */
+            text-align: left;
         }
         
         .achievement-title {
             font-size: 2.8rem;
-            color: #2c3e50; /* 与赵州桥页面统一 */
-            margin-bottom: 10px;
+            color: #2c3e50;
+            margin-bottom: 15px;
             font-weight: 700;
             letter-spacing: 1px;
+            text-align:center;
         }
         
         .achievement-subtitle {
             font-size: 1.2rem;
-            color: #7f8c8d; /* 与赵州桥页面统一 */
+            color: #7f8c8d;
             margin-bottom: 20px;
             line-height: 1.8;
-        }
-        
-        .meta-info {
-            background: #f8f9fa; /* 与赵州桥页面统一 */
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db; /* 与赵州桥页面统一 */
-            margin-bottom: 20px;
             text-align: left;
-        }
-        
-        .meta-row {
-            display: flex;
-            margin-bottom: 8px;
-        }
-        
-        .meta-label {
-            font-weight: 600;
-            color: #2c3e50;
-            width: 120px;
-        }
-        
-        .meta-value {
-            color: #2c3e50;
+            text-indent: 2em; 
         }
         
         .hero-buttons {
@@ -127,7 +105,7 @@
         .btn {
             display: inline-block;
             padding: 12px 24px;
-            background: #3498db; /* 与赵州桥页面统一 */
+            background: #3498db;
             color: white;
             border-radius: 4px;
             text-decoration: none;
@@ -151,17 +129,10 @@
             background: rgba(52, 152, 219, 0.1);
         }
         
-        .hero-image {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        
         .hero-image img {
             width: 100%;
-            height: 300px;
-            object-fit: cover;
+            height: 450px;
+            object-fit: contain;
             transition: transform 0.5s;
         }
         
@@ -174,7 +145,6 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0,0,0,0.7);
             color: white;
             padding: 10px;
             font-size: 0.9rem;
@@ -220,7 +190,7 @@
         
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 一行两个 */
+            grid-template-columns: repeat(2, 1fr);
             gap: 30px;
             margin-bottom: 40px;
         }
@@ -244,7 +214,7 @@
         
         .card-icon {
             height: 150px;
-            background: #f8f9fa; /* 与赵州桥页面统一 */
+            background: #f8f9fa;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -292,7 +262,7 @@
             font-size: 0.95rem;
         }
         
-        /* 时空影响区 - 修改为垂直布局 */
+        /* 时空影响区 */
         .timeline-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -424,6 +394,62 @@
             border-radius: 8px;
         }
         
+        /* 基本信息卡区域 */
+        .basic-info-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .info-card-header {
+            background: #3498db;
+            padding: 20px 30px;
+            color: white;
+        }
+        
+        .info-card-header h3 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        
+        .info-card-content {
+            padding: 30px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 140px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #333;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+        
         /* 结语与导航 */
         .conclusion-section {
             max-width: 1200px;
@@ -432,7 +458,7 @@
             background: white;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            text-align: center;
+            text-align: left;
             border: 1px solid #e0e0e0;
         }
         
@@ -444,6 +470,7 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            text-indent: 2em;
         }
         
         .global-nav {
@@ -514,6 +541,15 @@
                 width: 100%;
                 text-align: center;
             }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -554,33 +590,53 @@
             <h1 class="achievement-title">《营造法式》</h1>
             <p class="achievement-subtitle">公元1103年，北宋朝廷颁布了这部旷世奇书。它不仅仅是一本古籍，更是一套让复杂木构建筑得以标准化设计、精准化施工、可控化管理的完整体系。它定义了东方建筑的"语法"，紫禁城的辉煌、应县木塔的奇迹，皆源出于此。</p>
             
-            <div class="meta-info">
-                <div class="meta-row">
-                    <div class="meta-label">成书年代：</div>
-                    <div class="meta-value">北宋崇宁二年（1103年）</div>
-                </div>
-                <div class="meta-row">
-                    <div class="meta-label">编修者：</div>
-                    <div class="meta-value">李诫（李明仲），时任将作少监（国家工程总局副长官）</div>
-                </div>
-                <div class="meta-row">
-                    <div class="meta-label">全书规模：</div>
-                    <div class="meta-value">34卷，357篇，3555条，附大量图样</div>
-                </div>
-                <div class="meta-row">
-                    <div class="meta-label">核心性质：</div>
-                    <div class="meta-value">中国第一部由中央政府颁布的建筑工程设计与施工的强制性国家标准</div>
-                </div>
-            </div>
-            
             <div class="hero-buttons">
                 <a href="#cards" class="btn">探索核心奥秘</a>
                 <a href="#" class="btn btn-outline">观看解读视频</a>
             </div>
         </div>
         <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1545569341-9c8d2b0a0c2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="《营造法式》古籍与建筑对照">
-            <div class="image-caption">《营造法式》书影与宋代建筑实景对照</div>
+            <img src="../建筑书籍/assets/images/yi-zao-fa-shi.jpg" alt="《营造法式》古籍与建筑对照">
+            <div class="image-caption"></div>
+        </div>
+    </section>
+
+    <!-- 基本信息卡区域 -->
+    <section class="basic-info-section">
+        <div class="info-card">
+            <div class="info-card-header">
+                <h3>文献档案</h3>
+            </div>
+            <div class="info-card-content">
+                <div class="info-row">
+                    <div class="info-label">成书年代：</div>
+                    <div class="info-value">北宋崇宁二年（1103年）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">编修者：</div>
+                    <div class="info-value">李诫（李明仲），时任将作少监（国家工程总局副长官）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">全书规模：</div>
+                    <div class="info-value">34卷，357篇，3555条，附大量图样</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">核心性质：</div>
+                    <div class="info-value">中国第一部由中央政府颁布的建筑工程设计与施工的强制性国家标准</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">历史地位：</div>
+                    <div class="info-value">继《考工记》后，中国现存最早、最完整的建筑技术典籍，被誉为"中国建筑学第一经典"</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">影响范围：</div>
+                    <div class="info-value">指导北宋官式建筑营造，影响后世辽、金、元、明、清建筑，东传至日本、朝鲜半岛</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">现代意义：</div>
+                    <div class="info-value">研究宋代及以前古建筑的重要文献，现代古建筑修复的权威依据，世界建筑史上的珍贵文献</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -635,7 +691,7 @@
         </div>
     </section>
 
-    <!-- 时空影响区 - 时间轴部分 -->
+    <!-- 时空影响区 -->
     <section class="timeline-section">
         <h2 class="section-title">《营造法式》的千年生命线</h2>
         <p class="section-subtitle">一部典籍如何穿越千年，至今仍在塑造我们对东方建筑的理解？</p>
@@ -755,7 +811,7 @@
     </footer>
 
     <script>
-        // 这里可以添加一些交互效果
+        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
             // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
@@ -776,6 +832,19 @@
                     document.querySelector('#cards').scrollIntoView({
                         behavior: 'smooth'
                     });
+                });
+            }
+            
+            // 基本信息卡悬停效果
+            const infoCard = document.querySelector('.info-card');
+            if (infoCard) {
+                infoCard.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.12)';
+                });
+                infoCard.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
                 });
             }
             
