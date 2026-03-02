@@ -5,6 +5,30 @@
     padding: 0 20px 40px;
 }
 
+/* 统一的章节标题样式 */
+.section-title {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+    margin: 10px auto 30px;
+}
+
+/* 紫色渐变横线 */
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
 /* 英雄区域 */
 .architect-hero {
     text-align: center;
@@ -55,27 +79,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.biography h2 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 30px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.biography h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border-radius: 2px;
-}
-
 .bio-content {
     line-height: 1.8;
     color: #333;
@@ -83,7 +86,7 @@
 }
 
 .achievement-highlight {
-    margin-top: 30px;
+     margin-top: 30px;
     padding: 30px;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 8px;
@@ -131,27 +134,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.engineering-philosophy h2 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 40px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.engineering-philosophy h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border-radius: 2px;
-}
-
 .philosophy-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -171,6 +153,7 @@
 .philosophy-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-top-color: #764ba2;
 }
 
 .philosophy-item h3 {
@@ -193,27 +176,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.major-works h2 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 40px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.major-works h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border-radius: 2px;
-}
-
 .works-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -233,7 +195,7 @@
 .work-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    border-color: #3498db;
+    border-color: #764ba2;
 }
 
 .work-image {
@@ -271,7 +233,7 @@
 
 .work-year {
     display: inline-block;
-    background: #3498db;
+    background: #764ba2;
     color: white;
     padding: 5px 15px;
     border-radius: 20px;
@@ -286,27 +248,6 @@
     background: white;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.historical-significance h2 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 30px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.historical-significance h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border-radius: 2px;
 }
 
 .historical-significance p {
@@ -342,27 +283,6 @@ blockquote footer {
     background: white;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.related-architects h2 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 40px;
-    text-align: center;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.related-architects h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border-radius: 2px;
 }
 
 .architects-grid {
@@ -422,12 +342,12 @@ blockquote footer {
         padding: 30px 20px;
     }
     
-    .biography h2,
-    .engineering-philosophy h2,
-    .major-works h2,
-    .historical-significance h2,
-    .related-architects h2 {
+    .section-title {
         font-size: 1.8rem;
+    }
+    
+    .section-title::after {
+        width: 50px;
     }
     
     .philosophy-grid {

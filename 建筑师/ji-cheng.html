@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计成 - 筑迹经纬</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        /* 导航栏 */
+        .main-header {
+            background: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .main-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* 英雄区域 */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin: 40px auto;
+            padding: 40px;
+            max-width: 1200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hero-content {
+            text-align: left;
+        }
+        
+        .achievement-title {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .achievement-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            text-indent: 2em;
+        }
+        
+        .meta-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .tag {
+            background: #ecf0f1;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        
+        .hero-image {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        
+        .hero-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* 修改后的章节标题样式 - 保持蓝色短横线 */
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+            margin: 20px auto 20px;
+            max-width: 1200px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #3498db; /* 保持蓝色 */
+            border-radius: 2px;
+        }
+        
+        /* 时间轴区域 */
+        .timeline-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+            margin-top: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 25px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #3498db;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-year {
+            position: absolute;
+            left: -50px;
+            top: 0;
+            background: #3498db;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        /* 核心思想卡片区 */
+        .cards-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .card ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        .card li {
+            margin: 12px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .card li:before {
+            content: "•";
+            color: #3498db;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+        
+        /* 代表作品区域 */
+        .works-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .works-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .work-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .work-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .work-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .work-tag {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        /* 影响表格区域 */
+        .impact-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .impact-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        
+        .impact-table th {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .impact-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .impact-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .impact-table tr:hover {
+            background: #e8f4fc;
+        }
+        
+        /* 结语区域 */
+        .conclusion-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .conclusion-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-indent: 2em;
+        }
+        
+        .global-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .works-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline {
+                padding-left: 40px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-year {
+                left: -40px;
+                width: 40px;
+                height: 40px;
+                font-size: 0.8rem;
+            }
+            
+            .impact-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .achievement-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin: 15px auto 15px;
+            }
+            
+            .section-title::after {
+                width: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="#" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="#">时间维度</a>
+                <a href="#">地理维度</a>
+                <a href="#">建筑名家</a>
+                <a href="#">建筑书籍</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="achievement-title">计成 (1582-1642)</h1>
+            <p class="achievement-subtitle">明末江苏吴江人，中国古典园林艺术的理论奠基人与集大成者。他从失意文人转变为造园宗师，其人生轨迹与艺术成就，完美诠释了"行行出状元"的古训。计成不仅将山水画论与造园实践完美结合，更著成《园冶》这一世界首部系统造园学专著，奠定了中国园林艺术的理论基础。</p>
+            
+            <div class="meta-tags">
+                <span class="tag">明代造园家</span>
+                <span class="tag">《园冶》作者</span>
+                <span class="tag">园林艺术理论奠基人</span>
+            </div>
+        </div>
+        <div class="hero-image">
+            <!-- 这里可以放置计成的画像或相关图片 -->
+            <img src="https://images.unsplash.com/photo-1545569341-9c8d2b0a0c2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="计成与明代园林">
+        </div>
+    </section>
+
+    <!-- 时间轴区域 -->
+    <section class="timeline-section">
+        <h2 class="section-title">人生轨迹与关键转折</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">1582</div>
+                <div class="timeline-content">
+                    <h4>生于江苏吴江</h4>
+                    <p>出生于万历十年，名"成"，被寄予仕途厚望，传统士人道路的起点。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">约1602</div>
+                <div class="timeline-content">
+                    <h4>科举失利，人生转折</h4>
+                    <p>赴南京参加乡试，名落孙山。此次失利促使他放弃科举，转而投身所痴迷的山水艺术，从"观画者"转变为"造园者"。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">17世纪初期</div>
+                <div class="timeline-content">
+                    <h4>游学苏杭，研习造园</h4>
+                    <p>游历苏州、杭州，系统研习造园技艺，将山水画论与工匠技艺完美结合，形成独特的造园理念。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">1607</div>
+                <div class="timeline-content">
+                    <h4>成名之作：东第园（寤园）</h4>
+                    <p>受常州名士吴玄委托，设计东第园（寤园）。首次成功运用"借景"理念，一举成名，奠定行业地位。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">1623</div>
+                <div class="timeline-content">
+                    <h4>著成《园冶》三卷</h4>
+                    <p>完成不朽著作《园冶》三卷，这是世界首部系统造园学专著，确立了完整的园林设计理论体系。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">崇祯年间</div>
+                <div class="timeline-content">
+                    <h4>巅峰之作：扬州影园</h4>
+                    <p>为扬州盐商郑元勋设计影园，代表其晚年炉火纯青的造园境界。极致演绎"宛自天开"与理水艺术，成为当时长三角文坛的交流中心。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">1632-1642</div>
+                <div class="timeline-content">
+                    <h4>晚年传艺，思想升华</h4>
+                    <p>定居常州，收徒授艺，打破陈规传艺于女儿。完成《园冶》增补本，专论"借景"，确保技艺流传并将核心理论系统化、完整化。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心思想卡片区 -->
+    <section class="cards-section">
+        <h2 class="section-title">核心建筑思想与成就</h2>
+        <div class="cards-container">
+            <div class="card">
+                <h3><span class="icon">🎨</span>理论体系的原创性建构</h3>
+                <ul>
+                    <li><strong>核心哲学：</strong>提出"虽由人作，宛自天开"，追求人工与自然的至高和谐</li>
+                    <li><strong>方法论：</strong>强调"相地合宜，构园得体"与"因地制宜"，反对强行改造自然</li>
+                    <li><strong>空间艺术：</strong>首创并系统阐述"借景"论，定义为"园林之最要者"，将园外风光化为己用，极大拓展了园林的意境边界</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3><span class="icon">📚</span>开宗立派的技艺法典《园冶》</h3>
+                <ul>
+                    <li><strong>内容全景：</strong>涵盖相地、立基、屋宇、装折、门窗、墙垣、铺地、掇山、选石、借景等十大专项</li>
+                    <li><strong>独特贡献：</strong>书中绘制收录300余种门窗样式（"装折"篇），是研究明代生活美学与建筑装饰的珍贵图谱</li>
+                    <li><strong>设计原则：</strong>全书贯穿其从实践中总结的流程与禁忌，是可操作性极强的专业指南</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3><span class="icon">🏞️</span>从画意到园境的实践转化</h3>
+                <ul>
+                    <li>将山水画的"高远、深远、平远"构图法与意境追求，转化为园林的立体空间布局与游览节奏设计</li>
+                    <li>擅长以叠石理水塑造如画的实景，其作品被誉为"立体的山水画"</li>
+                    <li>实现从二维绘画到三维空间的创造性转化，确立了中国古典园林的基本美学范式</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 代表作品区域 -->
+    <section class="works-section">
+        <h2 class="section-title">代表作品深度解析</h2>
+        <div class="works-container">
+            <div class="work-item">
+                <span class="work-tag">成名之作</span>
+                <h4>东第园（寤园，常州）</h4>
+                <p>计成的成名作与"借景"理念首次成功实践。此案奠定了其"巧于因借"的设计风格，巧妙利用周边自然环境，将园外山水风光"借"入园中，创造出无限延伸的空间感。</p>
+            </div>
+            
+            <div class="work-item">
+                <span class="work-tag">巅峰之作</span>
+                <h4>影园（扬州）</h4>
+                <p>代表计成晚年炉火纯青的造园境界。超越私家宅园，成为当时长三角文坛的交流中心，体现了园林的社会文化价值。极致演绎"宛自天开"与理水艺术。</p>
+            </div>
+            
+            <div class="work-item">
+                <span class="work-tag">理论巨著</span>
+                <h4>《园冶》</h4>
+                <p>世界第一部系统造园学专著，涵盖园林设计、施工、管理的方方面面。不仅总结实践经验，更上升到理论高度，成为后世造园的"圣经"。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 影响表格区域 -->
+    <section class="impact-section">
+        <h2 class="section-title">深远的历史影响与传承</h2>
+        <table class="impact-table">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">维度</th>
+                    <th style="width: 40%;">具体影响</th>
+                    <th style="width: 40%;">实例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>国内传承</strong></td>
+                    <td>直接引领了清初江南园林的鼎盛，其原则被后世匠师默认为法度。</td>
+                    <td>扬州个园的四季假山，苏州拙政园的疏朗布局，皆可见其思想遗韵。</td>
+                </tr>
+                <tr>
+                    <td><strong>技艺传承</strong></td>
+                    <td>打破"传男不传女"的行规，将技艺传授给女儿，体现了超越时代的教育观。</td>
+                    <td>保证了造园技艺在家族及师徒体系中的有效传承。</td>
+                </tr>
+                <tr>
+                    <td><strong>国际传播</strong></td>
+                    <td>东学西渐的典范：著作与实践影响东亚及西方园林发展。</td>
+                    <td>日本：18世纪《园冶》抄本传入，启发"回游式林泉庭园"；20世纪初被正式译介。<br>西方：其自然观间接影响18世纪英国自然风景园思潮。</td>
+                </tr>
+                <tr>
+                    <td><strong>当代再现</strong></td>
+                    <td>成为现代中式园林与景观设计的理论源泉与文化符号。</td>
+                    <td>纽约大都会博物馆"明轩"、温哥华"逸园"等海外中国园，均以其理论为设计蓝本。</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 结语区域 -->
+    <section class="conclusion-section">
+        <p class="conclusion-text">
+            计成从科举失意的文人转型为造园宗师，其人生轨迹见证了中国传统知识分子的多元发展路径。他不仅创造了"虽由人作，宛自天开"这一园林艺术的最高美学理想，更通过《园冶》将感性的造园经验系统化为理性的设计法则。计成的贡献不仅在于留下了影园等具体作品，更在于确立了中国园林作为一门独立艺术门类的理论框架与评价标准，其影响跨越时空，至今仍是理解中国古典园林不可或缺的钥匙。
+        </p>
+        
+        <div class="global-nav">
+            <a href="architecture-books.html" class="nav-btn">返回建筑名著</a>
+            <a href="园冶.html" class="nav-btn">探索《园冶》专著</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <script>
+        // 时间轴动画效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            timelineItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(item);
+            });
+            
+            // 卡片悬停效果
+            const cards = document.querySelectorAll('.card, .work-item');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            console.log('计成专题页加载完成！');
+        });
+    </script>
+</body>
+</html>
