@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>筑迹经纬 - 中国古代建筑成就可视化系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "STKaiti", serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f8f5f1;
+            overflow-x: hidden;
+            height: 100%;
+        }
+        
+        /* 网站名称区域 - 全屏显示 */
+        .site-title-section {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
+                url('./assets/images/home.jpg') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+        
+        .site-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #f8f5f1;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeInUp 2s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .site-subtitle {
+            font-size: 1.5rem;
+            color: #e6d2b5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 3px;
+            text-align: center;
+            animation: fadeInUp 2s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+        
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #e6d2b5;
+            font-size: 1.2rem;
+            animation: fadeIn 2s ease-out 1s forwards, bounce 2s infinite 3s;
+            opacity: 0;
+        }
+        
+        .scroll-hint i {
+            display: block;
+            font-size: 1.8rem;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        /* 前言区域 - 全屏显示 */
+        .preface-section {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: 
+                linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.9)),
+                url('./assets/images/setting.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 40px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+        
+        .preface-container {
+            max-width: 1250px; /* 增加文字宽度 */
+            text-align: justify;
+            line-height: 1.9;
+        }
+        
+        .preface-title {
+            font-size: 2.8rem;
+            color: #f8f5f1;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .preface-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 3px;
+            background: #c19a6b;
+        }
+        
+        .preface-content {
+            font-size: 1rem; /* 增加字体大小 */
+            color: #f8f5f1;
+            margin-bottom: 50px;
+            text-indent: 2em;
+        }
+        
+        .preface-content p {
+            margin-bottom: 10px; /* 减小段落间距 */
+        }
+        
+        .preface-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .explore-button-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .explore-button {
+            display: inline-block;
+            padding: 20px 60px;
+            background: #c19a6b;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            border: 2px solid #c19a6b;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 2px;
+        }
+        
+        .explore-button:hover {
+            background: #a87c4c;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .explore-button::after {
+            content: "→";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .explore-button:hover::after {
+            opacity: 1;
+            right: 15px;
+        }
+        
+        /* 加载动画 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid #c19a6b;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .preface-container {
+                max-width: 900px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .site-title {
+                font-size: 3.5rem;
+                letter-spacing: 5px;
+            }
+            
+            .site-subtitle {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+            
+            .preface-section {
+                padding: 30px 20px;
+            }
+            
+            .preface-container {
+                max-width: 100%;
+            }
+            
+            .preface-title {
+                font-size: 2.3rem;
+                margin-bottom: 40px;
+            }
+            
+            .preface-content {
+                font-size: 1.2rem;
+            }
+            
+            .explore-button {
+                padding: 18px 40px;
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .site-title {
+                font-size: 2.8rem;
+                letter-spacing: 3px;
+            }
+            
+            .preface-title {
+                font-size: 2rem;
+            }
+            
+            .preface-content {
+                font-size: 1.1rem;
+            }
+            
+            .explore-button {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <!-- 网站名称区域 -->
+    <section id="site-title" class="site-title-section">
+        <h1 class="site-title">筑迹经纬</h1>
+        <p class="site-subtitle">中国古代建筑成就可视化系统</p>
+        <div class="scroll-hint">
+            向下滑动
+        </div>
+    </section>
+    
+    <!-- 前言区域 -->
+    <section id="preface" class="preface-section">
+        <div class="preface-container">
+            <h2 class="preface-title">前言</h2>
+            <div class="preface-content">
+                <p>您好，欢迎来到这片由木头、石头与智慧构筑的殿堂。</p>
+                <p>当您穿行于现代都市的钢铁森林，可曾想过，在东方大地上，曾矗立着另一套截然不同的建筑体系？它不用一根钉子，却能历经千年风雨而屹立不倒；它遵循严格的礼制，却在飞檐翘角间流露出飞扬的诗意。这里，亭台楼阁不仅是生活的容器，更是宇宙观的缩影，是"天人合一"哲学在人间大地的立体书写。</p>
+                <p>这不是一本静止的教科书，而是一次邀您身临其境的文明之旅。</p>
+                <p>在这里，您将结识那些被时光铭记的建筑家。从"样式雷"家族为皇室绘制的烫样图纸，到近代梁思成、林徽因夫妇在战火中为民族存留的测绘手稿，他们的匠心与执着，是伟大工程背后不朽的灵魂。</p>
+                <p>您将翻阅那些传世的建筑法典。《营造法式》不仅是宋代的"国标"，更是一部破译北宋美学的密码本；《园冶》所论述的，远不止造园技术，更是古代文人理想的生活境界。这些典籍，是打开理解之门的钥匙。</p>
+                <p>您更将直面那些沉默的巨人——从巍峨的紫禁城到精巧的赵州桥，从应县木塔的奇迹到苏州园林的写意。每一处结构、每一种装饰，都是一个等待被解读的文化符号。</p>
+                <p>从一榫一卯的巧思，到一殿一塔的雄浑，我们试图呈现的，不仅是中国古代建筑的"成就"，更是其背后那个完整、深邃、充满生命力的精神世界。</p>
+                <p>请与我们一同，沿着梁柱的脉络，触摸历史的温度，看见那支撑起万千广厦的、独属于中华的智慧与浪漫。</p>
+            </div>
+            <div class="explore-button-container">
+                <a href="index.html" id="explore-btn" class="explore-button">开始探索</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const siteTitleSection = document.getElementById('site-title');
+            const prefaceSection = document.getElementById('preface');
+            const exploreBtn = document.getElementById('explore-btn');
+            let isScrolling = false;
+            
+            // 隐藏加载动画
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                loadingOverlay.style.visibility = 'hidden';
+            }, 800);
+            
+            // 初始状态：只显示网站名称
+            prefaceSection.style.display = 'none';
+            
+            // 滚动到前言区域
+            function scrollToPreface() {
+                siteTitleSection.style.opacity = '0';
+                siteTitleSection.style.transform = 'translateY(-50px)';
+                
+                setTimeout(() => {
+                    siteTitleSection.style.display = 'none';
+                    prefaceSection.style.display = 'flex';
+                    
+                    // 触发重绘
+                    void prefaceSection.offsetWidth;
+                    
+                    prefaceSection.style.opacity = '1';
+                    prefaceSection.style.transform = 'translateY(0)';
+                }, 800);
+            }
+            
+            // 监听鼠标滚轮事件
+            window.addEventListener('wheel', function(e) {
+                if (isScrolling) return;
+                
+                isScrolling = true;
+                
+                // 向下滚动
+                if (e.deltaY > 0) {
+                    if (siteTitleSection.style.display !== 'none' && prefaceSection.style.display === 'none') {
+                        scrollToPreface();
+                    }
+                }
+                // 向上滚动
+                else if (e.deltaY < 0) {
+                    if (prefaceSection.style.display !== 'none' && siteTitleSection.style.display === 'none') {
+                        siteTitleSection.style.display = 'flex';
+                        prefaceSection.style.display = 'none';
+                        
+                        void siteTitleSection.offsetWidth;
+                        siteTitleSection.style.opacity = '1';
+                        siteTitleSection.style.transform = 'translateY(0)';
+                    }
+                }
+                
+                // 防抖处理
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 1000);
+            });
+            
+            // 探索按钮点击事件
+            exploreBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 添加页面过渡效果
+                document.body.style.opacity = '0.8';
+                document.body.style.transition = 'opacity 0.8s ease';
+                
+                // 显示加载动画
+                loadingOverlay.style.opacity = '1';
+                loadingOverlay.style.visibility = 'visible';
+                
+                // 延迟跳转，让动画完成
+                setTimeout(() => {
+                    window.location.href = this.getAttribute('href');
+                }, 1000);
+            });
+            
+            // 触摸屏滑动支持
+            let startY = 0;
+            
+            document.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            
+            document.addEventListener('touchend', function(e) {
+                if (isScrolling) return;
+                
+                const endY = e.changedTouches[0].clientY;
+                const diff = startY - endY;
+                
+                // 向下滑动
+                if (diff > 50) {
+                    if (siteTitleSection.style.display !== 'none' && prefaceSection.style.display === 'none') {
+                        scrollToPreface();
+                    }
+                }
+                // 向上滑动
+                else if (diff < -50) {
+                    if (prefaceSection.style.display !== 'none' && siteTitleSection.style.display === 'none') {
+                        siteTitleSection.style.display = 'flex';
+                        prefaceSection.style.display = 'none';
+                        
+                        void siteTitleSection.offsetWidth;
+                        siteTitleSection.style.opacity = '1';
+                        siteTitleSection.style.transform = 'translateY(0)';
+                    }
+                }
+            }, { passive: true });
+            
+            // 键盘导航支持
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (siteTitleSection.style.display !== 'none' && prefaceSection.style.display === 'none') {
+                        scrollToPreface();
+                    }
+                } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (prefaceSection.style.display !== 'none' && siteTitleSection.style.display === 'none') {
+                        siteTitleSection.style.display = 'flex';
+                        prefaceSection.style.display = 'none';
+                        
+                        void siteTitleSection.offsetWidth;
+                        siteTitleSection.style.opacity = '1';
+                        siteTitleSection.style.transform = 'translateY(0)';
+                    }
+                } else if (e.key === 'Enter' || e.key === ' ') {
+                    // 空格键或回车键也可以触发探索按钮
+                    if (document.activeElement === document.body) {
+                        e.preventDefault();
+                        exploreBtn.click();
+                    }
+                }
+            });
+            
+            console.log('筑迹经纬 - 新版首页加载完成！');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计成思想 · 全球影响地图 | 大号信息卡片版</title>
+    <!-- 引入 Leaflet 样式与核心库 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', '华文细黑', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background: #1d2b3a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .map-container {
+            width: 1300px;
+            max-width: 100%;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6);
+            border: 1px solid #5f7f9f;
+            background: #0f1a24;
+            position: relative;
+        }
+        #worldMap {
+            height: 650px;
+            width: 100%;
+            background-color: #11212e;
+        }
+        
+        /* ===== 重新设计的大号信息卡片 ===== */
+        .custom-popup .leaflet-popup-content-wrapper {
+            background: #fef7e8;
+            color: #2e3b4e;
+            border-radius: 20px;
+            border-left: 8px solid #b6854c;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            font-size: 15px;
+            line-height: 1.7;
+            padding: 0;
+            /* 宽度一致，高度自适应 */
+            min-width: 360px;
+            max-width: 400px;
+        }
+        /* 增加卡片整体的内边距，让所有内容离边框更远 */
+        .custom-popup .leaflet-popup-content {
+            /* 大幅增加内边距，让内容距离卡片边框更远 */
+            margin: 50px 35px;        /* 上下从30px增加到40px，左右从28px增加到35px */
+            width: auto !important;
+        }
+        .custom-popup .leaflet-popup-tip {
+            background: #fef7e8;
+            border-top: 2px solid #b6854c;
+            border-left: 2px solid #b6854c;
+            width: 20px;     
+            height: 20px;
+        }
+        
+        /* 卡片标题 */
+        .popup-title {
+            font-weight: 800;
+            font-size: 1.3rem;        
+            color: #9d5e2b;
+            margin-bottom: 20px;      /* 标题下边距 */
+            letter-spacing: 1px;
+            line-height: 1.4;         /* 增加行间距 */
+            border-bottom: 2px dashed #cbb08a;
+            padding-bottom: 10px;
+        }
+        
+        /* 卡片正文 */
+        .popup-content {
+            color: #2e3b4e;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .popup-content strong {
+            color: #9d5e2b;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        
+        /* 列表项样式 */
+        .popup-list {
+            padding-left: 0;
+            margin-top: 12px;
+            margin-bottom: 20px;
+        }
+        .popup-list-item {
+            position: relative;
+            padding-left: 22px;
+            margin-bottom: 14px;
+            line-height: 1.6;
+        }
+        .popup-list-item:before {
+            content: "·";
+            color: #d9534f;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: -4px;
+        }
+        
+        /* 引用区块 */
+        .popup-quote {
+            font-style: italic;
+            color: #6f5b47;
+            background: #e9dbc9;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            margin-top: 20px;
+            margin-bottom: 5px;      /* 减少底部边距，让卡片更紧凑 */
+            text-align: center;
+            font-weight: 500;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            line-height: 1.6;
+        }
+
+        /* 标记点样式 - 确保可点击 */
+        .custom-marker {
+            cursor: pointer;
+            pointer-events: auto !important;
+        }
+        
+        .marker-dot {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 0 10px currentColor);
+            transition: transform 0.2s;
+        }
+        .marker-dot:hover {
+            transform: scale(1.2);
+        }
+        .marker-dot-inner {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 220, 0.95);
+            box-shadow: 0 0 15px currentColor;
+            transition: all 0.2s;
+        }
+
+        /* 当前打开的标记点样式 */
+        .active-marker .marker-dot-inner {
+            width: 28px;
+            height: 28px;
+            border-width: 4px;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        /* 图例与说明 - 微调位置避免遮挡 */
+        .map-legend {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            z-index: 1000;
+            background: rgba(18, 30, 40, 0.85);
+            backdrop-filter: blur(8px);
+            color: #eae4d9;
+            padding: 14px 22px;
+            border-radius: 50px;
+            border: 1px solid #7d9bb6;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            pointer-events: none;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(255,255,200,0.3);
+        }
+        .dot-origin { background: #c44c2b; }
+        .dot-history { background: #3a7ca5; }
+        .dot-modern { background: #4b8a5c; }
+        .dot-global { background: #b08f5c; }
+
+        .map-footer {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ddd;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid #7d9bb6;
+            letter-spacing: 0.5px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 700px) {
+            .custom-popup .leaflet-popup-content-wrapper {
+                min-width: 280px;
+                max-width: 320px;
+                font-size: 14px;
+            }
+            /* 移动端也增加内边距，但比桌面端小一些 */
+            .custom-popup .leaflet-popup-content {
+                margin: 30px 25px;  /* 移动端内边距 */
+            }
+            .popup-title {
+                font-size: 1.2rem;
+                margin-bottom: 18px;
+                line-height: 1.3;      /* 移动端行间距 */
+            }
+            .popup-list-item {
+                margin-bottom: 12px;
+                padding-left: 20px;
+            }
+            .map-legend {
+                bottom: 10px;
+                left: 10px;
+                padding: 10px 15px;
+                gap: 12px;
+                font-size: 0.85rem;
+            }
+            .map-footer {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 5px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="map-container">
+    <div id="worldMap"></div>
+
+    <div class="map-legend">
+        <div class="legend-item"><span class="legend-dot dot-origin"></span> 思想发源地</div>
+        <div class="legend-item"><span class="legend-dot dot-history"></span> 历史影响区</div>
+        <div class="legend-item"><span class="legend-dot dot-modern"></span> 当代实践区</div>
+        <div class="legend-item"><span class="legend-dot dot-global"></span> 全球象征/竞赛</div>
+    </div>
+    <div class="map-footer">
+        <span>⚡ 虽由人作，宛自天开 · 计成《园冶》全球传播之路</span>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    (function() {
+        // 初始化地图
+        const map = L.map('worldMap', {
+            center: [30, 20],
+            zoom: 2.2,
+            zoomControl: true,
+            attributionControl: false
+        });
+
+        // 添加底图
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap, CartoDB'
+        }).addTo(map);
+
+        L.control.zoom({ position: 'topright' }).addTo(map);
+
+        // 存储当前打开的标记点和弹出窗口
+        let currentOpenPopup = null;
+        let currentOpenMarker = null;
+
+        // 定义标记点数据
+        const sites = [
+            {
+                type: 'origin',
+                lat: 31.5, lng: 119.9,
+                color: '#c44c2b',
+                title: '中国 · 江南',
+                card: `
+                    <div class="popup-title">🏯 思想源头：计成与《园冶》</div>
+                    <div class="popup-content">
+                        <strong>📍 江苏苏州/常州</strong>
+                    </div>
+                    <ul class="popup-list">
+                        <li>1634年，计成于此完成世界首部系统造园专著《园冶》。</li>
+                        <li>提出"虽由人作，宛自天开"的核心哲学。</li>
+                        <li>建立"巧于因借，精在体宜"的设计方法论。</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'history',
+                lat: 35.68, lng: 139.76,
+                color: '#3a7ca5',
+                title: '日本 · 东京',
+                card: `
+                    <div class="popup-title">🗾 东渡珍藏，尊为鼻祖</div>
+                    <div class="popup-content">
+                        <strong>📍 东京</strong>
+                    </div>
+                    <ul class="popup-list">
+                        <li>《园冶》传入后改名《夺天工》，成为造园学教科书。</li>
+                        <li>日本首先采用"造园"为正式学科名，尊计成为"造园鼻祖"。</li>
+                        <li>直接影响"回游式林泉庭园"的发展。</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'history',
+                lat: 59.33, lng: 18.07,
+                color: '#3a7ca5',
+                title: '瑞典 · 斯德哥尔摩',
+                card: `
+                    <div class="popup-title">🌉 西渐欧洲的桥梁</div>
+                    <div class="popup-content">
+                        <strong>📍 斯德哥尔摩</strong>
+                    </div>
+                    <ul class="popup-list">
+                        <li>瑞典美术史家喜龙仁三度来华，极力推崇《园冶》，将其介绍至北欧。</li>
+                        <li>被西方学界誉为"世界造园学最早的名著"。</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'history',
+                lat: 51.48, lng: -0.29,
+                color: '#3a7ca5',
+                title: '英国 · 伦敦 (邱园)',
+                card: `
+                    <div class="popup-title">🌳 启发自然风景园林革命</div>
+                    <div class="popup-content">
+                        <strong>📍 伦敦 · 邱园</strong>
+                    </div>
+                    <ul class="popup-list">
+                        <li>其"宛自天开"的哲学，为18世纪英国突破几何式园林提供了东方美学参照。</li>
+                        <li>威廉·钱伯斯在邱园建造著名的"中国塔"，融入中国园林意趣。</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'modern',
+                lat: 40.78, lng: -73.97,
+                color: '#4b8a5c',
+                title: '美国 · 纽约 (大都会博物馆)',
+                card: `
+                    <div class="popup-title">🏛️ 实体出口与文化使者</div>
+                    <div class="popup-content">
+                        <strong>📍 纽约 · 大都会博物馆</strong>
+                    </div>
+                    <ul class="popup-list">
+                        <li>"明轩" (1980年)：首座出口海外的中国古典园林，以苏州网师园为蓝本。</li>
+                        <li>被誉为"中美文化交流史上的一件永恒展品"，开创中国园林外贸先河。</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'modern',
+                lat: 49.28, lng: -123.12,
+                color: '#4b8a5c',
+                title: '加拿大 · 温哥华',
+                card: `
+                    <div class="popup-title">🍁 海外园林的延续</div>
+                    <div class="popup-content">
+                        <strong>📍 温哥华 · 逸园</strong>
+                    </div>
+                    <ul class="popup-list">
+                        <li>"逸园" (1986年)：继"明轩"后，在海外建造的又一经典苏州园林。</li>
+                        <li>位于温哥华范杜森植物园，被誉为"海上明珠"。</li>
+                    </ul>
+                `
+            },
+            {
+                type: 'global',
+                lat: 30, lng: 0,
+                color: '#b08f5c',
+                title: '全球 · 园冶杯',
+                card: `
+                    <div class="popup-title">🌍 当代活态传承：园冶杯</div>
+                    <div class="popup-content">
+                        <strong>📍 全球国际竞赛</strong>
+                    </div>
+                    <ul class="popup-list">
+                        <li>年度"园冶杯"国际竞赛始于2010年，已成为行业顶尖赛事。</li>
+                        <li>吸引全球30余国、超500所高校参与。</li>
+                        <li>推动计成思想的当代实践与国际对话。</li>
+                    </ul>
+                `
+            }
+        ];
+
+        // 创建标记点数组
+        const markers = [];
+
+        // 创建可点击的发光标记
+        sites.forEach(site => {
+            // 创建自定义图标
+            const markerIcon = L.divIcon({
+                className: 'custom-marker',
+                html: `
+                    <div class="marker-dot" style="color: ${site.color};">
+                        <div class="marker-dot-inner" style="background-color: ${site.color}; border-color: rgba(255, 255, 220, 0.9);"></div>
+                    </div>
+                `,
+                iconSize: [30, 30],
+                iconAnchor: [15, 15],
+                popupAnchor: [0, -18]
+            });
+
+            // 创建标记点
+            const marker = L.marker([site.lat, site.lng], { 
+                icon: markerIcon,
+                riseOnHover: true,
+                title: site.title
+            }).addTo(map);
+
+            // 绑定弹窗
+            const popup = L.popup({
+                className: 'custom-popup',
+                closeButton: true,
+                closeOnEscapeKey: true,
+                autoClose: false,
+                closeOnClick: false,
+                maxWidth: 400,
+                minWidth: 320
+            }).setContent(site.card);
+
+            marker.bindPopup(popup);
+
+            // 点击标记点事件
+            marker.on('click', function(e) {
+                // 如果当前已经有打开的弹出窗口，先关闭它
+                if (currentOpenPopup && currentOpenPopup !== popup) {
+                    currentOpenPopup.close();
+                }
+                
+                // 如果当前已经有激活的标记点，重置其样式
+                if (currentOpenMarker && currentOpenMarker !== marker) {
+                    currentOpenMarker._icon.classList.remove('active-marker');
+                }
+                
+                // 切换当前标记点样式
+                if (this._icon.classList.contains('active-marker')) {
+                    this._icon.classList.remove('active-marker');
+                    this.closePopup();
+                    currentOpenPopup = null;
+                    currentOpenMarker = null;
+                } else {
+                    this._icon.classList.add('active-marker');
+                    this.openPopup();
+                    currentOpenPopup = popup;
+                    currentOpenMarker = marker;
+                }
+                
+                L.DomEvent.stopPropagation(e);
+            });
+
+            // 监听弹出窗口关闭事件
+            marker.on('popupclose', function() {
+                if (currentOpenMarker === this) {
+                    this._icon.classList.remove('active-marker');
+                    currentOpenPopup = null;
+                    currentOpenMarker = null;
+                }
+            });
+
+            // 添加到标记点数组
+            markers.push({ marker, popup });
+        });
+
+        // 点击地图空白处关闭所有弹出窗口
+        map.on('click', function() {
+            markers.forEach(({ marker, popup }) => {
+                marker.closePopup();
+                marker._icon.classList.remove('active-marker');
+            });
+            currentOpenPopup = null;
+            currentOpenMarker = null;
+        });
+
+        // 添加传播路径的虚线 - 修改颜色
+        const startPoint = [31.5, 119.9];
+        const targets = [
+            {coords: [35.68, 139.76], color: '#FF6B6B'},  // 日本 - 红色
+            {coords: [59.33, 18.07], color: '#4ECDC4'},   // 瑞典 - 青色
+            {coords: [51.48, -0.29], color: '#4ECDC4'},   // 英国 - 青色
+            {coords: [40.78, -73.97], color: '#1DD1A1'},  // 美国 - 绿色
+            {coords: [49.28, -123.12], color: '#1DD1A1'}, // 加拿大 - 绿色
+            {coords: [30, 0], color: '#FECA57'}           // 全球 - 橙色
+        ];
+
+        targets.forEach(target => {
+            if (target.coords[0] === startPoint[0] && target.coords[1] === startPoint[1]) return;
+            
+            L.polyline([startPoint, target.coords], {
+                color: target.color,  // 使用指定的颜色
+                weight: 1.8,           // 稍微加粗虚线
+                opacity: 0.6,          // 增加透明度
+                dashArray: '8, 12',
+                lineCap: 'round',
+                interactive: false,
+                className: 'path-line'
+            }).addTo(map);
+        });
+
+        // 调整视图
+        const group = L.featureGroup(markers.map(m => m.marker));
+        map.fitBounds(group.getBounds().pad(0.3));
+        map.setZoom(2.2);
+
+        // 添加归属
+        L.control.attribution({ position: 'bottomleft' }).addTo(map)
+            .setPrefix('<span style="color:#aaa;">计成 · 园冶 全球影响</span>');
+        
+    })();
+</script>
+</body>
+</html>
