@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《园冶》 - 筑迹经纬</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f5f1;
+        }
+        
+        /* 导航栏 */
+        .main-header {
+            background: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .main-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* 英雄区域 */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin: 40px auto;
+            padding: 40px;
+            max-width: 1200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .hero-content {
+            text-align: left;
+        }
+        
+        .achievement-title {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: left;
+        }
+        
+        .achievement-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            text-align: left;
+            text-indent: 2em;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: flex-start;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #27ae60; /* 使用绿色，符合园林主题 */
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #27ae60;
+            color: #27ae60;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .hero-image {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        
+        .hero-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        /* 核心解密卡片区 */
+        .cards-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #27ae60; /* 绿色装饰线 */
+        }
+        
+        .section-subtitle {
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card-icon {
+            height: 150px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #2c3e50;
+        }
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            margin: 10px 0;
+            line-height: 1.7;
+            color: #555;
+            flex-grow: 1;
+        }
+        
+        .card-highlight {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .card-highlight p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+        
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* 对比分析区 */
+        .comparison-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 40px 20px;
+        }
+        
+        .comparison-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .comparison-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .comparison-table .song-dynasty {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .comparison-table .yuan-ye {
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .comparison-table .western {
+            background: rgba(155, 89, 182, 0.1);
+        }
+        
+        .comparison-table .highlight {
+            background: #fffde7;
+            font-weight: 600;
+        }
+        
+        /* 时间轴样式 */
+        .timeline-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .timeline-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #27ae60;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-year {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            background: #27ae60;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-left: 20px;
+        }
+        
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* 基本信息卡区域 */
+        .basic-info-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .info-card-header {
+            background: #27ae60;
+            padding: 20px 30px;
+            color: white;
+        }
+        
+        .info-card-header h3 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        
+        .info-card-content {
+            padding: 30px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 140px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #333;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+        
+        /* 结语与导航 */
+        .conclusion-section {
+            max-width: 1200px;
+            margin: 40px auto 60px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .conclusion-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-indent: 2em;
+        }
+        
+        .global-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            padding: 12px 30px;
+            background: #27ae60;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn-alternate {
+            background: #3498db;
+        }
+        
+        .nav-btn-alternate:hover {
+            background: #2980b9;
+        }
+        
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievement-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons, .global-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn, .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline-year {
+                width: 50px;
+                height: 50px;
+                left: -25px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="../pages/dimensions/timeline.html">时间维度</a>
+                <a href="#">地理维度</a>
+                <a href="../pages/dimensions/architects.html">建筑名家</a>
+                <a href="../pages/dimensions/books.html">建筑书籍</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="achievement-title">《园冶》</h1>
+            <p class="achievement-subtitle">明崇祯七年（1634年），计成完成这部中国第一部系统性的园林艺术理论专著。它不仅总结了园林选址、建筑、堆山、选石、借景等具体营造技艺，更提出了"虽由人作，宛自天开"的造园哲学，将中国古典园林从实践技艺提升为可传承、可演进的系统理论体系，被誉为"世界造园学最早的名著之一"。</p>
+            
+            <div class="hero-buttons">
+                <a href="#cards" class="btn">探索核心理论</a>
+                <a href="../建筑师/ji-cheng.html" class="btn btn-outline">了解作者：计成</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1512529904539-2034f9e1c8b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="《园冶》与古典园林">
+            <div class="image-caption">《园冶》书影与明代园林实景对照</div>
+        </div>
+    </section>
+
+    
+    <!-- 基本信息卡区域 -->
+    <section class="basic-info-section">
+        <h2 class="section-title">《园冶》基本信息</h2>
+        
+        <div class="info-card">
+            <div class="info-card-header">
+                <h3>文献档案</h3>
+            </div>
+            <div class="info-card-content">
+                <div class="info-row">
+                    <div class="info-label">书名：</div>
+                    <div class="info-value">《园冶》（原名《园牧》）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">作者：</div>
+                    <div class="info-value">计成（1582年-？），字无否，号否道人</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">成书时间：</div>
+                    <div class="info-value">明崇祯七年（1634年）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">全书结构：</div>
+                    <div class="info-value">3卷，10篇（兴造论、园说、相地、立基、屋宇、装折、栏杆、门窗、墙垣、铺地、掇山、选石、借景）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">历史地位：</div>
+                    <div class="info-value">中国第一部系统性的园林艺术理论专著，世界造园学最早的名著之一</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">流传情况：</div>
+                    <div class="info-value">明末清初一度失传，1931年从日本传回国内刊行</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">理论贡献：</div>
+                    <div class="info-value">建立了从美学思想到营造技艺的完整园林理论体系，将中国古典园林从实践技艺提升为系统理论</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心解密卡片区 -->
+    <section id="cards" class="cards-section">
+        <h2 class="section-title">园林艺术的理论体系</h2>
+        <p class="section-subtitle">《园冶》建立了中国古典园林从美学思想到营造技艺的完整理论框架</p>
+        
+        <div class="cards-container">
+            <!-- 卡片一：美学思想体系 -->
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <div class="card-content">
+                    <h3><span class="icon">🎨</span>美学思想体系</h3>
+                    <p><strong>最高宗旨：</strong>"虽由人作，宛自天开"——追求人工创造与自然天成的完美和谐</p>
+                    <p><strong>核心法则：</strong>"巧于因借，精在体宜"——巧妙利用环境条件，追求整体协调与适宜</p>
+                    <p><strong>设计原则：</strong>"因地制宜"、"随曲合方"——顺应地形地貌，不拘泥于固定形式</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>分类</th>
+                            <th>具体内容</th>
+                        </tr>
+                        <tr>
+                            <td>相地（选址）</td>
+                            <td>6种类型：山林地、城市地、村庄地、郊野地、傍宅地、江湖地</td>
+                        </tr>
+                        <tr>
+                            <td>掇山（堆山）</td>
+                            <td>17种类型：园山、厅山、楼山、阁山、书房山、池山、内室山、峭壁山等</td>
+                        </tr>
+                        <tr>
+                            <td>选石</td>
+                            <td>16种石材：太湖石、昆山石、宜兴石、龙潭石等，各有适用场景与审美标准</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 卡片二：园林建筑设计理念 -->
+            <div class="card">
+                <div class="card-icon">🏯</div>
+                <div class="card-content">
+                    <h3><span class="icon">🏯</span>园林建筑设计理念</h3>
+                    <p><strong>界面模糊化：</strong>通过灵活的小木作构件，使建筑与自然之间形成渗透关系</p>
+                    <p><strong>功能复合化：</strong>同一构件兼具结构、装饰、框景、导视等多重功能</p>
+                    <p><strong>形制自由化：</strong>摆脱官式建筑的严格规制，追求"得体合宜"</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>构件类型</th>
+                            <th>灵活应用体现</th>
+                        </tr>
+                        <tr>
+                            <td>门窗</td>
+                            <td>形式多变：方、圆、圭形、葫芦、汉瓶等数十种，"窗牖无拘，随宜合用"</td>
+                        </tr>
+                        <tr>
+                            <td>栏杆</td>
+                            <td>绘有100种图样：笔管式、锦葵式、波纹式等，既是防护，又是视觉引导</td>
+                        </tr>
+                        <tr>
+                            <td>挂落飞罩</td>
+                            <td>通透空灵：冰裂纹、藤茎式、乱纹式等，"隐约其间"，划分空间不隔绝视线</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 卡片三：系统性造园流程 -->
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-content">
+                    <h3><span class="icon">📊</span>系统性造园流程</h3>
+                    <p>《园冶》建立了从规划到细节的完整造园流程，形成了可操作的系统性方法论：</p>
+                    
+                    <div class="card-highlight">
+                        <p><strong>1. 相地选址 → 立意构思 → 总体布局（立基）</strong></p>
+                        <p><strong>2. 建筑定位（屋宇）→ 空间划分（装折）→ 细部装饰（栏杆、门窗）</strong></p>
+                        <p><strong>3. 山水营造（掇山、选石）→ 界面处理（墙垣、铺地）→ 意境升华（借景）</strong></p>
+                    </div>
+                    
+                    <p><strong>借景分类：</strong>远借、邻借、仰借、俯借、应时而借。强调"借者，园虽别内外，得景则无拘远近"。</p>
+                </div>
+            </div>
+            
+            <!-- 卡片四：历史地位与传承 -->
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <div class="card-content">
+                    <h3><span class="icon">📚</span>历史地位与传承</h3>
+                    <p><strong>历史地位：</strong>中国第一部系统性的园林艺术理论专著，世界造园学最早的名著之一。</p>
+                    <p><strong>流传情况：</strong>明末清初一度失传，1931年从日本传回国内刊行，重新被发现和重视。</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>对后世影响</th>
+                            <th>具体体现</th>
+                        </tr>
+                        <tr>
+                            <td>直接指导</td>
+                            <td>明末清初江南私家园林的营造，如苏州拙政园、环秀山庄、无锡寄畅园</td>
+                        </tr>
+                        <tr>
+                            <td>重新发现</td>
+                            <td>20世纪30年代后成为中国园林研究的理论基础</td>
+                        </tr>
+                        <tr>
+                            <td>现代价值</td>
+                            <td>生态智慧"因地制宜"、空间哲学流动渗透、文化认同重要媒介</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 对比分析区 -->
+    <section class="comparison-section">
+        <div class="comparison-container">
+            <h2 class="comparison-title">理论对比分析</h2>
+            <p class="section-subtitle">从不同视角理解《园冶》的独特价值与理论创新</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th width="20%">维度</th>
+                        <th width="25%" class="song-dynasty">《营造法式》（宋）</th>
+                        <th width="25%" class="yuan-ye">《园冶》（明）</th>
+                        <th width="30%">本质区别</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">性质</td>
+                        <td class="song-dynasty">官式建筑工程规范</td>
+                        <td class="yuan-ye">园林艺术创作理论</td>
+                        <td>"法度"与"灵感"之别</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">核心</td>
+                        <td class="song-dynasty">大木作的标准化</td>
+                        <td class="yuan-ye">小木作的灵活化</td>
+                        <td>结构刚性 vs 空间弹性</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">目标</td>
+                        <td class="song-dynasty">控制工料、确保等级</td>
+                        <td class="yuan-ye">营造意境、追求自然</td>
+                        <td>管理导向 vs 艺术导向</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">空间观</td>
+                        <td class="song-dynasty">明确的等级与边界</td>
+                        <td class="yuan-ye">流动的渗透与借景</td>
+                        <td>封闭秩序 vs 开放融合</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="comparison-container">
+            <h3 class="comparison-title">中西园林理论对比</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th width="20%">方面</th>
+                        <th width="35%" class="yuan-ye">《园冶》中国园林观</th>
+                        <th width="35%" class="western">西方古典园林观</th>
+                        <th width="30%">文化根源</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">自然态度</td>
+                        <td class="yuan-ye">模仿并提炼自然</td>
+                        <td class="western">征服并规整自然</td>
+                        <td>天人合一 vs 人定胜天</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">构图逻辑</td>
+                        <td class="yuan-ye">山水画意，散点透视</td>
+                        <td class="western">几何轴线，焦点透视</td>
+                        <td>写意美学 vs 理性秩序</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">时间维度</td>
+                        <td class="yuan-ye">四时之景不同</td>
+                        <td class="western">追求永恒不变</td>
+                        <td>循环时间观 vs 永恒时间观</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">参与方式</td>
+                        <td class="yuan-ye">游观体验，沉浸其中</td>
+                        <td class="western">静观欣赏，保持距离</td>
+                        <td>身体参与 vs 视觉主导</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 结语与导航 -->
+    <section class="conclusion-section">
+        <p class="conclusion-text">
+            《园冶》不仅是一部技术性的造园手册，更是一本蕴含深刻哲学思想和美学理念的文化经典。它确立了"虽由人作，宛自天开"的造园最高境界，将中国文人对自然的理解、对生活的态度、对美的追求凝聚在园林这一独特载体中。从明代的江南园林到现代的中式景观设计，从苏州的拙政园到纽约的明轩，《园冶》的思想如一条隐形的脉络，持续滋养着东方美学的传承与发展。它不仅是中国古典园林的"语法教科书"，更是理解中国传统自然观、审美观、生活观的重要文化密码。
+        </p>
+        
+        <div class="global-nav">
+            <a href="architecture-books.html" class="nav-btn">返回建筑名著</a>
+            <a href="营造法式.html" class="nav-btn nav-btn-alternate">对比阅读：《营造法式》</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <script>
+        // 交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 平滑滚动
+            const exploreBtn = document.querySelectorAll('.btn');
+            exploreBtn.forEach(btn => {
+                if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        document.getElementById(targetId).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            });
+            
+            // 表格行悬停效果
+            const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f0f9f0';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // 基本信息卡悬停效果
+            const infoCard = document.querySelector('.info-card');
+            if (infoCard) {
+                infoCard.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.12)';
+                });
+                infoCard.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+            }
+            
+            console.log('《园冶》专题页加载完成！');
+        });
+    </script>
+</body>
+</html>
