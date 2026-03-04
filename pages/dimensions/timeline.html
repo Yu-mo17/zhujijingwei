@@ -115,13 +115,280 @@
             transform: scale(1.05);
         }
         
+        /* 时间轴样式开始 */
         .timeline-visual {
             background: white;
             padding: 40px;
             border-radius: 12px;
-            margin: 40px 0;
+            margin: 40px 0 60px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
+        
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-header h2 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 时间轴主容器 */
+        .timeline-main-container {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        /* 时间轴线 */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #c19a6b, #8b6b3b, #c19a6b);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        /* 时间轴节点容器 */
+        .timeline-items-container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 单个节点 */
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 100px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        /* 节点内容 */
+        .timeline-content {
+            width: 45%;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #c19a6b;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            border-left: 4px solid #c19a6b;
+            border-right: none;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            border-right: 4px solid #c19a6b;
+            border-left: none;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        /* 节点时间标记 */
+        .timeline-time {
+            width: 10%;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .time-badge {
+            background: #c19a6b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-block;
+            min-width: 120px;
+        }
+        
+        /* 朝代标签 */
+        .dynasty-tag {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        /* 节点标题 */
+        .timeline-title {
+            font-size: 1.6rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        /* 节点描述 */
+        .timeline-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        /* 成就标签 */
+        .achievement-tag {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #3498db;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        /* 跳转按钮 */
+        .timeline-link {
+            display: inline-block;
+            background: #c19a6b;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background 0.3s ease;
+        }
+        
+        .timeline-link:hover {
+            background: #a87c4c;
+        }
+        
+        /* 节点图标 */
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 4px solid #c19a6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            z-index: 3;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 筛选器 */
+        .filter-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .filter-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-tag {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tag:hover, .filter-tag.active {
+            background: #c19a6b;
+            color: white;
+            border-color: #c19a6b;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .timeline-item, .timeline-item:nth-child(even) {
+                flex-direction: row;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 80px);
+                margin-left: 80px;
+            }
+            
+            .timeline-time {
+                width: 60px;
+                padding: 0;
+            }
+            
+            .timeline-icon {
+                left: 30px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                border-left: 4px solid #c19a6b;
+                border-right: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timeline-visual {
+                padding: 20px;
+            }
+            
+            .timeline-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .timeline-content {
+                padding: 20px;
+            }
+            
+            .timeline-title {
+                font-size: 1.4rem;
+            }
+        }
+        /* 时间轴样式结束 */
     </style>
 </head>
 <body>
@@ -144,11 +411,186 @@
         </div>
 
         <div class="timeline-visual">
-            <h2>中国古代历史时间轴</h2>
-            <p>从先秦时期到明清时代，中国建筑技术经历了漫长而精彩的发展历程</p>
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
-                <p>🚧🚧 时间轴可视化图表正在开发中...</p>
-                <small>未来这里将展示交互式历史时间轴</small>
+            <div class="timeline-header">
+                <h2>中国古代历史时间轴</h2>
+                <p>从先秦时期到明清时代，中国建筑技术经历了漫长而精彩的发展历程</p>
+            </div>
+            
+            <!-- 筛选器 -->
+            <div class="filter-container">
+                <h3 class="filter-title">筛选朝代</h3>
+                <div class="filter-tags" id="dynasty-filters">
+                    <div class="filter-tag active" data-dynasty="all">全部</div>
+                    <div class="filter-tag" data-dynasty="qin">秦朝</div>
+                    <div class="filter-tag" data-dynasty="han">汉朝</div>
+                    <div class="filter-tag" data-dynasty="sui">隋朝</div>
+                    <div class="filter-tag" data-dynasty="tang">唐朝</div>
+                    <div class="filter-tag" data-dynasty="song">宋朝</div>
+                    <div class="filter-tag" data-dynasty="yuan">元朝</div>
+                    <div class="filter-tag" data-dynasty="ming">明朝</div>
+                    <div class="filter-tag" data-dynasty="qing">清朝</div>
+                </div>
+            </div>
+            
+            <!-- 时间轴主体 -->
+            <div class="timeline-main-container">
+                <!-- 时间轴线 -->
+                <div class="timeline-line"></div>
+                
+                <!-- 时间轴节点容器 -->
+                <div class="timeline-items-container" id="timeline-items">
+                    <!-- 秦朝 -->
+                    <div class="timeline-item" data-dynasty="qin">
+                        <div class="timeline-time">
+                            <div class="time-badge">秦朝<br>公元前221-207年</div>
+                        </div>
+                        <div class="timeline-icon">🏯</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">秦朝</span>
+                            <h3 class="timeline-title">长城（体系化修筑）</h3>
+                            <p class="timeline-description">首次形成贯穿北疆的完整军事防御工程体系，连接各国长城，形成万里防线。</p>
+                            <div>
+                                <span class="achievement-tag">军事防御</span>
+                                <span class="achievement-tag">工程体系</span>
+                                <span class="achievement-tag">国家工程</span>
+                            </div>
+                            <a href="../../建筑/great-wall.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 汉朝 -->
+                    <div class="timeline-item" data-dynasty="han">
+                        <div class="timeline-time">
+                            <div class="time-badge">汉朝<br>公元前202-公元220年</div>
+                        </div>
+                        <div class="timeline-icon">🏙️</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">汉朝</span>
+                            <h3 class="timeline-title">汉长安城 / 陶楼明器</h3>
+                            <p class="timeline-description">奠定都城"棋盘式"布局雏形；陶楼明器再现汉代居住形态，是研究汉代建筑的重要实物。</p>
+                            <div>
+                                <span class="achievement-tag">都城规划</span>
+                                <span class="achievement-tag">棋盘布局</span>
+                                <span class="achievement-tag">陶器建筑</span>
+                            </div>
+                            <a href="../../建筑/han-chang-an.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 隋朝 -->
+                    <div class="timeline-item" data-dynasty="sui">
+                        <div class="timeline-time">
+                            <div class="time-badge">隋朝<br>581-618年</div>
+                        </div>
+                        <div class="timeline-icon">🌉</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">隋朝</span>
+                            <h3 class="timeline-title">赵州桥（河北赵县）</h3>
+                            <p class="timeline-description">世界现存最早、保存最完善的古代敞肩石拱桥，其"敞肩拱"设计为世界桥梁史上的首创，历经1400余年仍在使用。</p>
+                            <div>
+                                <span class="achievement-tag">桥梁工程</span>
+                                <span class="achievement-tag">敞肩拱</span>
+                                <span class="achievement-tag">石拱桥</span>
+                            </div>
+                            <a href="../../建筑/zhaozhou-bridge.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 唐朝 -->
+                    <div class="timeline-item" data-dynasty="tang">
+                        <div class="timeline-time">
+                            <div class="time-badge">唐朝<br>618-907年</div>
+                        </div>
+                        <div class="timeline-icon">🏛️</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">唐朝</span>
+                            <h3 class="timeline-title">佛光寺东大殿（山西五台山）</h3>
+                            <p class="timeline-description">中国现存规模最大、年代最久的唐代木构建筑典范，展现了盛唐时期木构建筑的最高水平。</p>
+                            <div>
+                                <span class="achievement-tag">木构建筑</span>
+                                <span class="achievement-tag">寺庙建筑</span>
+                                <span class="achievement-tag">唐代典范</span>
+                            </div>
+                            <a href="../../建筑/foguang-temple.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 宋朝 -->
+                    <div class="timeline-item" data-dynasty="song">
+                        <div class="timeline-time">
+                            <div class="time-badge">宋朝<br>960-1279年</div>
+                        </div>
+                        <div class="timeline-icon">🕌</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">宋朝</span>
+                            <h3 class="timeline-title">晋祠圣母殿（山西太原）</h3>
+                            <p class="timeline-description">宋代优雅风格的典型，副阶周匝形制与鱼沼飞梁体现了技术艺术的成熟，是宋代建筑美学的典范。</p>
+                            <div>
+                                <span class="achievement-tag">优雅风格</span>
+                                <span class="achievement-tag">副阶周匝</span>
+                                <span class="achievement-tag">鱼沼飞梁</span>
+                            </div>
+                            <a href="../../建筑/jinci-temple.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 元朝 -->
+                    <div class="timeline-item" data-dynasty="yuan">
+                        <div class="timeline-time">
+                            <div class="time-badge">元朝<br>1271-1368年</div>
+                        </div>
+                        <div class="timeline-icon">🔭</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">元朝</span>
+                            <h3 class="timeline-title">观星台（河南登封）</h3>
+                            <p class="timeline-description">中国现存最古老的天文观测建筑，由郭守敬设计建造，体现建筑与科学仪器的完美融合。</p>
+                            <div>
+                                <span class="achievement-tag">天文观测</span>
+                                <span class="achievement-tag">科学建筑</span>
+                                <span class="achievement-tag">郭守敬</span>
+                            </div>
+                            <a href="../../建筑/observatory.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 明朝 -->
+                    <div class="timeline-item" data-dynasty="ming">
+                        <div class="timeline-time">
+                            <div class="time-badge">明朝<br>1368-1644年</div>
+                        </div>
+                        <div class="timeline-icon">🏰</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">明朝</span>
+                            <h3 class="timeline-title">北京紫禁城 / 南京明城墙</h3>
+                            <p class="timeline-description">紫禁城是宫殿建筑的集大成者；南京明城墙是世界规模最大的古代城垣，体现明代建筑的最高成就。</p>
+                            <div>
+                                <span class="achievement-tag">宫殿建筑</span>
+                                <span class="achievement-tag">城墙防御</span>
+                                <span class="achievement-tag">集大成者</span>
+                            </div>
+                            <a href="../../建筑/forbidden-city.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 清朝 -->
+                    <div class="timeline-item" data-dynasty="qing">
+                        <div class="timeline-time">
+                            <div class="time-badge">清朝<br>1644-1912年</div>
+                        </div>
+                        <div class="timeline-icon">🏞️</div>
+                        <div class="timeline-content">
+                            <span class="dynasty-tag">清朝</span>
+                            <h3 class="timeline-title">承德避暑山庄及外八庙</h3>
+                            <p class="timeline-description">中国古代园林与寺庙建筑的最后高峰，融合多民族风格，体现了清代建筑艺术的集大成。</p>
+                            <div>
+                                <span class="achievement-tag">皇家园林</span>
+                                <span class="achievement-tag">寺庙建筑</span>
+                                <span class="achievement-tag">多民族风格</span>
+                            </div>
+                            <a href="../../建筑/chengde.html" class="timeline-link">探索详情 →</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -170,11 +612,115 @@
                 </div>
                 <a href="../achievements/sui-dynasty.html" class="explore-btn">探索隋朝建筑</a>
             </div>
+            
+            <!-- 可以添加其他朝代卡片 -->
         </div>
     </div>
 
     <footer class="main-footer">
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 滚动动画
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+            
+            // 朝代筛选功能
+            const filterTags = document.querySelectorAll('.filter-tag');
+            const allItems = document.querySelectorAll('.timeline-item');
+            
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    // 更新活动标签
+                    filterTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const dynasty = this.getAttribute('data-dynasty');
+                    
+                    // 筛选时间轴项目
+                    allItems.forEach(item => {
+                        if (dynasty === 'all' || item.getAttribute('data-dynasty') === dynasty) {
+                            item.style.display = 'flex';
+                            // 重新触发观察器
+                            setTimeout(() => {
+                                observer.observe(item);
+                            }, 100);
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    // 平滑滚动到可见的第一个项目
+                    setTimeout(() => {
+                        const firstVisible = document.querySelector('.timeline-item[style*="display: flex"]');
+                        if (firstVisible) {
+                            firstVisible.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
+                        }
+                    }, 300);
+                });
+            });
+            
+            // 点击卡片跳转效果
+            const timelineLinks = document.querySelectorAll('.timeline-link');
+            timelineLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    // 添加点击反馈
+                    this.style.transform = 'scale(0.95)';
+                    this.style.transition = 'transform 0.2s ease';
+                    
+                    // 延迟跳转，让动画完成
+                    setTimeout(() => {
+                        if (href !== '#') {
+                            // 这里可以添加页面过渡效果
+                            document.body.style.opacity = '0.8';
+                            document.body.style.transition = 'opacity 0.5s ease';
+                            
+                            setTimeout(() => {
+                                window.location.href = href;
+                            }, 500);
+                        } else {
+                            alert('详细页面正在开发中...');
+                            this.style.transform = '';
+                        }
+                    }, 200);
+                });
+            });
+            
+            // 卡片悬停效果
+            const timelineContents = document.querySelectorAll('.timeline-content');
+            timelineContents.forEach(content => {
+                content.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                content.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            console.log('时间轴页面加载完成！');
+        });
+    </script>
 </body>
 </html>

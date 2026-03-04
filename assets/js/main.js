@@ -1,4 +1,3 @@
-// 主JavaScript文件 - 共享功能
 
 // 页面加载完成后的初始化
 document.addEventListener('DOMContentLoaded', function() {

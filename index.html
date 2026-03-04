@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>筑迹经纬 - 中国古代建筑成就可视化系统</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/ai-assistant.css">
     <style>
         .hero-section {
             text-align: center;
             padding: 80px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: url('./assets/images/home.jpg') center/cover no-repeat;
+            color: black;
             margin-bottom: 60px;
         }
         
@@ -166,5 +167,72 @@
     <footer class="main-footer">
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统 | 数据可视化展示平台</p>
     </footer>
+    <!-- ==================== AI助手浮窗 ==================== -->
+    <div id="ai-assistant">
+        <!-- 悬浮按钮 -->
+        <button id="ai-float-btn" class="ai-float-btn">
+            <span class="ai-icon">🤖</span>
+            <span class="ai-text">建筑助手</span>
+        </button>
+        
+        <!-- 聊天窗口 (默认隐藏) -->
+        <div id="ai-chat-window" class="ai-chat-window">
+            <div class="ai-chat-header">
+                <h3>🏯 古建助手</h3>
+                <p>问我关于中国古建筑的任何问题</p>
+                <button class="close-btn" id="close-chat">×</button>
+            </div>
+            
+            <div class="ai-chat-body" id="chat-messages">
+                <!-- 欢迎消息 -->
+                <div class="ai-message">
+                    <div class="ai-avatar">🏛️</div>
+                    <div class="message-content">
+                        <strong>筑迹经纬 AI助手</strong>
+                        <p>您好！我是您的中国古代建筑知识助手，专注于解答古建筑相关问题。</p>
+                        <p>📚 我可以帮您：</p>
+                        <ul>
+                            <li>解答古建筑结构、技术问题</li>
+                            <li>介绍各朝代建筑特点与演变</li>
+                            <li>推荐相关建筑书籍和名家传记</li>
+                            <li>提供建筑历史背景知识</li>
+                            <li>解释建筑术语和专有名词</li>
+                        </ul>
+                        <p>💡 试试问我：</p>
+                        <ul>
+                            <li>"赵州桥有什么特别之处？"</li>
+                            <li>"故宫的建筑风格是什么？"</li>
+                            <li>"斗拱的作用有哪些？"</li>
+                            <li>"宋代建筑有什么特点？"</li>
+                        </ul>
+                        <p>👇 或者点击下方的快速提问按钮</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 快速问题区域 -->
+            <div class="quick-questions">
+                <h4>快速提问：</h4>
+                <div class="quick-buttons">
+                    <button class="quick-q" data-q="斗拱的作用">斗拱</button>
+                    <button class="quick-q" data-q="榫卯结构">榫卯</button>
+                    <button class="quick-q" data-q="唐代建筑特点">唐代建筑</button>
+                    <button class="quick-q" data-q="宋代建筑特点">宋代建筑</button>
+                    <button class="quick-q" data-q="营造法式是什么">营造法式</button>
+                    <button class="quick-q" data-q="赵州桥的技术特点">赵州桥</button>
+                </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="ai-chat-input">
+                <input type="text" id="user-input" 
+                       placeholder="输入您的问题，例如：赵州桥的技术特点是什么？" 
+                       autocomplete="off">
+                <button id="send-btn">发送</button>
+            </div>
+        </div>
+    </div>
+    <!-- 引入AI助手脚本 -->
+    <script src="assets/js/ai-assistant.js"></script>
 </body>
 </html>
