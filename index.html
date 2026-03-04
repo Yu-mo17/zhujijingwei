@@ -7,79 +7,201 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/ai-assistant.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f5f1;
+        }
+        
+        .main-header {
+            background: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .main-nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
         .hero-section {
             text-align: center;
-            padding: 80px 20px;
+            padding: 100px 20px 80px;
             background: url('./assets/images/home.jpg') center/cover no-repeat;
-            color: black;
+            color: white;
+            position: relative;
             margin-bottom: 60px;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .platform-title {
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
         
         .platform-subtitle {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto 40px;
+            line-height: 1.6;
         }
         
-        .dimensions-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            max-width: 1000px;
+        /* 三列布局的主内容区 */
+        .main-content {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 20px 60px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #c19a6b;
+        }
+        
+        /* 三维度卡片布局 - 三列等宽 */
+        .dimensions-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 60px;
         }
         
         .dimension-card {
+            flex: 1;
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 40px 30px;
-            text-align: center;
             text-decoration: none;
             color: #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: 3px solid transparent;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
         }
         
         .dimension-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            border-color: #667eea;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: #c19a6b;
         }
         
         .dimension-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            text-align: center;
         }
         
         .dimension-card h2 {
             font-size: 1.8rem;
             margin-bottom: 15px;
             color: #2c3e50;
-        }
-        
-        .dimension-card p {
-            color: #7f8c8d;
-            line-height: 1.6;
-        }
-        
-        .quick-access {
             text-align: center;
-            margin: 60px 0;
+        }
+        
+        /* 卡片介绍文字左对齐并首行缩进 */
+        .dimension-card p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            text-align: left; /* 左对齐 */
+            text-indent: 2em; /* 首行缩进2个字符 */
+        }
+        
+        .card-hint {
+            display: inline-block;
+            background: #c19a6b;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+            align-self: center; /* 保持提示按钮居中 */
+        }
+        
+        /* 快速访问区域 */
+        .quick-access {
+            background: white;
+            border-radius: 12px;
             padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 40px;
         }
         
         .quick-access h3 {
+            text-align: center;
             color: #2c3e50;
+            font-size: 1.8rem;
             margin-bottom: 30px;
         }
         
@@ -93,15 +215,100 @@
         .quick-link {
             background: #3498db;
             color: white;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 25px;
             text-decoration: none;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
         
         .quick-link:hover {
             background: #2980b9;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .dimensions-container {
+                flex-wrap: wrap;
+            }
+            
+            .dimension-card {
+                flex: 0 0 calc(50% - 15px);
+            }
+            
+            .dimension-card:last-child {
+                flex: 0 0 100%;
+                margin-top: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 20px 60px;
+            }
+            
+            .platform-title {
+                font-size: 2.8rem;
+            }
+            
+            .platform-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .dimensions-container {
+                flex-direction: column;
+            }
+            
+            .dimension-card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .quick-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quick-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .platform-title {
+                font-size: 2.2rem;
+            }
+            
+            .dimension-card {
+                padding: 30px 20px;
+            }
+            
+            .dimension-icon {
+                font-size: 3rem;
+            }
+            
+            .dimension-card p {
+                font-size: 0.95rem; /* 移动端适当减小字体 */
+            }
+            
+            .quick-access {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -111,7 +318,6 @@
             <a href="index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
                 <a href="pages/dimensions/timeline.html">时间维度</a>
-                <a href="pages/dimensions/geography.html">地理维度</a>
                 <a href="pages/dimensions/architects.html">建筑名家</a>
                 <a href="pages/dimensions/books.html">建筑书籍</a>
             </div>
@@ -119,47 +325,46 @@
     </header>
 
     <section class="hero-section">
-        <h1 class="platform-title">筑迹经纬</h1>
-        <p class="platform-subtitle">中国古代建筑成就多维可视化系统 · 探索千年建筑智慧</p>
+        <div class="hero-content">
+            <h1 class="platform-title">筑迹经纬</h1>
+            <p class="platform-subtitle">中国古代建筑成就多维可视化系统 · 探索千年建筑智慧</p>
+        </div>
     </section>
 
-    <main>
-        <div class="dimensions-grid">
+    <main class="main-content">
+        <h2 class="section-title">探索维度</h2>
+        
+        <!-- 三维度卡片布局 - 三列等宽 -->
+        <div class="dimensions-container">
             <a href="pages/dimensions/timeline.html" class="dimension-card">
-                <div class="dimension-icon">⏳</div>
+                <span class="dimension-icon">⏳</span>
                 <h2>时间维度</h2>
                 <p>按历史朝代探索建筑演变脉络，从先秦到明清，见证建筑技术的传承与创新</p>
-                <div class="card-hint">点击进入时间轴</div>
-            </a>
-            
-            <a href="pages/dimensions/geography.html" class="dimension-card">
-                <div class="dimension-icon">🗺️</div>
-                <h2>地理维度</h2>
-                <p>在地图上发现地域建筑特色，了解不同文化区的建筑风格与技术差异</p>
-                <div class="card-hint">点击查看地图</div>
+                <div class="card-hint">进入时间轴</div>
             </a>
             
             <a href="pages/dimensions/architects.html" class="dimension-card">
-                <div class="dimension-icon">👨‍🔧</div>
+                <span class="dimension-icon">👨‍🔧</span>
                 <h2>建筑名家</h2>
                 <p>认识历代建筑巨匠，了解他们的设计理念、技术贡献与代表作品</p>
-                <div class="card-hint">点击了解大师</div>
+                <div class="card-hint">了解大师</div>
             </a>
             
             <a href="pages/dimensions/books.html" class="dimension-card">
-                <div class="dimension-icon">📚</div>
+                <span class="dimension-icon">📚</span>
                 <h2>建筑书籍</h2>
                 <p>研读经典建筑著作，从《营造法式》到《园冶》，深入理论体系</p>
-                <div class="card-hint">点击阅读经典</div>
+                <div class="card-hint">阅读经典</div>
             </a>
         </div>
 
+        <!-- 快速访问区域 -->
         <div class="quick-access">
             <h3>快速访问精选内容</h3>
             <div class="quick-links">
                 <a href="建筑/zhaozhou-bridge.html" class="quick-link">🌟 赵州桥 - 隋代桥梁杰作</a>
                 <a href="建筑师/li-chun.html" class="quick-link">👨‍🔧 李春 - 赵州桥设计师</a>
-                <a href="pages/achievements/sui-dynasty.html" class="quick-link">⏳隋朝建筑成就专题</a>
+                <a href="pages/achievements/sui-dynasty.html" class="quick-link">⏳ 隋朝建筑成就专题</a>
             </div>
         </div>
     </main>
@@ -167,6 +372,7 @@
     <footer class="main-footer">
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统 | 数据可视化展示平台</p>
     </footer>
+
     <!-- ==================== AI助手浮窗 ==================== -->
     <div id="ai-assistant">
         <!-- 悬浮按钮 -->
@@ -232,6 +438,7 @@
             </div>
         </div>
     </div>
+    
     <!-- 引入AI助手脚本 -->
     <script src="assets/js/ai-assistant.js"></script>
 </body>

@@ -154,7 +154,7 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 4px;
+            width: 3px;
             background: linear-gradient(to bottom, #c19a6b, #8b6b3b, #c19a6b);
             transform: translateX(-50%);
             z-index: 1;
@@ -170,7 +170,7 @@
         .timeline-item {
             display: flex;
             align-items: center;
-            margin-bottom: 100px;
+            margin-bottom: 80px;
             position: relative;
             opacity: 0;
             transform: translateY(30px);
@@ -186,25 +186,32 @@
             flex-direction: row-reverse;
         }
         
-        /* 节点内容 */
+        /* 节点内容 - 修复间距问题 */
         .timeline-content {
             width: 45%;
             background: white;
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border-left: 4px solid #c19a6b;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* 确保左右卡片有相同的边距 */
+            margin: 0 5%; /* 为左右卡片设置相同的边距 */
         }
         
+        /* 左侧卡片 - 右边框和右边距 */
         .timeline-item:nth-child(odd) .timeline-content {
             border-left: 4px solid #c19a6b;
             border-right: none;
+            margin-left: 0;
+            margin-right: 5%; /* 左侧卡片有右边距 */
         }
         
+        /* 右侧卡片 - 左边框和左边距 */
         .timeline-item:nth-child(even) .timeline-content {
             border-right: 4px solid #c19a6b;
             border-left: none;
+            margin-left: 5%; /* 右侧卡片有左边距 */
+            margin-right: 0;
         }
         
         .timeline-content:hover {
@@ -212,22 +219,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
         
-        /* 节点时间标记 */
+        /* 节点时间标记 - 调整字体大小和位置 */
         .timeline-time {
-            width: 10%;
+            width: 12%;
             text-align: center;
-            padding: 0 20px;
+            padding: 0 15px;
+            z-index: 3;
+            position: relative;
         }
         
         .time-badge {
             background: #c19a6b;
             color: white;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 0.9rem; /* 减小字体大小 */
             display: inline-block;
-            min-width: 120px;
+            min-width: 100px;
+            position: relative;
+            z-index: 3;
+            line-height: 1.4;
         }
         
         /* 朝代标签 */
@@ -285,24 +297,7 @@
             background: #a87c4c;
         }
         
-        /* 节点图标 */
-        .timeline-icon {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: white;
-            border: 4px solid #c19a6b;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            z-index: 3;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
+        /* 移除图标相关的样式 */
         
         /* 筛选器 */
         .filter-container {
@@ -340,10 +335,10 @@
             border-color: #c19a6b;
         }
         
-        /* 响应式设计 */
+        /* 响应式设计 - 移动端调整 */
         @media (max-width: 768px) {
             .timeline-line {
-                left: 30px;
+                left: 20px;
             }
             
             .timeline-item, .timeline-item:nth-child(even) {
@@ -351,8 +346,17 @@
             }
             
             .timeline-content {
-                width: calc(100% - 80px);
+                width: calc(100% - 100px);
+                margin-left: 80px !important; /* 强制左侧对齐 */
+                margin-right: 0 !important; /* 移除右侧边距 */
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                border-left: 4px solid #c19a6b;
+                border-right: none;
                 margin-left: 80px;
+                margin-right: 0;
             }
             
             .timeline-time {
@@ -360,20 +364,17 @@
                 padding: 0;
             }
             
-            .timeline-icon {
-                left: 30px;
-            }
-            
-            .timeline-item:nth-child(odd) .timeline-content,
-            .timeline-item:nth-child(even) .timeline-content {
-                border-left: 4px solid #c19a6b;
-                border-right: none;
+            .time-badge {
+                min-width: 80px;
+                font-size: 0.8rem;
+                padding: 8px 10px;
             }
         }
         
+        /* 小屏幕手机进一步调整 */
         @media (max-width: 480px) {
             .timeline-visual {
-                padding: 20px;
+                padding: 20px 15px;
             }
             
             .timeline-header h2 {
@@ -381,7 +382,24 @@
             }
             
             .timeline-content {
-                padding: 20px;
+                width: calc(100% - 70px);
+                margin-left: 60px !important;
+                padding: 20px 15px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 60px;
+            }
+            
+            .timeline-time {
+                width: 50px;
+            }
+            
+            .time-badge {
+                min-width: 70px;
+                font-size: 0.75rem;
+                padding: 6px 8px;
             }
             
             .timeline-title {
@@ -397,7 +415,6 @@
             <a href="../../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
                 <a href="timeline.html" style="background: rgba(255,255,255,0.2);">时间维度</a>
-                <a href="geography.html">地理维度</a>
                 <a href="architects.html">建筑名家</a>
                 <a href="books.html">建筑书籍</a>
             </div>
@@ -442,9 +459,8 @@
                     <!-- 秦朝 -->
                     <div class="timeline-item" data-dynasty="qin">
                         <div class="timeline-time">
-                            <div class="time-badge">秦朝<br>公元前221-207年</div>
+                            <div class="time-badge">秦朝<br>公元前221<br>-<br>公元前207</div>
                         </div>
-                        <div class="timeline-icon">🏯</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">秦朝</span>
                             <h3 class="timeline-title">长城（体系化修筑）</h3>
@@ -461,9 +477,8 @@
                     <!-- 汉朝 -->
                     <div class="timeline-item" data-dynasty="han">
                         <div class="timeline-time">
-                            <div class="time-badge">汉朝<br>公元前202-公元220年</div>
+                            <div class="time-badge">汉朝<br>公元前202<br>-<br>公元220</div>
                         </div>
-                        <div class="timeline-icon">🏙️</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">汉朝</span>
                             <h3 class="timeline-title">汉长安城 / 陶楼明器</h3>
@@ -480,9 +495,8 @@
                     <!-- 隋朝 -->
                     <div class="timeline-item" data-dynasty="sui">
                         <div class="timeline-time">
-                            <div class="time-badge">隋朝<br>581-618年</div>
+                            <div class="time-badge">隋朝<br>公元581<br>-<br>公元618</div>
                         </div>
-                        <div class="timeline-icon">🌉</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">隋朝</span>
                             <h3 class="timeline-title">赵州桥（河北赵县）</h3>
@@ -499,9 +513,8 @@
                     <!-- 唐朝 -->
                     <div class="timeline-item" data-dynasty="tang">
                         <div class="timeline-time">
-                            <div class="time-badge">唐朝<br>618-907年</div>
+                            <div class="time-badge">唐朝<br>公元618<br>-<br>公元907</div>
                         </div>
-                        <div class="timeline-icon">🏛️</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">唐朝</span>
                             <h3 class="timeline-title">佛光寺东大殿（山西五台山）</h3>
@@ -518,9 +531,8 @@
                     <!-- 宋朝 -->
                     <div class="timeline-item" data-dynasty="song">
                         <div class="timeline-time">
-                            <div class="time-badge">宋朝<br>960-1279年</div>
+                            <div class="time-badge">宋朝<br>公元960<br>-<br>公元1279</div>
                         </div>
-                        <div class="timeline-icon">🕌</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">宋朝</span>
                             <h3 class="timeline-title">晋祠圣母殿（山西太原）</h3>
@@ -537,9 +549,8 @@
                     <!-- 元朝 -->
                     <div class="timeline-item" data-dynasty="yuan">
                         <div class="timeline-time">
-                            <div class="time-badge">元朝<br>1271-1368年</div>
+                            <div class="time-badge">元朝<br>公元1271<br>-<br>公元1368</div>
                         </div>
-                        <div class="timeline-icon">🔭</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">元朝</span>
                             <h3 class="timeline-title">观星台（河南登封）</h3>
@@ -556,9 +567,8 @@
                     <!-- 明朝 -->
                     <div class="timeline-item" data-dynasty="ming">
                         <div class="timeline-time">
-                            <div class="time-badge">明朝<br>1368-1644年</div>
+                            <div class="time-badge">明朝<br>公元1368<br>-<br>公元1644</div>
                         </div>
-                        <div class="timeline-icon">🏰</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">明朝</span>
                             <h3 class="timeline-title">北京紫禁城 / 南京明城墙</h3>
@@ -575,9 +585,8 @@
                     <!-- 清朝 -->
                     <div class="timeline-item" data-dynasty="qing">
                         <div class="timeline-time">
-                            <div class="time-badge">清朝<br>1644-1912年</div>
+                            <div class="time-badge">清朝<br>公元1644<br>-<br>公元1912</div>
                         </div>
-                        <div class="timeline-icon">🏞️</div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">清朝</span>
                             <h3 class="timeline-title">承德避暑山庄及外八庙</h3>

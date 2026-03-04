@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>计成 - 筑迹经纬</title>
+    <!-- 引入ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 引入Leaflet地图库 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* 基础样式 */
         * {
@@ -14,7 +19,7 @@
         }
         
         body {
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             line-height: 1.6;
             color: #333;
             background-color: #f5f5f5;
@@ -24,6 +29,9 @@
         .main-header {
             background: #2c3e50;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .main-nav {
@@ -58,6 +66,36 @@
         
         .nav-links a:hover {
             background: rgba(255,255,255,0.1);
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover {
+            background: #2980b9;
+            transform: translateY(-5px);
         }
         
         /* 英雄区域 */
@@ -265,6 +303,12 @@
             padding: 30px;
             border-radius: 8px;
             border-left: 4px solid #3498db;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         
         .card h3 {
@@ -380,6 +424,365 @@
             background: #e8f4fc;
         }
         
+        /* 全球影响地图区域 */
+        .global-map-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 地图容器样式 */
+        .map-container {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid #5f7f9f;
+            background: #0f1a24;
+            position: relative;
+            margin-top: 30px;
+        }
+        
+        #worldMap {
+            height: 500px;
+            width: 100%;
+            background-color: #11212e;
+        }
+        
+        /* 地图弹窗样式 */
+        .custom-popup .leaflet-popup-content-wrapper {
+            background: #fef7e8;
+            color: #2e3b4e;
+            border-radius: 20px;
+            border-left: 8px solid #b6854c;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            font-size: 15px;
+            line-height: 1.7;
+            padding: 0;
+            min-width: 320px;
+            max-width: 360px;
+        }
+        
+        .custom-popup .leaflet-popup-content {
+            margin: 30px 25px;
+            width: auto !important;
+        }
+        
+        .custom-popup .leaflet-popup-tip {
+            background: #fef7e8;
+            border-top: 2px solid #b6854c;
+            border-left: 2px solid #b6854c;
+            width: 20px;     
+            height: 20px;
+        }
+        
+        /* 卡片标题 */
+        .popup-title {
+            font-weight: 800;
+            font-size: 1.2rem;        
+            color: #9d5e2b;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            border-bottom: 2px dashed #cbb08a;
+            padding-bottom: 8px;
+        }
+        
+        /* 卡片正文 */
+        .popup-content {
+            color: #2e3b4e;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .popup-content strong {
+            color: #9d5e2b;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        /* 列表项样式 */
+        .popup-list {
+            padding-left: 0;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .popup-list-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .popup-list-item:before {
+            content: "·";
+            color: #d9534f;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: -4px;
+        }
+        
+        /* 引用区块 */
+        .popup-quote {
+            font-style: italic;
+            color: #6f5b47;
+            background: #e9dbc9;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            line-height: 1.6;
+        }
+        
+        /* 标记点样式 */
+        .custom-marker {
+            cursor: pointer;
+            pointer-events: auto !important;
+        }
+        
+        .marker-dot {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 0 8px currentColor);
+            transition: transform 0.2s;
+        }
+        
+        .marker-dot:hover {
+            transform: scale(1.2);
+        }
+        
+        .marker-dot-inner {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 220, 0.95);
+            box-shadow: 0 0 10px currentColor;
+            transition: all 0.2s;
+        }
+        
+        /* 当前打开的标记点样式 */
+        .active-marker .marker-dot-inner {
+            width: 24px;
+            height: 24px;
+            border-width: 3px;
+            box-shadow: 0 0 15px currentColor;
+        }
+        
+        /* 图例与说明 */
+        .map-legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(18, 30, 40, 0.85);
+            backdrop-filter: blur(8px);
+            color: #eae4d9;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid #7d9bb6;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            pointer-events: none;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px rgba(255,255,200,0.3);
+        }
+        
+        .dot-origin { background: #c44c2b; }
+        .dot-history { background: #3a7ca5; }
+        .dot-modern { background: #4b8a5c; }
+        .dot-global { background: #b08f5c; }
+        
+        .map-footer {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ddd;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid #7d9bb6;
+            letter-spacing: 0.5px;
+        }
+        
+        /* 设计原则可视化 */
+        .principles-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .principles-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        .principle-card {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 4px solid #3498db;
+            transition: transform 0.3s;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .principle-icon {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .principle-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* 相关人物 */
+        .related-people {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .people-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        .person-card {
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background: #e8f4fc;
+        }
+        
+        .person-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .person-role {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .map-container {
+                border-radius: 12px;
+            }
+            
+            #worldMap {
+                height: 400px;
+            }
+            
+            .custom-popup .leaflet-popup-content-wrapper {
+                min-width: 280px;
+                max-width: 320px;
+                font-size: 14px;
+            }
+            
+            .custom-popup .leaflet-popup-content {
+                margin: 20px 15px;
+            }
+            
+            .popup-title {
+                font-size: 1.1rem;
+                margin-bottom: 12px;
+                line-height: 1.3;
+            }
+            
+            .popup-list-item {
+                margin-bottom: 10px;
+                padding-left: 18px;
+            }
+            
+            .map-legend {
+                bottom: 10px;
+                left: 10px;
+                padding: 8px 12px;
+                gap: 10px;
+                font-size: 0.8rem;
+            }
+            
+            .map-footer {
+                bottom: 10px;
+                right: 10px;
+                font-size: 0.75rem;
+                padding: 4px 10px;
+            }
+            
+            .principle-card, .person-card {
+                min-width: 100%;
+            }
+        }
+        
         /* 结语区域 */
         .conclusion-section {
             max-width: 1200px;
@@ -403,6 +806,7 @@
             justify-content: center;
             gap: 20px;
             margin-top: 30px;
+            flex-wrap: wrap;
         }
         
         .nav-btn {
@@ -413,6 +817,9 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .nav-btn:hover {
@@ -490,6 +897,37 @@
             .section-title::after {
                 width: 50px;
             }
+            
+            .global-map-section, .principles-section, .related-people {
+                padding: 20px;
+            }
+            
+            .global-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-image img {
+                height: 250px;
+            }
+            
+            .achievement-title {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
@@ -500,12 +938,16 @@
             <a href="../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
                 <a href="../pages/dimensions/timeline.html">时间维度</a>
-                <a href="../pages/dimensions/geography.html">地理维度</a>
-                <a href="../pages/dimensions/architects.html">建筑名家</a>
+                <a href="../pages/dimensions/architects.html"  style="background: rgba(255,255,255,0.2);">建筑名家</a>
                 <a href="../pages/dimensions/books.html">建筑书籍</a>
             </div>
         </nav>
     </header>
+
+    <!-- 返回顶部按钮 -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </a>
 
     <!-- 英雄区域 -->
     <section class="hero-section">
@@ -517,11 +959,12 @@
                 <span class="tag">明代造园家</span>
                 <span class="tag">《园冶》作者</span>
                 <span class="tag">园林艺术理论奠基人</span>
+                <span class="tag">山水画论实践者</span>
             </div>
         </div>
         <div class="hero-image">
             <!-- 这里可以放置计成的画像或相关图片 -->
-            <img src=../建筑师/assets/images/ji-cheng.png>
+            <img src="../建筑师/assets/images/ji-cheng.png" alt="计成画像">
         </div>
     </section>
 
@@ -535,7 +978,7 @@
                 </div>
                 <div class="timeline-content">
                     <h4>生于江苏吴江</h4>
-                    <p>出生于万历十年，名"成"，被寄予仕途厚望，传统士人道路的起点。</p>
+                    <p>出生于万历十年，名"成"，被寄予仕途厚望，传统士人道路的起点。其父为地方文人，重视教育，期望他通过科举入仕。</p>
                 </div>
             </div>
             
@@ -545,7 +988,7 @@
                 </div>
                 <div class="timeline-content">
                     <h4>科举失利，人生转折</h4>
-                    <p>赴南京参加乡试，名落孙山。此次失利促使他放弃科举，转而投身所痴迷的山水艺术，从"观画者"转变为"造园者"。</p>
+                    <p>赴南京参加乡试，名落孙山。此次失利促使他放弃科举，转而投身所痴迷的山水艺术，从"观画者"转变为"造园者"。这一转变开启了中国园林艺术的新篇章。</p>
                 </div>
             </div>
             
@@ -555,7 +998,7 @@
                 </div>
                 <div class="timeline-content">
                     <h4>游学苏杭，研习造园</h4>
-                    <p>游历苏州、杭州，系统研习造园技艺，将山水画论与工匠技艺完美结合，形成独特的造园理念。</p>
+                    <p>游历苏州、杭州，系统研习造园技艺，将山水画论与工匠技艺完美结合，形成独特的造园理念。期间结识多位文人与匠人，积累了丰富的人脉与经验。</p>
                 </div>
             </div>
             
@@ -565,7 +1008,7 @@
                 </div>
                 <div class="timeline-content">
                     <h4>成名之作：东第园（寤园）</h4>
-                    <p>受常州名士吴玄委托，设计东第园（寤园）。首次成功运用"借景"理念，一举成名，奠定行业地位。</p>
+                    <p>受常州名士吴玄委托，设计东第园（寤园）。首次成功运用"借景"理念，一举成名，奠定行业地位。此园被誉为"江南新胜"。</p>
                 </div>
             </div>
             
@@ -575,7 +1018,7 @@
                 </div>
                 <div class="timeline-content">
                     <h4>著成《园冶》三卷</h4>
-                    <p>完成不朽著作《园冶》三卷，这是世界首部系统造园学专著，确立了完整的园林设计理论体系。</p>
+                    <p>完成不朽著作《园冶》三卷，这是世界首部系统造园学专著，确立了完整的园林设计理论体系。书中详细论述了相地、立基、屋宇、装折、门窗、墙垣、铺地、掇山、选石、借景等十大专项。</p>
                 </div>
             </div>
             
@@ -585,7 +1028,7 @@
                 </div>
                 <div class="timeline-content">
                     <h4>巅峰之作：扬州影园</h4>
-                    <p>为扬州盐商郑元勋设计影园，代表其晚年炉火纯青的造园境界。极致演绎"宛自天开"与理水艺术，成为当时长三角文坛的交流中心。</p>
+                    <p>为扬州盐商郑元勋设计影园，代表其晚年炉火纯青的造园境界。极致演绎"宛自天开"与理水艺术，成为当时长三角文坛的交流中心，董其昌、陈继儒等名流常在此雅集。</p>
                 </div>
             </div>
             
@@ -595,7 +1038,7 @@
                 </div>
                 <div class="timeline-content">
                     <h4>晚年传艺，思想升华</h4>
-                    <p>定居常州，收徒授艺，打破陈规传艺于女儿。完成《园冶》增补本，专论"借景"，确保技艺流传并将核心理论系统化、完整化。</p>
+                    <p>定居常州，收徒授艺，打破陈规传艺于女儿。完成《园冶》增补本，专论"借景"，确保技艺流传并将核心理论系统化、完整化。其女继承父业，成为江南知名女造园师。</p>
                 </div>
             </div>
         </div>
@@ -611,6 +1054,7 @@
                     <li><strong>核心哲学：</strong>提出"虽由人作，宛自天开"，追求人工与自然的至高和谐</li>
                     <li><strong>方法论：</strong>强调"相地合宜，构园得体"与"因地制宜"，反对强行改造自然</li>
                     <li><strong>空间艺术：</strong>首创并系统阐述"借景"论，定义为"园林之最要者"，将园外风光化为己用，极大拓展了园林的意境边界</li>
+                    <li><strong>审美标准：</strong>确立"巧于因借，精在体宜"的设计原则，强调功能与形式的统一</li>
                 </ul>
             </div>
             
@@ -620,6 +1064,7 @@
                     <li><strong>内容全景：</strong>涵盖相地、立基、屋宇、装折、门窗、墙垣、铺地、掇山、选石、借景等十大专项</li>
                     <li><strong>独特贡献：</strong>书中绘制收录300余种门窗样式（"装折"篇），是研究明代生活美学与建筑装饰的珍贵图谱</li>
                     <li><strong>设计原则：</strong>全书贯穿其从实践中总结的流程与禁忌，是可操作性极强的专业指南</li>
+                    <li><strong>影响深远：</strong>成为后世造园师的必读经典，被誉为"园林圣经"</li>
                 </ul>
             </div>
             
@@ -629,7 +1074,38 @@
                     <li>将山水画的"高远、深远、平远"构图法与意境追求，转化为园林的立体空间布局与游览节奏设计</li>
                     <li>擅长以叠石理水塑造如画的实景，其作品被誉为"立体的山水画"</li>
                     <li>实现从二维绘画到三维空间的创造性转化，确立了中国古典园林的基本美学范式</li>
+                    <li>注重四季变化与时间维度在园林中的体现，创造动态的景观体验</li>
                 </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设计原则可视化 -->
+    <section class="principles-section">
+        <h2 class="section-title">《园冶》核心设计原则</h2>
+        <div class="principles-container">
+            <div class="principle-card">
+                <div class="principle-icon">🏔️</div>
+                <h3>相地合宜</h3>
+                <p>根据地形、地势、水文等自然条件，选择最适宜的建园位置，强调因地制宜，反对强行改造自然。</p>
+            </div>
+            
+            <div class="principle-card">
+                <div class="principle-icon">🌳</div>
+                <h3>构园得体</h3>
+                <p>园林布局要符合功能需求与审美标准，空间尺度、建筑体量与园林环境要协调统一。</p>
+            </div>
+            
+            <div class="principle-card">
+                <div class="principle-icon">🏞️</div>
+                <h3>巧于因借</h3>
+                <p>巧妙利用周边自然环境，将园外山水、建筑、树木等"借"入园中，拓展园林的视觉边界与意境深度。</p>
+            </div>
+            
+            <div class="principle-card">
+                <div class="principle-icon">🎨</div>
+                <h3>精在体宜</h3>
+                <p>注重细节处理，建筑装饰、铺地图案、植物配置等都要精益求精，与整体风格协调统一。</p>
             </div>
         </div>
     </section>
@@ -641,19 +1117,19 @@
             <div class="work-item">
                 <span class="work-tag">成名之作</span>
                 <h4>东第园（寤园，常州）</h4>
-                <p>计成的成名作与"借景"理念首次成功实践。此案奠定了其"巧于因借"的设计风格，巧妙利用周边自然环境，将园外山水风光"借"入园中，创造出无限延伸的空间感。</p>
+                <p>计成的成名作与"借景"理念首次成功实践。此案奠定了其"巧于因借"的设计风格，巧妙利用周边自然环境，将园外山水风光"借"入园中，创造出无限延伸的空间感。园中假山、水池、亭台布局精巧，被誉为"江南新胜"。</p>
             </div>
             
             <div class="work-item">
                 <span class="work-tag">巅峰之作</span>
                 <h4>影园（扬州）</h4>
-                <p>代表计成晚年炉火纯青的造园境界。超越私家宅园，成为当时长三角文坛的交流中心，体现了园林的社会文化价值。极致演绎"宛自天开"与理水艺术。</p>
+                <p>代表计成晚年炉火纯青的造园境界。超越私家宅园，成为当时长三角文坛的交流中心，体现了园林的社会文化价值。极致演绎"宛自天开"与理水艺术，园中水面占三分之一，以水为镜，倒影成趣，故名"影园"。</p>
             </div>
             
             <div class="work-item">
                 <span class="work-tag">理论巨著</span>
                 <h4>《园冶》</h4>
-                <p>世界第一部系统造园学专著，涵盖园林设计、施工、管理的方方面面。不仅总结实践经验，更上升到理论高度，成为后世造园的"圣经"。</p>
+                <p>世界第一部系统造园学专著，涵盖园林设计、施工、管理的方方面面。不仅总结实践经验，更上升到理论高度，成为后世造园的"圣经"。全书三卷，附有大量插图，是研究明代园林艺术与建筑技术的重要文献。</p>
             </div>
         </div>
     </section>
@@ -673,12 +1149,12 @@
                 <tr>
                     <td><strong>国内传承</strong></td>
                     <td>直接引领了清初江南园林的鼎盛，其原则被后世匠师默认为法度。</td>
-                    <td>扬州个园的四季假山，苏州拙政园的疏朗布局，皆可见其思想遗韵。</td>
+                    <td>扬州个园的四季假山，苏州拙政园的疏朗布局，皆可见其思想遗韵。清代园林大多遵循《园冶》的设计原则。</td>
                 </tr>
                 <tr>
                     <td><strong>技艺传承</strong></td>
                     <td>打破"传男不传女"的行规，将技艺传授给女儿，体现了超越时代的教育观。</td>
-                    <td>保证了造园技艺在家族及师徒体系中的有效传承。</td>
+                    <td>保证了造园技艺在家族及师徒体系中的有效传承。其女成为江南知名女造园师，培养了一批女性园林设计师。</td>
                 </tr>
                 <tr>
                     <td><strong>国际传播</strong></td>
@@ -688,21 +1164,90 @@
                 <tr>
                     <td><strong>当代再现</strong></td>
                     <td>成为现代中式园林与景观设计的理论源泉与文化符号。</td>
-                    <td>纽约大都会博物馆"明轩"、温哥华"逸园"等海外中国园，均以其理论为设计蓝本。</td>
+                    <td>纽约大都会博物馆"明轩"、温哥华"逸园"等海外中国园，均以其理论为设计蓝本。当代"新中式"园林设计多参考《园冶》原则。</td>
                 </tr>
             </tbody>
         </table>
     </section>
 
+    <!-- 全球影响地图区域 -->
+    <section class="global-map-section">
+        <h2 class="section-title">《园冶》思想的全球传播与影响</h2>
+        <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 1.1rem;">
+            探索计成《园冶》思想的全球传播路径，从思想发源地到全球影响
+        </p>
+        
+        <div class="map-container">
+            <div id="worldMap"></div>
+
+            <div class="map-legend">
+                <div class="legend-item"><span class="legend-dot dot-origin"></span> 思想发源地</div>
+                <div class="legend-item"><span class="legend-dot dot-history"></span> 历史影响区</div>
+                <div class="legend-item"><span class="legend-dot dot-modern"></span> 当代实践区</div>
+                <div class="legend-item"><span class="legend-dot dot-global"></span> 全球象征/竞赛</div>
+            </div>
+            <div class="map-footer">
+                <span>⚡ 虽由人作，宛自天开 · 计成《园冶》全球传播之路</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 相关人物 -->
+    <section class="related-people">
+        <h2 class="section-title">相关人物与传承者</h2>
+        <div class="people-container">
+            <a href="#" class="person-card">
+                <div class="person-name">文震亨</div>
+                <div class="person-role">《长物志》作者</div>
+            </a>
+            
+            <a href="#" class="person-card">
+                <div class="person-name">李渔</div>
+                <div class="person-role">《闲情偶寄》作者</div>
+            </a>
+            
+            <a href="../建筑师/li-chun.html" class="person-card">
+                <div class="person-name">李春</div>
+                <div class="person-role">赵州桥设计师</div>
+            </a>
+            
+            <a href="#" class="person-card">
+                <div class="person-name">童寯</div>
+                <div class="person-role">现代园林研究先驱</div>
+            </a>
+            
+            <a href="#" class="person-card">
+                <div class="person-name">陈从周</div>
+                <div class="person-role">古建筑园林专家</div>
+            </a>
+        </div>
+    </section>
+
     <!-- 结语区域 -->
     <section class="conclusion-section">
+        <h2 class="section-title">历史评价与当代意义</h2>
         <p class="conclusion-text">
-            计成从科举失意的文人转型为造园宗师，其人生轨迹见证了中国传统知识分子的多元发展路径。他不仅创造了"虽由人作，宛自天开"这一园林艺术的最高美学理想，更通过《园冶》将感性的造园经验系统化为理性的设计法则。计成的贡献不仅在于留下了影园等具体作品，更在于确立了中国园林作为一门独立艺术门类的理论框架与评价标准，其影响跨越时空，至今仍是理解中国古典园林不可或缺的钥匙。
+            计成从科举失意的文人转型为造园宗师，其人生轨迹见证了中国传统知识分子的多元发展路径。他不仅创造了"虽由人作，宛自天开"这一园林艺术的最高美学理想，更通过《园冶》将感性的造园经验系统化为理性的设计法则。计成的贡献不仅在于留下了影园等具体作品，更在于确立了中国园林作为一门独立艺术门类的理论框架与评价标准。
+        </p>
+        
+        <p class="conclusion-text">
+            在全球化与城市化快速发展的今天，计成的园林思想愈发显示出其现代价值。他强调的"因地制宜""巧于因借"等原则，与当代生态设计、可持续发展理念高度契合。其"借景"理论为现代城市景观设计提供了重要的空间处理思路。而"虽由人作，宛自天开"的哲学，则提醒我们在人工环境中保持对自然的敬畏与尊重。
+        </p>
+        
+        <p class="conclusion-text">
+            计成及其《园冶》的影响跨越时空，至今仍是理解中国古典园林不可或缺的钥匙，也是当代景观设计取之不尽的智慧源泉。在东西方文化交流日益频繁的今天，《园冶》的全球传播见证了中国传统智慧的世界意义，为人类共同的环境美学贡献了东方智慧。
         </p>
         
         <div class="global-nav">
-            <a href="architecture-books.html" class="nav-btn">返回建筑名著</a>
-            <a href="园冶.html" class="nav-btn">探索《园冶》专著</a>
+            <a href="../pages/dimensions/architects.html" class="nav-btn">
+                <i class="fas fa-arrow-left"></i> 返回建筑名家
+            </a>
+            <a href="../pages/dimensions/books.html" class="nav-btn">
+                <i class="fas fa-book"></i> 探索建筑书籍
+            </a>
+            <a href="../建筑书籍/yuan-ye.html" class="nav-btn">
+                <i class="fas fa-search"></i> 深入《园冶》专著
+            </a>
         </div>
     </section>
 
@@ -711,6 +1256,9 @@
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
+    <!-- 引入Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <script>
         // 时间轴动画效果
         document.addEventListener('DOMContentLoaded', function() {
@@ -735,7 +1283,7 @@
             });
             
             // 卡片悬停效果
-            const cards = document.querySelectorAll('.card, .work-item');
+            const cards = document.querySelectorAll('.card, .work-item, .principle-card, .person-card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
@@ -745,8 +1293,294 @@
                 });
             });
             
+            // 返回顶部按钮
+            const backToTopBtn = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 初始化全球影响地图
+            initGlobalMap();
+            
             console.log('计成专题页加载完成！');
         });
+
+        // 全球影响地图初始化函数
+        function initGlobalMap() {
+            // 初始化地图
+            const map = L.map('worldMap', {
+                center: [30, 20],
+                zoom: 2.2,
+                zoomControl: true,
+                attributionControl: false
+            });
+
+            // 添加底图
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap, CartoDB'
+            }).addTo(map);
+
+            L.control.zoom({ position: 'topright' }).addTo(map);
+
+            // 存储当前打开的标记点和弹出窗口
+            let currentOpenPopup = null;
+            let currentOpenMarker = null;
+
+            // 定义标记点数据
+            const sites = [
+                {
+                    type: 'origin',
+                    lat: 31.5, lng: 119.9,
+                    color: '#c44c2b',
+                    title: '中国 · 江南',
+                    card: `
+                        <div class="popup-title">🏯 思想源头：计成与《园冶》</div>
+                        <div class="popup-content">
+                            <strong>📍 江苏苏州/常州</strong>
+                        </div>
+                        <ul class="popup-list">
+                            <li class="popup-list-item">1634年，计成于此完成世界首部系统造园专著《园冶》。</li>
+                            <li class="popup-list-item">提出"虽由人作，宛自天开"的核心哲学。</li>
+                            <li class="popup-list-item">建立"巧于因借，精在体宜"的设计方法论。</li>
+                        </ul>
+                    `
+                },
+                {
+                    type: 'history',
+                    lat: 35.68, lng: 139.76,
+                    color: '#3a7ca5',
+                    title: '日本 · 东京',
+                    card: `
+                        <div class="popup-title">🗾 东渡珍藏，尊为鼻祖</div>
+                        <div class="popup-content">
+                            <strong>📍 东京</strong>
+                        </div>
+                        <ul class="popup-list">
+                            <li class="popup-list-item">《园冶》传入后改名《夺天工》，成为造园学教科书。</li>
+                            <li class="popup-list-item">日本首先采用"造园"为正式学科名，尊计成为"造园鼻祖"。</li>
+                            <li class="popup-list-item">直接影响"回游式林泉庭园"的发展。</li>
+                        </ul>
+                    `
+                },
+                {
+                    type: 'history',
+                    lat: 59.33, lng: 18.07,
+                    color: '#3a7ca5',
+                    title: '瑞典 · 斯德哥尔摩',
+                    card: `
+                        <div class="popup-title">🌉 西渐欧洲的桥梁</div>
+                        <div class="popup-content">
+                            <strong>📍 斯德哥尔摩</strong>
+                        </div>
+                        <ul class="popup-list">
+                            <li class="popup-list-item">瑞典美术史家喜龙仁三度来华，极力推崇《园冶》，将其介绍至北欧。</li>
+                            <li class="popup-list-item">被西方学界誉为"世界造园学最早的名著"。</li>
+                        </ul>
+                    `
+                },
+                {
+                    type: 'history',
+                    lat: 51.48, lng: -0.29,
+                    color: '#3a7ca5',
+                    title: '英国 · 伦敦 (邱园)',
+                    card: `
+                        <div class="popup-title">🌳 启发自然风景园林革命</div>
+                        <div class="popup-content">
+                            <strong>📍 伦敦 · 邱园</strong>
+                        </div>
+                        <ul class="popup-list">
+                            <li class="popup-list-item">其"宛自天开"的哲学，为18世纪英国突破几何式园林提供了东方美学参照。</li>
+                            <li class="popup-list-item">威廉·钱伯斯在邱园建造著名的"中国塔"，融入中国园林意趣。</li>
+                        </ul>
+                    `
+                },
+                {
+                    type: 'modern',
+                    lat: 40.78, lng: -73.97,
+                    color: '#4b8a5c',
+                    title: '美国 · 纽约 (大都会博物馆)',
+                    card: `
+                        <div class="popup-title">🏛️ 实体出口与文化使者</div>
+                        <div class="popup-content">
+                            <strong>📍 纽约 · 大都会博物馆</strong>
+                        </div>
+                        <ul class="popup-list">
+                            <li class="popup-list-item">"明轩" (1980年)：首座出口海外的中国古典园林，以苏州网师园为蓝本。</li>
+                            <li class="popup-list-item">被誉为"中美文化交流史上的一件永恒展品"，开创中国园林外贸先河。</li>
+                        </ul>
+                    `
+                },
+                {
+                    type: 'modern',
+                    lat: 49.28, lng: -123.12,
+                    color: '#4b8a5c',
+                    title: '加拿大 · 温哥华',
+                    card: `
+                        <div class="popup-title">🍁 海外园林的延续</div>
+                        <div class="popup-content">
+                            <strong>📍 温哥华 · 逸园</strong>
+                        </div>
+                        <ul class="popup-list">
+                            <li class="popup-list-item">"逸园" (1986年)：继"明轩"后，在海外建造的又一经典苏州园林。</li>
+                            <li class="popup-list-item">位于温哥华范杜森植物园，被誉为"海上明珠"。</li>
+                        </ul>
+                    `
+                },
+                {
+                    type: 'global',
+                    lat: 30, lng: 0,
+                    color: '#b08f5c',
+                    title: '全球 · 园冶杯',
+                    card: `
+                        <div class="popup-title">🌍 当代活态传承：园冶杯</div>
+                        <div class="popup-content">
+                            <strong>📍 全球国际竞赛</strong>
+                        </div>
+                        <ul class="popup-list">
+                            <li class="popup-list-item">年度"园冶杯"国际竞赛始于2010年，已成为行业顶尖赛事。</li>
+                            <li class="popup-list-item">吸引全球30余国、超500所高校参与。</li>
+                            <li class="popup-list-item">推动计成思想的当代实践与国际对话。</li>
+                        </ul>
+                    `
+                }
+            ];
+
+            // 创建标记点数组
+            const markers = [];
+
+            // 创建可点击的发光标记
+            sites.forEach(site => {
+                // 创建自定义图标
+                const markerIcon = L.divIcon({
+                    className: 'custom-marker',
+                    html: `
+                        <div class="marker-dot" style="color: ${site.color};">
+                            <div class="marker-dot-inner" style="background-color: ${site.color}; border-color: rgba(255, 255, 220, 0.9);"></div>
+                        </div>
+                    `,
+                    iconSize: [25, 25],
+                    iconAnchor: [12.5, 12.5],
+                    popupAnchor: [0, -15]
+                });
+
+                // 创建标记点
+                const marker = L.marker([site.lat, site.lng], { 
+                    icon: markerIcon,
+                    riseOnHover: true,
+                    title: site.title
+                }).addTo(map);
+
+                // 绑定弹窗
+                const popup = L.popup({
+                    className: 'custom-popup',
+                    closeButton: true,
+                    closeOnEscapeKey: true,
+                    autoClose: false,
+                    closeOnClick: false,
+                    maxWidth: 360,
+                    minWidth: 300
+                }).setContent(site.card);
+
+                marker.bindPopup(popup);
+
+                // 点击标记点事件
+                marker.on('click', function(e) {
+                    // 如果当前已经有打开的弹出窗口，先关闭它
+                    if (currentOpenPopup && currentOpenPopup !== popup) {
+                        currentOpenPopup.close();
+                    }
+                    
+                    // 如果当前已经有激活的标记点，重置其样式
+                    if (currentOpenMarker && currentOpenMarker !== marker) {
+                        currentOpenMarker._icon.classList.remove('active-marker');
+                    }
+                    
+                    // 切换当前标记点样式
+                    if (this._icon.classList.contains('active-marker')) {
+                        this._icon.classList.remove('active-marker');
+                        this.closePopup();
+                        currentOpenPopup = null;
+                        currentOpenMarker = null;
+                    } else {
+                        this._icon.classList.add('active-marker');
+                        this.openPopup();
+                        currentOpenPopup = popup;
+                        currentOpenMarker = marker;
+                    }
+                    
+                    L.DomEvent.stopPropagation(e);
+                });
+
+                // 监听弹出窗口关闭事件
+                marker.on('popupclose', function() {
+                    if (currentOpenMarker === this) {
+                        this._icon.classList.remove('active-marker');
+                        currentOpenPopup = null;
+                        currentOpenMarker = null;
+                    }
+                });
+
+                // 添加到标记点数组
+                markers.push({ marker, popup });
+            });
+
+            // 点击地图空白处关闭所有弹出窗口
+            map.on('click', function() {
+                markers.forEach(({ marker, popup }) => {
+                    marker.closePopup();
+                    marker._icon.classList.remove('active-marker');
+                });
+                currentOpenPopup = null;
+                currentOpenMarker = null;
+            });
+
+            // 添加传播路径的虚线
+            const startPoint = [31.5, 119.9];
+            const targets = [
+                {coords: [35.68, 139.76], color: '#FF6B6B'},  // 日本 - 红色
+                {coords: [59.33, 18.07], color: '#4ECDC4'},   // 瑞典 - 青色
+                {coords: [51.48, -0.29], color: '#4ECDC4'},   // 英国 - 青色
+                {coords: [40.78, -73.97], color: '#1DD1A1'},  // 美国 - 绿色
+                {coords: [49.28, -123.12], color: '#1DD1A1'}, // 加拿大 - 绿色
+                {coords: [30, 0], color: '#FECA57'}           // 全球 - 橙色
+            ];
+
+            targets.forEach(target => {
+                if (target.coords[0] === startPoint[0] && target.coords[1] === startPoint[1]) return;
+                
+                L.polyline([startPoint, target.coords], {
+                    color: target.color,  // 使用指定的颜色
+                    weight: 1.5,           // 虚线粗细
+                    opacity: 0.6,          // 透明度
+                    dashArray: '8, 10',    // 虚线样式
+                    lineCap: 'round',
+                    interactive: false,
+                    className: 'path-line'
+                }).addTo(map);
+            });
+
+            // 调整视图
+            const group = L.featureGroup(markers.map(m => m.marker));
+            map.fitBounds(group.getBounds().pad(0.3));
+            map.setZoom(2.2);
+
+            // 添加归属
+            L.control.attribution({ position: 'bottomleft' }).addTo(map)
+                .setPrefix('<span style="color:#aaa;">计成 · 园冶 全球影响</span>');
+        }
     </script>
 </body>
 </html>
