@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>赵州桥 - 筑迹经纬</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- 添加Three.js 3D库 -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
         /* 基础样式 */
         * {
@@ -192,6 +196,130 @@
             line-height: 1.6;
         }
         
+        /* 新增：3D展示区域 */
+        .three-d-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .view-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        
+        .view-btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .view-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .view-btn.active {
+            background: #2c3e50;
+        }
+        
+        .model-info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .model-info .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        
+        .model-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            margin-top: 20px;
+        }
+        
+        #bridge-3d-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .measure-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(231, 76, 60, 0.8);
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        
+        .measure-point:hover {
+            transform: scale(1.5);
+            background-color: #e74c3c;
+        }
+        
+        .measure-point::after {
+            content: attr(data-length);
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .measure-point:hover::after {
+            opacity: 1;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+        
         /* 文化传承 */
         .culture-section {
             max-width: 1200px;
@@ -312,6 +440,19 @@
             .section-title {
                 font-size: 1.8rem;
             }
+            
+            .model-container {
+                height: 400px;
+            }
+            
+            .view-controls {
+                justify-content: center;
+            }
+            
+            .view-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -321,7 +462,7 @@
         <nav class="main-nav">
             <a href="../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="../pages/dimensions/timeline.html"  style="background: rgba(255,255,255,0.2);">时间维度</a>
+                <a href="../pages/dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">时间维度</a>
                 <a href="../pages/dimensions/architects.html">建筑名家</a>
                 <a href="../pages/dimensions/books.html">建筑书籍</a>
             </div>
@@ -366,6 +507,38 @@
         </div>
     </section>
     
+    <!-- 新增：3D模型展示 -->
+    <section class="three-d-section">
+        <h2 class="section-title">赵州桥三维结构展示</h2>
+        <p class="section-subtitle">交互式3D模型，可多角度观察桥梁结构细节</p>
+        
+        <div class="view-controls">
+            <button class="view-btn active" data-view="front">正面视角</button>
+            <button class="view-btn" data-view="side">侧面视角</button>
+            <button class="view-btn" data-view="top">俯视视角</button>
+            <button class="view-btn" data-view="perspective">透视视角</button>
+            <button class="view-btn" data-view="detail">细节特写</button>
+        </div>
+        
+        <div class="model-info">
+            赵州桥全长：<span class="highlight" id="bridge-length">50.82米</span>，主拱跨度：<span class="highlight">37.02米</span>，桥面宽度：<span class="highlight">9.6米</span>
+        </div>
+        
+        <div class="model-container">
+            <div class="loading-overlay" id="loading-overlay">
+                <div>加载3D模型中...</div>
+            </div>
+            <canvas id="bridge-3d-canvas"></canvas>
+            <!-- 测量点 - 放置在桥的中间部分 -->
+            <div class="measure-point" id="measure-point" style="top: 50%; left: 50%; transform: translate(-50%, -50%);" data-length="全长: 50.82米"></div>
+        </div>
+        
+        <div class="model-info">
+            <p>提示：点击并拖动可旋转模型，使用鼠标滚轮可缩放，点击上方按钮可切换预设视角。</p>
+            <p>点击<span style="color:#e74c3c;font-weight:bold;">红色标记点</span>可查看桥梁全长信息</p>
+        </div>
+    </section>
+
     <!-- 可视化 -->
     <!-- 建筑结构性能优势对比 -->
     <section class="chart-section">
@@ -631,7 +804,210 @@
             });
         }
 
-        // 初始化所有图表
+        // 3D模型展示功能
+        function init3DModel() {
+            const canvas = document.getElementById('bridge-3d-canvas');
+            if (!canvas) return;
+            
+            // 创建Three.js场景
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf5f5f5);
+            
+            // 创建相机
+            const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.set(0, 5, 15);
+            
+            // 创建渲染器
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                antialias: true 
+            });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            
+            // 添加轨道控制器
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI; // 允许垂直旋转
+            controls.minDistance = 5;
+            controls.maxDistance = 50;
+            
+            // 添加光源
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            // 添加辅助网格和坐标系
+            const gridHelper = new THREE.GridHelper(20, 20, 0xcccccc, 0xcccccc);
+            scene.add(gridHelper);
+            
+            const axesHelper = new THREE.AxesHelper(5);
+            scene.add(axesHelper);
+            
+            // 加载赵州桥3D模型
+            const loader = new THREE.GLTFLoader();
+            const loadingOverlay = document.getElementById('loading-overlay');
+            
+            // 尝试加载模型，如果失败则创建简易模型
+            loader.load(
+                './assets/3D/zhaozhouqiao.glb',
+                function(gltf) {
+                    // 模型加载成功
+                    const model = gltf.scene;
+                    model.scale.set(10, 10, 10);
+                    model.position.y = 0;
+                    model.rotation.y = Math.PI;
+                    scene.add(model);
+                    
+                    // 隐藏加载界面
+                    loadingOverlay.style.display = 'none';
+                },
+                function(xhr) {
+                    // 加载进度
+                    const percent = (xhr.loaded / xhr.total) * 100;
+                    loadingOverlay.innerHTML = `<div>加载3D模型中... ${percent.toFixed(0)}%</div>`;
+                },
+            );
+            
+            // 视角切换功能
+            const viewButtons = document.querySelectorAll('.view-btn');
+            const viewPresets = {
+                'front': { position: { x: 0, y: 3, z: 15 }, target: { x: 0, y: 0, z: 0 } },
+                'side': { position: { x: 15, y: 5, z: 0 }, target: { x: 0, y: 0, z: 0 } },
+                'top': { position: { x: 0, y: 20, z: 0 }, target: { x: 0, y: 0, z: 0 } },
+                'perspective': { position: { x: 10, y: 8, z: 10 }, target: { x: 0, y: 1, z: 0 } },
+                'detail': { position: { x: 5, y: 2, z: 8 }, target: { x: 2, y: 1, z: 0 } }
+            };
+            
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 更新按钮状态
+                    viewButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 获取视角预设
+                    const viewType = this.getAttribute('data-view');
+                    const preset = viewPresets[viewType];
+                    
+                    if (preset) {
+                        // 使用Tween.js实现平滑过渡（这里使用简单线性插值）
+                        const startPosition = camera.position.clone();
+                        const endPosition = new THREE.Vector3(
+                            preset.position.x, 
+                            preset.position.y, 
+                            preset.position.z
+                        );
+                        
+                        const startTarget = controls.target.clone();
+                        const endTarget = new THREE.Vector3(
+                            preset.target.x, 
+                            preset.target.y, 
+                            preset.target.z
+                        );
+                        
+                        const duration = 1000; // 1秒
+                        const startTime = Date.now();
+                        
+                        function animateCamera() {
+                            const currentTime = Date.now();
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            
+                            // 使用缓动函数
+                            const easeProgress = progress < 0.5 
+                                ? 2 * progress * progress 
+                                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                            
+                            // 插值计算
+                            camera.position.lerpVectors(startPosition, endPosition, easeProgress);
+                            controls.target.lerpVectors(startTarget, endTarget, easeProgress);
+                            controls.update();
+                            
+                            if (progress < 1) {
+                                requestAnimationFrame(animateCamera);
+                            }
+                        }
+                        
+                        animateCamera();
+                    }
+                });
+            });
+            
+            // 测量点点击事件
+            const measurePoint = document.getElementById('measure-point');
+            if (measurePoint) {
+                measurePoint.addEventListener('click', function() {
+                    // 创建信息弹窗
+                    const infoDiv = document.createElement('div');
+                    infoDiv.innerHTML = `
+                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center;">
+                            <div style="background:white; padding:30px; border-radius:12px; max-width:500px; width:90%;">
+                                <h3 style="color:#2c3e50; margin-bottom:15px;">赵州桥尺寸信息</h3>
+                                <ul style="list-style:none; padding:0;">
+                                    <li style="padding:8px 0; border-bottom:1px solid #eee;">
+                                        <strong>全长：</strong>50.82米
+                                    </li>
+                                    <li style="padding:8px 0; border-bottom:1px solid #eee;">
+                                        <strong>主拱跨度：</strong>37.02米
+                                    </li>
+                                    <li style="padding:8px 0; border-bottom:1px solid #eee;">
+                                        <strong>桥面宽度：</strong>9.6米
+                                    </li>
+                                    <li style="padding:8px 0; border-bottom:1px solid #eee;">
+                                        <strong>拱矢高度：</strong>7.23米
+                                    </li>
+                                    <li style="padding:8px 0;">
+                                        <strong>建造年代：</strong>公元595年－605年（隋朝）
+                                    </li>
+                                </ul>
+                                <button id="close-info" style="margin-top:20px; padding:10px 20px; background:#3498db; color:white; border:none; border-radius:4px; cursor:pointer; font-size:1rem;">关闭</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(infoDiv);
+                    
+                    // 添加关闭事件
+                    document.getElementById('close-info').addEventListener('click', function() {
+                        document.body.removeChild(infoDiv);
+                    });
+                    
+                    // 点击背景也可以关闭
+                    infoDiv.addEventListener('click', function(e) {
+                        if (e.target === infoDiv) {
+                            document.body.removeChild(infoDiv);
+                        }
+                    });
+                });
+            }
+            
+            // 动画循环
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            // 窗口大小调整
+            window.addEventListener('resize', function() {
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+                
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                
+                renderer.setSize(width, height);
+            });
+        }
+
+        // 初始化所有图表和3D模型
         document.addEventListener('DOMContentLoaded', function() {
             // 检查ECharts是否加载
             if (typeof echarts === 'undefined') {
@@ -643,9 +1019,19 @@
             try {
                 initStructureAdvantageChart();
                 initChineseBridgesChart();
-                console.log('所有图表初始化成功！');
+                
+                // 初始化3D模型
+                if (typeof THREE !== 'undefined') {
+                    init3DModel();
+                } else {
+                    console.error('Three.js未正确加载！');
+                    document.getElementById('loading-overlay').innerHTML = 
+                        '<div>Three.js库加载失败，请检查网络连接</div>';
+                }
+                
+                console.log('所有图表和3D模型初始化成功！');
             } catch (error) {
-                console.error('图表初始化失败:', error);
+                console.error('初始化失败:', error);
             }
         });
     </script>
