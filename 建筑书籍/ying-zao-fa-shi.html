@@ -102,6 +102,92 @@
             justify-content: center;
         }
         
+
+        .bilibili-video-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #00A1D6 0%, #0088b3 100%);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 161, 214, 0.3);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .bilibili-video-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0088b3 0%, #006699 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .bilibili-video-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 161, 214, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .bilibili-video-btn:hover::before {
+            opacity: 1;
+        }
+
+        .bilibili-video-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 15px rgba(0, 161, 214, 0.4);
+        }
+
+        .bilibili-video-btn .play-icon {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .bilibili-video-btn:hover .play-icon {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .bilibili-video-btn .btn-text {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .bilibili-video-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+    
+            .bilibili-video-btn .play-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1.2rem;
+            }
+        }
+                
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -523,10 +609,17 @@
                 font-size: 1.8rem;
             }
             
-            .hero-buttons {
-                flex-direction: column;
+            .bilibili-video-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
             }
-            
+    
+            .bilibili-video-btn .play-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1.2rem;
+            }
+
             .btn {
                 width: 100%;
                 text-align: center;
@@ -560,35 +653,37 @@
         }
     </style>
 </head>
-<body>
-    <!-- 导航栏 -->
-    <header class="main-header">
-        <nav class="main-nav">
-            <a href="#" class="nav-logo">筑迹经纬</a>
-            <div class="nav-links">
-                <a href="../pages/dimensions/timeline.html">时间维度</a>
-                <a href="../pages/dimensions/architects.html">建筑名家</a>
-                <a href="architecture-books.html"  style="background: rgba(255,255,255,0.2);">建筑书籍</a>
-            </div>
-        </nav>
-    </header>
+    <body>
+        <!-- 导航栏 -->
+        <header class="main-header">
+            <nav class="main-nav">
+                <a href="../index.html" class="nav-logo">筑迹经纬</a>
+                <div class="nav-links">
+                    <a href="../pages/dimensions/timeline.html">时间维度</a>
+                    <a href="../pages/dimensions/architects.html">建筑名家</a>
+                    <a href="architecture-books.html"  style="background: rgba(255,255,255,0.2);">建筑书籍</a>
+                </div>
+            </nav>
+        </header>
 
-    <!-- 英雄区域 -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1 class="achievement-title">《营造法式》</h1>
-            <p class="achievement-subtitle">公元1103年，北宋朝廷颁布了这部旷世奇书。它不仅仅是一本古籍，更是一套让复杂木构建筑得以标准化设计、精准化施工、可控化管理的完整体系。它定义了东方建筑的"语法"，紫禁城的辉煌、应县木塔的奇迹，皆源出于此。</p>
-            
+        <!-- 英雄区域 -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="achievement-title">《营造法式》</h1>
+                <p class="achievement-subtitle">公元1103年，北宋朝廷颁布了这部旷世奇书。它不仅仅是一本古籍，更是一套让复杂木构建筑得以标准化设计、精准化施工、可控化管理的完整体系。它定义了东方建筑的"语法"，紫禁城的辉煌、应县木塔的奇迹，皆源出于此。</p>
+        
             <div class="hero-buttons">
-                <a href="https://www.bilibili.com/video/BV12K411J7Ds/?spm_id_from=333.337.search-card.all.click&vd_source=e08b58192768760d854e35203ab2b0af" target="_blank" class="btn btn-outline" rel="noopener noreferrer">观看解读视频</a>
-</div>
-
-            </div>
+                <a href="https://www.bilibili.com/video/BV12K411J7Ds/" target="_blank" class="bilibili-video-btn" rel="noopener noreferrer">
+                <span class="play-icon">▶</span>
+                <span class="btn-text">观看B站深度解读</span>
+            </a>
         </div>
+    </div>
+    
         <div class="hero-image">
             <img src="../建筑书籍/assets/images/yi-zao-fa-shi.jpg" alt="《营造法式》古籍与建筑对照">
-            <div class="image-caption"></div>
-        </div>
+        <div class="image-caption"></div>
+    </div>
     </section>
 
     <!-- 基本信息卡区域 -->

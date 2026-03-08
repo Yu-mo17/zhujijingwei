@@ -123,6 +123,42 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
+        .video-link-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .bilibili-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #00A1D6; /* B站主题色 */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 161, 214, 0.3);
+            border: 2px solid transparent;
+        }
+        
+        .bilibili-btn:hover {
+            background: #0088b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 161, 214, 0.4);
+            border-color: white;
+        }
+        
+        .bilibili-btn:active {
+            transform: translateY(0);
+        }
+        
+        .bilibili-icon {
+            font-size: 1.2rem;
+        }
+
         /* 图表区域 */
         .chart-section {
             max-width: 1200px;
@@ -570,6 +606,12 @@
             .info-card {
                 width: 240px;
             }
+
+            .bilibili-btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+
         }
     </style>
 </head>
@@ -596,6 +638,14 @@
                 <span class="tag location">河北赵县洨河</span>
                 <span class="tag type">桥梁建筑</span>
                 <span class="tag architect">设计：<a href="../architects/li-chun.html">李春</a></span>
+            </div>
+            
+            <!-- 新增：B站视频按钮 -->
+            <div class="video-link-container">
+                <a href="https://www.bilibili.com/video/BV1GTSjB4E2Y" target="_blank" class="bilibili-btn">
+                    <span class="bilibili-icon">▶</span>
+                    <span class="btn-text">观看B站视频介绍</span>
+                </a>
             </div>
         </div>
         <div class="hero-image">
@@ -624,7 +674,7 @@
         </div>
     </section>
     
-    <!-- 新增：3D模型展示 -->
+    <!-- 3D模型展示 -->
     <section class="three-d-section">
         <h2 class="section-title">赵州桥三维结构展示</h2>
         <p class="section-subtitle">交互式3D模型，可多角度观察桥梁结构细节</p>
@@ -687,7 +737,7 @@
             <div id="chinese-bridges-chart" class="chart"></div>
         </div>
     </section>
-
+    
     <!-- 文化传承 -->
     <section class="culture-section">
         <h2 class="section-title">文化传承与典故</h2>
