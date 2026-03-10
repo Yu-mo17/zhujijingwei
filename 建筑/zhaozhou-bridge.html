@@ -242,6 +242,16 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
+        /* 新增：石板模型展示区域 */
+        .stone-model-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
         .view-controls {
             display: flex;
             flex-wrap: wrap;
@@ -296,7 +306,7 @@
             margin-top: 20px;
         }
         
-        #bridge-3d-canvas {
+        #bridge-3d-canvas, #stone-model-canvas {
             width: 100%;
             height: 100%;
             display: block;
@@ -719,6 +729,49 @@
         </div>
     </section>
 
+    <!-- 新增：石板模型展示 -->
+    <section class="stone-model-section">
+        <h2 class="section-title">赵州桥石板雕刻纹样展示</h2>
+        <p class="section-subtitle">石板模型三维展示，可观察石板上雕刻的精细纹样</p>
+        
+        <div class="view-controls">
+            <button class="view-btn active" data-view="front" data-model="stone">正面视角</button>
+            <button class="view-btn" data-view="detail" data-model="stone">细节特写</button>
+            <button class="view-btn" data-view="reset" data-model="stone">重置视角</button>
+        </div>
+        
+        <div class="model-info">
+            赵州桥石板雕刻包含龙纹、云纹、花草纹等传统纹样，体现了隋唐时期的艺术风格。采用高浮雕、浅刻相结合，线条遒劲流畅，展现隋代石雕的质朴与力度。
+        </div>
+        
+        <div class="model-container">
+            <div class="loading-overlay" id="stone-loading-overlay">
+                <div class="loading-spinner"></div>
+                <div>加载石板3D模型中...</div>
+            </div>
+            <canvas id="stone-model-canvas"></canvas>
+            
+            <!-- 石板模型触发按钮 - 将在这里动态创建 -->
+            <div id="stone-trigger-buttons-container"></div>
+            
+            <!-- 石板模型信息卡片 -->
+            <div class="info-card" id="stone-info-card">
+                <div class="info-card-header">
+                    <h3 id="stone-card-title">石板纹样信息</h3>
+                    <button class="close-btn" id="stone-close-card">&times;</button>
+                </div>
+                <div class="info-card-body">
+                    <p id="stone-card-content">这里显示石板纹样信息内容...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="model-info">
+            <p>提示：点击并拖动可旋转模型，使用鼠标滚轮可缩放，点击上方按钮可切换预设视角。</p>
+            <p>点击<span style="color:#e74c3c;font-weight:bold;">红色数字按钮</span>可查看石板各部位纹样详细信息</p>
+        </div>
+    </section>
+
     <!-- 可视化 -->
     <!-- 建筑结构性能优势对比 -->
     <section class="chart-section">
@@ -984,7 +1037,7 @@
             });
         }
 
-        // 3D模型展示功能
+        // 3D模型展示功能 - 赵州桥模型
         function init3DModel() {
             const canvas = document.getElementById('bridge-3d-canvas');
             if (!canvas) return;
@@ -1051,12 +1104,12 @@
             
             // 触发按钮数据 - 为每个按钮添加视角可见性配置
             const triggerPoints = [
-                { id: 1, title: '全长信息', position: { x: 0, y: 7.0, z: 0 }, visibleIn: ['front', 'top'] },
-                { id: 2, title: '主拱跨度', position: { x: -2, y: 3.9, z: 0 }, visibleIn: ['front'] },
+                { id: 1, title: '全长信息', position: { x: 0, y: 7.0, z: 0 }, visibleIn: ['front', 'top','reset'] },
+                { id: 2, title: '主拱跨度', position: { x: -2, y: 3.9, z: 0 }, visibleIn: ['front','reset'] },
                 { id: 3, title: '桥面宽度', position: { x: 5.8, y: 4.3, z: 0 }, visibleIn: ['side', 'top'] },
-                { id: 4, title: '敞肩拱', position: { x: 7.3, y: 2.3, z: 1.0 }, visibleIn: ['front'] },
-                { id: 5, title: '桥墩结构', position: { x: 11, y: 1, z: 0 }, visibleIn: ['front'] },
-                { id: 6, title: '栏杆装饰', position: { x: 5, y: 5.5, z: 2.5 }, visibleIn: ['front', 'top'] }
+                { id: 4, title: '敞肩拱', position: { x: 7.3, y: 2.3, z: 1.0 }, visibleIn: ['front','reset'] },
+                { id: 5, title: '桥墩结构', position: { x: 11, y: 1, z: 0 }, visibleIn: ['front','reset'] },
+                { id: 6, title: '栏杆装饰', position: { x: 5, y: 5.5, z: 2.5 }, visibleIn: ['front', 'top','reset'] }
             ];
             
             // 存储模型和触发按钮的映射
@@ -1337,7 +1390,7 @@
             );
             
             // 视角切换功能
-            const viewButtons = document.querySelectorAll('.view-btn');
+            const viewButtons = document.querySelectorAll('.three-d-section .view-btn');
             const viewPresets = {
                 'front': { position: { x: 0, y: 5, z: 20 }, target: { x: 0, y: 1, z: 0 } },
                 'side': { position: { x: 20, y: 8, z: 0 }, target: { x: 0, y: 2, z: 0 } },
@@ -1575,6 +1628,485 @@
             handleResize();
         }
 
+        // 石板3D模型展示功能
+        function initStoneModel() {
+            const canvas = document.getElementById('stone-model-canvas');
+            if (!canvas) return;
+            
+            // 创建Three.js场景
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf8f9fa);
+            
+            // 创建相机 - 调整相机位置使模型看起来更大
+            const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.set(0, 3, 8); // 调整相机位置，使石板模型看起来更大
+            
+            // 创建渲染器
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            
+            // 添加轨道控制器
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI; // 允许垂直旋转
+            controls.minDistance = 2;
+            controls.maxDistance = 20;
+            
+            // 添加更亮的光源
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            directionalLight.position.set(10, 15, 8);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+            
+            // 添加第二个光源
+            const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.6);
+            directionalLight2.position.set(-8, 10, -4);
+            scene.add(directionalLight2);
+            
+            // 添加点光源
+            const pointLight = new THREE.PointLight(0xffffff, 0.9, 100);
+            pointLight.position.set(0, 8, 4);
+            scene.add(pointLight);
+            
+            // 添加辅助网格
+            const gridHelper = new THREE.GridHelper(10, 10, 0xcccccc, 0xcccccc);
+            gridHelper.position.y = -1;
+            scene.add(gridHelper);
+            
+            // 加载石板3D模型
+            const loader = new THREE.GLTFLoader();
+            const loadingOverlay = document.getElementById('stone-loading-overlay');
+            
+            // 触发按钮容器
+            const triggerButtonsContainer = document.getElementById('stone-trigger-buttons-container');
+            
+            // 石板模型触发按钮数据 - 为每个按钮添加视角可见性配置
+            const stoneTriggerPoints = [
+                { id: 1, title: '龙纹图案', position: { x: -0.3, y: 2, z: 0 }, visibleIn: ['front', 'detail','reset'] },
+                { id: 2, title: '云纹装饰', position: { x: 1.2, y: 1, z: 0.5 }, visibleIn: ['front', 'detail','reset'] },
+            ];
+            
+            // 存储模型和触发按钮的映射
+            let stoneModelTriggerPoints = [];
+            
+            // 存储当前视角
+            let currentStoneView = 'front';
+            
+            // 创建触发按钮
+            function createStoneTriggerButtons() {
+                triggerButtonsContainer.innerHTML = '';
+                
+                stoneTriggerPoints.forEach(point => {
+                    const button = document.createElement('div');
+                    button.className = 'trigger-btn';
+                    button.id = `stone-trigger-${point.id}`;
+                    button.textContent = point.id;
+                    button.setAttribute('data-title', point.title);
+                    button.setAttribute('data-visible-in', point.visibleIn.join(','));
+                    
+                    // 初始可见性
+                    if (point.visibleIn.includes(currentStoneView)) {
+                        button.style.display = 'flex';
+                    } else {
+                        button.style.display = 'none';
+                    }
+                    
+                    triggerButtonsContainer.appendChild(button);
+                });
+            }
+            
+            // 更新触发按钮可见性
+            function updateStoneTriggerVisibility(viewType) {
+                currentStoneView = viewType;
+                
+                stoneTriggerPoints.forEach(point => {
+                    const button = document.getElementById(`stone-trigger-${point.id}`);
+                    if (button) {
+                        if (point.visibleIn.includes(viewType)) {
+                            button.style.display = 'flex';
+                        } else {
+                            button.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            
+            // 更新触发按钮位置
+            function updateStoneTriggerPositions() {
+                if (!stoneModelTriggerPoints.length) return;
+                
+                const canvasRect = canvas.getBoundingClientRect();
+                const containerRect = canvas.closest('.model-container').getBoundingClientRect();
+                
+                stoneModelTriggerPoints.forEach((point, index) => {
+                    const button = document.getElementById(`stone-trigger-${index + 1}`);
+                    if (!button) return;
+                    
+                    // 获取3D世界坐标
+                    const worldPosition = new THREE.Vector3();
+                    point.getWorldPosition(worldPosition);
+                    
+                    // 将3D坐标转换为屏幕坐标
+                    const vector = worldPosition.clone();
+                    vector.project(camera);
+                    
+                    // 转换为屏幕像素坐标
+                    const x = (vector.x + 1) / 2 * canvasRect.width;
+                    const y = (-vector.y + 1) / 2 * canvasRect.height;
+                    
+                    // 计算缩放因子（根据相机距离调整按钮大小）
+                    const distance = camera.position.distanceTo(worldPosition);
+                    const scaleFactor = Math.max(0.5, Math.min(2, 10 / distance));
+                    const buttonSize = 24 * scaleFactor;
+                    
+                    // 更新按钮位置和大小
+                    button.style.left = `${x}px`;
+                    button.style.top = `${y}px`;
+                    button.style.width = `${buttonSize}px`;
+                    button.style.height = `${buttonSize}px`;
+                    button.style.fontSize = `${0.8 * scaleFactor}rem`;
+                });
+            }
+            
+            // 创建石板模型
+            function createStoneModel() {
+                const stoneGroup = new THREE.Group();
+                
+                // 创建石板主体
+                const stoneGeometry = new THREE.BoxGeometry(4, 0.3, 2);
+                const stoneMaterial = new THREE.MeshPhongMaterial({ 
+                    color: 0x8B7355,
+                    shininess: 30,
+                    specular: 0x111111
+                });
+                const stone = new THREE.Mesh(stoneGeometry, stoneMaterial);
+                stone.position.y = 0.15;
+                stone.castShadow = true;
+                stone.receiveShadow = true;
+                stoneGroup.add(stone);
+                
+                return stoneGroup;
+            }
+            
+            // 为石板模型创建触发点
+            function createStoneTriggerPointsForModel(model) {
+                // 清除之前的触发点
+                stoneModelTriggerPoints.forEach(point => {
+                    scene.remove(point);
+                });
+                stoneModelTriggerPoints = [];
+                
+                // 为每个触发位置创建一个不可见的点
+                stoneTriggerPoints.forEach(point => {
+                    const geometry = new THREE.SphereGeometry(0.05, 8, 8);
+                    const material = new THREE.MeshBasicMaterial({ 
+                        color: 0xff0000,
+                        transparent: true,
+                        opacity: 0.0 // 完全透明，不可见
+                    });
+                    const triggerPoint = new THREE.Mesh(geometry, material);
+                    
+                    // 设置触发点位置
+                    triggerPoint.position.set(
+                        point.position.x,
+                        point.position.y,
+                        point.position.z
+                    );
+                    
+                    // 将触发点添加到场景中
+                    scene.add(triggerPoint);
+                    stoneModelTriggerPoints.push(triggerPoint);
+                });
+            }
+            
+            // 尝试加载石板模型
+            loader.load(
+                './assets/3D/zhaozhouqiaoshiban.glb',
+                function(gltf) {
+                    // 模型加载成功
+                    const model = gltf.scene;
+                    // 调整模型大小
+                    model.scale.set(5, 5, 5);
+                    model.position.y = 0;
+                    
+                    // 启用阴影
+                    model.traverse(function(child) {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+                    
+                    scene.add(model);
+                    
+                    // 为石板模型创建触发点
+                    createStoneTriggerPointsForModel(model);
+                    
+                    // 隐藏加载界面
+                    loadingOverlay.style.display = 'none';
+                    
+                    // 创建触发按钮
+                    createStoneTriggerButtons();
+                },
+                function(xhr) {
+                    // 加载进度
+                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                    loadingOverlay.innerHTML = `
+                        <div class="loading-spinner"></div>
+                        <div>加载石板3D模型中... ${percent}%</div>
+                    `;
+                },
+                function(error) {
+                    // 加载失败，创建自定义模型
+                    console.log('加载石板3D模型失败，创建自定义模型:', error);
+                    const stoneModel = createStoneModel();
+                    scene.add(stoneModel);
+                    
+                    // 为石板模型创建触发点
+                    createStoneTriggerPointsForModel(stoneModel);
+                    
+                    loadingOverlay.style.display = 'none';
+                    
+                    // 创建触发按钮
+                    createStoneTriggerButtons();
+                    
+                    // 更新信息提示
+                    const infoElement = document.querySelector('.stone-model-section .model-info:last-child p');
+                    infoElement.innerHTML = infoElement.innerHTML + 
+                        '<br><span style="color:#e67e22;">(注：当前显示为赵州桥石板简化模型)</span>';
+                }
+            );
+            
+            // 石板模型视角切换功能
+            const stoneViewButtons = document.querySelectorAll('.stone-model-section .view-btn');
+            const stoneViewPresets = {
+                'front': { position: { x: 0, y: 3, z: 8 }, target: { x: 0, y: 0.5, z: 0 } },
+                'detail': { position: { x: 2, y: 1, z: 3 }, target: { x: 0.5, y: 0.5, z: 0 } },
+                'reset': { position: { x: 0, y: 3, z: 8 }, target: { x: 0, y: 0.5, z: 0 } }
+            };
+            
+            stoneViewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 更新按钮状态
+                    stoneViewButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 获取视角预设
+                    const viewType = this.getAttribute('data-view');
+                    
+                    // 更新触发按钮可见性
+                    updateStoneTriggerVisibility(viewType);
+                    
+                    const preset = stoneViewPresets[viewType];
+                    
+                    if (preset) {
+                        // 平滑过渡到新视角
+                        const startPosition = camera.position.clone();
+                        const endPosition = new THREE.Vector3(
+                            preset.position.x, 
+                            preset.position.y, 
+                            preset.position.z
+                        );
+                        
+                        const startTarget = controls.target.clone();
+                        const endTarget = new THREE.Vector3(
+                            preset.target.x, 
+                            preset.target.y, 
+                            preset.target.z
+                        );
+                        
+                        const duration = 1000; // 1秒
+                        const startTime = Date.now();
+                        
+                        function animateCamera() {
+                            const currentTime = Date.now();
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            
+                            // 使用缓动函数
+                            const easeProgress = progress < 0.5 
+                                ? 2 * progress * progress 
+                                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                            
+                            // 插值计算
+                            camera.position.lerpVectors(startPosition, endPosition, easeProgress);
+                            controls.target.lerpVectors(startTarget, endTarget, easeProgress);
+                            controls.update();
+                            
+                            if (progress < 1) {
+                                requestAnimationFrame(animateCamera);
+                            }
+                        }
+                        
+                        animateCamera();
+                    }
+                });
+            });
+            
+// 石板模型信息卡片功能
+            const stoneInfoCard = document.getElementById('stone-info-card');
+            const stoneCardTitle = document.getElementById('stone-card-title');
+            const stoneCardContent = document.getElementById('stone-card-content');
+            const stoneCloseCardBtn = document.getElementById('stone-close-card');
+            
+            // 石板模型触发按钮数据
+            const stoneTriggerData = {
+                'stone-trigger-1': {
+                    title: '龙纹图案',
+                    content: '龙身蜿蜒曲折，龙鳞清晰可见。这种龙纹是隋唐时期典型的装饰图案，象征着皇权和吉祥。双龙穿绕石岩的图案，龙身蜿蜒交错，动态感强，象征镇水避灾',
+                },
+                'stone-trigger-2': {
+                    title: '云纹装饰',
+                    content: '云纹是中国传统装饰纹样中的重要元素，象征着祥瑞和美好。赵州桥石板上的云纹雕刻流畅自然，线条优美，体现了隋唐时期工匠的高超技艺。云纹常与龙纹、凤纹等组合使用，表达吉祥如意的寓意。',
+                },
+            };
+            
+            // 为每个石板模型触发按钮添加点击事件（使用事件委托）
+            triggerButtonsContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('trigger-btn') && e.target.id.startsWith('stone-trigger-')) {
+                    e.stopPropagation(); // 防止事件冒泡
+                    
+                    const triggerId = e.target.id;
+                    const data = stoneTriggerData[triggerId] || {
+                        title: '石板纹样信息',
+                        content: '这里显示石板纹样信息内容...',
+                    };
+                    
+                    // 更新卡片内容
+                    stoneCardTitle.textContent = data.title;
+                    stoneCardContent.textContent = data.content;
+                    
+                    // 移除之前可能存在的图片
+                    const existingImage = stoneInfoCard.querySelector('img');
+                    if (existingImage) {
+                        existingImage.remove();
+                    }
+                    
+                    // 移除之前可能存在的图片描述
+                    const existingCaption = stoneInfoCard.querySelector('.image-caption');
+                    if (existingCaption) {
+                        existingCaption.remove();
+                    }
+                    
+                    // 如果有图片数据，则创建图片
+                    if (data.image && data.image.src) {
+                        // 创建图片元素
+                        const img = document.createElement('img');
+                        img.src = data.image.src;
+                        img.alt = data.title;
+                        img.className = 'card-image';
+                        img.onerror = function() {
+                            // 图片加载失败时显示占位文本
+                            console.warn('图片加载失败:', data.image.src);
+                            this.style.display = 'none';
+                            const errorText = document.createElement('p');
+                            errorText.textContent = '图片加载失败';
+                            errorText.style.color = '#e74c3c';
+                            errorText.style.fontStyle = 'italic';
+                            errorText.style.textAlign = 'center';
+                            this.parentNode.insertBefore(errorText, this);
+                        };
+                        
+                        // 创建图片描述
+                        if (data.image.caption) {
+                            const caption = document.createElement('div');
+                            caption.className = 'image-caption';
+                            caption.textContent = data.image.caption;
+                            
+                            // 将图片和描述添加到卡片内容中
+                            stoneCardContent.parentNode.insertBefore(img, stoneCardContent.nextSibling);
+                            stoneCardContent.parentNode.insertBefore(caption, img.nextSibling);
+                        } else {
+                            // 只有图片没有描述
+                            stoneCardContent.parentNode.insertBefore(img, stoneCardContent.nextSibling);
+                        }
+                        
+                        // 更新卡片宽度以容纳图片
+                        stoneInfoCard.style.width = '300px';
+                    } else {
+                        stoneInfoCard.style.width = '280px';
+                    }
+                    
+                    // 计算卡片位置（在按钮右侧显示）
+                    const btnRect = e.target.getBoundingClientRect();
+                    const containerRect = canvas.closest('.model-container').getBoundingClientRect();
+                    
+                    let cardLeft = btnRect.left - containerRect.left + 30;
+                    let cardTop = btnRect.top - containerRect.top;
+                    
+                    // 确保卡片不会超出容器
+                    if (cardLeft + 300 > containerRect.width) {
+                        cardLeft = btnRect.left - containerRect.left - 300;
+                    }
+                    
+                    if (cardTop + 300 > containerRect.height) {
+                        cardTop = containerRect.height - 300;
+                    }
+                    
+                    // 设置卡片位置
+                    stoneInfoCard.style.left = `${cardLeft}px`;
+                    stoneInfoCard.style.top = `${cardTop}px`;
+                    
+                    // 显示卡片
+                    stoneInfoCard.classList.add('active');
+                }
+            });
+            
+            // 关闭石板模型信息卡片
+            stoneCloseCardBtn.addEventListener('click', function() {
+                stoneInfoCard.classList.remove('active');
+            });
+            
+            // 点击石板模型信息卡片外部关闭卡片
+            document.addEventListener('click', function(e) {
+                if (!stoneInfoCard.contains(e.target) && 
+                    !e.target.classList.contains('trigger-btn') && 
+                    !e.target.id.startsWith('stone-trigger-')) {
+                    stoneInfoCard.classList.remove('active');
+                }
+            });
+            
+            // 石板模型动画循环
+            function stoneAnimate() {
+                requestAnimationFrame(stoneAnimate);
+                controls.update();
+                renderer.render(scene, camera);
+                
+                // 更新触发按钮位置
+                updateStoneTriggerPositions();
+            }
+            stoneAnimate();
+            
+            // 石板模型窗口大小调整
+            function handleStoneResize() {
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+                
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                
+                renderer.setSize(width, height);
+            }
+            
+            window.addEventListener('resize', handleStoneResize);
+            
+            // 石板模型初始渲染
+            handleStoneResize();
+        }
+
         // 初始化所有图表和3D模型
         document.addEventListener('DOMContentLoaded', function() {
             // 检查ECharts是否加载
@@ -1591,6 +2123,7 @@
                 // 初始化3D模型
                 if (typeof THREE !== 'undefined') {
                     init3DModel();
+                    initStoneModel();
                 } else {
                     console.error('Three.js未正确加载！');
                     document.getElementById('loading-overlay').innerHTML = 

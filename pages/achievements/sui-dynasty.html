@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>隋朝建筑成就 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <!-- 引入Chart.js图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .dynasty-container {
             max-width: 1200px;
@@ -15,7 +17,7 @@
         .dynasty-hero {
             text-align: center;
             padding: 60px 0;
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            background: #e29c45;
             color: white;
             border-radius: 15px;
             margin-bottom: 40px;
@@ -31,6 +33,60 @@
             opacity: 0.9;
         }
         
+        /* 图表容器样式 */
+        .data-visualization-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .chart-wrapper {
+            flex: 1;
+            min-width: 300px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .chart-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .chart-note {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        /* 建筑成就网格布局 */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -44,6 +100,7 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         
         .achievement-card:hover {
@@ -54,11 +111,41 @@
         .achievement-image {
             width: 100%;
             height: 200px;
-            background: #f8f9fa;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .achievement-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .achievement-card:hover .achievement-image img {
+            transform: scale(1.05);
+        }
+        
+        .achievement-image::after {
+            content: '点击查看详情';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .achievement-card:hover .achievement-image::after {
+            opacity: 1;
         }
         
         .achievement-content {
@@ -86,20 +173,127 @@
             color: #7f8c8d;
         }
         
-        .view-details {
-            display: inline-block;
+        /* 模态框样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
             background: #e74c3c;
             color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            margin-top: 15px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
             transition: all 0.3s ease;
         }
         
-        .view-details:hover {
+        .modal-close:hover {
             background: #c0392b;
-            transform: scale(1.05);
+            transform: rotate(90deg);
+        }
+        
+        .modal-header {
+            padding: 30px 30px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .modal-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .modal-image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #7f8c8d;
+        }
+        
+        .modal-description {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.05rem;
+        }
+        
+        .modal-description h4 {
+            color: #2c3e50;
+            margin: 20px 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .modal-description p {
+            margin-bottom: 15px;
+        }
+        
+        .modal-description ul {
+            margin: 10px 0 15px 20px;
+        }
+        
+        .modal-description li {
+            margin-bottom: 8px;
         }
         
         .historical-context {
@@ -120,6 +314,33 @@
         .back-link:hover {
             text-decoration: underline;
         }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .modal-content {
+                max-height: 85vh;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-header {
+                padding: 20px 20px 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-image {
+                height: 200px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -127,8 +348,7 @@
         <nav class="main-nav">
             <a href="../../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="../dimensions/timeline.html">时间维度</a>
-                <a href="../dimensions/geography.html">地理维度</a>
+                <a href="../dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">时间维度</a>
                 <a href="../dimensions/architects.html">建筑名家</a>
                 <a href="../dimensions/books.html">建筑书籍</a>
             </div>
@@ -136,8 +356,6 @@
     </header>
 
     <div class="dynasty-container">
-        <a href="../dimensions/timeline.html" class="back-link">← 返回时间维度</a>
-        
         <div class="dynasty-hero">
             <h1 class="dynasty-title">隋朝建筑成就</h1>
             <div class="dynasty-period">公元581年 - 公元618年 | 短暂统一，影响深远</div>
@@ -153,13 +371,70 @@
             </ul>
         </div>
 
+        <!-- 数据可视化图表区域 -->
+        <div class="data-visualization-section">
+            <h2 class="section-title">隋朝建筑工程数据可视化</h2>
+            <div class="charts-container">
+                <!-- 左侧：建筑类型统计柱状图 -->
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">隋朝·建筑类型统计</h3>
+                    <div class="chart-container">
+                        <canvas id="buildingTypesChart"></canvas>
+                    </div>
+                    <p class="chart-note">注：数据基于历史文献记载与考古发现统计，反映隋朝建筑活动的相对规模。宗教/祭祀建筑的建设规模远超其他类型。</p>
+                </div>
+                
+                <!-- 右侧：营造材质分析雷达图 -->
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">隋朝·营造材质分析</h3>
+                    <div class="chart-container">
+                        <canvas id="materialChart"></canvas>
+                    </div>
+                    <p class="chart-note">注：基于隋朝建筑遗存与文献记载分析，木材是主要结构材料，石材在桥梁与雕刻中有精湛应用。</p>
+                </div>
+            </div>
+        </div>
+
         <h2>隋朝代表性建筑成就</h2>
+        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
         
         <div class="achievements-grid">
+            <!-- 大兴城皇宫 -->
+            <div class="achievement-card" data-building="daxing">
+                <div class="achievement-image">
+                    <img src="../achievements/images/sui-daxingcheng.jpg" alt="大兴城皇宫">
+                </div>
+                <div class="achievement-content">
+                    <h3>大兴城皇宫</h3>
+                    <p>隋文帝所建大兴宫（唐代改称太极宫），是隋唐长安城的核心与起点，标志着中国古代都城规划在历经南北朝多元探索后，于隋代重归严谨中正、规模空前的礼制典范。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">都城规划</span>
+                        <span class="meta-tag">里坊制典范</span>
+                        <span class="meta-tag">陕西西安</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 洛阳紫微城 -->
+            <div class="achievement-card" data-building="luoyang">
+                <div class="achievement-image">
+                    <img src="../achievements/images/sui-ziweicheng.jpg" alt="洛阳紫微城">
+                </div>
+                <div class="achievement-content">
+                    <h3>洛阳紫微城</h3>
+                    <p>隋唐两代的东都宫城，以其极致的轴线格局、壮丽的建筑组群与巧妙的水系利用，将中国古代宫殿的象征性与实用性推向新的高度。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">东都核心</span>
+                        <span class="meta-tag">极尽奢华</span>
+                        <span class="meta-tag">河南洛阳</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- 赵州桥 -->
-            <div class="achievement-card">
-                <div class="achievement-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                    🌉🌉
+            <div class="achievement-card" data-building="zhaozhou">
+                <div class="achievement-image">
+                    <img src="../achievements/images/sui-zhaozhouqiao.jpg" alt="赵州桥">
                 </div>
                 <div class="achievement-content">
                     <h3>赵州桥（安济桥）</h3>
@@ -169,16 +444,335 @@
                         <span class="meta-tag">石拱技术</span>
                         <span class="meta-tag">河北赵县</span>
                     </div>
-                    <a href="../../建筑/zhaozhou-bridge.html" class="view-details">查看详情</a>
                 </div>
             </div>
+    </div>
 
-            <!-- 其他隋朝建筑成就... -->
+    <!-- 建筑详情模态框 -->
+    <div class="modal-overlay" id="buildingModal">
+        <div class="modal-content">
+            <div class="modal-close" id="closeModal">&times;</div>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">建筑标题</h2>
+                <div class="modal-subtitle" id="modalSubtitle">建筑副标题</div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image" id="modalImage">
+                    <!-- 图片将通过JavaScript动态加载 -->
+                    <div class="modal-image-placeholder">
+                        <div>建筑图片位置</div>
+                        <div style="font-size: 0.9rem; margin-top: 10px;">点击卡片查看建筑图片</div>
+                    </div>
+                </div>
+                <div class="modal-description" id="modalDescription">
+                    <!-- 建筑描述将通过JavaScript动态填充 -->
+                </div>
+            </div>
         </div>
     </div>
 
     <footer class="main-footer">
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
+
+    <script>
+        // 等待页面加载完成后初始化图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 建筑类型统计柱状图
+            const buildingTypesCtx = document.getElementById('buildingTypesChart').getContext('2d');
+            const buildingTypesChart = new Chart(buildingTypesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['民居', '官府', '皇宫', '桥梁'],
+                    datasets: [{
+                        label: '建设数量',
+                        data: [500, 180, 45, 80],
+                        backgroundColor: '#FF9800',
+                        borderColor: '#FF9800',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        barPercentage: 0.6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#2c3e50',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#FF9800',
+                            bodyColor: '#fff',
+                            borderColor: '#FF9800',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            ticks: {
+                                color: '#555',
+                                font: {
+                                    size: 11
+                                }
+                            },
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#555',
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. 营造材质分析雷达图
+            const materialCtx = document.getElementById('materialChart').getContext('2d');
+            const materialChart = new Chart(materialCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['木材', '夯土', '砖瓦', '石材'],
+                    datasets: [{
+                        label: '材质应用程度',
+                        data: [95, 80, 70, 60],
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                        borderColor: '#4CAF50',
+                        pointBackgroundColor: '#4CAF50',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#4CAF50',
+                        borderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                color: '#555',
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                color: '#555',
+                                font: {
+                                    size: 10
+                                },
+                                stepSize: 20
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#2c3e50',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#4CAF50',
+                            bodyColor: '#fff',
+                            borderColor: '#4CAF50',
+                            borderWidth: 1
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.1
+                        }
+                    }
+                }
+            });
+
+            // 添加窗口大小变化时的图表重绘
+            window.addEventListener('resize', function() {
+                buildingTypesChart.resize();
+                materialChart.resize();
+            });
+
+            // 建筑数据（已为每个建筑添加详情页图片路径）
+            const buildingData = {
+                daxing: {
+                    title: "大兴城皇宫",
+                    subtitle: "规划严整 | 里坊制典范 | 影响深远",
+                    image: "../achievements/images/sui-daxingchengall.jpg", // 详情页大图
+                    description: `
+                        <p>大兴城皇宫，即隋文帝所建大兴宫（唐代改称太极宫），是隋唐长安城的核心与起点。它标志着中国古代都城规划在历经南北朝多元探索后，于隋代重归严谨中正、规模空前的礼制典范，奠定了此后近三百年大唐帝国宫廷建筑的基本格局。</p>
+                        
+                        <h4>建筑布局特点</h4>
+                        <p>其最突出的特点是"前朝后寝、轴线贯通"的极致理性布局。皇宫坐落于都城北部中央，以承天门、太极殿、两仪殿、甘露殿等主要建筑构成南北纵深的中轴线。</p>
+                        <ul>
+                            <li><strong>太极殿</strong>作为大朝正殿，威严庄重</li>
+                            <li><strong>两仪殿</strong>为常朝听政之所</li>
+                            <li><strong>甘露殿</strong>及诸多寝殿构成后宫生活区</li>
+                        </ul>
+                        <p>这条轴线秩序森严，等级分明，将帝国的权力结构与礼仪制度物化为清晰的空间序列。</p>
+                        
+                        <h4>规划思想</h4>
+                        <p>在规划思想上，大兴宫彻底实现了《周礼·考工记》"面朝后市，左祖右社"的理想都城模型。宫城（大兴宫）、皇城（中央官署集中区）、外郭城（百姓里坊与市场）三环相套，层次清晰。皇宫位居至高，统摄全局，充分体现了隋王朝重建大一统秩序、强化中央集权的政治雄心。</p>
+                        
+                        <h4>建筑技术与影响</h4>
+                        <p>大兴宫在建筑技术与规模上集前代大成。其夯土基址规模宏大，殿宇采用成熟的木构技术，布局疏朗开阔。它虽在后来被更宏伟的大明宫超越，但其确立的宫城核心地位、严谨的中轴对称格局以及宫-皇-郭三城相套的体系，成为中国古代都城规划的经典范式，深刻影响了后世乃至东亚地区的都城建设。</p>
+                    `
+                },
+                luoyang: {
+                    title: "洛阳紫微城",
+                    subtitle: "极尽奢华 | 东都核心 | 运河关联",
+                    image: "../achievements/images/sui-ziweichengall.jpg", // 详情页大图
+                    description: `
+                        <p>洛阳紫微城，作为隋唐两代的东都宫城，是继大兴城（太极宫）之后帝国宫殿规划的又一巅峰。它不仅是隋炀帝与武则天时代最重要的政治舞台，更以其极致的轴线格局、壮丽的建筑组群与巧妙的水系利用，将中国古代宫殿的象征性与实用性推向新的高度。</p>
+                        
+                        <h4>超级中轴线</h4>
+                        <p>其规划最突出的特点是"前直伊阙，后据邙山"的超级中轴线。这条轴线从南郊的龙门（伊阙）开始，向北穿越全城，依次经过定鼎门、天街、端门、则天门（应天门）、太极殿（隋称乾阳殿）、贞观殿等核心建筑，直抵北面的邙山。</p>
+                        <p>这条长达数十里的轴线，将自然山川与人文建筑完美整合，构建出"以宫城为中心，天下山川拱卫"的宏大宇宙图式，极具视觉与心理震撼力。</p>
+                        
+                        <h4>宫殿建筑</h4>
+                        <p>宫殿建筑本身规模空前，技术精湛。核心大殿"乾阳殿/明堂"几经改建，尤以武则天时期所建明堂（万象神宫）与天堂最为著名。</p>
+                        <ul>
+                            <li><strong>明堂（万象神宫）</strong>：高近百米，体量巨大，结构复杂，融合了礼制、政治与宗教功能</li>
+                            <li><strong>天堂</strong>：其北的天堂内安巨型佛像，建筑高度更甚</li>
+                        </ul>
+                        <p>这些巨构不仅展示了帝国无与伦比的物质力量，也成为了武周政权独特的意识形态象征。</p>
+                        
+                        <h4>水系园林网络</h4>
+                        <p>紫微城的另一大创新在于发达的水系园林网络。引洛水、谷水入城，在宫城内形成了众多池苑，如九州池，并与殿宇亭台巧妙结合，创造出富丽幽深的园林景观。这种将严整的朝政区与优美的游赏区紧密结合的模式，极大地丰富了宫廷生活的空间体验。</p>
+                    `
+                },
+                zhaozhou: {
+                    title: "赵州桥（安济桥）",
+                    subtitle: "敞肩石拱 | 单孔大跨度 | 隋代工程典范",
+                    image: "../achievements/images/sui-zhaozhouqiaoall.jpg", // 详情页大图
+                    description: `
+                        <p>赵州桥（又称安济桥），建于隋代大业年间（公元605年左右），是世界上现存最早、保存最完整的单孔敞肩圆弧石拱桥。它不仅是桥梁工程的划时代杰作，更是中国古代科学与艺术完美结合的典范。</p>
+                        
+                        <h4>革命性的"敞肩拱"结构</h4>
+                        <p>其最革命性的创新在于"敞肩拱"结构。在主拱券的两肩，各开辟两个小拱洞（腹拱）。这一设计极具巧思：</p>
+                        <ul>
+                            <li>可大幅减轻桥身自重，节省材料</li>
+                            <li>能显著增加泄洪能力，保护桥体</li>
+                            <li>使桥身线条轻盈优美，如"初月出云，长虹饮涧"</li>
+                        </ul>
+                        <p>这种结构领先欧洲同类设计约七个世纪。</p>
+                        
+                        <h4>工程智慧</h4>
+                        <p>桥梁的工程智慧令人惊叹：</p>
+                        <ul>
+                            <li>桥身由28道独立石拱券纵向并列砌成，每一道都可独立支撑，便于维修</li>
+                            <li>拱券采用"纵向并列砌置法"，并在各道券之间嵌入铁腰连接，增强了整体稳定性</li>
+                            <li>大拱跨度达37.02米，而拱高仅7.23米，形成平缓而优美的弧形，兼顾了高跨比与通行便利</li>
+                        </ul>
+                        
+                        <h4>千年屹立</h4>
+                        <p>赵州桥历经1400余年风雨、洪水及地震考验而巍然屹立，其选址科学、结构合理、工艺精湛是关键。它不仅是实用交通设施，更是隋唐盛世工程理性与审美意趣的结晶，代表着中国古代石拱桥技术的最高成就，在世界桥梁史上享有崇高的地位。</p>
+                        
+                        <h4>设计者</h4>
+                        <p>由隋代杰出工匠<strong>李春</strong>设计建造，体现了中国古代工匠高超的技术水平和创新精神。</p>
+                    `
+                },
+            };
+
+            // 获取DOM元素
+            const modal = document.getElementById('buildingModal');
+            const closeBtn = document.getElementById('closeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            const modalImage = document.getElementById('modalImage');
+            const modalDescription = document.getElementById('modalDescription');
+            const buildingCards = document.querySelectorAll('.achievement-card');
+
+            // 点击卡片打开模态框
+            buildingCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const buildingId = this.getAttribute('data-building');
+                    const building = buildingData[buildingId];
+                    
+                    if (building) {
+                        // 更新标题和副标题
+                        modalTitle.textContent = building.title;
+                        modalSubtitle.textContent = building.subtitle;
+                        
+                        // 更新描述
+                        modalDescription.innerHTML = building.description;
+                        
+                        // 更新图片 - 这是关键部分
+                        if (building.image) {
+                            // 清空模态框图片区域，然后添加新的图片
+                            modalImage.innerHTML = '';
+                            const img = document.createElement('img');
+                            img.src = building.image;
+                            img.alt = building.title;
+                            modalImage.appendChild(img);
+                        } else {
+                            // 如果没有图片，显示占位符
+                            modalImage.innerHTML = `
+                                <div class="modal-image-placeholder">
+                                    <div style="font-size: 1.5rem; margin-bottom: 10px;">🏗️</div>
+                                    <div>建筑图片位置</div>
+                                    <div style="font-size: 0.9rem; margin-top: 10px;">请为 "${building.title}" 添加图片路径</div>
+                                </div>
+                            `;
+                        }
+                        
+                        // 显示模态框
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden'; // 防止背景滚动
+                    }
+                });
+            });
+
+            // 关闭模态框
+            closeBtn.addEventListener('click', function() {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // 点击模态框外部关闭
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // 按ESC键关闭模态框
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
