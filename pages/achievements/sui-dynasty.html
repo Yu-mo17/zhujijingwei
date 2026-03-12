@@ -315,6 +315,15 @@
             text-decoration: underline;
         }
         
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+
         /* 响应式调整 */
         @media (max-width: 768px) {
             .modal-content {
@@ -446,7 +455,13 @@
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
+    </div> <!-- 关闭 dynasty-container 容器 -->
+
+    <!-- 页脚现在在容器外部，会撑满整行 -->
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
 
     <!-- 建筑详情模态框 -->
     <div class="modal-overlay" id="buildingModal">
@@ -470,10 +485,6 @@
             </div>
         </div>
     </div>
-
-    <footer class="main-footer">
-        <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
-    </footer>
 
     <script>
         // 等待页面加载完成后初始化图表

@@ -84,15 +84,14 @@ body {
     background: rgba(255,255,255,0.1);
 }
 
-/* 页脚 */
 .main-footer {
-    background: #34495e;
-    color: white;
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: auto;
-}
-
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+        
 /* 通用按钮样式 */
 .btn {
     display: inline-block;

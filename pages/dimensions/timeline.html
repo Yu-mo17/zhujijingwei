@@ -14,108 +14,297 @@
         
         .page-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
         
         .page-title {
             font-size: 2.5rem;
             color: #2c3e50;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         
         .page-subtitle {
             font-size: 1.2rem;
             color: #7f8c8d;
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
         }
         
-        .dynasty-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
+        /* 左右滚动朝代探索区域 */
+        .dynasty-explore-section {
+            margin: 40px 0 60px;
         }
         
-        .dynasty-card {
+        .dynasty-explore-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .dynasty-explore-title {
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+        
+        .dynasty-explore-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        
+        .dynasty-scroll-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .scroll-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .scroll-btn:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+        
+        .scroll-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* 新增：自动播放控制 */
+        .auto-play-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+        
+        .auto-play-toggle {
+            width: 40px;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        .auto-play-toggle.active {
+            background: #2ecc71;
+        }
+        
+        .auto-play-toggle::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+        
+        .auto-play-toggle.active::after {
+            transform: translateX(20px);
+        }
+        
+        .auto-play-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .dynasty-scroll-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            padding: 10px 0 20px;
+        }
+        
+        .dynasty-scroll-wrapper {
+            display: flex;
+            gap: 25px;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 10px 5px;
+        }
+        
+        .dynasty-scroll-card {
+            flex: 0 0 auto;
+            width: 280px;
             background: white;
             border-radius: 12px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
             border-left: 5px solid #3498db;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
         
-        .dynasty-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        /* 新增：卡片悬停效果增强 */
+        .dynasty-scroll-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--dynasty-color), var(--dynasty-color-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
         
-        .dynasty-card.sui-dynasty {
+        .dynasty-scroll-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .dynasty-scroll-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        /* 不同朝代的颜色变量 */
+        .dynasty-scroll-card.qin {
+            --dynasty-color: #8e44ad;
+            --dynasty-color-light: #9b59b6;
+            border-left-color: #8e44ad;
+        }
+        
+        .dynasty-scroll-card.han {
+            --dynasty-color: #3498db;
+            --dynasty-color-light: #5dade2;
+            border-left-color: #3498db;
+        }
+        
+        .dynasty-scroll-card.sui {
+            --dynasty-color: #e74c3c;
+            --dynasty-color-light: #ec7063;
             border-left-color: #e74c3c;
-            background: linear-gradient(135deg, #fff 0%, #ffecec 100%);
         }
         
-        .dynasty-period {
+        .dynasty-scroll-card.tang {
+            --dynasty-color: #f39c12;
+            --dynasty-color-light: #f5b041;
+            border-left-color: #f39c12;
+        }
+        
+        .dynasty-scroll-card.song {
+            --dynasty-color: #27ae60;
+            --dynasty-color-light: #2ecc71;
+            border-left-color: #27ae60;
+        }
+        
+        .dynasty-scroll-card.yuan {
+            --dynasty-color: #9b59b6;
+            --dynasty-color-light: #af7ac5;
+            border-left-color: #9b59b6;
+        }
+        
+        .dynasty-scroll-card.ming {
+            --dynasty-color: #d35400;
+            --dynasty-color-light: #e67e22;
+            border-left-color: #d35400;
+        }
+        
+        .dynasty-scroll-card.qing {
+            --dynasty-color: #7f8c8d;
+            --dynasty-color-light: #95a5a6;
+            border-left-color: #7f8c8d;
+        }
+        
+    
+        .dynasty-scroll-period {
             font-size: 0.9rem;
             color: #95a5a6;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
-        .dynasty-name {
-            font-size: 1.8rem;
+        .dynasty-scroll-name {
+            font-size: 1.6rem;
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-weight: 600;
         }
         
-        .dynasty-achievements {
-            margin: 20px 0;
+        .dynasty-scroll-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
         }
         
-        .achievement-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
+        .dynasty-scroll-achievements {
+            margin: 15px 0 20px;
         }
-        
-        .achievement-item:hover {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
-        
-        .achievement-item a {
-            text-decoration: none;
-            color: #3498db;
-            font-weight: 500;
-            display: block;
-        }
-        
-        .achievement-item a:hover {
-            color: #2980b9;
-        }
-        
-        .explore-btn {
+    
+        .dynasty-scroll-link {
             display: inline-block;
-            background: #3498db;
+            background: var(--dynasty-color);
             color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 8px 20px;
+            border-radius: 4px;
             text-decoration: none;
-            margin-top: 15px;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
         
-        .explore-btn:hover {
-            background: #2980b9;
-            transform: scale(1.05);
+        .dynasty-scroll-link:hover {
+            background: var(--dynasty-color-light);
+            transform: translateY(-2px);
         }
         
-        /* 时间轴样式开始 */
+        /* 滚动指示器 */
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator-dot.active {
+            background: #3498db;
+            transform: scale(1.2);
+        }
+        
+        .indicator-dot:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 新增：当前卡片指示器 */
+        .current-indicator {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-left: 15px;
+        }
+        
+        /* 时间轴样式 */
         .timeline-visual {
             background: white;
             padding: 40px;
@@ -186,7 +375,7 @@
             flex-direction: row-reverse;
         }
         
-        /* 节点内容 - 修复间距问题 */
+        /* 节点内容 */
         .timeline-content {
             width: 45%;
             background: white;
@@ -194,23 +383,20 @@
             padding: 25px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            /* 确保左右卡片有相同的边距 */
-            margin: 0 5%; /* 为左右卡片设置相同的边距 */
+            margin: 0 5%;
         }
         
-        /* 左侧卡片 - 右边框和右边距 */
         .timeline-item:nth-child(odd) .timeline-content {
             border-left: 4px solid #c19a6b;
             border-right: none;
             margin-left: 0;
-            margin-right: 5%; /* 左侧卡片有右边距 */
+            margin-right: 5%;
         }
         
-        /* 右侧卡片 - 左边框和左边距 */
         .timeline-item:nth-child(even) .timeline-content {
             border-right: 4px solid #c19a6b;
             border-left: none;
-            margin-left: 5%; /* 右侧卡片有左边距 */
+            margin-left: 5%;
             margin-right: 0;
         }
         
@@ -219,7 +405,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
         
-        /* 节点时间标记 - 调整字体大小和位置 */
+        /* 节点时间标记 */
         .timeline-time {
             width: 12%;
             text-align: center;
@@ -234,7 +420,7 @@
             padding: 10px 15px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.9rem; /* 减小字体大小 */
+            font-size: 0.9rem;
             display: inline-block;
             min-width: 100px;
             position: relative;
@@ -297,8 +483,6 @@
             background: #a87c4c;
         }
         
-        /* 移除图标相关的样式 */
-        
         /* 筛选器 */
         .filter-container {
             background: white;
@@ -335,8 +519,45 @@
             border-color: #c19a6b;
         }
         
-        /* 响应式设计 - 移动端调整 */
+        /* 新增：加载动画 */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 响应式设计 */
         @media (max-width: 768px) {
+            .dynasty-explore-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .dynasty-scroll-controls {
+                align-self: stretch;
+                justify-content: space-between;
+            }
+            
+            .dynasty-scroll-card {
+                width: 260px;
+            }
+            
             .timeline-line {
                 left: 20px;
             }
@@ -347,8 +568,8 @@
             
             .timeline-content {
                 width: calc(100% - 100px);
-                margin-left: 80px !important; /* 强制左侧对齐 */
-                margin-right: 0 !important; /* 移除右侧边距 */
+                margin-left: 80px !important;
+                margin-right: 0 !important;
             }
             
             .timeline-item:nth-child(odd) .timeline-content,
@@ -371,7 +592,6 @@
             }
         }
         
-        /* 小屏幕手机进一步调整 */
         @media (max-width: 480px) {
             .timeline-visual {
                 padding: 20px 15px;
@@ -405,8 +625,20 @@
             .timeline-title {
                 font-size: 1.4rem;
             }
+            
+            .dynasty-scroll-card {
+                width: 240px;
+                padding: 20px;
+            }
+            
+            .dynasty-scroll-name {
+                font-size: 1.4rem;
+            }
+            
+            .auto-play-control {
+                margin-left: 0;
+            }
         }
-        /* 时间轴样式结束 */
     </style>
 </head>
 <body>
@@ -425,6 +657,119 @@
         <div class="page-header">
             <h1 class="page-title">时间维度 · 历史建筑演变</h1>
             <p class="page-subtitle">从远古到明清，探索中国古代建筑的发展历程与技术突破</p>
+            
+        
+        <!-- 左右滚动的朝代探索区域 -->
+        <div class="dynasty-explore-section">
+            <div class="dynasty-explore-header">
+                <div>
+                    <h2 class="dynasty-explore-title">按朝代探索建筑成就</h2>
+                    <p class="dynasty-explore-subtitle">点击卡片探索各朝代代表性建筑，或使用左右按钮浏览</p>
+                </div>
+                <div class="dynasty-scroll-controls">
+                    <button class="scroll-btn scroll-left" aria-label="向左滚动">←</button>
+                    <div class="auto-play-control" id="auto-play-control">
+                        <div class="auto-play-toggle"></div>
+                        <span class="auto-play-label">自动播放</span>
+                    </div>
+                    <button class="scroll-btn scroll-right" aria-label="向右滚动">→</button>
+                </div>
+            </div>
+            
+            <div class="dynasty-scroll-container">
+                <div class="dynasty-scroll-wrapper" id="dynasty-scroll-wrapper">
+                    <!-- 秦朝卡片 -->
+                    <div class="dynasty-scroll-card qin" data-dynasty="qin">
+                        <div class="dynasty-scroll-period">公元前221年 - 公元前207年</div>
+                        <h3 class="dynasty-scroll-name">秦朝</h3>
+                        <p class="dynasty-scroll-description">中国第一个大一统王朝，在长城、宫殿、陵墓等建筑工程上取得巨大成就</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/qin-dynasty.html" class="dynasty-scroll-link">探索秦朝建筑</a>
+                    </div>
+                    
+                    <!-- 汉朝卡片 -->
+                    <div class="dynasty-scroll-card han" data-dynasty="han">
+                        <div class="dynasty-scroll-period">公元前202年 - 公元220年</div>
+                        <h3 class="dynasty-scroll-name">汉朝</h3>
+                        <p class="dynasty-scroll-description">中国建筑的奠基时期，木构架建筑体系基本形成，都城规划与宫殿建筑达到新高度</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/han-dynasty.html" class="dynasty-scroll-link">探索汉朝建筑</a>
+                    </div>
+                    
+                    <!-- 隋朝卡片 -->
+                    <div class="dynasty-scroll-card sui" data-dynasty="sui">
+                        <div class="dynasty-scroll-period">公元581年 - 公元618年</div>
+                        <h3 class="dynasty-scroll-name">隋朝</h3>
+                        <p class="dynasty-scroll-description">短暂而辉煌的统一王朝，在桥梁、城市规划等领域取得重大突破</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/sui-dynasty.html" class="dynasty-scroll-link">探索隋朝建筑</a>
+                    </div>
+                    
+                    <!-- 唐朝卡片 -->
+                    <div class="dynasty-scroll-card tang" data-dynasty="tang">
+                        <div class="dynasty-scroll-period">公元618年 - 公元907年</div>
+                        <h3 class="dynasty-scroll-name">唐朝</h3>
+                        <p class="dynasty-scroll-description">中国古代建筑的黄金时代，木构建筑技术达到巅峰，规模宏大，气势磅礴</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/tang-dynasty.html" class="dynasty-scroll-link">探索唐朝建筑</a>
+                    </div>
+                    
+                    <!-- 宋朝卡片 -->
+                    <div class="dynasty-scroll-card song" data-dynasty="song">
+                        <div class="dynasty-scroll-period">公元960年 - 公元1279年</div>
+                        <h3 class="dynasty-scroll-name">宋朝</h3>
+                        <p class="dynasty-scroll-description">建筑风格趋于精致典雅，木作技艺精湛，开启建筑模数化先河</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/song-dynasty.html" class="dynasty-scroll-link">探索宋朝建筑</a>
+                    </div>
+                    
+                    <!-- 元朝卡片 -->
+                    <div class="dynasty-scroll-card yuan" data-dynasty="yuan">
+                        <div class="dynasty-scroll-period">公元1271年 - 公元1368年</div>
+                        <h3 class="dynasty-scroll-name">元朝</h3>
+                        <p class="dynasty-scroll-description">多元文化融合，藏传佛教建筑与伊斯兰建筑风格传入，形成独特建筑特色</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/yuan-dynasty.html" class="dynasty-scroll-link">探索元朝建筑</a>
+                    </div>
+                    
+                    <!-- 明朝卡片 -->
+                    <div class="dynasty-scroll-card ming" data-dynasty="ming">
+                        <div class="dynasty-scroll-period">公元1368年 - 公元1644年</div>
+                        <h3 class="dynasty-scroll-name">明朝</h3>
+                        <p class="dynasty-scroll-description">中国建筑艺术集大成时期，紫禁城、明长城等成为世界建筑史上的瑰宝</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/ming-dynasty.html" class="dynasty-scroll-link">探索明朝建筑</a>
+                    </div>
+                    
+                    <!-- 清朝卡片 -->
+                    <div class="dynasty-scroll-card qing" data-dynasty="qing">
+                        <div class="dynasty-scroll-period">公元1644年 - 公元1912年</div>
+                        <h3 class="dynasty-scroll-name">清朝</h3>
+                        <p class="dynasty-scroll-description">古典建筑最后辉煌，皇家园林达到巅峰，中西建筑风格开始交流融合</p>
+                        <div class="dynasty-scroll-achievements">
+                        </div>
+                        <a href="../achievements/qing-dynasty.html" class="dynasty-scroll-link">探索清朝建筑</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator" id="scroll-indicator">
+                <!-- 动态生成指示点 -->
+                <div class="current-indicator" id="current-indicator">1/8</div>
+            </div>
+            
+            <!-- 加载动画 -->
+            <div class="loading-spinner" id="loading-spinner">
+                <div class="spinner"></div>
+                <p>加载更多朝代...</p>
+            </div>
         </div>
 
         <div class="timeline-visual">
@@ -435,7 +780,7 @@
             
             <!-- 筛选器 -->
             <div class="filter-container">
-                <h3 class="filter-title">筛选朝代</h3>
+                <h3 class="filter-title">筛选时间轴朝代</h3>
                 <div class="filter-tags" id="dynasty-filters">
                     <div class="filter-tag active" data-dynasty="all">全部</div>
                     <div class="filter-tag" data-dynasty="qin">秦朝</div>
@@ -590,7 +935,7 @@
                         <div class="timeline-content">
                             <span class="dynasty-tag">清朝</span>
                             <h3 class="timeline-title">圆明园（北京）</h3>
-                            <p class="timeline-description">清代皇家园林的巅峰之作，被誉为“万园之园”，融合中西建筑艺术，后遭劫掠毁坏，成为重要的历史遗址。</p>
+                            <p class="timeline-description">清代皇家园林的巅峰之作，被誉为"万园之园"，融合中西建筑艺术，后遭劫掠毁坏，成为重要的历史遗址。</p>
                             <div>
                                 <span class="achievement-tag">皇家园林</span>
                                 <span class="achievement-tag">中西合璧</span>
@@ -599,34 +944,14 @@
                             <a href="../../建筑/old-summer-palace.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
-
                 </div> 
             </div> 
         </div>
-
-        <h2 style="text-align: center; margin: 60px 0 30px; color: #2c3e50;">按朝代探索建筑成就</h2>
-        
-        <div class="dynasty-grid">
-            <!-- 隋朝时期 -->
-            <div class="dynasty-card sui-dynasty">
-                <div class="dynasty-period">公元581年 - 公元618年</div>
-                <h3 class="dynasty-name">隋朝时期</h3>
-                <p>短暂而辉煌的统一王朝，在桥梁、城市规划等领域取得重大突破</p>
-                <a href="../achievements/sui-dynasty.html" class="explore-btn">探索隋朝建筑</a>
-            </div>
-
-            <!-- 可以在此添加更多朝代卡片 -->
-             <div class="dynasty-card sui-dynasty">
-                <div class="dynasty-period">公元618年 - 公元907年</div>
-                <h3 class="dynasty-name">唐朝时期</h3>
-                <p>中国古代建筑的黄金时代，木构建筑技术达到巅峰</p>
-                <a href="../achievements/tang-dynasty.html" class="explore-btn">探索唐朝建筑</a>
-            </div>
-        </div>
     </div>
+</div>
 
     <footer class="main-footer">
-        <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
@@ -664,7 +989,6 @@
                     allItems.forEach(item => {
                         if (dynasty === 'all' || item.getAttribute('data-dynasty') === dynasty) {
                             item.style.display = 'flex';
-                            // 重新触发观察器
                             setTimeout(() => {
                                 observer.observe(item);
                             }, 100);
@@ -686,48 +1010,333 @@
                 });
             });
             
-            // 点击卡片跳转效果
-            const timelineLinks = document.querySelectorAll('.timeline-link');
-            timelineLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const href = this.getAttribute('href');
+            // 朝代快速导航
+            const quickNavItems = document.querySelectorAll('.quick-nav-item');
+            quickNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    quickNavItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
                     
-                    // 添加点击反馈
-                    this.style.transform = 'scale(0.95)';
-                    this.style.transition = 'transform 0.2s ease';
+                    const dynasty = this.getAttribute('data-dynasty');
                     
-                    // 延迟跳转，让动画完成
-                    setTimeout(() => {
-                        if (href !== '#') {
-                            // 这里可以添加页面过渡效果
-                            document.body.style.opacity = '0.8';
-                            document.body.style.transition = 'opacity 0.5s ease';
+                    if (dynasty === 'all') {
+                        // 滚动到顶部
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // 找到对应的筛选标签并点击
+                        const filterTag = document.querySelector(`.filter-tag[data-dynasty="${dynasty}"]`);
+                        if (filterTag) {
+                            filterTag.click();
                             
-                            setTimeout(() => {
-                                window.location.href = href;
-                            }, 500);
-                        } else {
-                            alert('详细页面正在开发中...');
-                            this.style.transform = '';
+                            // 滚动到时间轴
+                            document.querySelector('.timeline-visual').scrollIntoView({
+                                behavior: 'smooth'
+                            });
                         }
-                    }, 200);
+                    }
                 });
             });
             
-            // 卡片悬停效果
-            const timelineContents = document.querySelectorAll('.timeline-content');
-            timelineContents.forEach(content => {
-                content.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
+            // 朝代滚动卡片功能
+            const scrollWrapper = document.getElementById('dynasty-scroll-wrapper');
+            const scrollLeftBtn = document.querySelector('.scroll-left');
+            const scrollRightBtn = document.querySelector('.scroll-right');
+            const scrollIndicator = document.getElementById('scroll-indicator');
+            const currentIndicator = document.getElementById('current-indicator');
+            const autoPlayControl = document.getElementById('auto-play-control');
+            const autoPlayToggle = autoPlayControl.querySelector('.auto-play-toggle');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            
+            // 计算滚动参数
+            const cardWidth = 280;
+            const cardGap = 25;
+            const totalCards = document.querySelectorAll('.dynasty-scroll-card').length;
+            let currentPosition = 0;
+            let autoPlayInterval = null;
+            let isAutoPlaying = false;
+            let visibleCards = 0;
+            
+            // 更新可见卡片数量
+            function updateVisibleCards() {
+                const containerWidth = scrollWrapper.parentElement.offsetWidth;
+                visibleCards = Math.floor(containerWidth / (cardWidth + cardGap));
+                return Math.max(0, totalCards - visibleCards);
+            }
+            
+            // 创建滚动指示点
+            function createScrollIndicators() {
+                const totalScrollPositions = updateVisibleCards();
+                scrollIndicator.innerHTML = '';
+                
+                for (let i = 0; i <= totalScrollPositions; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'indicator-dot';
+                    if (i === 0) dot.classList.add('active');
+                    dot.addEventListener('click', () => {
+                        scrollToPosition(i);
+                        if (isAutoPlaying) {
+                            stopAutoPlay();
+                        }
+                    });
+                    scrollIndicator.appendChild(dot);
+                }
+                
+                // 添加当前指示器
+                const currentDiv = document.createElement('div');
+                currentDiv.className = 'current-indicator';
+                currentDiv.id = 'current-indicator';
+                currentDiv.textContent = `${currentPosition + 1}/${totalScrollPositions + 1}`;
+                scrollIndicator.appendChild(currentDiv);
+                
+                updateCurrentIndicator();
+            }
+            
+            // 滚动到指定位置
+            function scrollToPosition(position) {
+                const totalScrollPositions = updateVisibleCards();
+                if (position < 0 || position > totalScrollPositions) return;
+                
+                currentPosition = position;
+                const scrollAmount = position * (cardWidth + cardGap);
+                scrollWrapper.style.transform = `translateX(-${scrollAmount}px)`;
+                
+                // 更新按钮状态
+                updateButtonState();
+                
+                // 更新指示点状态
+                updateIndicators();
+                
+                // 更新当前指示器
+                updateCurrentIndicator();
+            }
+            
+            // 更新按钮状态
+            function updateButtonState() {
+                const totalScrollPositions = updateVisibleCards();
+                scrollLeftBtn.disabled = currentPosition === 0;
+                scrollRightBtn.disabled = currentPosition >= totalScrollPositions;
+            }
+            
+            // 更新指示点状态
+            function updateIndicators() {
+                const dots = document.querySelectorAll('.indicator-dot');
+                dots.forEach((dot, index) => {
+                    if (index === currentPosition) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 更新当前指示器
+            function updateCurrentIndicator() {
+                const totalScrollPositions = updateVisibleCards();
+                if (currentIndicator) {
+                    currentIndicator.textContent = `${currentPosition + 1}/${totalScrollPositions + 1}`;
+                }
+            }
+            
+            // 向左滚动
+            scrollLeftBtn.addEventListener('click', () => {
+                if (currentPosition > 0) {
+                    scrollToPosition(currentPosition - 1);
+                }
+                if (isAutoPlaying) {
+                    stopAutoPlay();
+                }
+            });
+            
+            // 向右滚动
+            scrollRightBtn.addEventListener('click', () => {
+                const totalScrollPositions = updateVisibleCards();
+                if (currentPosition < totalScrollPositions) {
+                    scrollToPosition(currentPosition + 1);
+                } else {
+                    // 如果已经到最后，可以添加加载更多功能
+                    loadMoreDynasties();
+                }
+                if (isAutoPlaying) {
+                    stopAutoPlay();
+                }
+            });
+            
+            // 自动播放功能
+            function startAutoPlay() {
+                if (autoPlayInterval) clearInterval(autoPlayInterval);
+                
+                autoPlayInterval = setInterval(() => {
+                    const totalScrollPositions = updateVisibleCards();
+                    if (currentPosition < totalScrollPositions) {
+                        scrollToPosition(currentPosition + 1);
+                    } else {
+                        scrollToPosition(0); // 回到开头
+                    }
+                }, 3000); // 3秒自动切换
+            }
+            
+            function stopAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+                isAutoPlaying = false;
+                autoPlayToggle.classList.remove('active');
+            }
+            
+            // 自动播放控制
+            autoPlayControl.addEventListener('click', function() {
+                isAutoPlaying = !isAutoPlaying;
+                
+                if (isAutoPlaying) {
+                    autoPlayToggle.classList.add('active');
+                    startAutoPlay();
+                } else {
+                    stopAutoPlay();
+                }
+            });
+            
+            // 模拟加载更多朝代
+            function loadMoreDynasties() {
+                loadingSpinner.style.display = 'block';
+                
+                // 模拟网络延迟
+                setTimeout(() => {
+                    // 这里可以添加实际加载更多卡片的逻辑
+                    // 例如从服务器获取更多朝代数据
+                    
+                    loadingSpinner.style.display = 'none';
+                    alert('更多朝代数据正在开发中，即将上线！');
+                }, 1500);
+            }
+            
+            // 键盘导航支持
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    scrollLeftBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    scrollRightBtn.click();
+                } else if (e.key === ' ' || e.key === 'Spacebar') {
+                    // 空格键切换自动播放
+                    autoPlayControl.click();
+                    e.preventDefault();
+                }
+            });
+            
+            // 添加鼠标滚轮支持
+            let isScrolling = false;
+            scrollWrapper.parentElement.addEventListener('wheel', (e) => {
+                if (isScrolling) return;
+                
+                e.preventDefault();
+                isScrolling = true;
+                
+                if (e.deltaY > 0) {
+                    scrollRightBtn.click();
+                } else {
+                    scrollLeftBtn.click();
+                }
+                
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 500);
+            });
+            
+            // 添加触摸滑动支持
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            scrollWrapper.parentElement.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            scrollWrapper.parentElement.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        scrollRightBtn.click();
+                    } else {
+                        scrollLeftBtn.click();
+                    }
+                }
+            }
+            
+            // 响应式调整
+            function handleResize() {
+                createScrollIndicators();
+                updateButtonState();
+                updateCurrentIndicator();
+            }
+            
+            // 监听窗口大小变化
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(handleResize, 250);
+            });
+            
+            // 点击朝代卡片时，自动筛选时间轴
+            const dynastyCards = document.querySelectorAll('.dynasty-scroll-card');
+            dynastyCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // 如果点击的是链接，不执行筛选
+                    if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
+                        return;
+                    }
+                    
+                    const dynasty = this.getAttribute('data-dynasty');
+                    
+                    // 找到对应的筛选标签并点击
+                    const filterTag = document.querySelector(`.filter-tag[data-dynasty="${dynasty}"]`);
+                    if (filterTag) {
+                        filterTag.click();
+                        
+                        // 更新快速导航
+                        quickNavItems.forEach(item => item.classList.remove('active'));
+                        const quickNav = document.querySelector(`.quick-nav-item[data-dynasty="${dynasty}"]`);
+                        if (quickNav) quickNav.classList.add('active');
+                        
+                        // 滚动到时间轴顶部
+                        document.querySelector('.timeline-visual').scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // 卡片悬停效果增强
+            dynastyCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
                 });
                 
-                content.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
+                card.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '';
                 });
             });
             
-            console.log('时间轴页面加载完成！');
+            // 初始化
+            createScrollIndicators();
+            updateButtonState();
+            
+            // 页面加载完成后3秒自动开始播放
+            setTimeout(() => {
+                if (!isAutoPlaying) {
+                    autoPlayControl.click();
+                }
+            }, 3000);
+            
+            console.log('增强版时间轴页面加载完成！');
         });
     </script>
 </body>
