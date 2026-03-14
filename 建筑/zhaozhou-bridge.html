@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>赵州桥 - 筑迹经纬</title>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <!-- 添加Three.js 3D库 -->
+    <!-- Three.js 3D库 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -232,7 +232,7 @@
             line-height: 1.6;
         }
         
-        /* 新增：3D展示区域 */
+        /* 3D展示区域 */
         .three-d-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -242,7 +242,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        /* 新增：石板模型展示区域 */
+        /* 石板模型展示区域 */
         .stone-model-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -631,9 +631,10 @@
         <nav class="main-nav">
             <a href="../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="../pages/dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">时间维度</a>
-                <a href="../pages/dimensions/architects.html">建筑名家</a>
-                <a href="../pages/dimensions/books.html">建筑书籍</a>
+                <a href="../pages/dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">朝代建筑</a>
+                <a href="../pages/dimensions/architects.html">营造大师</a>
+                <a href="../pages/dimensions/books.html">营造经典</a>
+                <a href="../pages/dimensions/3d-reconstruction.html">三维营造</a>
             </div>
         </nav>
     </header>
@@ -650,7 +651,7 @@
                 <span class="tag architect">设计：<a href="../architects/li-chun.html">李春</a></span>
             </div>
             
-            <!-- 新增：B站视频按钮 -->
+            <!-- B站视频按钮 -->
             <div class="video-link-container">
                 <a href="https://www.bilibili.com/video/BV1GTSjB4E2Y" target="_blank" class="bilibili-btn">
                     <span class="bilibili-icon">▶</span>
@@ -708,7 +709,7 @@
             </div>
             <canvas id="bridge-3d-canvas"></canvas>
             
-            <!-- 触发按钮 - 将在这里动态创建 -->
+            <!-- 触发按钮 -->
             <div id="trigger-buttons-container"></div>
             
             <!-- 信息卡片 -->
@@ -729,7 +730,7 @@
         </div>
     </section>
 
-    <!-- 新增：石板模型展示 -->
+    <!-- 石板模型展示 -->
     <section class="stone-model-section">
         <h2 class="section-title">赵州桥石板雕刻纹样展示</h2>
         <p class="section-subtitle">石板模型三维展示，可观察石板上雕刻的精细纹样</p>
@@ -782,15 +783,6 @@
         </div>
     </section>
 
-    <!-- 中国古桥杰出代表对比 -->
-    <section class="chart-section">
-        <h2 class="section-title">中国古桥杰出代表对比</h2>
-        <p class="section-subtitle">将赵州桥置于中国古桥体系中，凸显其独特的结构创新性</p>
-        <div class="chart-container">
-            <div id="chinese-bridges-chart" class="chart"></div>
-        </div>
-    </section>
-    
     <!-- 文化传承 -->
     <section class="culture-section">
         <h2 class="section-title">文化传承与典故</h2>
@@ -932,110 +924,6 @@
             window.addEventListener('resize', () => chart.resize());
         }
 
-        // 方案二：中国古桥杰出代表对比
-        function initChineseBridgesChart() {
-            const chartDom = document.getElementById('chinese-bridges-chart');
-            if (!chartDom) return;
-            
-            const chart = echarts.init(chartDom);
-            
-            const option = {
-                // 删除这里的title，只使用HTML中的标题
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    },
-                    formatter: function(params) {
-                        return `<strong>${params[0].name}</strong><br/>建造年份: ${params[0].value}年`;
-                    }
-                },
-                grid: {
-                    left: 120,  // 增加左边距，确保Y轴标签完全显示
-                    right: 40,   // 适当减小右边距
-                    bottom: 30,
-                    top: 30,     // 降低顶部空间
-                    containLabel: false
-                },
-                xAxis: {
-                    type: 'value',
-                    name: '公元年份',
-                    min: 0,  // 从0开始，让柱子贴边
-                    max: 1300,
-                    axisLabel: {
-                        fontSize: 12
-                    },
-                    axisLine: {
-                        show: true
-                    }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: ['广济桥', '洛阳桥', '卢沟桥', '赵州桥'],
-                    axisLine: { 
-                        show: true,
-                        lineStyle: {
-                            color: '#666'
-                        }
-                    },
-                    axisTick: { 
-                        show: true,
-                        alignWithLabel: true
-                    },
-                    axisLabel: {
-                        fontSize: 12,
-                        margin: 8
-                    }
-                },
-                series: [{
-                    name: '建造年代',
-                    type: 'bar',
-                    data: [
-                        { 
-                            value: 1171, 
-                            itemStyle: { 
-                                color: '#95a5a6',
-                                borderRadius: [0, 4, 4, 0]
-                            } 
-                        },
-                        { 
-                            value: 1059, 
-                            itemStyle: { 
-                                color: '#95a5a6',
-                                borderRadius: [0, 4, 4, 0]
-                            } 
-                        },
-                        { 
-                            value: 1189, 
-                            itemStyle: { 
-                                color: '#95a5a6',
-                                borderRadius: [0, 4, 4, 0]
-                            } 
-                        },
-                        {
-                            value: 605,
-                            itemStyle: {
-                                color: '#e74c3c',
-                                borderRadius: [0, 4, 4, 0]
-                            }
-                        }
-                    ],
-                    barWidth: 20,  // 减小柱子宽度
-                    label: {
-                        show: true,
-                        position: 'right',
-                        formatter: '{c} 年',
-                        fontWeight: 'bold',
-                        fontSize: 12
-                    }
-                }]
-            };
-            
-            chart.setOption(option);
-            window.addEventListener('resize', function() {
-                chart.resize();
-            });
-        }
 
         // 3D模型展示功能 - 赵州桥模型
         function init3DModel() {
@@ -2118,7 +2006,6 @@
             // 初始化图表
             try {
                 initStructureAdvantageChart();
-                initChineseBridgesChart();
                 
                 // 初始化3D模型
                 if (typeof THREE !== 'undefined') {

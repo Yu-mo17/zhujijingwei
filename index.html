@@ -100,7 +100,7 @@
             line-height: 1.6;
         }
         
-        /* 三列布局的主内容区 */
+        /* 主内容区 */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -127,15 +127,15 @@
             background: #c19a6b;
         }
         
-        /* 三维度卡片布局 - 三列等宽 */
+        /* 四维度卡片布局 - 四列等宽 */
         .dimensions-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 30px;
             margin-bottom: 60px;
         }
         
         .dimension-card {
-            flex: 1;
             background: white;
             border-radius: 12px;
             padding: 40px 30px;
@@ -146,6 +146,7 @@
             border: 2px solid transparent;
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
         
         .dimension-card:hover {
@@ -167,14 +168,13 @@
             text-align: center;
         }
         
-        /* 卡片介绍文字左对齐并首行缩进 */
         .dimension-card p {
             color: #666;
             line-height: 1.7;
             margin-bottom: 20px;
             flex-grow: 1;
-            text-align: left; /* 左对齐 */
-            text-indent: 2em; /* 首行缩进2个字符 */
+            text-align: left;
+            text-indent: 2em; 
         }
         
         .card-hint {
@@ -186,7 +186,7 @@
             font-size: 0.9rem;
             font-weight: 600;
             margin-top: 10px;
-            align-self: center; /* 保持提示按钮居中 */
+            align-self: center; 
         }
         
         /* 快速访问区域 */
@@ -237,18 +237,9 @@
         }
         
         /* 响应式设计 */
-        @media (max-width: 992px) {
+        @media (max-width: 1200px) {
             .dimensions-container {
-                flex-wrap: wrap;
-            }
-            
-            .dimension-card {
-                flex: 0 0 calc(50% - 15px);
-            }
-            
-            .dimension-card:last-child {
-                flex: 0 0 100%;
-                margin-top: 20px;
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
@@ -266,12 +257,8 @@
             }
             
             .dimensions-container {
-                flex-direction: column;
-            }
-            
-            .dimension-card {
-                width: 100%;
-                margin-bottom: 20px;
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
             
             .section-title {
@@ -317,9 +304,10 @@
         <nav class="main-nav">
             <a href="index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="pages/dimensions/timeline.html">时间维度</a>
-                <a href="pages/dimensions/architects.html">建筑名家</a>
-                <a href="pages/dimensions/books.html">建筑书籍</a>
+                <a href="pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="pages/dimensions/architects.html">营造大师</a>
+                <a href="pages/dimensions/books.html">营造经典</a>
+                <a href="pages/dimensions/3d-reconstruction.html">三维营造</a>
             </div>
         </nav>
     </header>
@@ -334,27 +322,34 @@
     <main class="main-content">
         <h2 class="section-title">探索维度</h2>
         
-        <!-- 三维度卡片布局 - 三列等宽 -->
+        <!-- 四维度卡片布局 - 四列等宽 -->
         <div class="dimensions-container">
             <a href="pages/dimensions/timeline.html" class="dimension-card">
-                <span class="dimension-icon">⏳</span>
-                <h2>时间维度</h2>
-                <p>按历史朝代探索建筑演变脉络，从先秦到明清，见证建筑技术的传承与创新</p>
-                <div class="card-hint">进入时间轴</div>
+                <span class="dimension-icon">🏛️</span>
+                <h2>朝代建筑</h2>
+                <p>探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展。</p>
+                <div class="card-hint">探索演变</div>
             </a>
             
             <a href="pages/dimensions/architects.html" class="dimension-card">
                 <span class="dimension-icon">👨‍🔧</span>
-                <h2>建筑名家</h2>
-                <p>认识历代建筑巨匠，了解他们的设计理念、技术贡献与代表作品</p>
+                <h2>营造大师</h2>
+                <p>认识中国历代建筑巨匠，了解他们的生平事迹、设计理念、技术贡献与代表作品，学习建筑大师的智慧与创新精神。</p>
                 <div class="card-hint">了解大师</div>
             </a>
             
             <a href="pages/dimensions/books.html" class="dimension-card">
                 <span class="dimension-icon">📚</span>
-                <h2>建筑书籍</h2>
-                <p>研读经典建筑著作，从《营造法式》到《园冶》，深入理论体系</p>
+                <h2>营造经典</h2>
+                <p>研读中国古代建筑经典著作，从《营造法式》到《园冶》，深入理解建筑理论体系、营造技艺与美学思想。</p>
                 <div class="card-hint">阅读经典</div>
+            </a>
+            
+            <a href="pages/dimensions/3d-reconstruction.html" class="dimension-card">
+                <span class="dimension-icon">🏯</span>
+                <h2>三维营造</h2>
+                <p>通过3D模型与虚拟重建技术，直观探索中国古代建筑的结构细节、构造工艺与空间布局，体验身临其境的建筑探索。</p>
+                <div class="card-hint">三维探索</div>
             </a>
         </div>
 
@@ -363,6 +358,7 @@
             <h3>快速访问精选内容</h3>
             <div class="quick-links">
                 <a href="建筑/zhaozhou-bridge.html" class="quick-link">🌟 赵州桥 - 隋代桥梁杰作</a>
+                <a href="建筑/changcheng.html" class="quick-link">🏯 万里长城 - 三维结构探索</a>
                 <a href="建筑师/li-chun.html" class="quick-link">👨‍🔧 李春 - 赵州桥设计师</a>
                 <a href="pages/achievements/sui-dynasty.html" class="quick-link">⏳ 隋朝建筑成就专题</a>
             </div>
@@ -439,7 +435,6 @@
         </div>
     </div>
     
-    <!-- 引入AI助手脚本 -->
     <script src="assets/js/ai-assistant.js"></script>
 </body>
 </html>
