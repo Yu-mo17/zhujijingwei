@@ -266,48 +266,6 @@ blockquote footer {
     text-align: right;
 }
 
-/* 相关建筑师 */
-.related-architects {
-    margin: 60px 0;
-    padding: 40px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.architects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.architect-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 30px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.architect-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-
-.architect-card span {
-    display: block;
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.architect-card small {
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
 /* 响应式设计 */
 @media (max-width: 768px) {
     .architect-hero h1 {
@@ -327,8 +285,7 @@ blockquote footer {
     .biography,
     .engineering-philosophy,
     .major-works,
-    .historical-significance,
-    .related-architects {
+    .historical-significance{
         padding: 30px 20px;
     }
     
@@ -345,10 +302,6 @@ blockquote footer {
     }
     
     .works-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .architects-grid {
         grid-template-columns: 1fr;
     }
 }

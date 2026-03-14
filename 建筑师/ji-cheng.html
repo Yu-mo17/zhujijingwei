@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Font Awesome图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 新增：Chart.js库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
     <style>
         /* 基础样式 */
         * {
@@ -424,113 +426,6 @@
             background: #e8f4fc;
         }
         
-        /* 全球影响地图区域 */
-        .global-map-section {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        /* 地图容器样式 */
-        .map-container {
-            width: 100%;
-            max-width: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid #5f7f9f;
-            background: #0f1a24;
-            position: relative;
-            margin-top: 30px;
-        }
-        
-        #worldMap {
-            height: 500px;
-            width: 100%;
-            background-color: #11212e;
-        }
-        
-        /* 地图弹窗样式 */
-        .custom-popup .leaflet-popup-content-wrapper {
-            background: #fef7e8;
-            color: #2e3b4e;
-            border-radius: 20px;
-            border-left: 8px solid #b6854c;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            font-size: 15px;
-            line-height: 1.7;
-            padding: 0;
-            min-width: 320px;
-            max-width: 360px;
-        }
-        
-        .custom-popup .leaflet-popup-content {
-            margin: 30px 25px;
-            width: auto !important;
-        }
-        
-        .custom-popup .leaflet-popup-tip {
-            background: #fef7e8;
-            border-top: 2px solid #b6854c;
-            border-left: 2px solid #b6854c;
-            width: 20px;     
-            height: 20px;
-        }
-        
-        /* 卡片标题 */
-        .popup-title {
-            font-weight: 800;
-            font-size: 1.2rem;        
-            color: #9d5e2b;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            line-height: 1.4;
-            border-bottom: 2px dashed #cbb08a;
-            padding-bottom: 8px;
-        }
-        
-        /* 卡片正文 */
-        .popup-content {
-            color: #2e3b4e;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-        
-        .popup-content strong {
-            color: #9d5e2b;
-            font-weight: 700;
-            font-size: 0.95rem;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        
-        /* 列表项样式 */
-        .popup-list {
-            padding-left: 0;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
-        
-        .popup-list-item {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 12px;
-            line-height: 1.6;
-        }
-        
-        .popup-list-item:before {
-            content: "·";
-            color: #d9534f;
-            font-size: 1.5rem;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            top: -4px;
-        }
-        
         /* 引用区块 */
         .popup-quote {
             font-style: italic;
@@ -575,68 +470,7 @@
             box-shadow: 0 0 10px currentColor;
             transition: all 0.2s;
         }
-        
-        /* 当前打开的标记点样式 */
-        .active-marker .marker-dot-inner {
-            width: 24px;
-            height: 24px;
-            border-width: 3px;
-            box-shadow: 0 0 15px currentColor;
-        }
-        
-        /* 图例与说明 */
-        .map-legend {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: rgba(18, 30, 40, 0.85);
-            backdrop-filter: blur(8px);
-            color: #eae4d9;
-            padding: 12px 18px;
-            border-radius: 12px;
-            border: 1px solid #7d9bb6;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            pointer-events: none;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .legend-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            box-shadow: 0 0 0 2px rgba(255,255,200,0.3);
-        }
-        
-        .dot-origin { background: #c44c2b; }
-        .dot-history { background: #3a7ca5; }
-        .dot-modern { background: #4b8a5c; }
-        .dot-global { background: #b08f5c; }
-        
-        .map-footer {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.5);
-            color: #ddd;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            backdrop-filter: blur(4px);
-            border: 1px solid #7d9bb6;
-            letter-spacing: 0.5px;
-        }
-        
+
         /* 可视化 */
         .principles-section {
             max-width: 1200px;
@@ -683,85 +517,168 @@
             font-size: 1.2rem;
         }
         
-        .person-card {
+        /* 新增：计成思想传播可视化区域样式（适配融合1风格） */
+        .visualization-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .visualization-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        
+        .map-section, .timeline-section-viz {
             flex: 1;
-            min-width: 200px;
-            max-width: 250px;
-            background: #f8f9fa;
+            min-width: 320px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0e6ed;
+        }
+        
+        .section-header-viz {
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            color: white;
+            padding: 18px 25px;
+        }
+        
+        .section-header-viz h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .map-container-viz {
+            height: 500px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .timeline-container-viz {
             padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s;
+            height: 500px;
+            position: relative;
         }
         
-        .person-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            background: #e8f4fc;
+        .info-panel-viz {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e0e6ed;
         }
         
-        .person-name {
-            font-size: 1.1rem;
-            font-weight: 600;
+        .location-details-viz {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .location-details-viz h3 {
             color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-viz {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .legend-item-viz {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color-viz {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .legend-text-viz {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .stats-grid-viz {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-item-viz {
+            background-color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .stat-label-viz {
+            font-size: 0.9rem;
+            color: #5f6368;
             margin-bottom: 5px;
         }
         
-        .person-role {
-            font-size: 0.9rem;
-            color: #7f8c8d;
+        .stat-value-viz {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .influence-badge-viz {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .influence-high-viz {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .influence-medium-viz {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .influence-low-viz {
+            background-color: #ffebee;
+            color: #c62828;
         }
         
         /* 移动端适配 */
         @media (max-width: 768px) {
-            .map-container {
-                border-radius: 12px;
+            .visualization-container {
+                flex-direction: column;
             }
             
-            #worldMap {
+            .map-container-viz, .timeline-container-viz {
                 height: 400px;
-            }
-            
-            .custom-popup .leaflet-popup-content-wrapper {
-                min-width: 280px;
-                max-width: 320px;
-                font-size: 14px;
-            }
-            
-            .custom-popup .leaflet-popup-content {
-                margin: 20px 15px;
-            }
-            
-            .popup-title {
-                font-size: 1.1rem;
-                margin-bottom: 12px;
-                line-height: 1.3;
-            }
-            
-            .popup-list-item {
-                margin-bottom: 10px;
-                padding-left: 18px;
-            }
-            
-            .map-legend {
-                bottom: 10px;
-                left: 10px;
-                padding: 8px 12px;
-                gap: 10px;
-                font-size: 0.8rem;
-            }
-            
-            .map-footer {
-                bottom: 10px;
-                right: 10px;
-                font-size: 0.75rem;
-                padding: 4px 10px;
-            }
-            
-            .principle-card, .person-card {
-                min-width: 100%;
             }
         }
         
@@ -1058,7 +975,71 @@
         </div>
     </section>
 
-    <!-- 可视化 -->
+    <!-- 新增：计成思想传播可视化区域 -->
+    <section class="visualization-section">
+        <h2 class="section-title">计成思想全球传播可视化</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            探索《园冶》作者计成的造园思想在全球范围内的传播路径、时间线及影响程度
+        </p>
+        
+        <div class="legend-viz">
+            <div class="legend-item-viz">
+                <div class="legend-color-viz" style="background-color: #d32f2f;"></div>
+                <span class="legend-text-viz">起源地（苏州）</span>
+            </div>
+            <div class="legend-item-viz">
+                <div class="legend-color-viz" style="background-color: #1a73e8;"></div>
+                <span class="legend-text-viz">主要传播点</span>
+            </div>
+            <div class="legend-item-viz">
+                <div class="legend-color-viz" style="background-color: #34a853;"></div>
+                <span class="legend-text-viz">次要传播点</span>
+            </div>
+        </div>
+        
+        <div class="visualization-container">
+            <div class="map-section">
+                <div class="section-header-viz">
+                    <h2><i class="fas fa-map-marked-alt"></i> 全球传播地图</h2>
+                </div>
+                <div id="map" class="map-container-viz"></div>
+            </div>
+            
+            <div class="timeline-section-viz">
+                <div class="section-header-viz">
+                    <h2><i class="fas fa-chart-line"></i> 影响程度时间线</h2>
+                </div>
+                <div class="timeline-container-viz">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-panel-viz">
+            <h2><i class="fas fa-info-circle"></i> 传播地点详情</h2>
+            <p>点击地图上的标记点查看计成思想在该地区的传播详情</p>
+            <div id="locationDetails" class="location-details-viz">
+                <h3 id="locationTitle"><i class="fas fa-star"></i> 苏州（起源地）</h3>
+                <p id="locationInfo">计成出生于苏州府吴江县，其著作《园冶》在此完成。苏州园林是其实践其"巧于因借，精在体宜"思想的典范，影响了整个江南地区的园林艺术。</p>
+                <div class="stats-grid-viz">
+                    <div class="stat-item-viz">
+                        <div class="stat-label-viz">影响程度</div>
+                        <div class="stat-value-viz">10/10 <span class="influence-badge-viz influence-high-viz">极高</span></div>
+                    </div>
+                    <div class="stat-item-viz">
+                        <div class="stat-label-viz">主要传播时期</div>
+                        <div class="stat-value-viz">17世纪至今</div>
+                    </div>
+                    <div class="stat-item-viz">
+                        <div class="stat-label-viz">受影响的领域</div>
+                        <div class="stat-value-viz">园林设计、建筑、美学</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 《园冶》核心设计原则 -->
     <section class="principles-section">
         <h2 class="section-title">《园冶》核心设计原则</h2>
         <div class="principles-container">
@@ -1148,58 +1129,6 @@
         </table>
     </section>
 
-    <!-- 全球影响地图区域 -->
-    <section class="global-map-section">
-        <h2 class="section-title">《园冶》思想的全球传播与影响</h2>
-        <p style="text-align: center; color: #7f8c8d; margin-bottom: 20px; font-size: 1.1rem;">
-            探索计成《园冶》思想的全球传播路径，从思想发源地到全球影响
-        </p>
-        
-        <div class="map-container">
-            <div id="worldMap"></div>
-
-            <div class="map-legend">
-                <div class="legend-item"><span class="legend-dot dot-origin"></span> 思想发源地</div>
-                <div class="legend-item"><span class="legend-dot dot-history"></span> 历史影响区</div>
-                <div class="legend-item"><span class="legend-dot dot-modern"></span> 当代实践区</div>
-                <div class="legend-item"><span class="legend-dot dot-global"></span> 全球象征/竞赛</div>
-            </div>
-            <div class="map-footer">
-                <span>⚡ 虽由人作，宛自天开 · 计成《园冶》全球传播之路</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- 相关人物 -->
-    <section class="related-people">
-        <div class="people-container">
-            <a href="#" class="person-card">
-                <div class="person-name">文震亨</div>
-                <div class="person-role">《长物志》作者</div>
-            </a>
-            
-            <a href="#" class="person-card">
-                <div class="person-name">李渔</div>
-                <div class="person-role">《闲情偶寄》作者</div>
-            </a>
-            
-            <a href="../建筑师/li-chun.html" class="person-card">
-                <div class="person-name">李春</div>
-                <div class="person-role">赵州桥设计师</div>
-            </a>
-            
-            <a href="#" class="person-card">
-                <div class="person-name">童寯</div>
-                <div class="person-role">现代园林研究先驱</div>
-            </a>
-            
-            <a href="#" class="person-card">
-                <div class="person-name">陈从周</div>
-                <div class="person-role">古建筑园林专家</div>
-            </a>
-        </div>
-    </section>
-
     <!-- 结语区域 -->
     <section class="conclusion-section">
         <h2 class="section-title">历史评价与当代意义</h2>
@@ -1260,7 +1189,7 @@
             });
             
             // 卡片悬停效果
-            const cards = document.querySelectorAll('.card, .work-item, .principle-card, .person-card');
+            const cards = document.querySelectorAll('.card, .work-item, .principle-card ');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
@@ -1289,275 +1218,367 @@
                 });
             });
             
-            // 初始化全球影响地图
-            initGlobalMap();
             
             console.log('计成专题页加载完成！');
         });
 
-        // 全球影响地图初始化函数
-        function initGlobalMap() {
-            // 初始化地图
-            const map = L.map('worldMap', {
-                center: [30, 20],
-                zoom: 2.2,
-                zoomControl: true,
-                attributionControl: false
-            });
-
-            // 添加底图
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; OpenStreetMap, CartoDB'
-            }).addTo(map);
-
-            L.control.zoom({ position: 'topright' }).addTo(map);
-
-            // 存储当前打开的标记点和弹出窗口
-            let currentOpenPopup = null;
-            let currentOpenMarker = null;
-
-            // 定义标记点数据
-            const sites = [
+        // 计成思想传播可视化功能（融合2的完整功能）
+        // 高德地图瓦片服务（矢量地图）
+        const gaodeTileLayer = L.tileLayer('https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}', {
+            attribution: '&copy; <a href="https://www.amap.com/">高德地图</a>',
+            maxZoom: 19,
+            minZoom: 1
+        });
+        
+        // 计成思想传播数据
+        const spreadData = {
+            origin: {
+                name: "苏州",
+                coords: [31.2989, 120.5853],
+                info: "计成出生于苏州府吴江县，其著作《园冶》在此完成。苏州园林是其实践其'巧于因借，精在体宜'思想的典范，影响了整个江南地区的园林艺术。",
+                influence: 10,
+                year: 1631,
+                type: "origin"
+            },
+            majorPoints: [
                 {
-                    type: 'origin',
-                    lat: 31.5, lng: 119.9,
-                    color: '#c44c2b',
-                    title: '中国 · 江南',
-                    card: `
-                        <div class="popup-title">🏯 思想源头：计成与《园冶》</div>
-                        <div class="popup-content">
-                            <strong>📍 江苏苏州/常州</strong>
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">1634年，计成于此完成世界首部系统造园专著《园冶》。</li>
-                            <li class="popup-list-item">提出"虽由人作，宛自天开"的核心哲学。</li>
-                            <li class="popup-list-item">建立"巧于因借，精在体宜"的设计方法论。</li>
-                        </ul>
-                    `
+                    name: "北京",
+                    coords: [39.9042, 116.4074],
+                    info: "计成思想通过文人、官员传入北京，影响了清代皇家园林如颐和园、圆明园的设计。其'借景'手法在北京园林中得到广泛应用。",
+                    influence: 8,
+                    year: 1700,
+                    type: "major"
                 },
                 {
-                    type: 'history',
-                    lat: 35.68, lng: 139.76,
-                    color: '#3a7ca5',
-                    title: '日本 · 东京',
-                    card: `
-                        <div class="popup-title">🗾 东渡珍藏，尊为鼻祖</div>
-                        <div class="popup-content">
-                            <strong>📍 东京</strong>
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">《园冶》传入后改名《夺天工》，成为造园学教科书。</li>
-                            <li class="popup-list-item">日本首先采用"造园"为正式学科名，尊计成为"造园鼻祖"。</li>
-                            <li class="popup-list-item">直接影响"回游式林泉庭园"的发展。</li>
-                        </ul>
-                    `
+                    name: "京都",
+                    coords: [35.0116, 135.7681],
+                    info: "《园冶》在18世纪传入日本，对日本庭园艺术产生深远影响，特别是枯山水庭园中'虽由人作，宛自天开'的理念。",
+                    influence: 7,
+                    year: 1750,
+                    type: "major"
                 },
                 {
-                    type: 'history',
-                    lat: 59.33, lng: 18.07,
-                    color: '#3a7ca5',
-                    title: '瑞典 · 斯德哥尔摩',
-                    card: `
-                        <div class="popup-title">🌉 西渐欧洲的桥梁</div>
-                        <div class="popup-content">
-                            <strong>📍 斯德哥尔摩</strong>
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">瑞典美术史家喜龙仁三度来华，极力推崇《园冶》，将其介绍至北欧。</li>
-                            <li class="popup-list-item">被西方学界誉为"世界造园学最早的名著"。</li>
-                        </ul>
-                    `
+                    name: "巴黎",
+                    coords: [48.8566, 2.3522],
+                    info: "19世纪法国汉学家将《园冶》引入欧洲，其自然观影响欧洲园林从几何式向自然风景式的转变，特别是英中式园林的发展。",
+                    influence: 6,
+                    year: 1830,
+                    type: "major"
                 },
                 {
-                    type: 'history',
-                    lat: 51.48, lng: -0.29,
-                    color: '#3a7ca5',
-                    title: '英国 · 伦敦 (邱园)',
-                    card: `
-                        <div class="popup-title">🌳 启发自然风景园林革命</div>
-                        <div class="popup-content">
-                            <strong>📍 伦敦 · 邱园</strong>
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">其"宛自天开"的哲学，为18世纪英国突破几何式园林提供了东方美学参照。</li>
-                            <li class="popup-list-item">威廉·钱伯斯在邱园建造著名的"中国塔"，融入中国园林意趣。</li>
-                        </ul>
-                    `
+                    name: "伦敦",
+                    coords: [51.5074, -0.1278],
+                    info: "英国浪漫主义时期，计成'宛自天开'的思想与英国自然风景园运动相呼应，影响了如邱园等著名园林的设计。",
+                    influence: 6,
+                    year: 1850,
+                    type: "major"
                 },
                 {
-                    type: 'modern',
-                    lat: 40.78, lng: -73.97,
-                    color: '#4b8a5c',
-                    title: '美国 · 纽约 (大都会博物馆)',
-                    card: `
-                        <div class="popup-title">🏛️ 实体出口与文化使者</div>
-                        <div class="popup-content">
-                            <strong>📍 纽约 · 大都会博物馆</strong>
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">"明轩" (1980年)：首座出口海外的中国古典园林，以苏州网师园为蓝本。</li>
-                            <li class="popup-list-item">被誉为"中美文化交流史上的一件永恒展品"，开创中国园林外贸先河。</li>
-                        </ul>
-                    `
+                    name: "纽约",
+                    coords: [40.7128, -74.0060],
+                    info: "20世纪初，计成思想通过美国建筑师和景观设计师引入北美，影响了中央公园等公共空间设计，强调人与自然和谐。",
+                    influence: 5,
+                    year: 1920,
+                    type: "major"
                 },
                 {
-                    type: 'modern',
-                    lat: 49.28, lng: -123.12,
-                    color: '#4b8a5c',
-                    title: '加拿大 · 温哥华',
-                    card: `
-                        <div class="popup-title">🍁 海外园林的延续</div>
-                        <div class="popup-content">
-                            <strong>📍 温哥华 · 逸园</strong>
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">"逸园" (1986年)：继"明轩"后，在海外建造的又一经典苏州园林。</li>
-                            <li class="popup-list-item">位于温哥华范杜森植物园，被誉为"海上明珠"。</li>
-                        </ul>
-                    `
-                },
-                {
-                    type: 'global',
-                    lat: 30, lng: 0,
-                    color: '#b08f5c',
-                    title: '全球 · 园冶杯',
-                    card: `
-                        <div class="popup-title">🌍 当代活态传承：园冶杯</div>
-                        <div class="popup-content">
-                            <strong>📍 全球国际竞赛</strong>
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">年度"园冶杯"国际竞赛始于2010年，已成为行业顶尖赛事。</li>
-                            <li class="popup-list-item">吸引全球30余国、超500所高校参与。</li>
-                            <li class="popup-list-item">推动计成思想的当代实践与国际对话。</li>
-                        </ul>
-                    `
+                    name: "洛杉矶",
+                    coords: [34.0522, -118.2437],
+                    info: "20世纪中叶，计成思想影响加州现代主义建筑与景观设计，强调室内外空间流动与自然材料的运用。",
+                    influence: 4,
+                    year: 1960,
+                    type: "major"
                 }
-            ];
-
-            // 创建标记点数组
-            const markers = [];
-
-            // 创建可点击的发光标记
-            sites.forEach(site => {
-                // 创建自定义图标
-                const markerIcon = L.divIcon({
-                    className: 'custom-marker',
-                    html: `
-                        <div class="marker-dot" style="color: ${site.color};">
-                            <div class="marker-dot-inner" style="background-color: ${site.color}; border-color: rgba(255, 255, 220, 0.9);"></div>
-                        </div>
-                    `,
-                    iconSize: [25, 25],
-                    iconAnchor: [12.5, 12.5],
-                    popupAnchor: [0, -15]
-                });
-
-                // 创建标记点
-                const marker = L.marker([site.lat, site.lng], { 
-                    icon: markerIcon,
-                    riseOnHover: true,
-                    title: site.title
-                }).addTo(map);
-
-                // 绑定弹窗
-                const popup = L.popup({
-                    className: 'custom-popup',
-                    closeButton: true,
-                    closeOnEscapeKey: true,
-                    autoClose: false,
-                    closeOnClick: false,
-                    maxWidth: 360,
-                    minWidth: 300
-                }).setContent(site.card);
-
-                marker.bindPopup(popup);
-
-                // 点击标记点事件
-                marker.on('click', function(e) {
-                    // 如果当前已经有打开的弹出窗口，先关闭它
-                    if (currentOpenPopup && currentOpenPopup !== popup) {
-                        currentOpenPopup.close();
-                    }
-                    
-                    // 如果当前已经有激活的标记点，重置其样式
-                    if (currentOpenMarker && currentOpenMarker !== marker) {
-                        currentOpenMarker._icon.classList.remove('active-marker');
-                    }
-                    
-                    // 切换当前标记点样式
-                    if (this._icon.classList.contains('active-marker')) {
-                        this._icon.classList.remove('active-marker');
-                        this.closePopup();
-                        currentOpenPopup = null;
-                        currentOpenMarker = null;
-                    } else {
-                        this._icon.classList.add('active-marker');
-                        this.openPopup();
-                        currentOpenPopup = popup;
-                        currentOpenMarker = marker;
-                    }
-                    
-                    L.DomEvent.stopPropagation(e);
-                });
-
-                // 监听弹出窗口关闭事件
-                marker.on('popupclose', function() {
-                    if (currentOpenMarker === this) {
-                        this._icon.classList.remove('active-marker');
-                        currentOpenPopup = null;
-                        currentOpenMarker = null;
-                    }
-                });
-
-                // 添加到标记点数组
-                markers.push({ marker, popup });
-            });
-
-            // 点击地图空白处关闭所有弹出窗口
-            map.on('click', function() {
-                markers.forEach(({ marker, popup }) => {
-                    marker.closePopup();
-                    marker._icon.classList.remove('active-marker');
-                });
-                currentOpenPopup = null;
-                currentOpenMarker = null;
-            });
-
-            // 添加传播路径的虚线
-            const startPoint = [31.5, 119.9];
-            const targets = [
-                {coords: [35.68, 139.76], color: '#FF6B6B'},  // 日本 - 红色
-                {coords: [59.33, 18.07], color: '#4ECDC4'},   // 瑞典 - 青色
-                {coords: [51.48, -0.29], color: '#4ECDC4'},   // 英国 - 青色
-                {coords: [40.78, -73.97], color: '#1DD1A1'},  // 美国 - 绿色
-                {coords: [49.28, -123.12], color: '#1DD1A1'}, // 加拿大 - 绿色
-                {coords: [30, 0], color: '#FECA57'}           // 全球 - 橙色
-            ];
-
-            targets.forEach(target => {
-                if (target.coords[0] === startPoint[0] && target.coords[1] === startPoint[1]) return;
-                
-                L.polyline([startPoint, target.coords], {
-                    color: target.color,  // 使用指定的颜色
-                    weight: 1.5,           // 虚线粗细
-                    opacity: 0.6,          // 透明度
-                    dashArray: '8, 10',    // 虚线样式
-                    lineCap: 'round',
-                    interactive: false,
-                    className: 'path-line'
-                }).addTo(map);
-            });
-
-            // 调整视图
-            const group = L.featureGroup(markers.map(m => m.marker));
-            map.fitBounds(group.getBounds().pad(0.3));
-            map.setZoom(2.2);
-
-            // 添加归属
-            L.control.attribution({ position: 'bottomleft' }).addTo(map)
-                .setPrefix('<span style="color:#aaa;">计成 · 园冶 全球影响</span>');
+            ],
+            minorPoints: [
+                {
+                    name: "南京",
+                    coords: [32.0603, 118.7969],
+                    info: "计成曾在南京设计园林，其思想对金陵园林产生直接影响。",
+                    influence: 6,
+                    year: 1650,
+                    type: "minor"
+                },
+                {
+                    name: "杭州",
+                    coords: [30.2741, 120.1551],
+                    info: "杭州园林受到计成思想影响，特别是西湖周边景区的借景手法。",
+                    influence: 6,
+                    year: 1680,
+                    type: "minor"
+                },
+                {
+                    name: "首尔",
+                    coords: [37.5665, 126.9780],
+                    info: "朝鲜王朝后期，计成园林思想通过使节传入，影响了韩国宫廷园林设计。",
+                    influence: 5,
+                    year: 1780,
+                    type: "minor"
+                },
+                {
+                    name: "柏林",
+                    coords: [52.5200, 13.4050],
+                    info: "德国汉学家在19世纪末翻译介绍《园冶》，其思想影响了德国景观建筑的自然主义倾向。",
+                    influence: 4,
+                    year: 1890,
+                    type: "minor"
+                },
+                {
+                    name: "悉尼",
+                    coords: [-33.8688, 151.2093],
+                    info: "20世纪末，计成思想通过学术交流影响澳大利亚景观设计，强调生态与文化的融合。",
+                    influence: 3,
+                    year: 1990,
+                    type: "minor"
+                }
+            ]
+        };
+        
+        // 时间线数据
+        const timelineData = {
+            years: [1600, 1650, 1700, 1750, 1800, 1850, 1900, 1950, 2000, 2025],
+            influence: [1, 3, 5, 7, 8, 9, 7, 6, 8, 9]
+        };
+        
+        // 全局变量
+        let map = null;
+        let timelineChart = null;
+        
+        // 初始化应用
+        function initVizApp() {
+            // 初始化地图
+            initVizMap();
+            
+            // 初始化时间线图表
+            initVizTimelineChart();
+            
+            // 显示默认地点详情
+            showLocationDetails(spreadData.origin);
         }
+        
+        // 初始化地图
+        function initVizMap() {
+            try {
+                // 创建地图实例
+                map = L.map('map', {
+                    center: [35, 105],
+                    zoom: 3,
+                    zoomControl: true,
+                    attributionControl: true
+                });
+                
+                // 添加高德地图底图
+                gaodeTileLayer.addTo(map);
+                
+                // 添加地图标记
+                addMapMarkers();
+                
+                console.log('高德地图初始化成功');
+            } catch (error) {
+                console.error('地图初始化失败:', error);
+            }
+        }
+        
+        // 添加地图标记
+        function addMapMarkers() {
+            // 添加起源地标记
+            const originIcon = L.divIcon({
+                className: 'custom-icon',
+                html: '<div style="background-color: #d32f2f; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fas fa-star" style="color: white; font-size: 16px;"></i></div>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+            
+            L.marker(spreadData.origin.coords, {icon: originIcon})
+                .addTo(map)
+                .bindPopup(`<div style="max-width: 300px;"><b style="color: #d32f2f; font-size: 1.2em;">${spreadData.origin.name}</b><br><br>${spreadData.origin.info}<br><br><b>影响程度:</b> ${spreadData.origin.influence}/10<br><b>传播时间:</b> ${spreadData.origin.year}年</div>`)
+                .on('click', function() {
+                    showLocationDetails(spreadData.origin);
+                });
+            
+            // 添加主要传播点标记
+            const majorIcon = L.divIcon({
+                className: 'custom-icon',
+                html: '<div style="background-color: #1a73e8; width: 28px; height: 28px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fas fa-map-marker-alt" style="color: white; font-size: 14px; transform: rotate(45deg);"></i></div>',
+                iconSize: [28, 28],
+                iconAnchor: [14, 28]
+            });
+            
+            spreadData.majorPoints.forEach(point => {
+                L.marker(point.coords, {icon: majorIcon})
+                    .addTo(map)
+                    .bindPopup(`<div style="max-width: 300px;"><b style="color: #1a73e8; font-size: 1.2em;">${point.name}</b><br><br>${point.info}<br><br><b>影响程度:</b> ${point.influence}/10<br><b>传播时间:</b> ${point.year}年</div>`)
+                    .on('click', function() {
+                        showLocationDetails(point);
+                    });
+            });
+            
+            // 添加次要传播点标记
+            const minorIcon = L.divIcon({
+                className: 'custom-icon',
+                html: '<div style="background-color: #34a853; width: 22px; height: 22px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></div>',
+                iconSize: [22, 22],
+                iconAnchor: [11, 11]
+            });
+            
+            spreadData.minorPoints.forEach(point => {
+                L.marker(point.coords, {icon: minorIcon})
+                    .addTo(map)
+                    .bindPopup(`<div style="max-width: 300px;"><b style="color: #34a853; font-size: 1.2em;">${point.name}</b><br><br>${point.info}<br><br><b>影响程度:</b> ${point.influence}/10<br><b>传播时间:</b> ${point.year}年</div>`)
+                    .on('click', function() {
+                        showLocationDetails(point);
+                    });
+            });
+        }
+        
+        // 初始化时间线图表
+        function initVizTimelineChart() {
+            const ctx = document.getElementById('timelineChart').getContext('2d');
+            
+            timelineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timelineData.years,
+                    datasets: [{
+                        label: '计成思想全球影响程度',
+                        data: timelineData.influence,
+                        borderColor: '#1a73e8',
+                        backgroundColor: 'rgba(26, 115, 232, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#0d47a1',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#333'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            callbacks: {
+                                label: function(context) {
+                                    return `影响程度: ${context.parsed.y}/10`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '年份',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#333'
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            title: {
+                                display: true,
+                                text: '影响程度 (0-10)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#333'
+                            },
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 显示地点详情
+        function showLocationDetails(location) {
+            document.getElementById('locationTitle').innerHTML = `<i class="fas fa-${location.type === 'origin' ? 'star' : 'map-marker-alt'}"></i> ${location.name}`;
+            document.getElementById('locationInfo').textContent = location.info;
+            
+            // 更新统计数据
+            let influenceClass = 'influence-high-viz';
+            let influenceText = '极高';
+            
+            if (location.influence >= 8) {
+                influenceClass = 'influence-high-viz';
+                influenceText = '极高';
+            } else if (location.influence >= 6) {
+                influenceClass = 'influence-medium-viz';
+                influenceText = '高';
+            } else if (location.influence >= 4) {
+                influenceClass = 'influence-medium-viz';
+                influenceText = '中等';
+            } else {
+                influenceClass = 'influence-low-viz';
+                influenceText = '低';
+            }
+            
+            // 更新DOM
+            const statsHTML = `
+                <div class="stat-item-viz">
+                    <div class="stat-label-viz">影响程度</div>
+                    <div class="stat-value-viz">${location.influence}/10 <span class="influence-badge-viz ${influenceClass}">${influenceText}</span></div>
+                </div>
+                <div class="stat-item-viz">
+                    <div class="stat-label-viz">主要传播时期</div>
+                    <div class="stat-value-viz">${location.year}年${location.year < 1900 ? '（' + Math.floor(location.year/100) + '世纪）' : ''}</div>
+                </div>
+                <div class="stat-item-viz">
+                    <div class="stat-label-viz">传播类型</div>
+                    <div class="stat-value-viz">${location.type === 'origin' ? '起源地' : location.type === 'major' ? '主要传播点' : '次要传播点'}</div>
+                </div>
+            `;
+            
+            document.querySelector('.stats-grid-viz').innerHTML = statsHTML;
+        }
+        
+        // 窗口大小变化时调整地图
+        window.addEventListener('resize', function() {
+            if (map) {
+                setTimeout(() => {
+                    map.invalidateSize();
+                }, 100);
+            }
+            
+            if (timelineChart) {
+                timelineChart.resize();
+            }
+        });
+        
+        // 页面加载完成后初始化可视化应用
+        document.addEventListener('DOMContentLoaded', function() {
+            // 原有代码...
+            initVizApp(); // 新增：初始化可视化功能
+        });
     </script>
 </body>
 </html>

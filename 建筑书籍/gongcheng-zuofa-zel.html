@@ -19,7 +19,7 @@
             background-color: #f8f5f1;
         }
         
-        /* 导航栏 - 与赵州桥页面统一 */
+        /* 导航栏*/
         .main-header {
             background: #2c3e50;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -152,15 +152,17 @@
         
         .hero-image {
             position: relative;
-            border-radius: 0px;
+            border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .hero-image img {
             width: 100%;
-            height: 300px;
+            height: auto;
+            max-height: 400px;
             object-fit: contain;
-            transition: transform 0.5s;
+            display: block;
         }
         
         /* 核心解密卡片区 */
@@ -331,7 +333,7 @@
         
         .comparison-table th:nth-child(4), 
         .comparison-table td:nth-child(4) {
-            width: 38%; /* 对比解读列 - 增加宽度 */
+            width: 38%; /* 对比解读列 */
         }
         
         .comparison-table th, .comparison-table td {
@@ -360,7 +362,7 @@
             font-weight: 600;
         }
         
-        /* 时间轴样式 */
+        /* 时间轴样式 - 修复文字居中问题 */
         .timeline-container {
             background: white;
             padding: 30px;
@@ -401,6 +403,7 @@
             margin-bottom: 0;
         }
         
+        /* 修复时间轴年份文字居中问题 */
         .timeline-year {
             position: absolute;
             left: -30px;
@@ -416,6 +419,10 @@
             font-weight: bold;
             font-size: 0.9rem;
             box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            line-height: 1;
+            padding: 0;
+            text-align: center;
+            box-sizing: border-box;
         }
         
         .timeline-content {
@@ -445,7 +452,7 @@
             background: white;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            text-align: left; /* 改为左对齐 */
+            text-align: left; 
             border: 1px solid #e0e0e0;
         }
         
@@ -457,8 +464,8 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            text-align: left; /* 改为左对齐 */
-            text-indent: 2em; /* 首行缩进两格 */
+            text-align: left; 
+            text-indent: 2em; 
         }
         
         .global-nav {
@@ -540,7 +547,6 @@
                 text-align: center;
             }
             
-            /* 移动端表格调整 */
             .comparison-table {
                 display: block;
                 overflow-x: auto;
@@ -565,9 +571,8 @@
             .comparison-table td:nth-child(4) {
                 width: 40%;
             }
-        }
-        
-        @media (max-width: 480px) {
+            
+            /* 小屏幕时间轴调整 */
             .timeline {
                 padding-left: 20px;
             }
@@ -579,11 +584,24 @@
                 font-size: 0.8rem;
             }
             
-            /* 在极小屏幕上进一步调整表格列宽 */
             .comparison-table th, 
             .comparison-table td {
                 padding: 8px;
                 font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: 20px;
+            }
+            
+            .achievement-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-image img {
+                max-height: 300px;
             }
         }
     </style>
@@ -594,14 +612,15 @@
         <nav class="main-nav">
             <a href="../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="../pages/dimensions/timeline.html">时间维度</a>
-                <a href="../pages/dimensions/architects.html">建筑名家</a>
-                <a href="../pages/dimensions/books.html" style="background: rgba(255,255,255,0.2);">建筑书籍</a>
+                <a href="../pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="../pages/dimensions/architects.html">营造大师</a>
+                <a href="../pages/dimensions/books.html" style="background: rgba(255,255,255,0.2);">营造经典</a>
+                <a href="../pages/dimensions/3d-reconstruction.html">三维营造</a>
             </div>
         </nav>
     </header>
 
-    <!-- 英雄区域 -->
+    <!-- 英雄区域 - 已修复图例位置 -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">《工程做法则例》</h1>
@@ -630,8 +649,15 @@
                 </div>
             </div>
             
+            <div class="hero-buttons">
+                <a href="#cards" class="btn">解读核心体系</a>
+                <a href="#comparison" class="btn btn-outline">对比《营造法式》</a>
+            </div>
+        </div>
+        
+        <!-- 图例图片现在在右侧 -->
         <div class="hero-image">
-            <img src="../建筑书籍/assets/images/gongcheng-zuofa-zel.png">
+            <img src="../建筑书籍/assets/images/gongcheng-zuofa-zel.png" alt="《工程做法则例》封面">
             <div class="image-caption"></div>
         </div>
     </section>
@@ -679,7 +705,7 @@
             <div class="card">
                 <div class="card-icon">📊</div>
                 <div class="card-content">
-                    <h3><span class="icon">📊</span>工料预算定额：古代工程管理</h3>
+                    <h3><span class="icon">工料预算定额：古代工程管理</h3>
                     <p><strong>预算控制：</strong>《工程做法则例》的后半部分《物料价值》开创性地列出了极其详细的工料数据，包括各类构件所需木材体积、瓦件数量、油漆用量及工匠工时。</p>
                     <p><strong>管理意义：</strong>这使得任何皇家工程从设计之初就能精确计算成本和工期，有效防止腐败与浪费，具备了现代工程预算管理的雏形。</p>
                     
@@ -712,7 +738,7 @@
             <div class="card">
                 <div class="card-icon">🏛️</div>
                 <div class="card-content">
-                    <h3><span class="icon">🏛️</span>27种建筑类型：完整的官式体系</h3>
+                    <h3><span class="icon">27种建筑类型：完整的官式体系</h3>
                     <p><strong>全面覆盖：</strong>《则例》详细规定了27种官式建筑的大木作做法，涵盖宫殿、坛庙、陵寝、衙署等所有官方建筑类型。</p>
                     <p><strong>等级森严：</strong>从最高等级的"殿"（如太和殿）到"阁"、"楼"、"亭"等，每种建筑类型都有对应的斗口等级、构件尺寸和装饰规格，体现了严格的等级礼制。</p>
                     
@@ -745,7 +771,7 @@
             <div class="card">
                 <div class="card-icon">📜</div>
                 <div class="card-content">
-                    <h3><span class="icon">📜</span>历史价值：连接古今的密码本</h3>
+                    <h3><span class="icon">历史价值：连接古今的密码本</h3>
                     <p><strong>权威标准：</strong>作为清代200余年官式建筑的唯一营造标准，直接指导了故宫、天坛、颐和园、清东陵、清西陵等世界遗产的建设。</p>
                     <p><strong>研究基石：</strong>是今天研究、鉴定和修复清代古建筑最核心的文献依据。现存多个重要版本，如清雍正原刊本、民国陶湘石印本等。</p>
                     
@@ -849,7 +875,7 @@
             </table>
         </div>
         
-        <!-- 时间轴容器 -->
+        <!-- 时间轴容器 - 已修复文字居中问题 -->
         <div class="timeline-container">
             <h3 class="timeline-title">《工程做法则例》的历史影响</h3>
             <div class="timeline">
@@ -864,7 +890,7 @@
                 
                 <!-- 时间轴项目2 -->
                 <div class="timeline-item">
-                    <div class="timeline-year">1736-1795</div>
+                    <div class="timeline-year">1736—1795</div>
                     <div class="timeline-content">
                         <h4>乾隆盛世，广泛应用</h4>
                         <p>在乾隆朝达到应用高峰，指导修建了颐和园、圆明园、承德避暑山庄等大批皇家建筑，成为"康乾盛世"的建筑技术基础。</p>
@@ -891,7 +917,7 @@
                 
                 <!-- 时间轴项目5 -->
                 <div class="timeline-item">
-                    <div class="timeline-year">1949至今</div>
+                    <div class="timeline-year">1949—至今</div>
                     <div class="timeline-content">
                         <h4>遗产保护，修复依据</h4>
                         <p>成为故宫、天坛等世界文化遗产修缮保护的核心技术依据，指导了新中国多次重大古建筑修复工程。</p>

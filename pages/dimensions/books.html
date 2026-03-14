@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中国古代建筑材料演变时间轴</title>
+    <title>建筑书籍 - 筑迹经纬</title>
     <style>
         * {
             margin: 0;
@@ -15,535 +15,480 @@
             font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f8f5f1;
-            padding: 20px;
+            background-color: #f5f7fa;
+            min-height: 100vh;
         }
         
-        .timeline-container {
+        /* 导航栏 */
+        .main-header {
+            background: #2c3e50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .main-nav {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        .timeline-title {
-            text-align: center;
-            font-size: 2.8rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            position: relative;
-        }
-        
-        .timeline-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            margin-bottom: 50px;
-        }
-        
-        /* 时间轴容器 */
-        .timeline {
-            position: relative;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
-            margin: 60px 0 30px;
+            align-items: center;
+            height: 70px;
         }
         
-        /* 时间轴节点 - 触发区 */
-        .timeline-node {
-            position: relative;
-            z-index: 2;
-            width: 200px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .timeline-node:hover {
-            transform: translateY(-3px);
-        }
-        
-        /* 触发区卡片 */
-        .trigger-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 2px solid #e0e0e0;
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
             transition: all 0.3s ease;
-            height: 100%;
+        }
+        
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* 页面容器 */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: calc(100vh - 140px);
+        }
+        
+        /* 页面标题区域 */
+        .page-header {
+            text-align: center;
+            margin: 40px 0 60px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* 朝代筛选器 */
+        .dynasty-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .dynasty-filter {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .dynasty-filter:hover, .dynasty-filter.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        /* 建筑书籍网格 */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
             display: flex;
             flex-direction: column;
         }
         
-        .timeline-node:hover .trigger-card {
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            border-color: #c19a6b;
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
-        .timeline-node.active .trigger-card {
-            border-color: #c19a6b;
-            background: #fef9f0;
-        }
-        
-        /* 朝代名称 - 第一行，大字体 */
-        .dynasty-name {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        
-        /* 时间范围 - 第二行，灰色小字 */
-        .time-range {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            text-align: center;
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-        
-        /* 核心材料标签区域 */
-        .materials-container {
-            margin-top: auto; /* 确保材料区域在底部 */
-        }
-        
-        .materials-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        
-        .materials-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .material-tag {
-            background: #c19a6b;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-        
-        /* 详情卡片 */
-        .detail-card {
-            position: absolute;
-            top: calc(100% + 20px);
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            width: 360px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            padding: 0;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-            z-index: 10;
-        }
-        
-        .timeline-node.active .detail-card {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-        
-        .detail-card-header {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
-            padding: 20px;
-            border-radius: 12px 12px 0 0;
-        }
-        
-        .detail-card-body {
-            padding: 25px;
-        }
-        
-        .detail-section {
-            margin-bottom: 20px;
-        }
-        
-        .detail-section h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #c19a6b;
-            font-size: 1.2rem;
-        }
-        
-        .tech-features {
-            line-height: 1.7;
-            color: #555;
-        }
-        
-        /* 代表建筑列表 */
-        .representative-works {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .work-item {
-            background: #f8f5f1;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #333;
-            border-left: 3px solid #c19a6b;
-        }
-        
-        /* 关闭按钮 */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
+        .book-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .book-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .book-info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .book-info h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .book-period {
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-description {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .book-specialty {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: auto;
+        }
+        
+        .specialty-tag {
+            background: #ecf0f1;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #2c3e50;
+        }
+        
+        .view-details {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-top: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .view-details:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
         }
         
         /* 响应式设计 */
-        @media (max-width: 1200px) {
-            .timeline {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 20px;
-            }
-            
-            .timeline-node {
-                width: 180px;
-            }
-            
-            .detail-card {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) scale(0.9);
-                width: 90%;
-                max-width: 400px;
-                z-index: 1000;
-            }
-            
-            .timeline-node.active .detail-card {
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-        
         @media (max-width: 768px) {
-            .timeline-title {
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
                 font-size: 2.2rem;
             }
             
-            .timeline {
+            .dynasty-filters {
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
             }
             
-            .timeline-node {
+            .dynasty-filter {
                 width: 100%;
-                max-width: 320px;
+                max-width: 250px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="timeline-container">
-        <h1 class="timeline-title">中国古代建筑材料演变</h1>
-        <p class="timeline-subtitle">点击任一时期卡片，探索该阶段建筑材料技术与代表建筑</p>
-        
-        <div class="timeline">
-            <!-- 原始先秦时期 -->
-            <div class="timeline-node" data-period="原始先秦">
-                <div class="trigger-card">
-                    <div class="dynasty-name">原始先秦</div>
-                    <div class="time-range">约公元前5000-221年</div>
-                    <div class="materials-container">
-                        <div class="materials-label">核心材料</div>
-                        <div class="materials-tags">
-                            <span class="material-tag">土</span>
-                            <span class="material-tag">木</span>
-                            <span class="material-tag">茅草</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 详情卡片 -->
-                <div class="detail-card">
-                    <div class="detail-card-header">
-                        <h3>原始先秦时期</h3>
-                        <p>约公元前5000-221年</p>
-                        <button class="close-btn">×</button>
-                    </div>
-                    <div class="detail-card-body">
-                        <div class="detail-section">
-                            <h4>技术特征</h4>
-                            <p class="tech-features">奠定了中国建筑以木构架为主体的基因。广泛采用夯土技术建造台基、城墙。木构架出现榫卯雏形。屋顶覆以茅草。石材主要用于基础、柱础。</p>
-                        </div>
-                        
-                        <div class="detail-section">
-                            <h4>代表建筑</h4>
-                            <div class="representative-works">
-                                <span class="work-item">半地穴式房屋</span>
-                                <span class="work-item">高台建筑</span>
-                                <span class="work-item">二里头遗址</span>
-                                <span class="work-item">殷墟</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="timeline.html" >朝代建筑</a>
+                <a href="architects.html">营造大师</a>
+                <a href="books.html" style="background: rgba(255,255,255,0.2);">营造经典</a>
+                <a href="3d-reconstruction.html">三维营造</a>
             </div>
+        </nav>
+    </header>
+
+    <!-- 页面内容 -->
+    <div class="page-container">
+        <div class="page-header">
+            <h1 class="page-title">建筑书籍</h1>
+            <p class="page-subtitle">从《营造法式》到《园冶》，深入中国古代建筑理论体系</p>
+        </div>
+
+        <!-- 朝代筛选器 -->
+        <div class="dynasty-filters">
+            <button class="dynasty-filter active" data-dynasty="all">全部</button>
+            <button class="dynasty-filter" data-dynasty="song">宋元</button>
+            <button class="dynasty-filter" data-dynasty="ming">明清</button>
+            <button class="dynasty-filter" data-dynasty="ancient">先秦</button>
+            <button class="dynasty-filter" data-dynasty="technical">技术规范</button>
+            <button class="dynasty-filter" data-dynasty="theory">理论著作</button>
+        </div>
+
+        <!-- 建筑书籍网格 -->
+        <div class="books-grid">
+            <!-- 《营造法式》卡片 -->
+            <a href="../../建筑书籍/ying-zao-fa-shi.html" class="book-card" data-dynasty="song" data-type="technical">
+                <div class="book-image">
+                    <span>📐</span>
+                </div>
+                <div class="book-info">
+                    <h3>《营造法式》</h3>
+                    <div class="book-period">李诫 · 北宋（1100年）</div>
+                    <p class="book-description">中国古代最完整的建筑技术书籍，北宋官方颁布的建筑设计、施工规范书，标志着中国古代建筑已经发展到了较高阶段。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">技术规范</span>
+                        <span class="specialty-tag">官方典籍</span>
+                        <span class="specialty-tag">建筑制度</span>
+                    </div>
+                    <span class="view-details">查看详情 →</span>
+                </div>
+            </a>
             
-            <!-- 秦汉时期 -->
-            <div class="timeline-node" data-period="秦汉">
-                <div class="trigger-card">
-                    <div class="dynasty-name">秦汉</div>
-                    <div class="time-range">公元前221-公元220年</div>
-                    <div class="materials-container">
-                        <div class="materials-label">核心材料</div>
-                        <div class="materials-tags">
-                            <span class="material-tag">大木</span>
-                            <span class="material-tag">砖</span>
-                            <span class="material-tag">瓦</span>
-                        </div>
-                    </div>
+             <!-- 《工程做法则例》卡片 -->
+            <a href="../../建筑书籍/gongcheng-zuofa-zel.html" class="book-card" data-dynasty="ming" data-type="technical">
+                <div class="book-image">
+                    <span>🏗️</span>
                 </div>
-                
-                <!-- 详情卡片 -->
-                <div class="detail-card">
-                    <div class="detail-card-header">
-                        <h3>秦汉时期</h3>
-                        <p>公元前221-公元220年</p>
-                        <button class="close-btn">×</button>
+                <div class="book-info">
+                    <h3>《工程做法则例》</h3>
+                    <div class="book-period">清代工部 · 清代（1734年）</div>
+                    <p class="book-description">清代官式建筑规范典籍，详细规定各类建筑的做法、工料、尺寸等，是研究清代建筑的重要文献。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">官式建筑</span>
+                        <span class="specialty-tag">技术规范</span>
+                        <span class="specialty-tag">清代建筑</span>
                     </div>
-                    <div class="detail-card-body">
-                        <div class="detail-section">
-                            <h4>技术特征</h4>
-                            <p class="tech-features">木构架技术成熟，出现抬梁式与穿斗式。陶制砖瓦开始规模化生产与应用（"秦砖汉瓦"），瓦当纹饰精美。夯土技术达至顶峰。石材用于墓室、石阙。</p>
-                        </div>
-                        
-                        <div class="detail-section">
-                            <h4>代表建筑</h4>
-                            <div class="representative-works">
-                                <span class="work-item">汉长安城</span>
-                                <span class="work-item">画像石墓</span>
-                                <span class="work-item">长城（夯土段）</span>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="view-details">查看详情 →</span>
                 </div>
-            </div>
+            </a>
+
+            <!-- 《园冶》卡片 -->
+            <a href="#" class="book-card" data-dynasty="ming" data-type="theory">
+                <div class="book-image">
+                    <span>🏞️</span>
+                </div>
+                <div class="book-info">
+                    <h3>《园冶》</h3>
+                    <div class="book-period">计成 · 明代（1631年）</div>
+                    <p class="book-description">中国古代造园专著，系统阐述园林规划设计理念，是中国古代园林艺术的经典理论著作。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">园林艺术</span>
+                        <span class="specialty-tag">理论著作</span>
+                        <span class="specialty-tag">规划设计</span>
+                    </div>
+                    <span class="view-details">查看详情 →</span>
+                </div>
+            </a>
             
-            <!-- 魏晋南北朝至隋唐 -->
-            <div class="timeline-node" data-period="魏晋南北朝至隋唐">
-                <div class="trigger-card">
-                    <div class="dynasty-name">魏晋南北朝至隋唐</div>
-                    <div class="time-range">公元220-907年</div>
-                    <div class="materials-container">
-                        <div class="materials-label">核心材料</div>
-                        <div class="materials-tags">
-                            <span class="material-tag">木材</span>
-                            <span class="material-tag">砖</span>
-                            <span class="material-tag">琉璃瓦</span>
-                        </div>
-                    </div>
+            <!-- 《木经》卡片 -->
+            <a href="#" class="book-card" data-dynasty="song" data-type="technical">
+                <div class="book-image">
+                    <span>🌲</span>
                 </div>
-                
-                <!-- 详情卡片 -->
-                <div class="detail-card">
-                    <div class="detail-card-header">
-                        <h3>魏晋南北朝至隋唐</h3>
-                        <p>公元220-907年</p>
-                        <button class="close-btn">×</button>
+                <div class="book-info">
+                    <h3>《木经》</h3>
+                    <div class="book-period">喻皓 · 北宋（约1000年）</div>
+                    <p class="book-description">古代木构建筑技术专著，系统总结木结构建筑技术，对宋代建筑发展有重要影响。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">木构技术</span>
+                        <span class="specialty-tag">技术手册</span>
+                        <span class="specialty-tag">建筑工艺</span>
                     </div>
-                    <div class="detail-card-body">
-                        <div class="detail-section">
-                            <h4>技术特征</h4>
-                            <p class="tech-features">木构建筑形制趋于规范，斗拱结构复杂而有力。砖石在佛塔建造中广泛应用。琉璃瓦开始用于重要宫殿屋顶，色彩绚丽。石材雕刻艺术融入建筑（石窟寺）。</p>
-                        </div>
-                        
-                        <div class="detail-section">
-                            <h4>代表建筑</h4>
-                            <div class="representative-works">
-                                <span class="work-item">佛光寺东大殿（木）</span>
-                                <span class="work-item">大雁塔（砖）</span>
-                                <span class="work-item">敦煌石窟</span>
-                                <span class="work-item">嵩岳寺塔</span>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="view-details">查看详情 →</span>
                 </div>
-            </div>
+            </a>
             
-            <!-- 宋元时期 -->
-            <div class="timeline-node" data-period="宋元">
-                <div class="trigger-card">
-                    <div class="dynasty-name">宋元</div>
-                    <div class="time-range">公元960-1368年</div>
-                    <div class="materials-container">
-                        <div class="materials-label">核心材料</div>
-                        <div class="materials-tags">
-                            <span class="material-tag">标准化木材</span>
-                            <span class="material-tag">砖</span>
-                            <span class="material-tag">石材</span>
-                        </div>
-                    </div>
+            <!-- 《考工记》卡片 -->
+            <a href="#" class="book-card" data-dynasty="ancient" data-type="technical">
+                <div class="book-image">
+                    <span>⚒️</span>
                 </div>
-                
-                <!-- 详情卡片 -->
-                <div class="detail-card">
-                    <div class="detail-card-header">
-                        <h3>宋元时期</h3>
-                        <p>公元960-1368年</p>
-                        <button class="close-btn">×</button>
+                <div class="book-info">
+                    <h3>《考工记》</h3>
+                    <div class="book-period">佚名 · 战国</div>
+                    <p class="book-description">《周礼》篇目，中国现存最早的关于手工业技术的文献，包含城市规划、宫殿建筑等内容。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">先秦技术</span>
+                        <span class="specialty-tag">手工业</span>
+                        <span class="specialty-tag">城市规划</span>
                     </div>
-                    <div class="detail-card-body">
-                        <div class="detail-section">
-                            <h4>技术特征</h4>
-                            <p class="tech-features">材料与工法高度标准化，《营造法式》成为官定材料规格与用工手册。砖石建筑增多，无梁殿（纯砖拱结构）出现。城市街道普遍铺砖。琉璃瓦使用更普及。</p>
-                        </div>
-                        
-                        <div class="detail-section">
-                            <h4>代表建筑</h4>
-                            <div class="representative-works">
-                                <span class="work-item">晋祠圣母殿（木）</span>
-                                <span class="work-item">开元寺料敌塔（砖石）</span>
-                                <span class="work-item">永乐宫（彩绘与琉璃）</span>
-                                <span class="work-item">应县木塔</span>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="view-details">查看详情 →</span>
                 </div>
-            </div>
+            </a>
             
-            <!-- 明清时期 -->
-            <div class="timeline-node" data-period="明清">
-                <div class="trigger-card">
-                    <div class="dynasty-name">明清</div>
-                    <div class="time-range">公元1368-1912年</div>
-                    <div class="materials-container">
-                        <div class="materials-label">核心材料</div>
-                        <div class="materials-tags">
-                            <span class="material-tag">名贵木材</span>
-                            <span class="material-tag">青砖</span>
-                            <span class="material-tag">琉璃</span>
-                        </div>
-                    </div>
+            <!-- 《长物志》卡片 -->
+            <a href="#" class="book-card" data-dynasty="ming" data-type="theory">
+                <div class="book-image">
+                    <span>🪑</span>
                 </div>
-                
-                <!-- 详情卡片 -->
-                <div class="detail-card">
-                    <div class="detail-card-header">
-                        <h3>明清时期</h3>
-                        <p>公元1368-1912年</p>
-                        <button class="close-btn">×</button>
+                <div class="book-info">
+                    <h3>《长物志》</h3>
+                    <div class="book-period">文震亨 · 明代（1621年）</div>
+                    <p class="book-description">明代生活美学著作，涉及园林、家具、器物等，反映明代文人的审美趣味和生活理念。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">生活美学</span>
+                        <span class="specialty-tag">文人雅趣</span>
+                        <span class="specialty-tag">明代文化</span>
                     </div>
-                    <div class="detail-card-body">
-                        <div class="detail-section">
-                            <h4>技术特征</h4>
-                            <p class="tech-features">官式建筑用材等级森严，追求宏大与精细。砖石技术完全成熟，广泛用于城墙、民居。琉璃制作登峰造极，色彩与造型丰富。汉白玉等高级石材大量用于皇家建筑台基、栏杆。</p>
-                        </div>
-                        
-                        <div class="detail-section">
-                            <h4>代表建筑</h4>
-                            <div class="representative-works">
-                                <span class="work-item">故宫太和殿</span>
-                                <span class="work-item">明长城（砖石）</span>
-                                <span class="work-item">天坛祈年殿</span>
-                                <span class="work-item">颐和园</span>
-                            </div>
-                        </div>
-                    </div>
+                    <span class="view-details">查看详情 →</span>
                 </div>
-            </div>
+            </a>
+            
+            <!-- 《鲁班经》卡片 -->
+            <a href="#" class="book-card" data-dynasty="ming" data-type="technical">
+                <div class="book-image">
+                    <span>📏</span>
+                </div>
+                <div class="book-info">
+                    <h3>《鲁班经》</h3>
+                    <div class="book-period">民间传承 · 明代</div>
+                    <p class="book-description">民间工匠技术手册，记载建筑、家具等制作技术，包含大量口诀、秘诀和禁忌。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">民间工艺</span>
+                        <span class="specialty-tag">工匠手册</span>
+                        <span class="specialty-tag">技术口诀</span>
+                    </div>
+                    <span class="view-details">查看详情 →</span>
+                </div>
+            </a>
+            
+            <!-- 《梓人遗制》卡片 -->
+            <a href="#" class="book-card" data-dynasty="song" data-type="technical">
+                <div class="book-image">
+                    <span>🛠️</span>
+                </div>
+                <div class="book-info">
+                    <h3>《梓人遗制》</h3>
+                    <div class="book-period">薛景石 · 元代</div>
+                    <p class="book-description">元代木工技术专著，详细记载各种木器制作方法，是研究宋元时期工艺技术的重要文献。</p>
+                    <div class="book-specialty">
+                        <span class="specialty-tag">木工技术</span>
+                        <span class="specialty-tag">元代工艺</span>
+                        <span class="specialty-tag">技术专著</span>
+                    </div>
+                    <span class="view-details">查看详情 →</span>
+                </div>
+            </a>
         </div>
     </div>
 
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
     <script>
+        // 筛选功能实现
         document.addEventListener('DOMContentLoaded', function() {
-            const timelineNodes = document.querySelectorAll('.timeline-node');
-            let activeNode = null;
+            const filterButtons = document.querySelectorAll('.dynasty-filter');
+            const bookCards = document.querySelectorAll('.book-card');
             
-            // 点击节点显示详情卡片
-            timelineNodes.forEach(node => {
-                node.addEventListener('click', function(e) {
-                    // 如果点击的是关闭按钮，不处理
-                    if (e.target.classList.contains('close-btn')) return;
-                    
-                    // 如果这个节点已经是激活状态，则关闭它
-                    if (this.classList.contains('active')) {
-                        closeActiveNode();
-                        return;
-                    }
-                    
-                    // 关闭之前激活的节点
-                    closeActiveNode();
-                    
-                    // 激活当前节点
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有active类
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // 添加active类到当前按钮
                     this.classList.add('active');
-                    activeNode = this;
                     
-                    // 在移动端，滚动到节点位置
-                    if (window.innerWidth <= 768) {
-                        this.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    const filter = this.getAttribute('data-dynasty');
+                    
+                    // 筛选书籍卡片
+                    bookCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'flex';
+                        } else {
+                            const dynasty = card.getAttribute('data-dynasty');
+                            const type = card.getAttribute('data-type');
+                            
+                            if (dynasty === filter || type === filter) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // 添加卡片悬停效果
+            bookCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
                 });
                 
-                // 为关闭按钮添加事件
-                const closeBtn = node.querySelector('.close-btn');
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        closeActiveNode();
-                    });
-                }
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
             });
-            
-            // 点击页面其他地方关闭详情卡片
-            document.addEventListener('click', function(e) {
-                // 如果点击的不是节点或节点内部元素
-                if (!e.target.closest('.timeline-node') && !e.target.closest('.detail-card')) {
-                    closeActiveNode();
-                }
-            });
-            
-            // 关闭激活的节点
-            function closeActiveNode() {
-                if (activeNode) {
-                    activeNode.classList.remove('active');
-                    activeNode = null;
-                }
-            }
-            
-            // 添加键盘ESC键关闭功能
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeActiveNode();
-                }
-            });
-            
-            // 初始激活第一个节点
-            if (timelineNodes.length > 0) {
-                setTimeout(() => {
-                    timelineNodes[0].classList.add('active');
-                    activeNode = timelineNodes[0];
-                }, 500);
-            }
         });
     </script>
 </body>
