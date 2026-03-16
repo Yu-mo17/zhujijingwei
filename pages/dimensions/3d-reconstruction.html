@@ -284,23 +284,6 @@
             margin: 0 auto;
         }
         
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 20px 0;
-        }
-        
-        .footer-links a {
-            color: #bdc3c7;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
         .copyright {
             color: #95a5a6;
             font-size: 0.9rem;
@@ -366,7 +349,7 @@
     <header class="main-header">
         <nav class="main-nav">
             <a href="../index.html" class="nav-logo">
-                🏛️ 筑迹经纬
+                筑迹经纬
             </a>
             <div class="nav-links">
                 <a href="timeline.html">朝代建筑</a>
@@ -406,12 +389,6 @@
     <footer class="main-footer">
         <div class="footer-content">
             <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
-            <div class="footer-links">
-                <a href="#">关于我们</a>
-                <a href="#">联系我们</a>
-                <a href="#">隐私政策</a>
-                <a href="#">使用条款</a>
-            </div>
             <p class="copyright">本网站所有3D模型均为学术研究用途，部分模型基于考古发现和历史文献数字化复原</p>
         </div>
     </footer>
@@ -426,7 +403,7 @@
                 period: "隋代（595-605年）",
                 type: "bridge",
                 description: "世界上现存最古老的单孔敞肩石拱桥，由隋代匠师李春建造，以其独特的结构设计和千年不倒的坚固闻名于世。",
-                image: "https://images.unsplash.com/photo-1580651235851-5c94d4c033c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                image: "/assets/images/3D/sui-zhaozhouqiao.jpg",
                 modelUrl: "zhaozhouqiao-3d.html",
                 features: {
                     scale: "大型",
@@ -434,14 +411,31 @@
                     detail: "精细"
                 }
             },
+
             {
                 id: 2,
+                name: "沈阳故宫",
+                location: "辽宁省沈阳市",
+                period: "清初（1625年始建）",
+                type: "palace",
+                description: "中国现存完整的两座宫殿建筑群之一，清朝入关前的皇宫。始建于1625年，融合满、汉、蒙、藏建筑风格。主要建筑包括大政殿、十王亭、崇政殿、凤凰楼、文溯阁等，展现了早期清朝宫廷文化与多民族艺术特色。",
+                image: "/assets/images/3D/qing-shenyanggugong.jpg", 
+                modelUrl: "/3D展示/shenyanggugong.html",
+                features: {
+                    scale: "大型",
+                    interaction: "自由漫游",
+                    detail: "极高"
+                }
+            },
+            
+            {
+                id: 3,
                 name: "故宫",
                 location: "北京",
                 period: "明代（1420年）",
                 type: "palace",
                 description: "故宫外朝三大殿之一，俗称金銮殿，是中国现存最大的木结构大殿，代表着中国古代宫殿建筑的巅峰。",
-                image: "https://images.unsplash.com/photo-1596445836561-991bcd39a86d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                image: "/assets/images/3D/ming-gugong.jpg",
                 modelUrl: "taihedian-3d.html",
                 features: {
                     scale: "巨型",
@@ -450,13 +444,13 @@
                 }
             },
             {
-                id: 3,
+                id: 4,
                 name: "应县木塔",
                 location: "山西应县",
                 period: "辽代（1056年）",
                 type: "temple",
                 description: "又称佛宫寺释迦塔，是世界上现存最古老、最高的木塔，高67.31米，全塔无一颗铁钉，纯木结构。",
-                image: "https://images.unsplash.com/photo-1544551765-1b8468db5b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                image: "/assets/images/3D/liao-yingxianmuta.jpg",
                 modelUrl: "yingxian-muta-3d.html",
                 features: {
                     scale: "大型",
@@ -465,7 +459,7 @@
                 }
             },
             {
-                id: 4,
+                id: 5,
                 name: "天坛祈年殿",
                 location: "北京天坛",
                 period: "明代（1420年）",
@@ -480,7 +474,7 @@
                 }
             },
             {
-                id: 5,
+                id: 6,
                 name: "拙政园",
                 location: "江苏苏州",
                 period: "明代（1509年）",
@@ -495,7 +489,7 @@
                 }
             },
             {
-                id: 6,
+                id: 7,
                 name: "福建土楼",
                 location: "福建永定",
                 period: "清代（17-20世纪）",
@@ -510,7 +504,7 @@
                 }
             },
             {
-                id: 7,
+                id: 8,
                 name: "岳阳楼",
                 location: "湖南岳阳",
                 period: "清代（1880年重建）",
@@ -525,7 +519,7 @@
                 }
             },
             {
-                id: 8,
+                id: 9,
                 name: "颐和园长廊",
                 location: "北京颐和园",
                 period: "清代（1750年）",

@@ -358,9 +358,9 @@
             <a href="../../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
                 <a href="../dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">朝代建筑</a>
-                <a href="../dimensions/architects.html">营造大师</a>
-                <a href="../dimensions/books.html">营造经典</a>
-                <a href="../dimensions/3d-reconstruction.html">三维营造</a>
+                <a href="../dimensions/architects.html">建筑大师</a>
+                <a href="../dimensions/books.html">建筑经典</a>
+                <a href="../dimensions/3d-reconstruction.html">三维建筑</a>
             </div>
         </nav>
     </header>
@@ -394,9 +394,9 @@
                     <p class="chart-note">注：数据基于历史文献记载与考古发现统计，反映隋朝建筑活动的相对规模。宗教/祭祀建筑的建设规模远超其他类型。</p>
                 </div>
                 
-                <!-- 右侧：营造材质分析雷达图 -->
+                <!-- 右侧：建筑材质分析雷达图 -->
                 <div class="chart-wrapper">
-                    <h3 class="chart-title">隋朝·营造材质分析</h3>
+                    <h3 class="chart-title">隋朝·建筑材质分析</h3>
                     <div class="chart-container">
                         <canvas id="materialChart"></canvas>
                     </div>
@@ -554,7 +554,7 @@
                 }
             });
 
-            // 2. 营造材质分析雷达图
+            // 2. 建筑材质分析雷达图
             const materialCtx = document.getElementById('materialChart').getContext('2d');
             const materialChart = new Chart(materialCtx, {
                 type: 'radar',

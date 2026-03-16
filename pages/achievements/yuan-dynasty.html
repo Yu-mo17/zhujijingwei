@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元朝建筑成就 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <!-- 引入Chart.js图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dynasty-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .dynasty-hero {
+            text-align: center;
+            padding: 60px 0;
+            background: #9b59b6;
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .dynasty-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .dynasty-period {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        
+        /* 图表容器样式 */
+        .data-visualization-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .chart-wrapper {
+            flex: 1;
+            min-width: 300px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .chart-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* 让图表在容器中居中显示 */
+        .chart-container canvas {
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .chart-note {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        /* 建筑成就网格布局 */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .achievement-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .achievement-image {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .achievement-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .achievement-card:hover .achievement-image img {
+            transform: scale(1.05);
+        }
+        
+        .achievement-image::after {
+            content: '点击查看详情';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .achievement-card:hover .achievement-image::after {
+            opacity: 1;
+        }
+        
+        .achievement-content {
+            padding: 25px;
+        }
+        
+        .achievement-content h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .achievement-meta {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .meta-tag {
+            background: #ecf0f1;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #c0392b;
+            transform: rotate(90deg);
+        }
+        
+        .modal-header {
+            padding: 30px 30px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .modal-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .modal-image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #7f8c8d;
+        }
+        
+        .modal-description {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.05rem;
+        }
+        
+        .modal-description h4 {
+            color: #2c3e50;
+            margin: 20px 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .modal-description p {
+            margin-bottom: 15px;
+        }
+        
+        .modal-description ul {
+            margin: 10px 0 15px 20px;
+        }
+        
+        .modal-description li {
+            margin-bottom: 8px;
+        }
+        
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .modal-content {
+                max-height: 85vh;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-header {
+                padding: 20px 20px 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-image {
+                height: 200px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="../dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">朝代建筑</a>
+                <a href="../dimensions/architects.html">建筑大师</a>
+                <a href="../dimensions/books.html">建筑经典</a>
+                <a href="../dimensions/3d-reconstruction.html">三维建筑</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dynasty-container">
+        <div class="dynasty-hero">
+            <h1 class="dynasty-title">元朝建筑成就</h1>
+            <div class="dynasty-period">公元1271年 - 公元1368年 | 大一统下的融合与创新</div>
+        </div>
+
+        <div class="historical-context">
+            <h2>历史背景</h2>
+            <p>元朝作为中国历史上第一个由少数民族统一全国的王朝，在建筑上融合了汉族传统、蒙古游牧与西亚元素，形成独特的空间与结构语言。与此同时，元代也延续并发展了大规模工程建设的传统，推动交通与水利的系统化建设。</p>
+            <ul>
+                <li><strong>多元文化融合：</strong>元代宫殿与佛寺中常见伊斯兰拱券、波斯花纹与汉族斗拱的混合。</li>
+                <li><strong>交通与桥梁：</strong>元代修筑大运河、桥梁，促进南北通商与兵员调动。</li>
+                <li><strong>城市规划：</strong>忽必烈建大都（今北京），城郭布局体现东西方结合的城市形式。</li>
+            </ul>
+        </div>
+
+        <!-- 数据可视化图表区域 -->
+        <div class="data-visualization-section">
+            <h2 class="section-title">元朝建筑工程数据可视化</h2>
+            <div class="charts-container">
+                <!-- 左侧：建筑类型统计柱状图 -->
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">元朝·建筑类型统计</h3>
+                    <div class="chart-container">
+                        <canvas id="buildingTypesChart"></canvas>
+                    </div>
+                    <p class="chart-note">注：元代建筑以宫殿、佛寺与桥梁为主，反映出统治者与宗教机构在建造活动中的主导地位。</p>
+                </div>
+                
+                <!-- 右侧：建筑材质分析雷达图 -->
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">元朝·建筑材质分析</h3>
+                    <div class="chart-container">
+                        <canvas id="materialChart"></canvas>
+                    </div>
+                    <p class="chart-note">注：元代建筑在传统木构之外，砖石与拱券结构开始被更广泛运用，展现出东西合璧的建筑语言。</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>元朝代表性建筑成就</h2>
+        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
+        
+        <div class="achievements-grid">
+            <!-- 大都（元大都） -->
+            <div class="achievement-card" data-building="dadou">
+                <div class="achievement-image">
+                    <img src="../achievements/images/yuan-yuandadu.jpg" alt="元大都">
+                </div>
+                <div class="achievement-content">
+                    <h3>元大都（今北京）</h3>
+                    <p>元大都是元朝的都城，继承了汉唐都城的布局，并融入蒙古传统营帐式区域划分，是东西方建筑与城市布局交融的典型。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">中轴布局</span>
+                        <span class="meta-tag">宫城体系</span>
+                        <span class="meta-tag">东西融合</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 萨迦寺 -->
+            <div class="achievement-card" data-building="sajia">
+                <div class="achievement-image">
+                    <img src="../achievements/images/yuan-sajia.jpg" alt="萨迦寺">
+                </div>
+                <div class="achievement-content">
+                    <h3>萨迦寺</h3>
+                    <p>萨迦寺是元朝时期著名的藏传佛教寺院，体现了汉藏与中亚建筑元素融合的风格。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">佛教建筑</span>
+                        <span class="meta-tag">中亚风格</span>
+                        <span class="meta-tag">宗教重镇</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赵州桥（元代修缮） -->
+            <div class="achievement-card" data-building="zhaozhou">
+                <div class="achievement-image">
+                    <img src="../achievements/images/yuan-zhaozhou.jpg" alt="赵州桥（元代修缮）">
+                </div>
+                <div class="achievement-content">
+                    <h3>赵州桥（元代修缮）</h3>
+                    <p>赵州桥在元代多次修缮，继续发挥其通衢要道的作用；元代工匠对桥梁结构的加固，体现了对古代名桥的保护与传承。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">拱桥结构</span>
+                        <span class="meta-tag">桥梁修缮</span>
+                        <span class="meta-tag">交通枢纽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <!-- 建筑详情模态框 -->
+    <div class="modal-overlay" id="buildingModal">
+        <div class="modal-content">
+            <div class="modal-close" id="closeModal">&times;</div>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">建筑标题</h2>
+                <div class="modal-subtitle" id="modalSubtitle">建筑副标题</div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image" id="modalImage">
+                    <div class="modal-image-placeholder">
+                        <div>建筑图片位置</div>
+                        <div style="font-size: 0.9rem; margin-top: 10px;">点击卡片查看建筑图片</div>
+                    </div>
+                </div>
+                <div class="modal-description" id="modalDescription">
+                    <!-- 建筑描述将通过JavaScript动态填充 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 等待页面加载完成后初始化图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 建筑类型统计柱状图
+            const buildingTypesCtx = document.getElementById('buildingTypesChart').getContext('2d');
+            const buildingTypesChart = new Chart(buildingTypesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['宫殿', '佛寺', '桥梁', '城市'],
+                    datasets: [{
+                        label: '建设数量',
+                        data: [90, 70, 40, 55],
+                        backgroundColor: '#9b59b6',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. 建筑材质分析雷达图
+            const materialCtx = document.getElementById('materialChart').getContext('2d');
+            const materialChart = new Chart(materialCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['木材', '砖瓦', '石材', '拱券', '彩绘'],
+                    datasets: [{
+                        label: '使用频率',
+                        data: [60, 70, 65, 55, 40],
+                        backgroundColor: 'rgba(155, 89, 182, 0.3)',
+                        borderColor: '#9b59b6',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#9b59b6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 模态框逻辑
+            const modal = document.getElementById('buildingModal');
+            const closeModal = document.getElementById('closeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            const modalImage = document.getElementById('modalImage');
+            const modalDescription = document.getElementById('modalDescription');
+
+            const buildingData = {
+                dadou: {
+                    title: '元大都（今北京）',
+                    subtitle: '中轴对称的都城布局，东西合璧的都城形态',
+                    image: '../achievements/images/yuan-yuandaduall.jpg',
+                    description: `
+                        <p>元大都是元朝的政治中心，继承唐都和宋都的城市设计，并融入蒙古草原营帐式的空间组织，体现了从“天子之城”到“大一统帝国”的建筑意象。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>中轴对称的城市布局与宫城体系；</li>
+                            <li>宫殿建筑既有汉式斗拱，又吸收西亚拱券形式；</li>
+                            <li>外城采用夯土与砖石结合的城墙，具有防御功能。</li>
+                        </ul>
+                    `
+                },
+                sajia: {
+                    title: '萨迦寺',
+                    subtitle: '藏传佛教建筑的典型代表',
+                    image: '../achievements/images/yuan-sajiaall.jpg',
+                    description: `
+                        <p>萨迦寺是元代重要的藏传佛教寺院，规模宏大，寺内建筑融合了汉式木构与藏式石砌结构，体现了元朝在宗教建筑上的多元融合。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>塔楼式建筑与藏式经堂结合；</li>
+                            <li>外墙多为夯土、石材，内部木构斗拱精美；</li>
+                            <li>使用彩绘壁画和佛像装饰佛殿。</li>
+                        </ul>
+                    `
+                },
+                zhaozhou: {
+                    title: '赵州桥（元代修缮）',
+                    subtitle: '历经朝代修缮的千年名桥',
+                    image: '../achievements/images/yuan-zhaozhouall.jpg',
+                    description: `
+                        <p>赵州桥是我国现存最古老的石拱桥，元代多次修缮维护，使其继续发挥通道与文化符号的作用，体现了元代对古代名胜的保护与改造理念。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>单孔敞肩拱结构，力学设计先进；</li>
+                            <li>桥面铺石，桥体石料严密契合；</li>
+                            <li>元代修缮保持了桥体原有风貌。</li>
+                        </ul>
+                    `
+                }
+            };
+
+            document.querySelectorAll('.achievement-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const key = card.getAttribute('data-building');
+                    const data = buildingData[key];
+
+                    if (!data) return;
+
+                    modalTitle.textContent = data.title;
+                    modalSubtitle.textContent = data.subtitle;
+
+                    modalImage.innerHTML = `<img src="${data.image}" alt="${data.title}">`;
+                    modalDescription.innerHTML = data.description;
+
+                    modal.classList.add('active');
+                });
+            });
+
+            closeModal.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

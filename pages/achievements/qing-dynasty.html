@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清朝建筑成就 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <!-- 引入Chart.js图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dynasty-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .dynasty-hero {
+            text-align: center;
+            padding: 60px 0;
+            background: #7f8c8d;
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .dynasty-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .dynasty-period {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        
+        /* 图表容器样式 */
+        .data-visualization-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .chart-wrapper {
+            flex: 1;
+            min-width: 300px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .chart-title {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .chart-container canvas {
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .chart-note {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        /* 建筑成就网格布局 */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .achievement-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .achievement-image {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .achievement-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .achievement-card:hover .achievement-image img {
+            transform: scale(1.05);
+        }
+        
+        .achievement-image::after {
+            content: '点击查看详情';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .achievement-card:hover .achievement-image::after {
+            opacity: 1;
+        }
+        
+        .achievement-content {
+            padding: 25px;
+        }
+        
+        .achievement-content h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .achievement-meta {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .meta-tag {
+            background: #ecf0f1;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: #c0392b;
+            transform: rotate(90deg);
+        }
+        
+        .modal-header {
+            padding: 30px 30px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .modal-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .modal-image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #7f8c8d;
+        }
+        
+        .modal-description {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.05rem;
+        }
+        
+        .modal-description h4 {
+            color: #2c3e50;
+            margin: 20px 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .modal-description p {
+            margin-bottom: 15px;
+        }
+        
+        .modal-description ul {
+            margin: 10px 0 15px 20px;
+        }
+        
+        .modal-description li {
+            margin-bottom: 8px;
+        }
+        
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页脚 */
+        .main-footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .modal-content {
+                max-height: 85vh;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-header {
+                padding: 20px 20px 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .modal-image {
+                height: 200px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="../dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">朝代建筑</a>
+                <a href="../dimensions/architects.html">建筑大师</a>
+                <a href="../dimensions/books.html">建筑经典</a>
+                <a href="../dimensions/3d-reconstruction.html">三维建筑</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dynasty-container">
+        <div class="dynasty-hero">
+            <h1 class="dynasty-title">清朝建筑成就</h1>
+            <div class="dynasty-period">公元1644年 - 公元1912年 | 古典建筑的最后辉煌与中西融合</div>
+        </div>
+
+        <div class="historical-context">
+            <h2>历史背景</h2>
+            <p>清朝是中国古典建筑走向极致的时代，皇家园林、宫殿和庙宇的营建达到巅峰。同时，在晚期西方建筑元素传入后，出现了中西合璧的建筑风格。</p>
+            <ul>
+                <li><strong>皇家园林：</strong>颐和园、圆明园等园林达到布局与景观的高度融合；</li>
+                <li><strong>宫殿建筑：</strong>故宫等宫殿体现清朝典雅宏大的礼制与装饰；</li>
+                <li><strong>中西合璧：</strong>晚清洋楼与传统宫殿并存，体现文化碰撞。</li>
+            </ul>
+        </div>
+
+        <!-- 数据可视化图表区域 -->
+        <div class="data-visualization-section">
+            <h2 class="section-title">清朝建筑工程数据可视化</h2>
+            <div class="charts-container">
+                <!-- 左侧：建筑类型统计柱状图 -->
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">清朝·建筑类型统计</h3>
+                    <div class="chart-container">
+                        <canvas id="buildingTypesChart"></canvas>
+                    </div>
+                    <p class="chart-note">注：清朝以宫殿、园林、庙宇为主要建筑类型，晚清则出现越来越多的公共建筑与西式洋楼。</p>
+                </div>
+                
+                <!-- 右侧：建筑材质分析雷达图 -->
+                <div class="chart-wrapper">
+                    <h3 class="chart-title">清朝·建筑材质分析</h3>
+                    <div class="chart-container">
+                        <canvas id="materialChart"></canvas>
+                    </div>
+                    <p class="chart-note">注：清代建筑以木构、砖石为基础，彩绘、雕刻等装饰工艺达到极高水平，晚清洋楼则引入钢筋、玻璃等材料。</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>清朝代表性建筑成就</h2>
+        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
+        
+        <div class="achievements-grid">
+            <!-- 故宫 -->
+            <div class="achievement-card" data-building="forbidden-city">
+                <div class="achievement-image">
+                    <img src="../achievements/images/qing-gugong.jpg" alt="故宫">
+                </div>
+                <div class="achievement-content">
+                    <h3>故宫</h3>
+                    <p>作为明清两代皇宫，故宫规模宏大，装饰华丽，体现了最高等级规范与国家礼制的建筑形式。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">皇家礼制</span>
+                        <span class="meta-tag">宫殿群落</span>
+                        <span class="meta-tag">精美雕刻</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 颐和园 -->
+            <div class="achievement-card" data-building="summer-palace">
+                <div class="achievement-image">
+                    <img src="../achievements/images/qing-yihe.jpg" alt="颐和园">
+                </div>
+                <div class="achievement-content">
+                    <h3>颐和园</h3>
+                    <p>颐和园是清代皇家园林的典范，以人工与自然景观相融的“借景”手法著称，具有极高的园林艺术价值。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">借景园林</span>
+                        <span class="meta-tag">湖光山色</span>
+                        <span class="meta-tag">皇家园林</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中西合璧洋楼 -->
+            <div class="achievement-card" data-building="western-building">
+                <div class="achievement-image">
+                    <img src="../achievements/images/qing-xiyang.jpg" alt="中西合璧洋楼">
+                </div>
+                <div class="achievement-content">
+                    <h3>中西合璧洋楼</h3>
+                    <p>晚清时期，洋务运动推动洋楼建筑兴起，传统屋顶与西式立面、拱门融合，形成独特的中西合璧风格。</p>
+                    <div class="achievement-meta">
+                        <span class="meta-tag">洋式建筑</span>
+                        <span class="meta-tag">材料革新</span>
+                        <span class="meta-tag">文化交融</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <!-- 建筑详情模态框 -->
+    <div class="modal-overlay" id="buildingModal">
+        <div class="modal-content">
+            <div class="modal-close" id="closeModal">&times;</div>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">建筑标题</h2>
+                <div class="modal-subtitle" id="modalSubtitle">建筑副标题</div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image" id="modalImage">
+                    <div class="modal-image-placeholder">
+                        <div>建筑图片位置</div>
+                        <div style="font-size: 0.9rem; margin-top: 10px;">点击卡片查看建筑图片</div>
+                    </div>
+                </div>
+                <div class="modal-description" id="modalDescription">
+                    <!-- 建筑描述将通过JavaScript动态填充 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 等待页面加载完成后初始化图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 建筑类型统计柱状图
+            const buildingTypesCtx = document.getElementById('buildingTypesChart').getContext('2d');
+            const buildingTypesChart = new Chart(buildingTypesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['宫殿', '园林', '庙宇', '洋楼'],
+                    datasets: [{
+                        label: '建设数量',
+                        data: [80, 70, 55, 45],
+                        backgroundColor: '#7f8c8d',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 2. 建筑材质分析雷达图
+            const materialCtx = document.getElementById('materialChart').getContext('2d');
+            const materialChart = new Chart(materialCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['木材', '砖瓦', '石材', '彩绘', '钢筋'],
+                    datasets: [{
+                        label: '使用频率',
+                        data: [65, 75, 70, 60, 40],
+                        backgroundColor: 'rgba(127, 140, 141, 0.3)',
+                        borderColor: '#7f8c8d',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#7f8c8d'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 模态框逻辑
+            const modal = document.getElementById('buildingModal');
+            const closeModal = document.getElementById('closeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            const modalImage = document.getElementById('modalImage');
+            const modalDescription = document.getElementById('modalDescription');
+
+            const buildingData = {
+                'forbidden-city': {
+                    title: '故宫',
+                    subtitle: '明清两代皇宫，礼制与建筑的极致表达',
+                    image: '../achievements/images/qing-gugongall.jpg',
+                    description: `
+                        <p>故宫是中国古代宫殿建筑的集大成者，正殿、配殿、中轴线布局严整，秦砖汉瓦与清代彩绘雕饰交相辉映。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>中轴对称的宏大布局；</li>
+                            <li>静谧而富丽的宫殿空间；</li>
+                            <li>精细的彩绘与木雕装饰。</li>
+                        </ul>
+                    `
+                },
+                'summer-palace': {
+                    title: '颐和园',
+                    subtitle: '皇家园林典范，借景与建筑相得益彰',
+                    image: '../achievements/images/qing-yiheall.jpg',
+                    description: `
+                        <p>颐和园以昆明湖与万寿山为依托，通过万寿山的山水借景构建了一个层次丰富的皇家园林空间。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>“曲径通幽”式的园林布局；</li>
+                            <li>长廊彩绘与石舫等特色建筑；</li>
+                            <li>水景与建筑巧妙融合。</li>
+                        </ul>
+                    `
+                },
+                'western-building': {
+                    title: '中西合璧洋楼',
+                    subtitle: '晚清洋楼体现中西建筑交流',
+                    image: '../achievements/images/qing-xiyangall.jpg',
+                    description: `
+                        <p>晚清时期洋务运动推动了中西建筑技术与形式的交流，洋楼常采用西式立面、拱窗与传统屋顶结合的方式，成为近代城市中的景观。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>西式拱券与栏杆结合；</li>
+                            <li>传统屋顶与现代构件并存；
+                            <li>体现中西合璧的建筑美学。</li>
+                        </ul>
+                    `
+                }
+            };
+
+            document.querySelectorAll('.achievement-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const key = card.getAttribute('data-building');
+                    const data = buildingData[key];
+
+                    if (!data) return;
+
+                    modalTitle.textContent = data.title;
+                    modalSubtitle.textContent = data.subtitle;
+
+                    modalImage.innerHTML = `<img src="${data.image}" alt="${data.title}">`;
+                    modalDescription.innerHTML = data.description;
+
+                    modal.classList.add('active');
+                });
+            });
+
+            closeModal.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

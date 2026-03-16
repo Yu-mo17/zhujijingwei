@@ -179,7 +179,6 @@
         
         <div class="nav-tabs">
             <button class="tab-btn active" data-tab="tab1">📈 各朝代建筑遗存</button>
-            <button class="tab-btn" data-tab="tab2">🧱 建筑材料演变</button>
             <button class="tab-btn" data-tab="tab3">📊 建筑类型统计</button>
         </div>
         
@@ -216,71 +215,6 @@
                             <div class="legend-text">砖石建筑</div>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">4</div>
-                    <div class="stat-label">现存唐代木构建筑</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">32</div>
-                    <div class="stat-label">现存宋代木构建筑</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">8,300+</div>
-                    <div class="stat-label">明清建筑遗存</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">5058</div>
-                    <div class="stat-label">全国重点文物保护单位（总数）</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 建筑材料演变 -->
-        <div id="tab2" class="tab-content">
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <div class="chart-title">
-                        主体建筑材料使用比例变化
-                        <span class="chart-subtitle">基于《中国建筑史》和考古发现</span>
-                    </div>
-                    <div id="materialChart" class="chart-box"></div>
-                    <div class="data-explanation">
-                        <h3>数据说明</h3>
-                        <p><strong>数据来源：</strong>《中国建筑史》（梁思成）、《中国古代建筑技术史》</p>
-                        <p><strong>统计依据：</strong>各时期典型建筑遗存的材料分析，结合历史文献记载</p>
-                        <p><strong>趋势分析：</strong>早期以土木为主，唐宋木构技术达到顶峰，明清砖石使用增多。清代末期木材占比下降与森林资源减少有关。</p>
-                    </div>
-                </div>
-                
-                <div class="chart-container">
-                    <div class="chart-title">
-                        建筑材料技术发展时间线
-                        <span class="chart-subtitle">关键技术发明与应用</span>
-                    </div>
-                    <div id="materialTimelineChart" class="chart-box"></div>
-                </div>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">90%</div>
-                    <div class="stat-label">唐宋时期木构占比</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">75%</div>
-                    <div class="stat-label">清代砖石建筑占比</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">1103年</div>
-                    <div class="stat-label">《营造法式》颁布</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">1734年</div>
-                    <div class="stat-label">《工程做法则例》颁布</div>
                 </div>
             </div>
         </div>
@@ -362,30 +296,6 @@
             wood: [4, 8, 32, 12, 18, 28, 450, 1200],
             brick: [2, 3, 18, 6, 9, 15, 320, 850]
         };
-        
-        // 3. 建筑材料演变数据（基于《中国建筑史》研究）
-        const materialEvolutionData = {
-            categories: ['商周', '秦汉', '魏晋南北朝', '隋唐', '宋辽金', '元', '明', '清'],
-            wood: [85, 80, 75, 90, 85, 80, 70, 60],
-            brick: [5, 10, 15, 8, 12, 18, 25, 35],
-            stone: [8, 8, 8, 2, 3, 2, 4, 5],
-            rammedEarth: [2, 2, 2, 0, 0, 0, 1, 0]
-        };
-        
-        // 4. 建筑材料技术发展里程碑
-        const materialTechTimeline = [
-            { year: -1600, name: '夯土技术成熟', value: 1 },
-            { year: -1100, name: '陶瓦发明', value: 2 },
-            { year: -700, name: '木构架技术', value: 3 },
-            { year: -200, name: '砖的规模化生产', value: 4 },
-            { year: 0, name: '木构建筑体系形成', value: 5 },
-            { year: 400, name: '琉璃技术引入', value: 6 },
-            { year: 600, name: '砖石塔技术', value: 7 },
-            { year: 1000, name: '《营造法式》', value: 9 },
-            { year: 1100, name: '砖石拱券成熟', value: 8 },
-            { year: 1400, name: '官式建筑规范化', value: 9 },
-            { year: 1700, name: '《工程做法则例》', value: 10 }
-        ];
         
         // 5. 建筑类型统计
         const buildingTypeData = [
@@ -560,165 +470,6 @@
             window.addEventListener('resize', function() { chart.resize(); });
         }
         
-        // 初始化建筑材料演变图表
-        function initMaterialChart() {
-            const chart = echarts.init(document.getElementById('materialChart'));
-            
-            const option = {
-                backgroundColor: 'transparent',
-                color: ['#ff6b6b', '#ffd166', '#06d6a0', '#118ab2'],
-                tooltip: {
-                    trigger: 'axis',
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    borderColor: '#ff6b6b',
-                    borderWidth: 1,
-                    textStyle: { color: '#fff' }
-                },
-                legend: {
-                    data: ['木材', '砖', '石材', '夯土'],
-                    textStyle: { color: '#ccc' },
-                    top: '5%'
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '10%',
-                    top: '15%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'category',
-                    data: materialEvolutionData.categories,
-                    axisLine: { lineStyle: { color: '#666' } },
-                    axisLabel: { 
-                        color: '#ccc',
-                        rotate: 45
-                    }
-                },
-                yAxis: {
-                    type: 'value',
-                    name: '使用比例 (%)',
-                    nameTextStyle: { color: '#aaa' },
-                    axisLine: { lineStyle: { color: '#666' } },
-                    axisLabel: { color: '#ccc' },
-                    splitLine: { lineStyle: { color: '#333', type: 'dashed' } },
-                    min: 0,
-                    max: 100
-                },
-                series: [
-                    {
-                        name: '木材',
-                        type: 'line',
-                        smooth: true,
-                        stack: '总量',
-                        lineStyle: { width: 3 },
-                        symbol: 'circle',
-                        symbolSize: 6,
-                        data: materialEvolutionData.wood
-                    },
-                    {
-                        name: '砖',
-                        type: 'line',
-                        smooth: true,
-                        stack: '总量',
-                        lineStyle: { width: 3 },
-                        symbol: 'circle',
-                        symbolSize: 6,
-                        data: materialEvolutionData.brick
-                    },
-                    {
-                        name: '石材',
-                        type: 'line',
-                        smooth: true,
-                        stack: '总量',
-                        lineStyle: { width: 3 },
-                        symbol: 'circle',
-                        symbolSize: 6,
-                        data: materialEvolutionData.stone
-                    },
-                    {
-                        name: '夯土',
-                        type: 'line',
-                        smooth: true,
-                        stack: '总量',
-                        lineStyle: { width: 3 },
-                        symbol: 'circle',
-                        symbolSize: 6,
-                        data: materialEvolutionData.rammedEarth
-                    }
-                ]
-            };
-            
-            chart.setOption(option);
-            window.addEventListener('resize', function() { chart.resize(); });
-        }
-        
-        // 初始化建筑材料时间线
-        function initMaterialTimelineChart() {
-            const chart = echarts.init(document.getElementById('materialTimelineChart'));
-            
-            const option = {
-                backgroundColor: 'transparent',
-                color: ['#06d6a0'],
-                tooltip: {
-                    trigger: 'item',
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    borderColor: '#06d6a0',
-                    borderWidth: 1,
-                    textStyle: { color: '#fff' },
-                    formatter: function(params) {
-                        const data = params.data;
-                        const year = data.year < 0 ? `公元前${Math.abs(data.year)}年` : `公元${data.year}年`;
-                        return `${data.name}<br/>时间：${year}<br/>重要性：${data.value}/10`;
-                    }
-                },
-                xAxis: {
-                    type: 'category',
-                    data: materialTechTimeline.map(item => 
-                        item.year < 0 ? `前${Math.abs(item.year)}` : `${item.year}`
-                    ),
-                    axisLine: { lineStyle: { color: '#666' } },
-                    axisLabel: { 
-                        color: '#ccc',
-                        rotate: 45
-                    }
-                },
-                yAxis: {
-                    type: 'value',
-                    name: '技术重要性 (1-10)',
-                    nameTextStyle: { color: '#aaa' },
-                    axisLine: { lineStyle: { color: '#666' } },
-                    axisLabel: { color: '#ccc' },
-                    splitLine: { lineStyle: { color: '#333', type: 'dashed' } },
-                    min: 0,
-                    max: 10
-                },
-                series: [{
-                    name: '技术发展',
-                    type: 'scatter',
-                    symbolSize: function(data) {
-                        return data[1] * 5;
-                    },
-                    data: materialTechTimeline.map(item => [item.name, item.value]),
-                    itemStyle: {
-                        color: '#06d6a0',
-                        borderColor: '#fff',
-                        borderWidth: 2
-                    },
-                    label: {
-                        show: true,
-                        formatter: '{b}',
-                        position: 'top',
-                        color: '#ccc',
-                        fontSize: 10
-                    }
-                }]
-            };
-            
-            chart.setOption(option);
-            window.addEventListener('resize', function() { chart.resize(); });
-        }
-        
         // 初始化建筑类型图表
         function initTypeChart() {
             const chart = echarts.init(document.getElementById('typeChart'));
@@ -886,12 +637,10 @@
         function initCharts() {
             initDynastyChart();
             initTimelineChart();
-            initMaterialChart();
-            initMaterialTimelineChart();
             initTypeChart();
             initTypeEvolutionChart();
             
-            console.log('基于官方数据的中国古代建筑可视化系统已加载完成！（已移除地域分布）');
+            console.log('基于官方数据的中国古代建筑可视化系统已加载完成！（已移除“建筑材料演变”）');
         }
         
         // 选项卡切换功能
@@ -914,8 +663,8 @@
                 // 调整图表大小
                 setTimeout(() => {
                     const charts = [
-                        'dynastyChart', 'timelineChart', 'materialChart',
-                        'materialTimelineChart', 'typeChart', 'typeEvolutionChart'
+                        'dynastyChart', 'timelineChart',
+                        'typeChart', 'typeEvolutionChart'
                     ];
                     charts.forEach(chartId => {
                         const chart = echarts.getInstanceByDom(document.getElementById(chartId));
@@ -933,8 +682,8 @@
         // 窗口大小变化时重绘所有图表
         window.addEventListener('resize', function() {
             const charts = [
-                'dynastyChart', 'timelineChart', 'materialChart',
-                'materialTimelineChart', 'typeChart', 'typeEvolutionChart'
+                'dynastyChart', 'timelineChart',
+                'typeChart', 'typeEvolutionChart'
             ];
             charts.forEach(chartId => {
                 const chart = echarts.getInstanceByDom(document.getElementById(chartId));
