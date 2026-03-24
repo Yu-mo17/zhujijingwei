@@ -82,14 +82,20 @@
         /* 页面标题区域 */
         .page-header {
             text-align: center;
-            margin: 40px 0 60px;
+            margin: 40px 0 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
         
         .page-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: #2c3e50;
-            margin-bottom: 20px;
-            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .page-subtitle {
@@ -269,9 +275,9 @@
             <a href="../../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
                 <a href="timeline.html" >朝代建筑</a>
-                <a href="architects.html">营造大师</a>
-                <a href="books.html" style="background: rgba(255,255,255,0.2);">营造经典</a>
-                <a href="3d-reconstruction.html">三维营造</a>
+                <a href="architects.html">建筑大师</a>
+                <a href="books.html" style="background: rgba(255,255,255,0.2);">建筑经典</a>
+                <a href="3d-reconstruction.html">三维建筑</a>
             </div>
         </nav>
     </header>
@@ -332,7 +338,7 @@
             </a>
 
             <!-- 《园冶》卡片 -->
-            <a href="#" class="book-card" data-dynasty="ming" data-type="theory">
+            <a href="../../建筑书籍/yuan-ye.html" class="book-card" data-dynasty="ming" data-type="theory">
                 <div class="book-image">
                     <span>🏞️</span>
                 </div>

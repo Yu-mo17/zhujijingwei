@@ -947,6 +947,35 @@
         </div>
     </section>
 
+     <!-- 图表区域 -->
+    <section class="chart-section">
+        <h2 class="section-title">汉长安城数据可视化</h2>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">长安城功能分区占比</h3>
+                <div class="chart" id="function-chart"></div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">长安城人口发展</h3>
+                <div class="chart" id="population-chart"></div>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">主要建筑规模对比</h3>
+                <div class="chart" id="building-chart"></div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">长安城与同时期城市对比</h3>
+                <div class="chart" id="comparison-chart"></div>
+            </div>
+        </div>
+    </section>
+    
     <!-- 历史时间线 -->
     <section class="timeline-section">
         <h2 class="section-title">汉长安城建造历史时间线</h2>
@@ -1106,35 +1135,6 @@
         </div>
     </section>
 
-    <!-- 图表区域 -->
-    <section class="chart-section">
-        <h2 class="section-title">汉长安城数据可视化</h2>
-        
-        <div class="charts-grid">
-            <div class="chart-container">
-                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">长安城功能分区占比</h3>
-                <div class="chart" id="function-chart"></div>
-            </div>
-            
-            <div class="chart-container">
-                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">长安城人口发展</h3>
-                <div class="chart" id="population-chart"></div>
-            </div>
-        </div>
-        
-        <div class="charts-grid">
-            <div class="chart-container">
-                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">主要建筑规模对比</h3>
-                <div class="chart" id="building-chart"></div>
-            </div>
-            
-            <div class="chart-container">
-                <h3 style="text-align: center; margin-bottom: 20px; color: #2c3e50;">长安城与同时期城市对比</h3>
-                <div class="chart" id="comparison-chart"></div>
-            </div>
-        </div>
-    </section>
-
     <!-- 建造技术 -->
     <section class="construction-tech">
         <h2 class="section-title">汉代建筑技术成就</h2>
@@ -1247,44 +1247,61 @@
             }, 2000);
             
             function init3DModel() {
-                // 简化的3D模型初始化代码
+                // 参考 changcheng.html 的3D视角与参数
                 if (typeof THREE !== 'undefined') {
                     const scene = new THREE.Scene();
-                    const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-                    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-                    
+                    scene.background = new THREE.Color(0xf0f0f0);
+
+                    // 创建相机，参数与 changcheng.html 保持一致
+                    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+                    camera.position.set(0, 15, 30);
+
+                    // 创建渲染器
+                    const renderer = new THREE.WebGLRenderer({ 
+                        canvas: canvas,
+                        antialias: true,
+                        alpha: true
+                    });
                     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-                    renderer.setClearColor(0xf0f0f0);
-                    
-                    // 加载长安城三维模型（仿照 changcheng.glb 结构）
+                    renderer.setPixelRatio(window.devicePixelRatio);
+                    renderer.shadowMap.enabled = true;
+                    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+                    // 添加轨道控制器
+                    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    controls.enableDamping = true;
+                    controls.dampingFactor = 0.05;
+                    controls.maxPolarAngle = Math.PI / 2.2;
+                    controls.minDistance = 10;
+                    controls.maxDistance = 100;
+
+                    // 添加光源
+                    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+                    scene.add(ambientLight);
+                    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+                    directionalLight.position.set(20, 30, 10);
+                    directionalLight.castShadow = true;
+                    scene.add(directionalLight);
+
+                    // 加载长安城三维模型
                     const modelLoader = new THREE.GLTFLoader();
                     modelLoader.load(
-                        './assets/3D/changcheng.glb',
+                        './assets/3D/hanchangancheng.glb',
                         function(gltf) {
                             const model = gltf.scene;
                             model.scale.set(30, 30, 30);
                             model.position.y = -1;
-
                             model.traverse(function(child) {
                                 if (child.isMesh) {
                                     child.castShadow = true;
                                     child.receiveShadow = true;
                                 }
                             });
-
                             scene.add(model);
-
+                            // 居中
                             const box = new THREE.Box3().setFromObject(model);
                             const center = box.getCenter(new THREE.Vector3());
                             model.position.sub(center);
-
-                            // 动画循环
-                            function animate() {
-                                requestAnimationFrame(animate);
-                                model.rotation.y += 0.0015;
-                                renderer.render(scene, camera);
-                            }
-                            animate();
                         },
                         function(xhr) {
                             const percent = Math.round((xhr.loaded / xhr.total) * 100);
@@ -1296,41 +1313,34 @@
                         }
                     );
 
-                    // 添加光源
-                    const ambientLight = new THREE.AmbientLight(0x666666);
-                    scene.add(ambientLight);
-
-                    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-                    directionalLight.position.set(20, 30, 20);
-                    scene.add(directionalLight);
-
-                    // 鼠标控制
-                    const controls = new THREE.OrbitControls(camera, canvas);
-                    controls.enableDamping = true;
-                    controls.dampingFactor = 0.05;
+                    // 动画循环
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        renderer.render(scene, camera);
+                    }
+                    animate();
 
                     // 视角切换
                     document.querySelectorAll('.view-btn').forEach(btn => {
                         btn.addEventListener('click', function() {
                             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
                             this.classList.add('active');
-
                             const view = this.getAttribute('data-view');
                             switch(view) {
                                 case 'overview':
-                                    camera.position.set(30, 20, 30);
+                                    camera.position.set(0, 15, 30);
                                     break;
                                 case 'palace':
-                                    camera.position.set(12, 18, 0);
+                                    camera.position.set(8, 12, 18);
                                     break;
                                 case 'market':
-                                    camera.position.set(-12, 18, 0);
+                                    camera.position.set(-8, 10, 18);
                                     break;
                                 case 'residential':
-                                    camera.position.set(0, 18, -18);
+                                    camera.position.set(0, 10, -18);
                                     break;
                                 case 'walls':
-                                    camera.position.set(0, 35, 0);
+                                    camera.position.set(0, 25, 0);
                                     break;
                             }
                             camera.lookAt(0, 0, 0);

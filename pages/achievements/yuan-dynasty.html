@@ -77,12 +77,6 @@
             height: 300px;
             width: 100%;
         }
-
-        /* 让图表在容器中居中显示 */
-        .chart-container canvas {
-            display: block;
-            margin: 0 auto;
-        }
         
         .chart-note {
             color: #7f8c8d;
@@ -430,38 +424,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 萨迦寺 -->
-            <div class="achievement-card" data-building="sajia">
-                <div class="achievement-image">
-                    <img src="../achievements/images/yuan-sajia.jpg" alt="萨迦寺">
-                </div>
-                <div class="achievement-content">
-                    <h3>萨迦寺</h3>
-                    <p>萨迦寺是元朝时期著名的藏传佛教寺院，体现了汉藏与中亚建筑元素融合的风格。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">佛教建筑</span>
-                        <span class="meta-tag">中亚风格</span>
-                        <span class="meta-tag">宗教重镇</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 赵州桥（元代修缮） -->
-            <div class="achievement-card" data-building="zhaozhou">
-                <div class="achievement-image">
-                    <img src="../achievements/images/yuan-zhaozhou.jpg" alt="赵州桥（元代修缮）">
-                </div>
-                <div class="achievement-content">
-                    <h3>赵州桥（元代修缮）</h3>
-                    <p>赵州桥在元代多次修缮，继续发挥其通衢要道的作用；元代工匠对桥梁结构的加固，体现了对古代名桥的保护与传承。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">拱桥结构</span>
-                        <span class="meta-tag">桥梁修缮</span>
-                        <span class="meta-tag">交通枢纽</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -504,15 +466,53 @@
                         label: '建设数量',
                         data: [90, 70, 40, 55],
                         backgroundColor: '#9b59b6',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        barPercentage: 0.6,
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#2c3e50',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#FF9800',
+                            bodyColor: '#fff',
+                            borderColor: '#FF9800',
+                            borderWidth: 1
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
                             ticks: {
-                                stepSize: 20
+                                color: '#555',
+                                font: {
+                                    size: 11
+                                }
+                            },
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#555',
+                                font: {
+                                    size: 11
+                                }
                             }
                         }
                     }
@@ -530,19 +530,63 @@
                         data: [60, 70, 65, 55, 40],
                         backgroundColor: 'rgba(155, 89, 182, 0.3)',
                         borderColor: '#9b59b6',
+                        pointBackgroundColor: '#4CAF50',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#4CAF50',
                         borderWidth: 2,
-                        pointBackgroundColor: '#9b59b6'
+                        pointRadius: 4
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         r: {
-                            beginAtZero: true,
-                            max: 100,
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                color: '#555',
+                                font: {
+                                    size: 12
+                                }
+                            },
                             ticks: {
+                                backdropColor: 'transparent',
+                                color: '#555',
+                                font: {
+                                    size: 10
+                                },
                                 stepSize: 20
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#2c3e50',
+                                font: {
+                                    size: 12
+                                }
                             }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#4CAF50',
+                            bodyColor: '#fff',
+                            borderColor: '#4CAF50',
+                            borderWidth: 1
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.1
                         }
                     }
                 }
@@ -568,34 +612,6 @@
                             <li>中轴对称的城市布局与宫城体系；</li>
                             <li>宫殿建筑既有汉式斗拱，又吸收西亚拱券形式；</li>
                             <li>外城采用夯土与砖石结合的城墙，具有防御功能。</li>
-                        </ul>
-                    `
-                },
-                sajia: {
-                    title: '萨迦寺',
-                    subtitle: '藏传佛教建筑的典型代表',
-                    image: '../achievements/images/yuan-sajiaall.jpg',
-                    description: `
-                        <p>萨迦寺是元代重要的藏传佛教寺院，规模宏大，寺内建筑融合了汉式木构与藏式石砌结构，体现了元朝在宗教建筑上的多元融合。</p>
-                        <h4>建筑特色</h4>
-                        <ul>
-                            <li>塔楼式建筑与藏式经堂结合；</li>
-                            <li>外墙多为夯土、石材，内部木构斗拱精美；</li>
-                            <li>使用彩绘壁画和佛像装饰佛殿。</li>
-                        </ul>
-                    `
-                },
-                zhaozhou: {
-                    title: '赵州桥（元代修缮）',
-                    subtitle: '历经朝代修缮的千年名桥',
-                    image: '../achievements/images/yuan-zhaozhouall.jpg',
-                    description: `
-                        <p>赵州桥是我国现存最古老的石拱桥，元代多次修缮维护，使其继续发挥通道与文化符号的作用，体现了元代对古代名胜的保护与改造理念。</p>
-                        <h4>建筑特色</h4>
-                        <ul>
-                            <li>单孔敞肩拱结构，力学设计先进；</li>
-                            <li>桥面铺石，桥体石料严密契合；</li>
-                            <li>元代修缮保持了桥体原有风貌。</li>
                         </ul>
                     `
                 }

@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
+        /* 导航栏 */
         * {
             margin: 0;
             padding: 0;
@@ -15,13 +16,12 @@
         }
         
         body {
-            font-family: "Microsoft YaHei", sans-serif;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f5f5f5;
+            background-color: #f8f5f1;
         }
-        
-        /* 导航栏 */
+
         .main-header {
             background: #2c3e50;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -75,7 +75,7 @@
                 height: auto;
                 padding: 15px;
             }
-    
+            
             .nav-links {
                 margin-top: 15px;
                 flex-wrap: wrap;
@@ -92,14 +92,24 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 100px 20px;
         }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
+
+        @media (max-width: 480px) {
+            .main-nav {
+                padding: 10px;
+            }
+    
+            .nav-links {
+                gap: 10px;
+            }
+    
+            .nav-links a {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
         }
+
         
         h1 {
             font-size: 2.2rem;
@@ -108,16 +118,10 @@
         }
         
         /* 主内容区 - 左侧模型 + 右侧建筑卡片 */
-        .main-content {
+        .model-content {
             display: flex;
             gap: 30px;
             margin-bottom: 30px;
-        }
-        
-        @media (max-width: 1024px) {
-            .main-content {
-                flex-direction: column;
-            }
         }
         
         /* 左侧3D模型区域 */
@@ -452,7 +456,7 @@
             background-color: #a00;
         }
         
-        footer {
+        .fromwhich {
             text-align: center;
             padding: 20px;
             color: #888;
@@ -461,10 +465,6 @@
         }
         
         @media (max-width: 768px) {
-            .main-content {
-                gap: 20px;
-            }
-            
             .model-viewer {
                 height: 400px;
             }
@@ -504,21 +504,17 @@
         <nav class="main-nav">
             <a href="../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="../pages/dimensions/timeline.html" style="background: rgba(255,255,255,0.2);">朝代建筑</a>
-                <a href="../pages/dimensions/architects.html">营造大师</a>
-                <a href="../pages/dimensions/books.html">营造经典</a>
-                <a href="../pages/dimensions/3d-reconstruction.html">三维营造</a>
+                <a href="../pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="../pages/dimensions/architects.html">建筑大师</a>
+                <a href="../pages/dimensions/books.html">建筑经典</a>
+                <a href="../pages/dimensions/3d-reconstruction.html" style="background: rgba(255,255,255,0.2);">三维建筑</a>
             </div>
         </nav>
     </header>
 
-    <div class="container">
-        <header>
-            <h1>沈阳故宫</h1>
-        </header>
-        
+    <section class="container">
         <!-- 主内容区：左侧3D模型 + 右侧建筑卡片 -->
-        <div class="main-content">
+        <div class="model-content">
             <!-- 左侧3D模型区域 -->
             <div class="model-section">
                 <div class="model-viewer">
@@ -602,7 +598,7 @@
                 </div>
             </div>
         </div>
-        
+    
         <!-- 建筑简介区域 -->
         <div class="description-section">
             <h3 class="section-title">建筑介绍</h3>
@@ -645,11 +641,13 @@
                 </div>
             </div>
         </div>
-        
-        <footer>
-            <p>© 2024 沈阳故宫3D数字博物馆 | 本页面仅供学习交流使用 | 数据来源：沈阳故宫博物院</p>
-        </footer>
+    </section>
+
+        <div class="fromwhich">
+            <p>数据来源：沈阳故宫博物院</p>
+        </div>
     </div>
+
           <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>

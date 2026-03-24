@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>三维营造 - 筑迹经纬</title>
     <style>
-        /* 基础样式 - 与建筑名家页面保持一致 */
+        /* 基础样式 */
         * {
             margin: 0;
             padding: 0;
@@ -16,17 +16,13 @@
             font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            min-height: 100vh;
+            background-color: #f8f5f1;
         }
         
         /* 导航栏 */
         .main-header {
             background: #2c3e50;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
         
         .main-nav {
@@ -44,17 +40,11 @@
             font-weight: bold;
             color: white;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        
-        .nav-logo span {
-            margin-left: 8px;
         }
         
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 30px;
         }
         
         .nav-links a {
@@ -62,13 +52,11 @@
             text-decoration: none;
             padding: 8px 16px;
             border-radius: 4px;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
+            transition: background-color 0.3s;
         }
         
         .nav-links a:hover {
             background: rgba(255,255,255,0.1);
-            transform: translateY(-2px);
         }
         
         .nav-links a.active {
@@ -81,6 +69,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            min-height: calc(100vh - 140px);
         }
         
         /* 页面标题区域 */
@@ -107,13 +96,6 @@
             color: #7f8c8d;
             max-width: 700px;
             margin: 0 auto 20px;
-        }
-        
-        .page-description {
-            color: #7f8c8d;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
         }
         
         /* 建筑类型筛选器 */
@@ -278,18 +260,7 @@
             padding: 30px 20px;
             margin-top: 60px;
         }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .copyright {
-            color: #95a5a6;
-            font-size: 0.9rem;
-            margin-top: 20px;
-        }
-        
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .buildings-grid {
@@ -353,9 +324,9 @@
             </a>
             <div class="nav-links">
                 <a href="timeline.html">朝代建筑</a>
-                <a href="architects.html">营造大师</a>
-                <a href="books.html">营造经典</a>
-                <a href="3d-reconstruction.html" class="active">三维营造</a>
+                <a href="architects.html">建筑大师</a>
+                <a href="books.html">建筑经典</a>
+                <a href="3d-reconstruction.html" style="background: rgba(255,255,255,0.2);">三维建筑</a>
             </div>
         </nav>
     </header>
@@ -365,16 +336,12 @@
         <div class="page-header">
             <h1 class="page-title">三维营造</h1>
             <p class="page-subtitle">沉浸式探索中国古代建筑瑰宝，体验三维数字化复原的魅力</p>
-            <p class="page-description">
-                本栏目汇集了中国古代建筑的3D数字化复原模型，通过虚拟现实技术，让您身临其境地探索这些千年古迹的建造技艺、结构特点和艺术价值。点击任意建筑卡片，即可进入三维互动体验。
-            </p>
         </div>
 
         <!-- 建筑类型筛选器 -->
         <div class="building-filters">
             <button class="building-filter active" data-type="all">全部建筑</button>
             <button class="building-filter" data-type="palace">宫殿建筑</button>
-            <button class="building-filter" data-type="temple">寺庙建筑</button>
             <button class="building-filter" data-type="bridge">桥梁建筑</button>
             <button class="building-filter" data-type="garden">园林建筑</button>
         </div>
@@ -387,10 +354,7 @@
 
     <!-- 页脚 -->
     <footer class="main-footer">
-        <div class="footer-content">
             <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
-            <p class="copyright">本网站所有3D模型均为学术研究用途，部分模型基于考古发现和历史文献数字化复原</p>
-        </div>
     </footer>
 
     <script>
@@ -404,16 +368,30 @@
                 type: "bridge",
                 description: "世界上现存最古老的单孔敞肩石拱桥，由隋代匠师李春建造，以其独特的结构设计和千年不倒的坚固闻名于世。",
                 image: "/assets/images/3D/sui-zhaozhouqiao.jpg",
-                modelUrl: "zhaozhouqiao-3d.html",
+                modelUrl: "../../建筑/zhaozhou-bridge.html#three-d",
                 features: {
                     scale: "大型",
                     interaction: "高度交互",
                     detail: "精细"
                 }
             },
-
             {
                 id: 2,
+                name: "汉长安城",
+                location: "陕西西安",
+                period: "西汉（公元前202年-公元8年）",
+                type: "palace",
+                description: "西汉都城，规模宏大，布局严整，是中国古代都城制度的典范。三维复原展示其宫殿、城墙等重要建筑结构。",
+                image: "../../assets/images/hanchangancheng.png",
+                modelUrl: "../../建筑/han-changan.html#three-d",
+                features: {
+                    scale: "大型",
+                    interaction: "高度交互",
+                    detail: "精细"
+                }
+            },
+            {
+                id: 3,
                 name: "沈阳故宫",
                 location: "辽宁省沈阳市",
                 period: "清初（1625年始建）",
@@ -429,7 +407,7 @@
             },
             
             {
-                id: 3,
+                id: 4,
                 name: "故宫",
                 location: "北京",
                 period: "明代（1420年）",
@@ -444,43 +422,13 @@
                 }
             },
             {
-                id: 4,
-                name: "应县木塔",
-                location: "山西应县",
-                period: "辽代（1056年）",
-                type: "temple",
-                description: "又称佛宫寺释迦塔，是世界上现存最古老、最高的木塔，高67.31米，全塔无一颗铁钉，纯木结构。",
-                image: "/assets/images/3D/liao-yingxianmuta.jpg",
-                modelUrl: "yingxian-muta-3d.html",
-                features: {
-                    scale: "大型",
-                    interaction: "高度交互",
-                    detail: "精细"
-                }
-            },
-            {
                 id: 5,
-                name: "天坛祈年殿",
-                location: "北京天坛",
-                period: "明代（1420年）",
-                type: "temple",
-                description: "明清两代皇帝祭天、祈谷的场所，以其独特的圆形建筑结构和精美的彩绘闻名，是中国古代祭天建筑的杰作。",
-                image: "https://images.unsplash.com/photo-1544984243-ec57ea16fe25?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                modelUrl: "qiniandian-3d.html",
-                features: {
-                    scale: "大型",
-                    interaction: "中度交互",
-                    detail: "精细"
-                }
-            },
-            {
-                id: 6,
                 name: "拙政园",
                 location: "江苏苏州",
                 period: "明代（1509年）",
                 type: "garden",
                 description: "苏州现存最大的古典园林，以水景著称，疏朗自然，呈现浓郁的江南水乡特色，被誉为'天下园林之母'。",
-                image: "https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                image: "/assets/images/3D/ming-zhuozhengyuan.jpg",
                 modelUrl: "zhuozhengyuan-3d.html",
                 features: {
                     scale: "大型",
@@ -489,13 +437,13 @@
                 }
             },
             {
-                id: 7,
+                id: 6,
                 name: "福建土楼",
                 location: "福建永定",
                 period: "清代（17-20世纪）",
                 type: "palace",
                 description: "又称福建客家土楼，是中国东南山区客家人的大型夯土民居建筑，以其独特的圆形或方形结构和防御功能闻名。",
-                image: "https://images.unsplash.com/photo-1512529904539-2034f9e1c8b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                image: "/assets/images/3D/qing-tulou.png",
                 modelUrl: "fujian-tulou-3d.html",
                 features: {
                     scale: "大型",
@@ -504,28 +452,13 @@
                 }
             },
             {
-                id: 8,
-                name: "岳阳楼",
-                location: "湖南岳阳",
-                period: "清代（1880年重建）",
-                type: "temple",
-                description: "中国古代四大名楼之一，以范仲淹《岳阳楼记》闻名天下，楼体为三层、四柱、飞檐、盔顶的纯木结构。",
-                image: "https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-                modelUrl: "yueyanglou-3d.html",
-                features: {
-                    scale: "中型",
-                    interaction: "中度交互",
-                    detail: "精细"
-                }
-            },
-            {
-                id: 9,
+                id: 7,
                 name: "颐和园长廊",
                 location: "北京颐和园",
                 period: "清代（1750年）",
                 type: "garden",
                 description: "世界上最长的画廊，全长728米，枋梁上绘有14000余幅彩画，内容包括山水风景、花鸟鱼虫、人物典故等。",
-                image: "https://images.unsplash.com/photo-1544551765-8613c8c8ad4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                image: "../../assets/images/3D/qing-yihechanglang.png",
                 modelUrl: "yihe-changlang-3d.html",
                 features: {
                     scale: "大型",
@@ -540,7 +473,6 @@
             const typeLabels = {
                 'all': '全部建筑',
                 'palace': '宫殿建筑',
-                'temple': '寺庙建筑',
                 'bridge': '桥梁建筑',
                 'garden': '园林建筑'
             };

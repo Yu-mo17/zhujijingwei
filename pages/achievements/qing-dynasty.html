@@ -78,11 +78,6 @@
             width: 100%;
         }
         
-        .chart-container canvas {
-            display: block;
-            margin: 0 auto;
-        }
-        
         .chart-note {
             color: #7f8c8d;
             font-size: 0.85rem;
@@ -498,20 +493,55 @@
             const buildingTypesChart = new Chart(buildingTypesCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['宫殿', '园林', '庙宇', '洋楼'],
+                    labels: ['宫殿', '园林',  '洋楼'],
                     datasets: [{
                         label: '建设数量',
-                        data: [80, 70, 55, 45],
+                        data: [80, 70, 45],
                         backgroundColor: '#7f8c8d',
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#2c3e50',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#FF9800',
+                            bodyColor: '#fff',
+                            borderColor: '#FF9800',
+                            borderWidth: 1
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
                             ticks: {
-                                stepSize: 20
+                                color: '#555',
+                                font: {
+                                    size: 11
+                                }
+                            },
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#555',
+                                font: {
+                                    size: 11
+                                }
                             }
                         }
                     }
@@ -535,13 +565,53 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         r: {
-                            beginAtZero: true,
-                            max: 100,
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            pointLabels: {
+                                color: '#555',
+                                font: {
+                                    size: 12
+                                }
+                            },
                             ticks: {
+                                backdropColor: 'transparent',
+                                color: '#555',
+                                font: {
+                                    size: 10
+                                },
                                 stepSize: 20
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#2c3e50',
+                                font: {
+                                    size: 12
+                                }
                             }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#4CAF50',
+                            bodyColor: '#fff',
+                            borderColor: '#4CAF50',
+                            borderWidth: 1
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.1
                         }
                     }
                 }

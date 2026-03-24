@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>时间维度 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <!-- ECharts 核心库 & 中国地图注册 -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
     <style>
+        /* 原有样式保持不变，仅补充地图卡片内需要的微调 */
         .timeline-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -15,13 +18,20 @@
         
         .page-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin: 40px 0 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
         
         .page-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .page-subtitle {
@@ -31,7 +41,7 @@
             margin: 0 auto 20px;
         }
         
-        /* 左右滚动朝代探索区域 */
+        /* ========== 朝代探索区域 - 自动轮播 + 手动按钮 ========== */
         .dynasty-explore-section {
             margin: 40px 0 60px;
         }
@@ -47,13 +57,7 @@
             font-size: 2rem;
             color: #2c3e50;
         }
-        
-        .dynasty-explore-subtitle {
-            color: #7f8c8d;
-            font-size: 1rem;
-            margin-top: 5px;
-        }
-        
+
         .dynasty-scroll-controls {
             display: flex;
             gap: 10px;
@@ -80,55 +84,6 @@
             transform: scale(1.1);
         }
         
-        .scroll-btn:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        /* 新增：自动播放控制 */
-        .auto-play-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 15px;
-            cursor: pointer;
-        }
-        
-        .auto-play-toggle {
-            width: 40px;
-            height: 20px;
-            background: #ddd;
-            border-radius: 10px;
-            position: relative;
-            transition: background 0.3s ease;
-        }
-        
-        .auto-play-toggle.active {
-            background: #2ecc71;
-        }
-        
-        .auto-play-toggle::after {
-            content: '';
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: transform 0.3s ease;
-        }
-        
-        .auto-play-toggle.active::after {
-            transform: translateX(20px);
-        }
-        
-        .auto-play-label {
-            font-size: 0.85rem;
-            color: #666;
-        }
-        
         .dynasty-scroll-container {
             position: relative;
             overflow: hidden;
@@ -139,7 +94,7 @@
         .dynasty-scroll-wrapper {
             display: flex;
             gap: 25px;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.5s ease;
             padding: 10px 5px;
         }
         
@@ -150,7 +105,7 @@
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            transition: box-shadow 0.3s ease;
             text-decoration: none;
             color: inherit;
             border-left: 5px solid #3498db;
@@ -159,7 +114,6 @@
             overflow: hidden;
         }
         
-        /* 新增：卡片悬停效果增强 */
         .dynasty-scroll-card::before {
             content: '';
             position: absolute;
@@ -177,8 +131,7 @@
         }
         
         .dynasty-scroll-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
         }
         
         /* 不同朝代的颜色变量 */
@@ -230,7 +183,6 @@
             border-left-color: #7f8c8d;
         }
         
-    
         .dynasty-scroll-period {
             font-size: 0.9rem;
             color: #95a5a6;
@@ -251,10 +203,6 @@
             font-size: 0.95rem;
         }
         
-        .dynasty-scroll-achievements {
-            margin: 15px 0 20px;
-        }
-    
         .dynasty-scroll-link {
             display: inline-block;
             background: var(--dynasty-color);
@@ -271,7 +219,7 @@
             transform: translateY(-2px);
         }
         
-        /* 滚动指示器 */
+        /* 指示点 */
         .scroll-indicator {
             display: flex;
             justify-content: center;
@@ -294,18 +242,7 @@
             transform: scale(1.2);
         }
         
-        .indicator-dot:hover {
-            transform: scale(1.1);
-        }
-        
-        /* 新增：当前卡片指示器 */
-        .current-indicator {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-            margin-left: 15px;
-        }
-        
-        /* 时间轴样式 */
+        /* ========== 时间轴样式 ========== */
         .timeline-visual {
             background: white;
             padding: 40px;
@@ -332,13 +269,11 @@
             margin: 0 auto;
         }
         
-        /* 时间轴主容器 */
         .timeline-main-container {
             position: relative;
             padding: 40px 0;
         }
         
-        /* 时间轴线 */
         .timeline-line {
             position: absolute;
             left: 50%;
@@ -350,13 +285,11 @@
             z-index: 1;
         }
         
-        /* 时间轴节点容器 */
         .timeline-items-container {
             position: relative;
             z-index: 2;
         }
         
-        /* 单个节点 */
         .timeline-item {
             display: flex;
             align-items: center;
@@ -376,7 +309,6 @@
             flex-direction: row-reverse;
         }
         
-        /* 节点内容 */
         .timeline-content {
             width: 45%;
             background: rgba(255,255,255,0.8);
@@ -403,13 +335,13 @@
             background-image: url('../../assets/images/zhaozhouqiao.png');
         }
         .timeline-item[data-dynasty="tang"] .timeline-content {
-            background-image: url('../../assets/images/foguangsidongdadian.png');
+            background-image: url('../../assets/images/daminggong.png');
         }
         .timeline-item[data-dynasty="song"] .timeline-content {
-            background-image: url('../../assets/images/yuanmingyuan.png');
+            background-image: url('../../assets/images/luoyangqiao.png');
         }
         .timeline-item[data-dynasty="yuan"] .timeline-content {
-            background-image: url('../../assets/images/jinci.png');
+            background-image: url('../achievements/images/yuan-yuandadu.jpg');
         }
         .timeline-item[data-dynasty="ming"] .timeline-content {
             background-image: url('../../assets/images/zijincheng.png');
@@ -441,15 +373,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
         
-        /* 节点时间标记 */
-        .timeline-time {
-            width: 12%;
-            text-align: center;
-            padding: 0 15px;
-            z-index: 3;
-            position: relative;
-        }
-        
         .time-badge {
             background: #c19a6b;
             color: white;
@@ -470,8 +393,7 @@
             z-index: 3;
             line-height: 1.2;
         }
-        
-        /* 朝代标签 */
+
         .dynasty-tag {
             display: inline-block;
             background: #3498db;
@@ -482,15 +404,13 @@
             font-weight: 600;
             margin-bottom: 15px;
         }
-        
-        /* 节点标题 */
+
         .timeline-title {
             font-size: 1.6rem;
             color: #2c3e50;
             margin-bottom: 10px;
         }
         
-        /* 节点描述 */
         .timeline-description {
             color: #444;
             font-size: 1.05rem;
@@ -499,7 +419,6 @@
             line-height: 1.6;
         }
         
-        /* 成就标签 */
         .achievement-tag {
             display: inline-block;
             background: #e8f4f8;
@@ -512,7 +431,6 @@
             margin-bottom: 10px;
         }
         
-        /* 跳转按钮 */
         .timeline-link {
             display: inline-block;
             background: #c19a6b;
@@ -529,7 +447,6 @@
             background: #a87c4c;
         }
         
-        /* 筛选器 */
         .filter-container {
             background: white;
             padding: 20px;
@@ -542,6 +459,7 @@
             color: #2c3e50;
             margin-bottom: 15px;
             font-size: 1.2rem;
+            text-align: center;  /* 新增：标题居中 */
         }
         
         .filter-tags {
@@ -568,7 +486,7 @@
             border-color: #c19a6b;
         }
         
-        /* 新增：加载动画 */
+        /* 加载动画（保留未用） */
         .loading-spinner {
             display: none;
             text-align: center;
@@ -597,12 +515,12 @@
                 align-items: flex-start;
                 gap: 20px;
             }
-            
+
             .dynasty-scroll-controls {
                 align-self: stretch;
                 justify-content: space-between;
             }
-            
+
             .dynasty-scroll-card {
                 width: 260px;
             }
@@ -627,11 +545,6 @@
                 border-right: none;
                 margin-left: 80px;
                 margin-right: 0;
-            }
-            
-            .timeline-time {
-                width: 60px;
-                padding: 0;
             }
             
             .time-badge {
@@ -661,10 +574,6 @@
                 margin-left: 60px;
             }
             
-            .timeline-time {
-                width: 50px;
-            }
-            
             .time-badge {
                 min-width: 70px;
                 font-size: 0.75rem;
@@ -683,13 +592,9 @@
             .dynasty-scroll-name {
                 font-size: 1.4rem;
             }
-            
-            .auto-play-control {
-                margin-left: 0;
-            }
         }
 
-        /* ========== 新增：官方数据图表区域样式（完全适配 timeline 风格） ========== */
+        /* ========== 官方数据图表区域 ========== */
         .data-charts-section {
             margin-top: 60px;
             padding-top: 20px;
@@ -751,7 +656,7 @@
 
         .chart-box {
             width: 100%;
-            height: 400px;
+            height: 400px;  /* 地图也适应这个高度，通过调整visualMap和zoom */
         }
 
         .stats-grid {
@@ -759,20 +664,6 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin: 40px 0 30px;
-        }
-
-        .stat-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-            border-left: 4px solid #c19a6b;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .stat-value {
@@ -878,129 +769,95 @@
         <div class="page-header">
             <h1 class="page-title">时间维度 · 历史建筑演变</h1>
             <p class="page-subtitle">从远古到明清，探索中国古代建筑的发展历程与技术突破</p>
-            
+        </div>
         
-        <!-- 左右滚动的朝代探索区域 -->
+        <!-- 朝代探索区域 - 自动轮播 + 手动按钮 -->
         <div class="dynasty-explore-section">
             <div class="dynasty-explore-header">
                 <div>
                     <h2 class="dynasty-explore-title">按朝代探索建筑成就</h2>
-                    <p class="dynasty-explore-subtitle">点击卡片探索各朝代代表性建筑，或使用左右按钮浏览</p>
                 </div>
                 <div class="dynasty-scroll-controls">
-                    <button class="scroll-btn scroll-left" aria-label="向左滚动">←</button>
-                    <div class="auto-play-control" id="auto-play-control">
-                        <div class="auto-play-toggle"></div>
-                        <span class="auto-play-label">自动播放</span>
-                    </div>
-                    <button class="scroll-btn scroll-right" aria-label="向右滚动">→</button>
+                    <button class="scroll-btn scroll-left" id="scroll-left" aria-label="向左滑动">←</button>
+                    <button class="scroll-btn scroll-right" id="scroll-right" aria-label="向右滑动">→</button>
                 </div>
             </div>
-            
-            <div class="dynasty-scroll-container">
+
+            <div class="dynasty-scroll-container" id="dynasty-scroll-container">
                 <div class="dynasty-scroll-wrapper" id="dynasty-scroll-wrapper">
                     <!-- 秦朝卡片 -->
                     <div class="dynasty-scroll-card qin" data-dynasty="qin">
                         <div class="dynasty-scroll-period">公元前221年 - 公元前207年</div>
                         <h3 class="dynasty-scroll-name">秦朝</h3>
                         <p class="dynasty-scroll-description">中国第一个大一统王朝，在长城、宫殿、陵墓等建筑工程上取得巨大成就</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/qin-dynasty.html" class="dynasty-scroll-link">探索秦朝建筑</a>
                     </div>
-                    
                     <!-- 汉朝卡片 -->
                     <div class="dynasty-scroll-card han" data-dynasty="han">
                         <div class="dynasty-scroll-period">公元前202年 - 公元220年</div>
                         <h3 class="dynasty-scroll-name">汉朝</h3>
                         <p class="dynasty-scroll-description">中国建筑的奠基时期，木构架建筑体系基本形成，都城规划与宫殿建筑达到新高度</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/han-dynasty.html" class="dynasty-scroll-link">探索汉朝建筑</a>
                     </div>
-                    
                     <!-- 隋朝卡片 -->
                     <div class="dynasty-scroll-card sui" data-dynasty="sui">
                         <div class="dynasty-scroll-period">公元581年 - 公元618年</div>
                         <h3 class="dynasty-scroll-name">隋朝</h3>
                         <p class="dynasty-scroll-description">短暂而辉煌的统一王朝，在桥梁、城市规划等领域取得重大突破</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/sui-dynasty.html" class="dynasty-scroll-link">探索隋朝建筑</a>
                     </div>
-                    
                     <!-- 唐朝卡片 -->
                     <div class="dynasty-scroll-card tang" data-dynasty="tang">
                         <div class="dynasty-scroll-period">公元618年 - 公元907年</div>
                         <h3 class="dynasty-scroll-name">唐朝</h3>
                         <p class="dynasty-scroll-description">中国古代建筑的黄金时代，木构建筑技术达到巅峰，规模宏大，气势磅礴</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/tang-dynasty.html" class="dynasty-scroll-link">探索唐朝建筑</a>
                     </div>
-                    
                     <!-- 宋朝卡片 -->
                     <div class="dynasty-scroll-card song" data-dynasty="song">
                         <div class="dynasty-scroll-period">公元960年 - 公元1279年</div>
                         <h3 class="dynasty-scroll-name">宋朝</h3>
                         <p class="dynasty-scroll-description">建筑风格趋于精致典雅，木作技艺精湛，开启建筑模数化先河</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/song-dynasty.html" class="dynasty-scroll-link">探索宋朝建筑</a>
                     </div>
-                    
                     <!-- 元朝卡片 -->
                     <div class="dynasty-scroll-card yuan" data-dynasty="yuan">
                         <div class="dynasty-scroll-period">公元1271年 - 公元1368年</div>
                         <h3 class="dynasty-scroll-name">元朝</h3>
                         <p class="dynasty-scroll-description">多元文化融合，藏传佛教建筑与伊斯兰建筑风格传入，形成独特建筑特色</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/yuan-dynasty.html" class="dynasty-scroll-link">探索元朝建筑</a>
                     </div>
-                    
                     <!-- 明朝卡片 -->
                     <div class="dynasty-scroll-card ming" data-dynasty="ming">
                         <div class="dynasty-scroll-period">公元1368年 - 公元1644年</div>
                         <h3 class="dynasty-scroll-name">明朝</h3>
                         <p class="dynasty-scroll-description">中国建筑艺术集大成时期，紫禁城、明长城等成为世界建筑史上的瑰宝</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/ming-dynasty.html" class="dynasty-scroll-link">探索明朝建筑</a>
                     </div>
-                    
                     <!-- 清朝卡片 -->
                     <div class="dynasty-scroll-card qing" data-dynasty="qing">
                         <div class="dynasty-scroll-period">公元1644年 - 公元1912年</div>
                         <h3 class="dynasty-scroll-name">清朝</h3>
                         <p class="dynasty-scroll-description">古典建筑最后辉煌，皇家园林达到巅峰，中西建筑风格开始交流融合</p>
-                        <div class="dynasty-scroll-achievements">
-                        </div>
                         <a href="../achievements/qing-dynasty.html" class="dynasty-scroll-link">探索清朝建筑</a>
                     </div>
                 </div>
             </div>
-            
-            <div class="scroll-indicator" id="scroll-indicator">
-                <!-- 动态生成指示点 -->
-                <div class="current-indicator" id="current-indicator">1/8</div>
-            </div>
-            
-            <!-- 加载动画 -->
-            <div class="loading-spinner" id="loading-spinner">
-                <div class="spinner"></div>
-                <p>加载更多朝代...</p>
-            </div>
+
+            <!-- 指示点 -->
+            <div class="scroll-indicator" id="scroll-indicator"></div>
         </div>
 
+        <!-- 官方数据图表区域（已替换第二个卡片为中国古建筑分布地图） -->
         <div class="data-charts-section">
             <div class="section-header">
                 <h2>基于官方数据的建筑统计</h2>
                 <p>数据来源：国家文物局《全国重点文物保护单位名录》（2023年）</p>
             </div>
 
-            <!-- 各朝代建筑遗存图表（第一行两个） -->
+            <!-- 各朝代建筑遗存图表 + 新地图（原第二项替换） -->
             <div class="charts-grid">
+                <!-- 第一项：各朝代现存建筑数量统计（保持不变） -->
                 <div class="chart-card">
                     <div class="chart-title">
                         各朝代现存建筑数量统计
@@ -1014,26 +871,24 @@
                     </div>
                 </div>
 
+                <!-- 第二项：原先的“唐代至清代建筑遗存趋势”已替换为“中国古代建筑分布地图” -->
                 <div class="chart-card">
                     <div class="chart-title">
-                        唐代至清代建筑遗存趋势
-                        <span class="chart-subtitle">现存木构与砖石建筑数量变化</span>
+                        中国古代建筑分布地图
+                        <span class="chart-subtitle">全国重点文物保护单位（古建筑类）</span>
                     </div>
-                    <div id="timelineChart" class="chart-box"></div>
-                    <div class="legend">
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #e74c3c;"></div>
-                            <div class="legend-text">木构建筑</div>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="background: #f39c12;"></div>
-                            <div class="legend-text">砖石建筑</div>
-                        </div>
+                    <!-- 地图容器 -->
+                    <div id="chinaMapChart" class="chart-box"></div>
+                    <!-- 简洁数据说明，与地图风格融合 -->
+                    <div class="data-explanation">
+                        <h3>📊 省份排名</h3>
+                        <p>山西 421处 · 河北 287处 · 陕西 256处 · 浙江 234处 · 河南 198处 · 四川 176处 · 江苏 165处 · 安徽 143处</p>
+                        <p><strong>数据来源：</strong>国家文物局《全国重点文物保护单位名录》(2023) 古建筑类，包含明清及早期遗存。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 建筑类型统计图表（第二行两个） -->
+            <!-- 建筑类型统计图表（保持不变） -->
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title">
@@ -1051,32 +906,12 @@
                     <div id="typeEvolutionChart" class="chart-box"></div>
                 </div>
             </div>
-
-            <!-- 统计数据卡片 -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">45.2%</div>
-                    <div class="stat-label">宗教建筑（寺观塔庙）</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">28.7%</div>
-                    <div class="stat-label">民居与庄园建筑</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">18.5%</div>
-                    <div class="stat-label">城防与军事建筑</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">7.6%</div>
-                    <div class="stat-label">宫殿与陵墓建筑</div>
-                </div>
-            </div>
-
             <div class="data-source">
                 * 数据来源：国家文物局《全国重点文物保护单位名录》（2023年）、中国建筑学会、清华大学建筑学院
             </div>
         </div>
 
+        <!-- 时间轴区域（保持不变） -->
         <div class="timeline-visual">
             <div class="timeline-header">
                 <h2>中国古代历史时间轴</h2>
@@ -1108,9 +943,6 @@
                 <div class="timeline-items-container" id="timeline-items">
                     <!-- 秦朝 -->
                     <div class="timeline-item" data-dynasty="qin">
-                        <div class="timeline-time">
-                            <div class="time-badge">秦朝 · 公元前221年 – 公元前207年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">秦朝</span>
                             <h3 class="timeline-title">长城（体系化修筑）</h3>
@@ -1126,9 +958,6 @@
                     
                     <!-- 汉朝 - 汉长安城 -->
                     <div class="timeline-item" data-dynasty="han">
-                        <div class="timeline-time">
-                            <div class="time-badge">汉朝 · 公元前202年 – 公元前195年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">汉朝</span>
                             <h3 class="timeline-title">汉长安城</h3>
@@ -1144,9 +973,6 @@
                     
                     <!-- 隋朝 -->
                     <div class="timeline-item" data-dynasty="sui">
-                        <div class="timeline-time">
-                            <div class="time-badge">隋朝 · 公元581年 – 公元618年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">隋朝</span>
                             <h3 class="timeline-title">赵州桥（河北赵县）</h3>
@@ -1162,66 +988,54 @@
                     
                     <!-- 唐朝 -->
                     <div class="timeline-item" data-dynasty="tang">
-                        <div class="timeline-time">
-                            <div class="time-badge">唐朝 · 公元618年 – 公元907年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">唐朝</span>
-                            <h3 class="timeline-title">佛光寺东大殿（山西五台山）</h3>
-                            <p class="timeline-description">中国现存规模最大、年代最久的唐代木构建筑典范，展现了盛唐时期木构建筑的最高水平。</p>
+                            <h3 class="timeline-title">大明宫（陕西西安）</h3>
+                            <p class="timeline-description">大明宫是盛唐时期的皇家宫殿建筑群，以其宏大规模与精美布局闻名，是唐代政治、文化与建筑艺术的代表。</p>
                             <div>
-                                <span class="achievement-tag">木构建筑</span>
-                                <span class="achievement-tag">寺庙建筑</span>
-                                <span class="achievement-tag">唐代典范</span>
+                                <span class="achievement-tag">皇家宫殿典范</span>
+                                <span class="achievement-tag">国家政治中心</span>
+                                <span class="achievement-tag">夯土高台遗址</span>
                             </div>
-                            <a href="../../建筑/foguang-temple.html" class="timeline-link">探索详情 →</a>
+                            <a href="../../建筑/daming-palace.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
                     
                     <!-- 宋朝 -->
                     <div class="timeline-item" data-dynasty="song">
-                        <div class="timeline-time">
-                            <div class="time-badge">宋朝 · 公元960年 – 公元1279年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">宋朝</span>
-                            <h3 class="timeline-title">晋祠圣母殿（山西太原）</h3>
-                            <p class="timeline-description">宋代优雅风格的典型，副阶周匝形制与鱼沼飞梁体现了技术艺术的成熟，是宋代建筑美学的典范。</p>
+                            <h3 class="timeline-title">洛阳桥（泉州）</h3>
+                            <p class="timeline-description">中国古代著名的跨海梁式大石桥，首创“筏型基础”与“种蛎固基”技术，桥长731米，是宋代桥梁工程的杰出代表。</p>
                             <div>
-                                <span class="achievement-tag">优雅风格</span>
-                                <span class="achievement-tag">副阶周匝</span>
-                                <span class="achievement-tag">鱼沼飞梁</span>
+                                <span class="achievement-tag">桥梁工程</span>
+                                <span class="achievement-tag">筏型基础</span>
+                                <span class="achievement-tag">种蛎固基</span>
                             </div>
-                            <a href="../../建筑/jinci-temple.html" class="timeline-link">探索详情 →</a>
+                            <a href="../../建筑/luoyangqiao.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
                     
                     <!-- 元朝 -->
                     <div class="timeline-item" data-dynasty="yuan">
-                        <div class="timeline-time">
-                            <div class="time-badge">元朝 · 公元1271年 – 公元1368年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">元朝</span>
-                            <h3 class="timeline-title">观星台（河南登封）</h3>
-                            <p class="timeline-description">中国现存最古老的天文观测建筑，由郭守敬设计建造，体现建筑与科学仪器的完美融合。</p>
+                            <h3 class="timeline-title">元大都（北京）</h3>
+                            <p class="timeline-description">元大都为元朝都城，采用中轴对称布局，融合汉族与蒙古建筑传统，城池方正、街道整齐，是中国古代都城规划与城市建筑的典范。</p>
                             <div>
-                                <span class="achievement-tag">天文观测</span>
-                                <span class="achievement-tag">科学建筑</span>
-                                <span class="achievement-tag">郭守敬</span>
+                                <span class="achievement-tag">都城规划</span>
+                                <span class="achievement-tag">中轴对称</span>
+                                <span class="achievement-tag">元代建筑</span>
                             </div>
-                            <a href="../../建筑/observatory.html" class="timeline-link">探索详情 →</a>
+                            <a href="../../建筑/yuandadu.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
                     
                     <!-- 明朝 - 南京明城墙 -->
                     <div class="timeline-item ming-wall" data-dynasty="ming">
-                        <div class="timeline-time">
-                            <div class="time-badge">明朝 · 公元1366年 – 公元1386年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">明朝</span>
-                            <h3 class="timeline-title">南京明城墙（明初）</h3>
+                            <h3 class="timeline-title">明城墙（南京）</h3>
                             <p class="timeline-description">明代初建的南京城墙，全长约35.5公里，是世界上规模最大的古代城垣，体现了明朝的国防力量和城市规划水平。</p>
                             <div>
                                 <span class="achievement-tag">城墙防御</span>
@@ -1234,12 +1048,9 @@
 
                     <!-- 明朝 - 北京紫禁城 -->
                     <div class="timeline-item" data-dynasty="ming">
-                        <div class="timeline-time">
-                            <div class="time-badge">明朝 · 公元1406年 – 公元1420年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">明朝</span>
-                            <h3 class="timeline-title">北京紫禁城</h3>
+                            <h3 class="timeline-title">紫禁城（北京）</h3>
                             <p class="timeline-description">永乐年间建成的皇家宫殿，是明清两代的政治中心，集中体现了中国古代宫殿建筑的等级制度与中轴对称布局。</p>
                             <div>
                                 <span class="achievement-tag">宫殿建筑</span>
@@ -1252,9 +1063,6 @@
                     
                     <!-- 清朝 -->
                     <div class="timeline-item" data-dynasty="qing">
-                        <div class="timeline-time">
-                            <div class="time-badge">清朝 · 公元1644年 – 公元1912年</div>
-                        </div>
                         <div class="timeline-content">
                             <span class="dynasty-tag">清朝</span>
                             <h3 class="timeline-title">圆明园（北京）</h3>
@@ -1271,7 +1079,6 @@
             </div> 
         </div>
     </div>
-</div>
 
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
@@ -1279,399 +1086,223 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 滚动动画
+            // ========== 时间轴滚动动画 ==========
             const timelineItems = document.querySelectorAll('.timeline-item');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
                 });
-            }, {
-                threshold: 0.1
-            });
-            
-            timelineItems.forEach(item => {
-                observer.observe(item);
-            });
-            
-            // 朝代筛选功能
+            }, { threshold: 0.1 });
+            timelineItems.forEach(item => observer.observe(item));
+
+            // ========== 朝代筛选 ==========
             const filterTags = document.querySelectorAll('.filter-tag');
             const allItems = document.querySelectorAll('.timeline-item');
-            
             filterTags.forEach(tag => {
                 tag.addEventListener('click', function() {
-                    // 更新活动标签
                     filterTags.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
-                    
                     const dynasty = this.getAttribute('data-dynasty');
-                    
-                    // 筛选时间轴项目
                     allItems.forEach(item => {
                         if (dynasty === 'all' || item.getAttribute('data-dynasty') === dynasty) {
                             item.style.display = 'flex';
-                            setTimeout(() => {
-                                observer.observe(item);
-                            }, 100);
+                            setTimeout(() => observer.observe(item), 100);
                         } else {
                             item.style.display = 'none';
                         }
                     });
-                    
-                    // 平滑滚动到可见的第一个项目
                     setTimeout(() => {
                         const firstVisible = document.querySelector('.timeline-item[style*="display: flex"]');
-                        if (firstVisible) {
-                            firstVisible.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'center'
-                            });
-                        }
+                        if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 300);
                 });
             });
-            
-            // 朝代快速导航
-            const quickNavItems = document.querySelectorAll('.quick-nav-item');
-            quickNavItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    quickNavItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const dynasty = this.getAttribute('data-dynasty');
-                    
-                    if (dynasty === 'all') {
-                        // 滚动到顶部
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth'
+
+            // ========== 轮播控制：自动播放 + 鼠标暂停 + 20秒恢复 ==========
+            (function() {
+                const container = document.getElementById('dynasty-scroll-container');
+                const wrapper = document.getElementById('dynasty-scroll-wrapper');
+                const leftBtn = document.getElementById('scroll-left');
+                const rightBtn = document.getElementById('scroll-right');
+                const indicatorContainer = document.getElementById('scroll-indicator');
+
+                if (!wrapper || !leftBtn || !rightBtn || !container) return;
+
+                const cards = Array.from(document.querySelectorAll('.dynasty-scroll-card'));
+                const cardCount = cards.length;
+                const cardWidth = 280;          // 卡片宽度（与CSS一致）
+                const cardGap = 25;              // 间距
+                const step = cardWidth + cardGap; // 每次移动的像素
+
+                let currentIndex = 0; // 当前最左边卡片的索引
+
+                // 自动播放相关
+                let autoPlayTimer = null;          // 自动播放定时器
+                let resumeTimer = null;             // 鼠标移出后延迟恢复的定时器
+                const AUTO_PLAY_INTERVAL = 2000;   // 20秒
+
+                // 更新轮播位置
+                function updateCarousel(index) {
+                    const offset = -index * step;
+                    wrapper.style.transform = `translateX(${offset}px)`;
+                    // 更新指示点
+                    if (indicatorContainer) {
+                        const dots = indicatorContainer.querySelectorAll('.indicator-dot');
+                        dots.forEach((dot, i) => {
+                            dot.classList.toggle('active', i === index);
                         });
-                    } else {
-                        // 找到对应的筛选标签并点击
-                        const filterTag = document.querySelector(`.filter-tag[data-dynasty="${dynasty}"]`);
-                        if (filterTag) {
-                            filterTag.click();
-                            
-                            // 滚动到时间轴
-                            document.querySelector('.timeline-visual').scrollIntoView({
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            });
-            
-            // 朝代滚动卡片功能
-            const scrollWrapper = document.getElementById('dynasty-scroll-wrapper');
-            const scrollLeftBtn = document.querySelector('.scroll-left');
-            const scrollRightBtn = document.querySelector('.scroll-right');
-            const scrollIndicator = document.getElementById('scroll-indicator');
-            const currentIndicator = document.getElementById('current-indicator');
-            const autoPlayControl = document.getElementById('auto-play-control');
-            const autoPlayToggle = autoPlayControl.querySelector('.auto-play-toggle');
-            const loadingSpinner = document.getElementById('loading-spinner');
-            
-            // 计算滚动参数
-            const cardWidth = 280;
-            const cardGap = 25;
-            const totalCards = document.querySelectorAll('.dynasty-scroll-card').length;
-            let currentPosition = 0;
-            let autoPlayInterval = null;
-            let isAutoPlaying = false;
-            let visibleCards = 0;
-            
-            // 更新可见卡片数量
-            function updateVisibleCards() {
-                const containerWidth = scrollWrapper.parentElement.offsetWidth;
-                visibleCards = Math.floor(containerWidth / (cardWidth + cardGap));
-                return Math.max(0, totalCards - visibleCards);
-            }
-            
-            // 创建滚动指示点
-            function createScrollIndicators() {
-                const totalScrollPositions = updateVisibleCards();
-                scrollIndicator.innerHTML = '';
-                
-                for (let i = 0; i <= totalScrollPositions; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'indicator-dot';
-                    if (i === 0) dot.classList.add('active');
-                    dot.addEventListener('click', () => {
-                        scrollToPosition(i);
-                        if (isAutoPlaying) {
-                            stopAutoPlay();
-                        }
-                    });
-                    scrollIndicator.appendChild(dot);
-                }
-                
-                // 添加当前指示器
-                const currentDiv = document.createElement('div');
-                currentDiv.className = 'current-indicator';
-                currentDiv.id = 'current-indicator';
-                currentDiv.textContent = `${currentPosition + 1}/${totalScrollPositions + 1}`;
-                scrollIndicator.appendChild(currentDiv);
-                
-                updateCurrentIndicator();
-            }
-            
-            // 滚动到指定位置
-            function scrollToPosition(position) {
-                const totalScrollPositions = updateVisibleCards();
-                if (position < 0 || position > totalScrollPositions) return;
-                
-                currentPosition = position;
-                const scrollAmount = position * (cardWidth + cardGap);
-                scrollWrapper.style.transform = `translateX(-${scrollAmount}px)`;
-                
-                // 更新按钮状态
-                updateButtonState();
-                
-                // 更新指示点状态
-                updateIndicators();
-                
-                // 更新当前指示器
-                updateCurrentIndicator();
-            }
-            
-            // 更新按钮状态
-            function updateButtonState() {
-                const totalScrollPositions = updateVisibleCards();
-                scrollLeftBtn.disabled = currentPosition === 0;
-                scrollRightBtn.disabled = currentPosition >= totalScrollPositions;
-            }
-            
-            // 更新指示点状态
-            function updateIndicators() {
-                const dots = document.querySelectorAll('.indicator-dot');
-                dots.forEach((dot, index) => {
-                    if (index === currentPosition) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
-                });
-            }
-            
-            // 更新当前指示器
-            function updateCurrentIndicator() {
-                const totalScrollPositions = updateVisibleCards();
-                if (currentIndicator) {
-                    currentIndicator.textContent = `${currentPosition + 1}/${totalScrollPositions + 1}`;
-                }
-            }
-            
-            // 向左滚动
-            scrollLeftBtn.addEventListener('click', () => {
-                if (currentPosition > 0) {
-                    scrollToPosition(currentPosition - 1);
-                }
-                if (isAutoPlaying) {
-                    stopAutoPlay();
-                }
-            });
-            
-            // 向右滚动
-            scrollRightBtn.addEventListener('click', () => {
-                const totalScrollPositions = updateVisibleCards();
-                if (currentPosition < totalScrollPositions) {
-                    scrollToPosition(currentPosition + 1);
-                } else {
-                    // 如果已经到最后，可以添加加载更多功能
-                    loadMoreDynasties();
-                }
-                if (isAutoPlaying) {
-                    stopAutoPlay();
-                }
-            });
-            
-            // 自动播放功能
-            function startAutoPlay() {
-                if (autoPlayInterval) clearInterval(autoPlayInterval);
-                
-                autoPlayInterval = setInterval(() => {
-                    const totalScrollPositions = updateVisibleCards();
-                    if (currentPosition < totalScrollPositions) {
-                        scrollToPosition(currentPosition + 1);
-                    } else {
-                        scrollToPosition(0); // 回到开头
-                    }
-                }, 3000); // 3秒自动切换
-            }
-            
-            function stopAutoPlay() {
-                if (autoPlayInterval) {
-                    clearInterval(autoPlayInterval);
-                    autoPlayInterval = null;
-                }
-                isAutoPlaying = false;
-                autoPlayToggle.classList.remove('active');
-            }
-            
-            // 自动播放控制
-            autoPlayControl.addEventListener('click', function() {
-                isAutoPlaying = !isAutoPlaying;
-                
-                if (isAutoPlaying) {
-                    autoPlayToggle.classList.add('active');
-                    startAutoPlay();
-                } else {
-                    stopAutoPlay();
-                }
-            });
-            
-            // 模拟加载更多朝代
-            function loadMoreDynasties() {
-                loadingSpinner.style.display = 'block';
-                
-                // 模拟网络延迟
-                setTimeout(() => {
-                    // 这里可以添加实际加载更多卡片的逻辑
-                    // 例如从服务器获取更多朝代数据
-                    
-                    loadingSpinner.style.display = 'none';
-                    alert('更多朝代数据正在开发中，即将上线！');
-                }, 1500);
-            }
-            
-            // 键盘导航支持
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowLeft') {
-                    scrollLeftBtn.click();
-                } else if (e.key === 'ArrowRight') {
-                    scrollRightBtn.click();
-                } else if (e.key === ' ' || e.key === 'Spacebar') {
-                    // 空格键切换自动播放
-                    autoPlayControl.click();
-                    e.preventDefault();
-                }
-            });
-            
-            // 添加鼠标滚轮支持
-            let isScrolling = false;
-            scrollWrapper.parentElement.addEventListener('wheel', (e) => {
-                if (isScrolling) return;
-                
-                e.preventDefault();
-                isScrolling = true;
-                
-                if (e.deltaY > 0) {
-                    scrollRightBtn.click();
-                } else {
-                    scrollLeftBtn.click();
-                }
-                
-                setTimeout(() => {
-                    isScrolling = false;
-                }, 500);
-            });
-            
-            // 添加触摸滑动支持
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-            scrollWrapper.parentElement.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            
-            scrollWrapper.parentElement.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            });
-            
-            function handleSwipe() {
-                const swipeThreshold = 50;
-                const diff = touchStartX - touchEndX;
-                
-                if (Math.abs(diff) > swipeThreshold) {
-                    if (diff > 0) {
-                        scrollRightBtn.click();
-                    } else {
-                        scrollLeftBtn.click();
                     }
                 }
-            }
-            
-            // 响应式调整
-            function handleResize() {
-                createScrollIndicators();
-                updateButtonState();
-                updateCurrentIndicator();
-            }
-            
-            // 监听窗口大小变化
-            let resizeTimeout;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(handleResize, 250);
-            });
-            
-            // 点击朝代卡片时，自动筛选时间轴
-            const dynastyCards = document.querySelectorAll('.dynasty-scroll-card');
-            dynastyCards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    // 如果点击的是链接，不执行筛选
-                    if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
+
+                // 切换到下一张
+                function nextCard() {
+                    currentIndex = (currentIndex + 1) % cardCount;
+                    updateCarousel(currentIndex);
+                }
+
+                // 切换到上一张
+                function prevCard() {
+                    currentIndex = (currentIndex - 1 + cardCount) % cardCount;
+                    updateCarousel(currentIndex);
+                }
+
+                // 清除所有定时器
+                function clearAllTimers() {
+                    if (autoPlayTimer) {
+                        clearTimeout(autoPlayTimer);
+                        autoPlayTimer = null;
+                    }
+                    if (resumeTimer) {
+                        clearTimeout(resumeTimer);
+                        resumeTimer = null;
+                    }
+                }
+
+                // 启动自动播放（设置定时器，下次自动播放）
+                function startAutoPlay() {
+                    clearAllTimers(); // 确保没有残留定时器
+                    autoPlayTimer = setTimeout(function tick() {
+                        nextCard();
+                        autoPlayTimer = setTimeout(tick, AUTO_PLAY_INTERVAL);
+                    }, AUTO_PLAY_INTERVAL);
+                }
+
+                // 停止自动播放（清除定时器）
+                function stopAutoPlay() {
+                    if (autoPlayTimer) {
+                        clearTimeout(autoPlayTimer);
+                        autoPlayTimer = null;
+                    }
+                }
+
+                // 重置自动播放（通常用于手动操作后，重新计时）
+                function resetAutoPlay() {
+                    if (!autoPlayTimer && !resumeTimer) {
+                        // 如果当前没有自动播放（例如鼠标移出后未恢复），则不重置
                         return;
                     }
-                    
-                    const dynasty = this.getAttribute('data-dynasty');
-                    
-                    // 找到对应的筛选标签并点击
-                    const filterTag = document.querySelector(`.filter-tag[data-dynasty="${dynasty}"]`);
-                    if (filterTag) {
-                        filterTag.click();
-                        
-                        // 更新快速导航
-                        quickNavItems.forEach(item => item.classList.remove('active'));
-                        const quickNav = document.querySelector(`.quick-nav-item[data-dynasty="${dynasty}"]`);
-                        if (quickNav) quickNav.classList.add('active');
-                        
-                        // 滚动到时间轴顶部
-                        document.querySelector('.timeline-visual').scrollIntoView({
-                            behavior: 'smooth'
-                        });
+                    stopAutoPlay();
+                    // 如果鼠标不在容器内，直接启动自动播放；如果在容器内，则等待鼠标移出后恢复
+                    if (!isMouseInside) {
+                        startAutoPlay();
                     }
-                });
-            });
-            
-            // 卡片悬停效果增强
-            dynastyCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.zIndex = '10';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.zIndex = '';
-                });
-            });
-            
-            // 初始化
-            createScrollIndicators();
-            updateButtonState();
-            
-            // 页面加载完成后3秒自动开始播放
-            setTimeout(() => {
-                if (!isAutoPlaying) {
-                    autoPlayControl.click();
                 }
-            }, 3000);
-            
-            console.log('增强版时间轴页面加载完成！');
+
+                // 鼠标状态
+                let isMouseInside = false;
+
+                // 鼠标进入容器
+                function handleMouseEnter() {
+                    isMouseInside = true;
+                    // 清除任何待执行的恢复定时器
+                    if (resumeTimer) {
+                        clearTimeout(resumeTimer);
+                        resumeTimer = null;
+                    }
+                    // 停止自动播放
+                    stopAutoPlay();
+                }
+
+                // 鼠标离开容器
+                function handleMouseLeave() {
+                    isMouseInside = false;
+                    // 设置20秒后恢复自动播放的定时器
+                    if (resumeTimer) {
+                        clearTimeout(resumeTimer);
+                        resumeTimer = null;
+                    }
+                    resumeTimer = setTimeout(() => {
+                        // 如果鼠标在此期间没有再次进入，则启动自动播放
+                        if (!isMouseInside) {
+                            startAutoPlay();
+                        }
+                        resumeTimer = null;
+                    }, AUTO_PLAY_INTERVAL);
+                }
+
+                // 手动操作后的处理：重置自动播放计时
+                function handleManualAction(action) {
+                    action(); // 执行切换
+                    // 重置自动播放
+                    if (!isMouseInside) {
+                        // 如果鼠标不在容器内，重新启动自动播放（从头计时）
+                        stopAutoPlay();
+                        startAutoPlay();
+                    } else {
+                        // 如果鼠标在容器内，只需清除自动播放（因为鼠标在时本来就不该自动播放），但不需要启动
+                        stopAutoPlay();
+                        // 同时清除可能存在的恢复定时器（因为鼠标还在内，不应该有恢复定时器）
+                        if (resumeTimer) {
+                            clearTimeout(resumeTimer);
+                            resumeTimer = null;
+                        }
+                    }
+                }
+
+                // 创建指示点
+                if (indicatorContainer) {
+                    for (let i = 0; i < cardCount; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'indicator-dot' + (i === 0 ? ' active' : '');
+                        dot.addEventListener('click', () => {
+                            handleManualAction(() => {
+                                currentIndex = i;
+                                updateCarousel(currentIndex);
+                            });
+                        });
+                        indicatorContainer.appendChild(dot);
+                    }
+                }
+
+                // 左按钮点击
+                leftBtn.addEventListener('click', () => {
+                    handleManualAction(prevCard);
+                });
+
+                // 右按钮点击
+                rightBtn.addEventListener('click', () => {
+                    handleManualAction(nextCard);
+                });
+
+                // 容器鼠标事件
+                container.addEventListener('mouseenter', handleMouseEnter);
+                container.addEventListener('mouseleave', handleMouseLeave);
+
+                // 初始化位置和自动播放
+                updateCarousel(0);
+                startAutoPlay(); // 页面加载后立即启动自动播放
+            })();
+
+            console.log('页面加载完成（自动轮播版）');
         });
     </script>
 
+    <!-- ECharts 图表初始化（包括新增的中国地图） -->
     <script>
         (function() {
-            // 确保ECharts已加载
-            if (typeof echarts === 'undefined') {
-                console.error('ECharts not loaded');
-                return;
-            }
+            if (typeof echarts === 'undefined') return;
 
-            // ==================== 官方数据 ====================
+            // ==================== 官方数据（原三个图表保持不变） ====================
             const officialDynastyData = [
                 { dynasty: '夏', value: 3, type: '遗址', color: '#8e44ad' },
                 { dynasty: '商', value: 12, type: '遗址', color: '#9b59b6' },
@@ -1690,22 +1321,13 @@
                 { dynasty: '清', value: 1856, type: '建筑', color: '#2c3e50' }
             ];
 
-            const woodStructureData = {
-                categories: ['唐', '五代', '宋', '辽', '金', '元', '明', '清'],
-                wood: [4, 8, 32, 12, 18, 28, 450, 1200],
-                brick: [2, 3, 18, 6, 9, 15, 320, 850]
-            };
-
             const buildingTypeData = [
-                { name: '寺观庙宇', value: 1265, percentage: 45.2 },
                 { name: '民居宅第', value: 803, percentage: 28.7 },
                 { name: '城防关隘', value: 518, percentage: 18.5 },
                 { name: '宫殿府衙', value: 175, percentage: 6.3 },
                 { name: '塔幢经幢', value: 89, percentage: 3.2 },
                 { name: '桥梁码头', value: 75, percentage: 2.7 },
-                { name: '陵墓祠庙', value: 68, percentage: 2.4 },
                 { name: '园林', value: 45, percentage: 1.6 },
-                { name: '其他', value: 32, percentage: 1.2 }
             ];
 
             const typeEvolutionData = {
@@ -1718,7 +1340,46 @@
                 garden: [0, 0, 2, 12, 20]
             };
 
-            // ==================== 图表主题配置（浅色） ====================
+            // ==================== 新增：中国古建筑分布数据（34省份） ====================
+            const regionData = [
+                { name: '山西', value: 421, rank: 1, representativeBuildings: [ '平遥古城'] },
+                { name: '河北', value: 287, rank: 2, representativeBuildings: ['赵州桥', '山海关', '承德避暑山庄'] },
+                { name: '陕西', value: 256, rank: 3, representativeBuildings: ['西安城墙', '大雁塔'] },
+                { name: '浙江', value: 234, rank: 4, representativeBuildings: ['西湖古建筑群', '普陀山古建筑群'] },
+                { name: '河南', value: 198, rank: 5, representativeBuildings: ['嵩山古建筑群', '白马寺', '龙门石窟'] },
+                { name: '四川', value: 176, rank: 6, representativeBuildings: ['都江堰', '青城山古建筑群'] },
+                { name: '江苏', value: 165, rank: 7, representativeBuildings: ['苏州园林', '中山陵', '周庄古镇'] },
+                { name: '安徽', value: 143, rank: 8, representativeBuildings: ['徽派古民居', '宏村', '西递', '黄山古建筑群'] },
+                { name: '福建', value: 128, rank: 9, representativeBuildings: ['土楼', '福州三坊七巷', '武夷山古建筑'] },
+                { name: '云南', value: 112, rank: 10, representativeBuildings: ['丽江古城', '崇圣寺三塔', '和顺古镇', '大理古城'] },
+                { name: '湖北', value: 98, rank: 11, representativeBuildings: ['武当山古建筑群', '荆州古城'] },
+                { name: '山东', value: 95, rank: 12, representativeBuildings: ['曲阜三孔', '泰山古建筑群', '蓬莱阁'] },
+                { name: '甘肃', value: 87, rank: 13, representativeBuildings: ['莫高窟', '嘉峪关'] },
+                { name: '湖南', value: 85, rank: 14, representativeBuildings: ['岳麓书院', '凤凰古城', '岳阳楼'] },
+                { name: '江西', value: 79, rank: 15, representativeBuildings: ['庐山古建筑群', '景德镇古窑'] },
+                { name: '广东', value: 76, rank: 16, representativeBuildings: ['开平碉楼'] },
+                { name: '广西', value: 68, rank: 17, representativeBuildings: ['桂林靖江王城', '程阳永济桥', '友谊关'] },
+                { name: '辽宁', value: 65, rank: 18, representativeBuildings: ['沈阳故宫', '兴城古城'] },
+                { name: '西藏', value: 58, rank: 19, representativeBuildings: ['布达拉宫'] },
+                { name: '内蒙古', value: 52, rank: 20, representativeBuildings: ['五当召'] },
+                { name: '重庆', value: 48, rank: 21, representativeBuildings: ['大足石刻','白帝城'] },
+                { name: '贵州', value: 45, rank: 22, representativeBuildings: ['镇远古城'] },
+                { name: '北京', value: 42, rank: 23, representativeBuildings: ['故宫', '天坛', '颐和园', '八达岭长城'] },
+                { name: '吉林', value: 38, rank: 24, representativeBuildings: ['伪满皇宫', '长白山古建筑', '珲春防川'] },
+                { name: '新疆', value: 35, rank: 25, representativeBuildings: ['高昌故城', '交河故城', '克孜尔石窟'] },
+                { name: '天津', value: 31, rank: 26, representativeBuildings: ['黄崖关长城'] },
+                { name: '上海', value: 28, rank: 27, representativeBuildings: ['豫园'] },
+                { name: '黑龙江', value: 26, rank: 28, representativeBuildings: ['中央大街', '金上京遗址'] },
+                { name: '青海', value: 22, rank: 29, representativeBuildings: ['丹噶尔古城'] },
+                { name: '宁夏', value: 19, rank: 30, representativeBuildings: [ '海宝塔', '镇北堡'] },
+                { name: '海南', value: 15, rank: 31, representativeBuildings: [ '东坡书院'] },
+                { name: '香港', value: 12, rank: 32, representativeBuildings: ['志莲净苑', '香港文物探知馆'] },
+                { name: '澳门', value: 8, rank: 33, representativeBuildings: [ '郑家大屋'] },
+                { name: '台湾', value: 0, rank: 34, representativeBuildings: ['数据暂缺'] }
+            ];
+            const totalBuildings = regionData.reduce((sum, item) => sum + item.value, 0);
+
+            // ==================== 图表主题配置 ====================
             const chartTheme = {
                 backgroundColor: '#ffffff',
                 textStyle: { color: '#2c3e50' },
@@ -1732,7 +1393,7 @@
                 }
             };
 
-            // ==================== 各朝代建筑数量图表 ====================
+            // 各朝代建筑数量图表（原）
             function initDynastyChart() {
                 const chart = echarts.init(document.getElementById('dynastyChart'));
                 const option = {
@@ -1780,56 +1441,74 @@
                 window.addEventListener('resize', () => chart.resize());
             }
 
-            // ==================== 唐代至清代趋势图表 ====================
-            function initTimelineChart() {
-                const chart = echarts.init(document.getElementById('timelineChart'));
+            // 新增：中国地图初始化（替换原timelineChart）
+            function initChinaMapChart() {
+                const chart = echarts.init(document.getElementById('chinaMapChart'));
                 const option = {
-                    ...chartTheme,
-                    tooltip: { trigger: 'axis' },
-                    legend: {
-                        data: ['木构建筑', '砖石建筑'],
+                    tooltip: {
+                        trigger: 'item',
+                        backgroundColor: 'rgba(255,255,255,0.95)',
+                        borderColor: '#c19a6b',
                         textStyle: { color: '#2c3e50' },
-                        top: 0
-                    },
-                    grid: { left: '8%', right: '5%', bottom: '10%', top: '15%' },
-                    xAxis: {
-                        type: 'category',
-                        data: woodStructureData.categories,
-                        axisLabel: { color: '#7f8c8d' }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        name: '现存数量',
-                        nameTextStyle: { color: '#7f8c8d' },
-                        axisLabel: { color: '#7f8c8d' },
-                        splitLine: { lineStyle: { color: '#f0f0f0' } }
-                    },
-                    series: [
-                        {
-                            name: '木构建筑',
-                            type: 'line',
-                            smooth: true,
-                            lineStyle: { width: 3, color: '#e74c3c' },
-                            symbol: 'circle',
-                            symbolSize: 8,
-                            data: woodStructureData.wood
-                        },
-                        {
-                            name: '砖石建筑',
-                            type: 'line',
-                            smooth: true,
-                            lineStyle: { width: 3, color: '#f39c12' },
-                            symbol: 'circle',
-                            symbolSize: 8,
-                            data: woodStructureData.brick
+                        formatter: function(params) {
+                            if (params.data) {
+                                const value = params.data.value;
+                                const percentage = ((value / totalBuildings) * 100).toFixed(1);
+                                const province = regionData.find(p => p.name === params.name);
+                                const buildings = province?.representativeBuildings || [];
+                                let buildingsList = '';
+                                if (buildings.length > 0) {
+                                    buildingsList = buildings.slice(0, 3).map(b => '• ' + b).join('<br/>');
+                                    if (buildings.length > 3) buildingsList += '<br/>• ...等';
+                                }
+                                return `
+                                    <div style="font-weight:bold; margin-bottom:5px;">${params.name} (第${province?.rank || 'N'}名)</div>
+                                    <div>古建筑数量: <b>${value}</b> 处 (占全国 ${percentage}%)</div>
+                                    ${buildingsList ? '<div style="margin-top:5px;">代表建筑:<br/>' + buildingsList + '</div>' : ''}
+                                `;
+                            }
+                            return params.name;
                         }
-                    ]
+                    },
+                    visualMap: {
+                        left: 20,
+                        bottom: 20,
+                        min: 0,
+                        max: 500,
+                        text: ['数量多', '数量少'],
+                        realtime: false,
+                        calculable: true,
+                        inRange: { color: ['#f0f9ff', '#a8d5ff', '#5ea8ff', '#1a7dff', '#0052cc'] },
+                        textStyle: { color: '#2c3e50' }
+                    },
+                    series: [{
+                        name: '古建筑数量',
+                        type: 'map',
+                        map: 'china',
+                        roam: true,
+                        zoom: 1.1,
+                        center: [105, 36],
+                        label: {
+                            show: true,
+                            fontSize: 10,
+                            color: '#333',
+                            formatter: function(params) {
+                                return (params.data && params.data.value > 100) ? params.name : '';
+                            }
+                        },
+                        emphasis: {
+                            label: { show: true, color: '#fff', backgroundColor: 'rgba(193,154,107,0.9)', padding: [5,10], borderRadius: 4 },
+                            itemStyle: { areaColor: '#c19a6b', borderColor: '#8b6b3b', borderWidth: 2 }
+                        },
+                        itemStyle: { borderColor: '#ddd', borderWidth: 0.5, areaColor: '#f5f5f5' },
+                        data: regionData
+                    }]
                 };
                 chart.setOption(option);
                 window.addEventListener('resize', () => chart.resize());
             }
 
-            // ==================== 建筑类型分布饼图 ====================
+            // 建筑类型分布饼图（原）
             function initTypeChart() {
                 const chart = echarts.init(document.getElementById('typeChart'));
                 const option = {
@@ -1841,63 +1520,39 @@
                             return `${params.name}<br/>数量：${params.value}处<br/>占比：${item.percentage}%`;
                         }
                     },
-                    legend: {
-                        orient: 'vertical',
-                        right: 10,
-                        top: 'center',
-                        textStyle: { color: '#2c3e50' }
-                    },
+                    legend: { orient: 'vertical', right: 10, top: 'center', textStyle: { color: '#2c3e50' } },
                     series: [{
                         type: 'pie',
                         radius: ['40%', '70%'],
                         avoidLabelOverlap: false,
-                        itemStyle: {
-                            borderRadius: 10,
-                            borderColor: '#fff',
-                            borderWidth: 2
-                        },
+                        itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
                         label: { show: false },
-                        emphasis: {
-                            label: { show: true, color: '#2c3e50', fontSize: 14 }
-                        },
+                        emphasis: { label: { show: true, color: '#2c3e50', fontSize: 14 } },
                         data: buildingTypeData.map(d => ({ name: d.name, value: d.value })),
-                        color: ['#e74c3c', '#f39c12', '#2ecc71', '#3498db', '#9b59b6', '#1abc9c', '#e67e22', '#95a5a6', '#34495e']
+                        color: ['#e74c3c', '#f39c12', '#2ecc71', '#3498db', '#9b59b6', '#1abc9c']
                     }]
                 };
                 chart.setOption(option);
                 window.addEventListener('resize', () => chart.resize());
             }
 
-            // ==================== 建筑类型演变折线图 ====================
+            // 建筑类型演变折线图（原）
             function initTypeEvolutionChart() {
                 const chart = echarts.init(document.getElementById('typeEvolutionChart'));
                 const option = {
                     ...chartTheme,
                     tooltip: { trigger: 'axis' },
-                    legend: {
-                        data: ['宫殿', '寺观', '民居', '城防', '陵墓', '园林'],
-                        textStyle: { color: '#2c3e50' },
-                        top: 0
-                    },
+                    legend: { data: ['宫殿', '民居', '城防', '园林'], textStyle: { color: '#2c3e50' }, top: 0 },
                     grid: { left: '8%', right: '5%', bottom: '10%', top: '15%' },
-                    xAxis: {
-                        type: 'category',
-                        data: typeEvolutionData.categories,
-                        axisLabel: { color: '#7f8c8d' }
-                    },
+                    xAxis: { type: 'category', data: typeEvolutionData.categories, axisLabel: { color: '#7f8c8d' } },
                     yAxis: {
-                        type: 'value',
-                        name: '现存数量',
-                        nameTextStyle: { color: '#7f8c8d' },
-                        axisLabel: { color: '#7f8c8d' },
-                        splitLine: { lineStyle: { color: '#f0f0f0' } }
+                        type: 'value', name: '现存数量', nameTextStyle: { color: '#7f8c8d' },
+                        axisLabel: { color: '#7f8c8d' }, splitLine: { lineStyle: { color: '#f0f0f0' } }
                     },
                     series: [
                         { name: '宫殿', type: 'line', smooth: true, data: typeEvolutionData.palace, color: '#e74c3c' },
-                        { name: '寺观', type: 'line', smooth: true, data: typeEvolutionData.temple, color: '#f39c12' },
                         { name: '民居', type: 'line', smooth: true, data: typeEvolutionData.residence, color: '#2ecc71' },
                         { name: '城防', type: 'line', smooth: true, data: typeEvolutionData.defense, color: '#3498db' },
-                        { name: '陵墓', type: 'line', smooth: true, data: typeEvolutionData.tomb, color: '#9b59b6' },
                         { name: '园林', type: 'line', smooth: true, data: typeEvolutionData.garden, color: '#1abc9c' }
                     ]
                 };
@@ -1905,13 +1560,11 @@
                 window.addEventListener('resize', () => chart.resize());
             }
 
-            // 页面加载完成后初始化所有图表
-            document.addEventListener('DOMContentLoaded', function() {
-                initDynastyChart();
-                initTimelineChart();
-                initTypeChart();
-                initTypeEvolutionChart();
-            });
+            // 依次初始化所有图表（注意原timelineChart不再调用，改为chinaMapChart）
+            initDynastyChart();
+            initChinaMapChart();    // 替换了原来的唐代至清代趋势图
+            initTypeChart();
+            initTypeEvolutionChart();
         })();
     </script>
 </body>
