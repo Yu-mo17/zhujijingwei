@@ -1,24 +1,15 @@
-// js/supabase-config.js
-// Supabase配置文件 - 请替换为您的实际值
+// supabase-config.js
+// 通过 Cloudflare Worker 代理 Supabase 请求，隐藏真实 URL 和 Anon Key
 
-// Supabase项目URL
-const SUPABASE_URL = 'https://qkkzhhptgrochqbwtzwa.supabase.co';
+// Worker 代理地址（你的 Cloudflare Worker 域名 + /supabase 路径）
+const SUPABASE_PROXY_URL = 'https://my-api-proxy.lin849617064.workers.dev/supabase';
 
-// 您的Supabase anon/public key（在Settings -> API中获取）
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFra3poaHB0Z3JvY2hxYnd0endhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0NTAwMDYsImV4cCI6MjA5MDAyNjAwNn0.4CWjsjuhspZ_r3qP8kmP6ZH-Wc9jNdMR7UHWo289A5k';
+// 创建 Supabase 客户端
+// 注意：第二个参数可以填写任意字符串，因为实际鉴权在 Worker 端使用真实 Anon Key
+const supabaseClient = window.supabase.createClient(SUPABASE_PROXY_URL, 'dummy-key');
 
-console.log('Supabase URL:', SUPABASE_URL);
-console.log('Supabase Key长度:', SUPABASE_ANON_KEY.length);
+// 将客户端挂载到 window 对象，供全局使用
+window.supabaseClient = supabaseClient;
 
-// 创建Supabase客户端
-try {
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    // 必须将客户端赋值给window对象
-    window.supabaseClient = supabaseClient;
-    
-    console.log('✅ Supabase客户端创建成功');
-    console.log('window.supabaseClient已设置:', typeof window.supabaseClient);
-} catch (error) {
-    console.error('❌ 创建Supabase客户端失败:', error);
-}
+// 可选：输出日志确认加载成功
+console.log('✅ Supabase 客户端已通过 Worker 代理创建，代理地址:', SUPABASE_PROXY_URL);
