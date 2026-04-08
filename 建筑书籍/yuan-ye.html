@@ -4,60 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>《园冶》 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f5f1;
-        }
-        
-        /* 导航栏 */
-        .main-header {
-            background: #2c3e50;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        
-        .main-nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.1);
-        }
         
         /* 英雄区域 */
         .hero-section {
@@ -396,7 +345,7 @@
             justify-content: center;
             font-weight: bold;
             font-size: 0.9rem;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 8 rgba(0,0,0,0.2);
         }
         
         .timeline-content {
@@ -528,13 +477,25 @@
             background: #2980b9;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
+
+        
+
+        /* 园冶雷达图专用样式 */
+        .radar-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .radar-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        #radar-chart {
+            width: 100%;
+            height: 500px;
         }
         
         /* 响应式设计 */
@@ -609,8 +570,6 @@
             </div>
         </nav>
     </header>
-        </nav>
-    </header>
 
     <!-- 英雄区域 -->
     <section class="hero-section">
@@ -625,6 +584,15 @@
         </div>
         <div class="hero-image">
             <img src="./assets/images/yuanye.jpg" >
+        </div>
+    </section>
+
+    <!-- 《园冶》核心能力图谱 -->
+    <section class="radar-section">
+        <h2 class="section-title">《园冶》核心能力图谱</h2>
+        <p class="section-subtitle">六大维度直观展示中国古典园林第一典籍的理论高度</p>
+        <div class="radar-box">
+            <div id="radar-chart"></div>
         </div>
     </section>
 
@@ -937,6 +905,45 @@
                     this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
                 });
             }
+
+            // ==================== 园冶雷达图 ====================
+            const radarChart = echarts.init(document.getElementById('radar-chart'));
+            const option = {
+                tooltip: {},
+                legend: {
+                    data: ['《园冶》'],
+                    bottom: 0
+                },
+                radar: {
+                    radius: '70%',
+                    indicator: [
+                        { name: '美学理论性', max: 5 },
+                        { name: '造园实践性', max: 5 },
+                        { name: '空间艺术性', max: 5 },
+                        { name: '历史开创性', max: 5 },
+                        { name: '文化影响力', max: 5 },
+                        { name: '官式规范性', max: 5 }
+                    ]
+                },
+                series: [{
+                    name: '能力图谱',
+                    type: 'radar',
+                    data: [
+                        {
+                            value: [5, 5, 5, 5, 5, 2],
+                            name: '《园冶》',
+                            areaStyle: {
+                                color: 'rgba(39, 174, 96, 0.3)'
+                            },
+                            itemStyle: {
+                                color: '#27ae60'
+                            }
+                        }
+                    ]
+                }]
+            };
+            radarChart.setOption(option);
+            window.addEventListener('resize', () => radarChart.resize());
             
             console.log('《园冶》专题页加载完成！');
         });

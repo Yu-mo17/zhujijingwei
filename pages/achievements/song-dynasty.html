@@ -8,38 +8,114 @@
     <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dynasty-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .dynasty-hero {
-            text-align: center;
-            padding: 60px 0;
-            background: #c89b40;
+
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 20px; 
+        }
+        
+        /* 左侧朝代信息栏 */
+        .dynasty-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: linear-gradient(135deg, #c89b40 0%, #a87c2a 100%); /* 保留宋朝黄色 */
             color: white;
             border-radius: 15px;
-            margin-bottom: 40px;
+            padding: 40px 25px;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
         }
         
-        .dynasty-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .dynasty-sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 300px;
+            line-height: 1.3;
+            letter-spacing: 8px;
+            font-weight: 700;
         }
         
-        .dynasty-period {
-            font-size: 1.3rem;
+        .dynasty-period-sidebar {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             opacity: 0.9;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
         }
         
-        /* 图表容器样式 */
+        .dynasty-intro {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 120px;
+            letter-spacing: 2px;
+        }
+        
+        .dynasty-features {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+        
+        /* 右侧主内容区 */
+        .dynasty-main-content {
+            flex: 1;
+            min-width: 0; 
+        }
+        
+        /* 历史背景区域  */
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px; 
+            margin: 40px auto 0; 
+        }
+        
+        /* 图表容器样式  */
         .data-visualization-section {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 30px;
-            margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px; 
+            margin: 40px auto 0; 
         }
         
         .section-title {
@@ -86,12 +162,32 @@
             line-height: 1.4;
         }
         
-        /* 建筑成就网格布局 */
+        /* 建筑成就标题区域  */
+        .achievements-title-area {
+            max-width: 900px; 
+            margin: 40px auto 20px;
+        }
+        
+        .achievements-title-area h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievements-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        /* 建筑成就网格布局*/
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin: 40px 0;
+            max-width: 900px; 
+            margin: 40px auto;
         }
         
         .achievement-card {
@@ -173,7 +269,7 @@
             color: #7f8c8d;
         }
         
-        /* 模态框样式 */
+        /* 模态框样式 - 保持宋朝原有样式 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -296,13 +392,6 @@
             margin-bottom: 8px;
         }
         
-        .historical-context {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
-        }
-        
         .back-link {
             display: inline-block;
             color: #3498db;
@@ -315,17 +404,50 @@
             text-decoration: underline;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
+
+        
 
         /* 响应式调整 */
+        @media (max-width: 1100px) {
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .dynasty-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+                height: auto;
+                max-height: none;
+            }
+            
+            .dynasty-sidebar h1 {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .dynasty-intro {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 80px 15px 15px; 
+            }
+            
             .modal-content {
                 max-height: 85vh;
             }
@@ -346,8 +468,20 @@
                 height: 200px;
             }
             
+
             .achievements-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dynasty-title {
+                font-size: 2.5rem; 
+            }
+            
+            .historical-context,
+            .data-visualization-section,
+            .achievements-grid {
+                max-width: 100%; 
             }
         }
     </style>
@@ -365,99 +499,132 @@
         </nav>
     </header>
 
-    <div class="dynasty-container">
-        <div class="dynasty-hero">
-            <h1 class="dynasty-title">宋朝建筑成就</h1>
-            <div class="dynasty-period">公元960年 - 公元1279年 | 技艺登峰，法式传世</div>
-        </div>
 
-        <div class="historical-context">
-            <h2>历史背景</h2>
-            <p>宋朝是中国古代建筑技术与理论并重的集大成时期。在唐代雄浑风格的基础上，宋代建筑转向精致典雅、富于理性，木构技艺登峰造极，并颁布了第一部官方建筑规范《营造法式》，标志着中国建筑进入高度模数化、标准化的成熟阶段。</p>
-            <ul>
-                <li><strong>《营造法式》颁布：</strong>李诫编修的建筑巨著，系统总结技术、工料、样式，影响后世深远</li>
-                <li><strong>木构技艺巅峰：</strong>斗拱体系精巧复杂，结构作用与装饰效果完美结合，出现减柱、移柱等创新</li>
-                <li><strong>城市与商业建筑：</strong>打破里坊制，出现开放式街市，商铺、酒楼等商业建筑形式蓬勃发展</li>
-            </ul>
-        </div>
-
-        <!-- 数据可视化图表区域 -->
-        <div class="data-visualization-section">
-            <h2 class="section-title">宋朝建筑工程数据可视化</h2>
-            <div class="charts-container">
-                <!-- 左侧：建筑类型统计柱状图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">宋朝·建筑类型统计</h3>
-                    <div class="chart-container">
-                        <canvas id="buildingTypesChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：基于历史文献记载与考古发现统计，反映出宋朝建筑活动的一个显著特点：民居建筑的数量规模远超其他类型，这凸显了宋代城市经济繁荣、市民生活兴盛以及建筑业向民用领域深度拓展的时代特征。</p>
-                </div>
-                
-                <!-- 右侧：建筑材质分析雷达图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">宋朝·建筑材质分析</h3>
-                    <div class="chart-container">
-                        <canvas id="materialChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：基于宋朝建筑遗存与文献记载分析，木材是绝对主导的结构与装饰材料，砖瓦在佛塔、城墙等构筑中应用显著增加。</p>
-                </div>
+    <div class="main-content-wrapper">
+        <!-- 左侧朝代信息栏 -->
+        <div class="dynasty-sidebar">
+            <h1>宋</h1>
+            <div class="dynasty-period-sidebar">公元960年 - 公元1279年</div>
+            <div class="dynasty-intro">技艺登峰<br>法式传世</div>
+            <div class="dynasty-features">
+                <span class="feature-tag">《营造法式》</span>
+                <span class="feature-tag">木构技艺巅峰</span>
+                <span class="feature-tag">城市商业建筑</span>
+                <span class="feature-tag">砖石技艺</span>
             </div>
         </div>
-
-        <h2>宋朝代表性建筑成就</h2>
-        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
         
-        <div class="achievements-grid">
-            <!-- 北宋汴京皇宫 -->
-            <div class="achievement-card" data-building="bianjing">
-                <div class="achievement-image">
-                    <img src="../achievements/images/song-bianjing.jpg" alt="北宋汴京皇宫">
-                </div>
-                <div class="achievement-content">
-                    <h3>北宋汴京皇宫</h3>
-                    <p>北宋汴京宫城，布局严整而紧凑，殿阁组合精巧，水系贯通其间，开创了宫城与繁华市井紧密相连的独特格局，集中体现了宋代建筑的理性精神与文治风貌。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">布局紧凑</span>
-                        <span class="meta-tag">功能齐全</span>
-                        <span class="meta-tag">宋代范式</span>
+        <!-- 右侧主内容区 -->
+        <div class="dynasty-main-content">
+            <!-- 历史背景区域 -->
+            <div class="historical-context">
+                <h2>历史背景</h2>
+                <p>宋朝是中国古代建筑技术与理论并重的集大成时期。在唐代雄浑风格的基础上，宋代建筑转向精致典雅、富于理性，木构技艺登峰造极，并颁布了第一部官方建筑规范《营造法式》，标志着中国建筑进入高度模数化、标准化的成熟阶段。</p>
+                <ul>
+                    <li><strong>《营造法式》颁布：</strong>李诫编修的建筑巨著，系统总结技术、工料、样式，影响后世深远</li>
+                    <li><strong>木构技艺巅峰：</strong>斗拱体系精巧复杂，结构作用与装饰效果完美结合，出现减柱、移柱等创新</li>
+                    <li><strong>城市与商业建筑：</strong>打破里坊制，出现开放式街市，商铺、酒楼等商业建筑形式蓬勃发展</li>
+                </ul>
+            </div>
+
+            <!-- 数据可视化图表区域 -->
+            <div class="data-visualization-section">
+                <h2 class="section-title">宋朝建筑工程数据可视化</h2>
+                <div class="charts-container">
+                    <!-- 左侧：建筑类型统计柱状图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">宋朝·建筑类型统计</h3>
+                        <div class="chart-container">
+                            <canvas id="buildingTypesChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：基于历史文献记载与考古发现统计，反映出宋朝建筑活动的一个显著特点：民居建筑的数量规模远超其他类型，这凸显了宋代城市经济繁荣、市民生活兴盛以及建筑业向民用领域深度拓展的时代特征。</p>
+                    </div>
+                    
+                    <!-- 右侧：建筑材质分析雷达图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">宋朝·建筑材质分析</h3>
+                        <div class="chart-container">
+                            <canvas id="materialChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：基于宋朝建筑遗存与文献记载分析，木材是绝对主导的结构与装饰材料，砖瓦在佛塔、城墙等构筑中应用显著增加。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 南宋临安皇宫 -->
-            <div class="achievement-card" data-building="linan">
-                <div class="achievement-image">
-                    <img src="../achievements/images/song-linan.jpg" alt="南宋临安皇宫">
-                </div>
-                <div class="achievement-content">
-                    <h3>南宋临安皇宫</h3>
-                    <p><p>南宋临安皇城，依托凤凰山麓而建，宫苑与西湖山水相依，布局灵活而富有园林意趣，在江南的灵秀中蕴藏着偏安一朝的审慎与精致。</p></p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">适应地形</span>
-                        <span class="meta-tag">与城融合</span>
-                        <span class="meta-tag">江南园林</span>
+            <!-- 建筑成就标题区域 -->
+            <div class="achievements-title-area">
+                <h2>宋朝代表性建筑成就</h2>
+                <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
+            </div>
+            
+            <!-- 建筑成就网格 -->
+            <div class="achievements-grid">
+                <!-- 北宋汴京皇宫 -->
+                <div class="achievement-card" data-building="bianjing">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/song-bianjing.jpg" alt="北宋汴京皇宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>北宋汴京皇宫</h3>
+                        <p>北宋汴京宫城，布局严整而紧凑，殿阁组合精巧，水系贯通其间，开创了宫城与繁华市井紧密相连的独特格局，集中体现了宋代建筑的理性精神与文治风貌。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">布局紧凑</span>
+                            <span class="meta-tag">功能齐全</span>
+                            <span class="meta-tag">宋代范式</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 卢沟桥 -->
-            <div class="achievement-card" data-building="lugouqiao">
-                <div class="achievement-image">
-                    <img src="../achievements/images/song-lugouqiao.jpg" alt="卢沟桥">
+                <!-- 南宋临安皇宫 -->
+                <div class="achievement-card" data-building="linan">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/song-linan.jpg" alt="南宋临安皇宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>南宋临安皇宫</h3>
+                        <p><p>南宋临安皇城，依托凤凰山麓而建，宫苑与西湖山水相依，布局灵活而富有园林意趣，在江南的灵秀中蕴藏着偏安一朝的审慎与精致。</p></p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">适应地形</span>
+                            <span class="meta-tag">与城融合</span>
+                            <span class="meta-tag">江南园林</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement-content">
-                    <h3>卢沟桥</h3>
-                    <p>世界现存最早、保存最完善的古代敞肩石拱桥，由工匠李春设计建造，体现了隋代高超的桥梁工程技术。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">联拱石桥</span>
-                        <span class="meta-tag">狮子雕刻</span>
-                        <span class="meta-tag">京师要道</span>
+
+                <!-- 宋代婺源乡村院落 -->
+                <div class="achievement-card" data-building="wuyuan">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/song-wuyuan.jpg" alt="宋代婺源乡村院落">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>婺源乡村院落</h3>
+                        <p>宋代江南乡村的典型居住形态，以“中轴对称、院落递进”构建家族秩序，将农耕文明与理学文化融入白墙黛瓦之间，成为传统乡土社会的居住典范。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">家族聚居</span>
+                            <span class="meta-tag">耕读传家</span>
+                            <span class="meta-tag">四水归堂</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 卢沟桥 -->
+                <div class="achievement-card" data-building="lugouqiao">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/song-lugouqiao.jpg" alt="卢沟桥">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>卢沟桥</h3>
+                        <p>卢沟桥是世界现存最早、保存最完善的古代敞肩石拱桥之一，建于金代（与南宋同期），是金朝在华北地区的重要交通工程，以其精美的石狮雕刻和坚固的结构闻名。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">联拱石桥</span>
+                            <span class="meta-tag">狮子雕刻</span>
+                            <span class="meta-tag">京师要道</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> <!-- 关闭 dynasty-container 容器 -->
+    </div>
 
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
@@ -473,14 +640,14 @@
             </div>
             <div class="modal-body">
                 <div class="modal-image" id="modalImage">
-                    <!-- 图片将通过JavaScript动态加载 -->
+                    
                     <div class="modal-image-placeholder">
                         <div>建筑图片位置</div>
                         <div style="font-size: 0.9rem; margin-top: 10px;">点击卡片查看建筑图片</div>
                     </div>
                 </div>
                 <div class="modal-description" id="modalDescription">
-                    <!-- 建筑描述将通过JavaScript动态填充 -->
+
                 </div>
             </div>
         </div>
@@ -632,17 +799,17 @@
                 materialChart.resize();
             });
 
-            // 建筑数据（已为每个建筑添加详情页图片路径）
+            // 建筑数据
             const buildingData = {
-                bianjing: {
+                'bianjing': {
                     title: "北宋汴京皇宫",
                     subtitle: "布局紧凑 | 功能齐全 | 宋代范式",
                     image: "../achievements/images/song-bianjingall.jpg", 
                     description: `
-                        <p>北宋汴京皇宫，又称“大内”，是在五代旧宫基础上扩建而成，其布局强化中轴、规制严谨，成为中国古代宫殿紧凑型规划的典范，深刻影响了后世金、元、明、清的宫城设计。</p>
+                        <p>北宋汴京皇宫，又称"大内"，是在五代旧宫基础上扩建而成，其布局强化中轴、规制严谨，成为中国古代宫殿紧凑型规划的典范，深刻影响了后世金、元、明、清的宫城设计。</p>
             
                         <h4>严谨的轴线与功能序列</h4>
-                        <p>宫城以一条南北纵深轴线为核心，从南至北依次布置宣德门、大庆殿（大朝）、文德殿（常朝）、紫宸殿（内朝）等核心建筑，形成了清晰严整的“前朝后寝”空间序列。这种高度集约化的布局，在有限空间内最大化地体现了皇权秩序与行政效率。</p>
+                        <p>宫城以一条南北纵深轴线为核心，从南至北依次布置宣德门、大庆殿（大朝）、文德殿（常朝）、紫宸殿（内朝）等核心建筑，形成了清晰严整的"前朝后寝"空间序列。这种高度集约化的布局，在有限空间内最大化地体现了皇权秩序与行政效率。</p>
             
                         <h4>高度集中的布局规划</h4>
                         <p>建筑群密集而有序，功能分区明确：</p>
@@ -657,18 +824,18 @@
                         <p>与汉唐宫城的恢宏博大不同，北宋汴京皇宫虽规模受限，但其在制度化、功能化与空间集约化方面达到新高度，开创了此后中国近古时期宫城规划的新范式，是理解中国宫殿建筑从唐到明清演变的关键。</p>
                     `
                 },
-                linan: {
+                'linan': {
                     title: "南宋临安皇宫",
                     subtitle: "适应地形 | 与城融合 | 江南园林",
                     image: "../achievements/images/song-linanall.jpg", 
                     description: `
-                        <p>南宋临安皇宫，位于凤凰山麓，是中国历史上最具独特性的皇宫之一。它彻底放弃了平地都城严整的中轴对称格局，完全顺应自然地形布局，形成了“南宫北苑、山宫一体”的独特风貌，反映了偏安政权务实的政治选择与精致化的审美趣味。</p>
+                        <p>南宋临安皇宫，位于凤凰山麓，是中国历史上最具独特性的皇宫之一。它彻底放弃了平地都城严整的中轴对称格局，完全顺应自然地形布局，形成了"南宫北苑、山宫一体"的独特风貌，反映了偏安政权务实的政治选择与精致化的审美趣味。</p>
 
                         <h4>因山就势的灵活布局</h4>
-                        <p>宫殿区主要位于凤凰山东麓缓坡，受山地限制，核心殿宇如大庆殿、垂拱殿等并非排列于笔直轴线，而是依山势高低错落分布。重要门阙（丽正门、和宁门）的连线仅构成象征性的轴线。这种“不求方正”的规划，是对传统礼制格局的一次突破性适应。</p>
+                        <p>宫殿区主要位于凤凰山东麓缓坡，受山地限制，核心殿宇如大庆殿、垂拱殿等并非排列于笔直轴线，而是依山势高低错落分布。重要门阙（丽正门、和宁门）的连线仅构成象征性的轴线。这种"不求方正"的规划，是对传统礼制格局的一次突破性适应。</p>
 
                         <h4>朝寝与园林无界</h4>
-                        <p>皇宫的北部和西部与凤凰山自然山林深度融合，开辟为巨大的皇家苑囿（如后苑、聚景园）。皇帝的理政殿阁与游赏的亭台山水直接相邻甚至穿插，实现了“朝寝与园林无界”，生活气息浓厚，园林化程度远超北宋汴京皇宫。</p>
+                        <p>皇宫的北部和西部与凤凰山自然山林深度融合，开辟为巨大的皇家苑囿（如后苑、聚景园）。皇帝的理政殿阁与游赏的亭台山水直接相邻甚至穿插，实现了"朝寝与园林无界"，生活气息浓厚，园林化程度远超北宋汴京皇宫。</p>
                         <ul>
                             <li><strong>务实性</strong>：是在有限资源与特殊地理条件下的最优解。</li>
                             <li><strong>园林化</strong>：创造了与自然山水亲密无间的宫城模式。</li>
@@ -679,10 +846,39 @@
                         <p>南宋临安皇宫虽缺乏宏大威严的仪式感，却以其极高的空间灵活性与浓厚的园林意趣，在中国宫殿史上独树一帜，是政权适应性、地域文化与建筑艺术结合的杰出案例。</p>
                     `
                 },
-                lugouqiao: {
+                'wuyuan': {
+                    title: '婺源乡村院落',
+                    subtitle: '江南士绅与庶民的居住典范，农耕文明的乡土缩影',
+                    image: '../achievements/images/song-wuyuanall.jpg',
+                    description: `
+                        <p>宋代婺源乡村院落，是江南士绅与庶民在农耕文明与理学文化背景下形成的典型居住形态，体现了“聚族而居、耕读传家”的乡土社会结构与审美意趣。这些院落不仅是居住空间，更是宗族认同与社会治理的单元。</p>
+                        <h4>建筑布局</h4>
+                        <ul>
+                            <li><strong>中轴对称，院落递进</strong>：大型宅院以祠堂或厅堂为中心，按长幼尊卑分配居住空间，形成多进院落格局；</li>
+                            <li><strong>祠堂核心</strong>：祠堂用于祭祀、议事，是家族精神与权力的象征；</li>
+                            <li><strong>家塾教育</strong>：院落内常设家塾，体现“耕读传家”的理学传统；</li>
+                            <li><strong>聚落融合</strong>：形成“屋舍-田野-山林”一体的村落景观，与自然环境和谐相融。</li>
+                        </ul>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li><strong>木构两层，白墙黛瓦</strong>：建筑多为木结构两层，白墙黛瓦，马头墙高耸以防火防风；</li>
+                            <li><strong>天井设计</strong>：院落核心为天井，既解决采光排水，又象征“四水归堂”的聚财寓意，是家庭公共生活的中心；</li>
+                            <li><strong>三雕工艺</strong>：木雕、砖雕、石雕工艺精湛，题材取自儒家典故、吉祥图案与自然花草，反映主人的文化追求与道德价值观；</li>
+                            <li><strong>风水理念</strong>：注重实用与风水，选址布局讲究“背山面水”，与山、水、田自然融合。</li>
+                        </ul>
+                        <h4>社会意义</h4>
+                        <ul>
+                            <li><strong>宗族认同</strong>：院落是家族认同与社会治理的基本单元，营造稳定、内向、自足的乡土社会秩序；</li>
+                            <li><strong>理学体现</strong>：布局与装饰渗透着宋代理学的伦理观念，体现“长幼有序、内外有别”的儒家秩序；</li>
+                            <li><strong>文化传承</strong>：成为宋代以后中国传统农耕社会居住文化的缩影，其营造智慧与自然观至今仍有深远影响；</li>
+                            <li><strong>江南典型</strong>：为徽派建筑的形成奠定基础，是江南地区乡土建筑的杰出代表。</li>
+                        </ul>
+                    `
+                },
+                'lugouqiao': {
                     title: "卢沟桥",
                     subtitle: "联拱石桥 | 狮子雕刻 | 京师要道",
-                    image: "../achievements/images/jin-lugouqiaoall.jpg", 
+                    image: "../achievements/images/song-lugouqiaoall.jpg", 
                     description: `
                         <p>卢沟桥始建于金代（与南宋同期），位于金中都（今北京西南）郊外，是金朝为巩固华北统治、便利交通而兴建的重要石拱桥。它以其杰出的工程技术、精湛的石刻艺术、重要的战略地位，以及在近代承载的厚重历史记忆而闻名于世。</p>
 
@@ -690,15 +886,15 @@
                         <p>卢沟桥是联拱石桥的典范，全长约266米，宽约8米，下设11个孔洞。其桥墩设计尤为精妙：</p>
                         <ul>
                             <li><strong>船形分水尖</strong>：有效分解水流冲击。</li>
-                            <li><strong>“斩龙剑”</strong>：在分水尖上包裹铁柱，用于抵御春季冰凌的撞击。</li>
+                            <li><strong>"斩龙剑"</strong>：在分水尖上包裹铁柱，用于抵御春季冰凌的撞击。</li>
                         </ul>
                         <p>这些设计展现了高超的水利工程智慧，确保了桥梁在永定河（旧称卢沟河）汛期和凌汛中的安全。</p>
 
                         <h4>精湛的石刻艺术</h4>
-                        <p>桥身两侧281根望柱上，雕刻有形态各异、数不胜数的石狮，素有“卢沟桥的狮子——数不清”的民间谚语。这些石狮雕工精湛，形态生动，极具艺术价值，是金元时期石刻艺术的瑰宝。</p>
+                        <p>桥身两侧281根望柱上，雕刻有形态各异、数不胜数的石狮，素有"卢沟桥的狮子——数不清"的民间谚语。这些石狮雕工精湛，形态生动，极具艺术价值，是金元时期石刻艺术的瑰宝。</p>
 
                         <h4>重要的交通与历史意义</h4>
-                        <p>在历史上，该桥是金、元、明、清各代南出北京、通往华北平原的咽喉要道，军事与经济地位至关重要。1937年7月7日，在此爆发的“卢沟桥事变”，标志着中国全面抗日战争的开始，使其成为重要的历史见证地。</p>
+                        <p>在历史上，该桥是金、元、明、清各代南出北京、通往华北平原的咽喉要道，军事与经济地位至关重要。1937年7月7日，在此爆发的"卢沟桥事变"，标志着中国全面抗日战争的开始，使其成为重要的历史见证地。</p>
 
                         <h4>补充说明</h4>
                         <p><strong>注</strong>：卢沟桥虽非宋朝所建，但其建造年代（金代）与南宋同期，代表了当时中国北方政权的工程技术成就，并在后世持续发挥作用。其历史与艺术价值使之成为理解该时期中国桥梁建筑不可或缺的一部分。</p>

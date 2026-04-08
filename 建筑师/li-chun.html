@@ -5,7 +5,317 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>李春 - 筑迹经纬</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/architect-detail.css">
+    <style>
+        .architect-detail {
+            display: block;          
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0;               
+            background: transparent; 
+            border-radius: 0;        
+            box-shadow: none; 
+        }
+
+        /* 统一的章节标题样式 */
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+            margin: 10px auto 30px;
+        }
+
+        /* 紫色渐变横线 */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* 英雄区域 */
+        .architect-hero {
+            text-align: center;
+            margin: 40px 0;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .architect-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dynasty, .profession {
+           background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* 传记部分 */
+        .biography {
+            margin: 60px 0;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .bio-content {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .achievement-highlight {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .achievement-highlight h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .achievement-highlight ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievement-highlight li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .achievement-highlight li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #2ecc71;
+            font-weight: bold;
+            background: rgba(46, 204, 113, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 工程理念 */
+        .engineering-philosophy {
+            margin: 60px 0;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .philosophy-item {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 4px solid transparent;
+        }
+
+        .philosophy-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-top-color: #764ba2;
+        }
+
+        .philosophy-item h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .philosophy-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 代表作品 */
+        .major-works {
+            margin: 60px 0;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .work-card {
+            text-decoration: none;
+            color: inherit;
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: #764ba2;
+        }
+
+        .work-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .work-info {
+            padding: 25px;
+        }
+
+        .work-info h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .work-info p {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .work-year {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* 历史评价 */
+        .historical-significance {
+            margin: 60px 0;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .historical-significance p {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+
+        blockquote {
+            font-style: italic;
+            color: #7f8c8d;
+            border-left: 4px solid #e74c3c;
+            padding: 20px 30px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        blockquote footer {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #95a5a6;
+            text-align: right;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .architect-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .meta-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .biography,
+            .engineering-philosophy,
+            .major-works,
+            .historical-significance{
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title::after {
+                width: 50px;
+            }
+            
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .works-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -71,6 +381,7 @@
             <div class="works-grid">
                 <a href="../建筑/zhaozhou-bridge.html" class="work-card">
                     <div class="work-image">
+                        <img src="./assets/images/zhaozhouqiao-allview.jpg" alt="赵州桥全景" style="width:100%; height:100%; object-fit: cover;">
                     </div>
                     <div class="work-info">
                         <h3>赵州桥（安济桥）</h3>
@@ -95,6 +406,47 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script src="assets/js/li-chun.js"></script>
+    <script>
+        // 李春页面交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为成就列表项添加动画
+            const achievementItems = document.querySelectorAll('.achievement-highlight li');
+            achievementItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    item.style.transition = 'all 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 100 * index);
+            });
+            
+            // 为理念卡片添加鼠标悬停效果
+            const philosophyItems = document.querySelectorAll('.philosophy-item');
+            philosophyItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 为作品卡片添加点击效果
+            const workCard = document.querySelector('.work-card');
+            if (workCard) {
+                workCard.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                        window.location.href = this.getAttribute('href');
+                    }, 300);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

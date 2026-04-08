@@ -5,69 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>筑迹经纬 - 中国古代建筑成就可视化系统</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/ai-assistant.css">
+    <!-- 艺术字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <!-- 引入AI独立样式 -->
+    <link rel="stylesheet" href="/assets/css/ai-assistant.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f5f1;
-        }
-        
-        .main-header {
-            background: #2c3e50;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .main-nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
         .hero-section {
             text-align: center;
-            padding: 100px 20px 80px;
+            padding: 100px 20px 60px;
             background: url('./assets/images/home.jpg') center/cover no-repeat;
             color: white;
             position: relative;
             margin-bottom: 60px;
         }
-        
         .hero-section::before {
             content: '';
             position: absolute;
@@ -77,36 +29,30 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
         }
-        
         .hero-content {
             position: relative;
             z-index: 1;
             max-width: 800px;
             margin: 0 auto;
         }
-        
         .platform-title {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 20px;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
-        
         .platform-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto 40px;
             line-height: 1.6;
         }
-        
-        /* 主内容区 */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px 60px;
         }
-        
         .section-title {
             text-align: center;
             font-size: 2.5rem;
@@ -115,7 +61,6 @@
             position: relative;
             padding-bottom: 20px;
         }
-        
         .section-title::after {
             content: '';
             position: absolute;
@@ -126,176 +71,266 @@
             height: 3px;
             background: #c19a6b;
         }
-        
-        /* 四维度卡片布局 - 四列等宽 */
-        .dimensions-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+        .explore-dimensions {
+            display: flex;
             gap: 30px;
-            margin-bottom: 60px;
-        }
-        
-        .dimension-card {
+            margin-bottom: 40px;
             background: white;
             border-radius: 12px;
-            padding: 40px 30px;
-            text-decoration: none;
-            color: #333;
+            padding: 30px;
+            max-width: 1000px; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
+            margin: 40px auto 0;
+        }
+        .dimensions-nav {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            gap: 15px;
         }
-        
-        .dimension-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-            border-color: #c19a6b;
+        .nav-card {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
         }
-        
-        .dimension-icon {
-            font-size: 3.5rem;
-            margin-bottom: 25px;
+        .nav-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-card.active {
+            border-left-width: 6px;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        .nav-card[data-target="timeline"] {
+            background-color: #ffe8cc;
+            border-left-color: #ffc773;
+        }
+        .nav-card[data-target="architects"] {
+            background-color: #f5e8d3;
+            border-left-color: #d3b17d;
+        }
+        .nav-card[data-target="books"] {
+            background-color: #f0f9e6;
+            border-left-color: #bce672;
+        }
+        .nav-card[data-target="3d"] {
+            background-color: #e6eaf0;
+            border-left-color: #a1afc9;
+        }
+        .nav-card.active[data-target="timeline"] {
+            background-color: #ffc773;
+        }
+        .nav-card.active[data-target="architects"] {
+            background-color: #d3b17d;
+        }
+        .nav-card.active[data-target="books"] {
+            background-color: #bce672;
+        }
+        .nav-card.active[data-target="3d"] {
+            background-color: #a1afc9;
+        }
+        .nav-card h3 {
+            font-family: 'Ma Shan Zheng', serif;
+            font-size: 2.0rem;
+            color: #5a3921;
+            margin-bottom: 8px;
+            font-weight: normal;
             text-align: center;
         }
-        
-        .dimension-card h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: #2c3e50;
-            text-align: center;
-        }
-        
-        .dimension-card p {
-            font-size: 1.05rem;
+        .nav-card p {
+            font-size: 0.9rem;
             color: #666;
-            line-height: 1.7;
-            margin-bottom: 20px;
-            flex-grow: 1;
-            text-align: left;
-            text-indent: 2em; 
+            line-height: 1.5;
         }
-        
-        .card-hint {
-            display: inline-block;
-            background: #c19a6b;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 22px;
+        .dimension-display {
+            flex: 2;
+        }
+        .content-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .content-image-link {
+            display: block;
+            height: 260px;
+            overflow: hidden;
+        }
+        .content-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .content-image-link:hover .content-image {
+            transform: scale(1.05);
+        }
+        .content-info {
+            padding: 25px;
+        }
+        .content-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .content-description {
             font-size: 1rem;
-            font-weight: 600;
-            margin-top: 10px;
-            align-self: center; 
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
-        
-        /* 快速访问区域 */
+        .content-link {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .content-link:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(52,152,219,0.3);
+        }
         .quick-access {
             background: white;
             border-radius: 12px;
             padding: 40px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             margin-top: 40px;
+            max-width: 1000px;
+            margin: 40px auto 0;
         }
-        
         .quick-access h3 {
             text-align: center;
             color: #2c3e50;
             font-size: 1.8rem;
             margin-bottom: 30px;
         }
-        
         .quick-links {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 10px;
             flex-wrap: wrap;
         }
-        
         .quick-link {
             background: #3498db;
             color: white;
-            padding: 12px 25px;
+            padding: 12px 15px;
             border-radius: 25px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
         }
-        
         .quick-link:hover {
             background: #2980b9;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
-        
-        /* 响应式设计 */
         @media (max-width: 1200px) {
-            .dimensions-container {
-                grid-template-columns: repeat(2, 1fr);
+            .ai-card { max-width: 100%; }
+        }
+        @media (max-width: 992px) {
+            .explore-dimensions { 
+                flex-direction: column; 
+            }
+
+            .dimensions-nav { 
+                flex-direction: row; 
+                flex-wrap: wrap; 
+            }
+
+            .nav-card { 
+                flex: 1; 
+                min-width: calc(50% - 10px); 
             }
         }
-        
+
         @media (max-width: 768px) {
-            .hero-section {
-                padding: 80px 20px 60px;
+            .hero-section { 
+                padding: 80px 20px 60px; 
             }
-            
-            .platform-title {
-                font-size: 2.8rem;
+
+            .platform-title { 
+                font-size: 2.8rem; 
             }
-            
-            .platform-subtitle {
-                font-size: 1.2rem;
+
+            .platform-subtitle { 
+                font-size: 1.2rem; 
             }
-            
-            .dimensions-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
+
+            .section-title { 
+                font-size: 2rem; 
             }
-            
-            .section-title {
-                font-size: 2rem;
+
+            .nav-card { 
+                min-width: 100%; 
             }
-            
-            .quick-links {
-                flex-direction: column;
-                align-items: center;
+
+            .nav-card h3 { 
+                font-size: 1.4rem; 
             }
-            
-            .quick-link {
-                width: 100%;
-                text-align: center;
+
+            .quick-links { 
+                flex-direction: column; 
+                align-items: center; 
+            }
+            .quick-link { 
+                width: 100%; 
+                text-align: center; 
+            }
+
+            .ai-interaction-title { 
+                font-size: 1.8rem; 
+            }
+
+            .modal-content { 
+                width: 95%; 
+                height: 85vh; 
             }
         }
-        
+
         @media (max-width: 480px) {
-            .platform-title {
-                font-size: 2.2rem;
+            .platform-title { 
+                font-size: 2.2rem; 
             }
-            
-            .dimension-card {
-                padding: 30px 20px;
+
+            .content-info { 
+                padding: 20px; 
             }
-            
-            .dimension-icon {
-                font-size: 3rem;
+
+            .quick-access { 
+                padding: 30px 20px; 
             }
-            
-            .dimension-card p {
-                font-size: 0.95rem; /* 移动端适当减小字体 */
+
+            .explore-dimensions { 
+                padding: 20px; 
             }
-            
-            .quick-access {
-                padding: 30px 20px;
+
+            .nav-card h3 { 
+                font-size: 1.2rem; 
+            }
+
+            .ai-card { 
+                padding: 25px 20px; 
+            }
+
+            .message-bubble { 
+                max-width: 80%; 
+                padding: 12px; 
             }
         }
     </style>
@@ -307,7 +342,7 @@
             <div class="nav-links">
                 <a href="pages/dimensions/timeline.html">朝代建筑</a>
                 <a href="pages/dimensions/architects.html">建筑大师</a>
-                <a href="pages/dimensions/books.html">经典建筑</a>
+                <a href="pages/dimensions/books.html">建筑经典</a>
                 <a href="pages/dimensions/3d-reconstruction.html">三维建筑</a>
             </div>
         </nav>
@@ -322,39 +357,27 @@
 
     <main class="main-content">
         <h2 class="section-title">探索维度</h2>
-        
-        <!-- 四维度卡片布局 - 四列等宽 -->
-        <div class="dimensions-container">
-            <a href="pages/dimensions/timeline.html" class="dimension-card">
-                <span class="dimension-icon">🏛️</span>
-                <h2>朝代建筑</h2>
-                <p>探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展。</p>
-                <div class="card-hint">探索演变</div>
-            </a>
-            
-            <a href="pages/dimensions/architects.html" class="dimension-card">
-                <span class="dimension-icon">👨‍🔧</span>
-                <h2>建筑大师</h2>
-                <p>认识中国历代建筑巨匠，了解他们的生平事迹、设计理念、技术贡献与代表作品，学习建筑大师的智慧与创新精神。</p>
-                <div class="card-hint">了解大师</div>
-            </a>
-            
-            <a href="pages/dimensions/books.html" class="dimension-card">
-                <span class="dimension-icon">📚</span>
-                <h2>经典建筑</h2>
-                <p>研读中国古代建筑经典著作，从《营造法式》到《园冶》，深入理解建筑理论体系、建筑技艺与美学思想。</p>
-                <div class="card-hint">阅读经典</div>
-            </a>
-            
-            <a href="pages/dimensions/3d-reconstruction.html" class="dimension-card">
-                <span class="dimension-icon">🏯</span>
-                <h2>三维建筑</h2>
-                <p>通过3D模型与虚拟重建技术，直观探索中国古代建筑的结构细节、构造工艺与空间布局，体验身临其境的建筑探索。</p>
-                <div class="card-hint">三维探索</div>
-            </a>
+        <div class="explore-dimensions">
+            <div class="dimensions-nav">
+                <div class="nav-card active" data-target="timeline"><h3>朝代建筑</h3></div>
+                <div class="nav-card" data-target="architects"><h3>建筑大师</h3></div>
+                <div class="nav-card" data-target="books"><h3>建筑经典</h3></div>
+                <div class="nav-card" data-target="3d"><h3>三维建筑</h3></div>
+            </div>
+            <div class="dimension-display">
+                <div class="content-card">
+                    <a href="pages/dimensions/timeline.html" class="content-image-link">
+                        <img src="./assets/images/chaodaijianzhu.png" alt="朝代建筑" class="content-image" id="display-image">
+                    </a>
+                    <div class="content-info">
+                        <h3 class="content-title" id="display-title">朝代建筑</h3>
+                        <p class="content-description" id="display-description">探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展脉络与历史变迁。</p>
+                        <a href="pages/dimensions/timeline.html" class="content-link" id="display-link">进入朝代建筑专题</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- 快速访问区域 -->
         <div class="quick-access">
             <h3>快速访问精选内容</h3>
             <div class="quick-links">
@@ -364,78 +387,124 @@
                 <a href="pages/achievements/sui-dynasty.html" class="quick-link">⏳ 隋朝建筑成就专题</a>
             </div>
         </div>
+
+        <!-- AI互动区域（白色简约卡片） -->
+        <div class="ai-interaction-section">
+            <h2 class="ai-interaction-title">AI互动探索</h2>
+            <div class="ai-interaction-container">
+                <div class="ai-card" id="ai-qa-card">
+                    <h3>AI问答</h3>
+                    <p>与古建助手对话，解答您关于中国古代建筑的任何疑问。</p>
+                    <div class="ai-action">开始对话</div>
+                </div>
+                <div class="ai-card" id="quiz-card">
+                    <h3>筑学挑战</h3>
+                    <p>AI实时生成10道古建题目，挑战最强大脑！</p>
+                    <div class="ai-action">开始挑战</div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <!-- ==================== AI助手浮窗 ==================== -->
-    <div id="ai-assistant">
-        <!-- 悬浮按钮 -->
-        <button id="ai-float-btn" class="ai-float-btn">
-            <span class="ai-icon">🤖</span>
-            <span class="ai-text">建筑助手</span>
-        </button>
-        
-        <!-- 聊天窗口 (默认隐藏) -->
-        <div id="ai-chat-window" class="ai-chat-window">
-            <div class="ai-chat-header">
-                <h3>🏯 古建助手</h3>
-                <p>问我关于中国古建筑的任何问题</p>
-                <button class="close-btn" id="close-chat">×</button>
+    <!-- AI问答模态框 -->
+    <div id="qa-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>AI古建助手</h3>
+                <span class="close-modal" id="close-qa-modal">&times;</span>
             </div>
-            
-            <div class="ai-chat-body" id="chat-messages">
-                <!-- 欢迎消息 -->
-                <div class="ai-message">
-                    <div class="ai-avatar">🏛️</div>
-                    <div class="message-content">
-                        <strong>筑迹经纬 AI助手</strong>
-                        <p>您好！我是您的中国古代建筑知识助手，专注于解答古建筑相关问题。</p>
-                        <p>📚 我可以帮您：</p>
-                        <ul>
-                            <li>解答古建筑结构、技术问题</li>
-                            <li>介绍各朝代建筑特点与演变</li>
-                            <li>推荐相关建筑书籍和名家传记</li>
-                            <li>提供建筑历史背景知识</li>
-                            <li>解释建筑术语和专有名词</li>
-                        </ul>
-                        <p>💡 试试问我：</p>
-                        <ul>
-                            <li>"赵州桥有什么特别之处？"</li>
-                            <li>"故宫的建筑风格是什么？"</li>
-                            <li>"斗拱的作用有哪些？"</li>
-                            <li>"宋代建筑有什么特点？"</li>
-                        </ul>
-                        <p>👇 或者点击下方的快速提问按钮</p>
+            <div class="modal-body">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message">
+                        <div class="message-avatar">AI</div>
+                        <div class="message-bubble">您好！我是古建助手。请问您想了解什么？</div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- 快速问题区域 -->
-            <div class="quick-questions">
-                <h4>快速提问：</h4>
-                <div class="quick-buttons">
-                    <button class="quick-q" data-q="斗拱的作用">斗拱</button>
-                    <button class="quick-q" data-q="榫卯结构">榫卯</button>
-                    <button class="quick-q" data-q="唐代建筑特点">唐代建筑</button>
-                    <button class="quick-q" data-q="宋代建筑特点">宋代建筑</button>
-                    <button class="quick-q" data-q="营造法式是什么">营造法式</button>
-                    <button class="quick-q" data-q="赵州桥的技术特点">赵州桥</button>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="user-input" placeholder="输入问题...">
+                    <button class="chat-send" id="send-btn">发送</button>
                 </div>
-            </div>
-            
-            <!-- 输入区域 -->
-            <div class="ai-chat-input">
-                <input type="text" id="user-input" 
-                       placeholder="输入您的问题，例如：赵州桥的技术特点是什么？" 
-                       autocomplete="off">
-                <button id="send-btn">发送</button>
             </div>
         </div>
     </div>
-    
+
+    <!-- 筑学挑战模态框 -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>筑学挑战</h3>
+                <span class="close-modal" id="close-quiz-modal">&times;</span>
+            </div>
+            <div class="modal-body" id="quiz-body">
+                <!-- 动态内容由JS生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 引入AI独立脚本 -->
     <script src="assets/js/ai-assistant.js"></script>
+
+    <!-- 探索维度切换脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navCards = document.querySelectorAll('.nav-card');
+            const displayImage = document.getElementById('display-image');
+            const displayTitle = document.getElementById('display-title');
+            const displayDescription = document.getElementById('display-description');
+            const displayLink = document.getElementById('display-link');
+            const cardData = {
+                timeline: {
+                    image: './assets/images/chaodaijianzhu.png',
+                    title: '朝代建筑',
+                    description: '探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展脉络与历史变迁。',
+                    link: 'pages/dimensions/timeline.html',
+                    linkText: '进入朝代建筑专题'
+                },
+                architects: {
+                    image: './assets/images/jianzhudashi.png',
+                    title: '建筑大师',
+                    description: '认识中国历代建筑巨匠，了解他们的生平事迹、设计理念、技术贡献与代表作品，学习建筑大师的智慧与创新精神。',
+                    link: 'pages/dimensions/architects.html',
+                    linkText: '了解建筑大师'
+                },
+                books: {
+                    image: './assets/images/jianzhujindian.png',
+                    title: '建筑经典',
+                    description: '研读中国古代建筑经典著作，从《营造法式》到《园冶》，深入理解建筑理论体系、建筑技艺与美学思想。',
+                    link: 'pages/dimensions/books.html',
+                    linkText: '阅读建筑经典'
+                },
+                '3d': {
+                    image: './assets/images/sanweijianzhu.png',
+                    title: '三维建筑',
+                    description: '通过3D模型与虚拟重建技术，直观探索中国古代建筑的结构细节、构造工艺与空间布局，体验身临其境的建筑探索。',
+                    link: 'pages/dimensions/3d-reconstruction.html',
+                    linkText: '探索三维建筑'
+                }
+            };
+            navCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    navCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    if(cardData[target]) {
+                        const data = cardData[target];
+                        displayImage.src = data.image;
+                        displayTitle.textContent = data.title;
+                        displayDescription.textContent = data.description;
+                        displayLink.href = data.link;
+                        displayLink.textContent = data.linkText;
+                        const imageLink = document.querySelector('.content-image-link');
+                        if(imageLink) imageLink.href = data.link;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

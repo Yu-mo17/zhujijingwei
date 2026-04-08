@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>北京故宫 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <!-- Three.js 3D库 -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -11,33 +12,168 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
         /* 参考zhaozhou-bridge.html样式 */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: "Microsoft YaHei", sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; }
-        .main-header { background: #2c3e50; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .main-nav { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        .nav-logo { font-size: 1.5rem; font-weight: bold; color: white; text-decoration: none; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; transition: background-color 0.3s; }
-        .nav-links a:hover { background: rgba(255,255,255,0.1); }
-        .hero-section { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin: 40px auto; padding: 40px; max-width: 1200px; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .achievement-title { font-size: 2.8rem; color: #2c3e50; margin-bottom: 10px; font-weight: 700; }
-        .achievement-subtitle { font-size: 1.2rem; color: #7f8c8d; margin-bottom: 20px; }
-        .meta-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-        .tag { background: #ecf0f1; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; color: #2c3e50; }
-        .hero-image img { width: 100%; height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .three-d-section { max-width: 1200px; margin: 40px auto; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .view-controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; justify-content: center; }
-        .view-btn { padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; transition: all 0.3s; font-family: inherit; font-size: 1rem; }
-        .view-btn:hover { background: #2980b9; transform: translateY(-2px); }
-        .view-btn.active { background: #2c3e50; }
-        .model-info { text-align: center; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 1.1rem; }
-        .model-info .highlight { color: #e74c3c; font-weight: bold; font-size: 1.3rem; }
-        .model-container { position: relative; width: 100%; height: 500px; border-radius: 8px; overflow: hidden; border: 1px solid #e0e0e0; margin-top: 20px; }
-        #gugong-3d-canvas { width: 100%; height: 100%; display: block; }
-        .loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; align-items: center; z-index: 20; font-size: 1.2rem; color: #2c3e50; flex-direction: column; }
-        .loading-spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @media (max-width: 768px) { .hero-section { grid-template-columns: 1fr; gap: 20px; } .achievement-title { font-size: 2.2rem; } .model-container { height: 350px; } }
+        .hero-section { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 40px; align-items: center; 
+            margin: 40px auto; 
+            padding: 40px; 
+            max-width: 1200px; 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        }
+
+        .achievement-title { 
+            font-size: 2.8rem; 
+            color: #2c3e50; 
+            margin-bottom: 10px; 
+            font-weight: 700; 
+        }
+
+        .achievement-subtitle { 
+            font-size: 1.2rem; 
+            color: #7f8c8d; 
+            margin-bottom: 20px; 
+        }
+
+        .meta-tags { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+        }
+
+        .tag { 
+            background: #ecf0f1; 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            font-size: 0.9rem; 
+            color: #2c3e50; 
+        }
+
+        .hero-image img { 
+            width: 100%; 
+            height: 300px; 
+            object-fit: cover; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
+
+        .three-d-section { 
+            max-width: 1200px; 
+            margin: 40px auto; 
+            padding: 40px; 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+        }
+
+        .view-controls { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 10px; 
+            margin: 20px 0; 
+            justify-content: center; 
+        }
+
+        .view-btn { 
+            padding: 10px 20px; 
+            background: #3498db; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            font-family: inherit; 
+            font-size: 1rem; }
+
+        .view-btn:hover { 
+            background: #2980b9; 
+            transform: translateY(-2px); 
+        }
+
+        .view-btn.active { 
+            background: #2c3e50; 
+        }
+
+        .model-info { 
+            text-align: center; 
+            margin: 20px 0; 
+            padding: 15px; 
+            background: #f8f9fa; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+        }
+
+        .model-info .highlight { 
+            color: #e74c3c; 
+            font-weight: bold; 
+            font-size: 1.3rem; 
+        }
+
+        .model-container { 
+            position: relative; 
+            width: 100%; 
+            height: 500px; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            border: 1px solid #e0e0e0; 
+            margin-top: 20px; 
+        }
+
+        #gugong-3d-canvas { 
+            width: 100%; 
+            height: 100%; 
+            display: block; 
+        }
+
+        .loading-overlay { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(255, 255, 255, 0.95);
+             display: flex; 
+             justify-content: center; 
+             align-items: center; 
+             z-index: 20; 
+             font-size: 1.2rem; 
+             color: #2c3e50; 
+             flex-direction: column; 
+            }
+
+        .loading-spinner { 
+            width: 50px; 
+            height: 50px; 
+            border: 5px solid #f3f3f3; 
+            border-top: 5px solid #3498db; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            margin-bottom: 15px; 
+        }
+
+        @keyframes spin { 
+            0% 
+            { transform: rotate(0deg); } 
+            100% 
+            { transform: rotate(360deg); } 
+        }
+
+        @media (max-width: 768px) { 
+            .hero-section { 
+                grid-template-columns: 1fr; 
+                gap: 20px; 
+            } 
+            
+            .achievement-title { 
+                font-size: 2.2rem; 
+            } 
+            
+            .model-container { 
+                height: 350px; 
+            } 
+        }
     </style>
 </head>
 <body>

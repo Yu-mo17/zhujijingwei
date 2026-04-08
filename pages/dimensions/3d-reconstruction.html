@@ -4,66 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>三维营造 - 筑迹经纬</title>
+    <!-- Three.js 库 -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Supabase 客户端库 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase 配置文件 -->
+    <script src="/assets/js/supabase-config.js"></script>
     <style>
-        /* 基础样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f5f1;
-        }
-        
-        /* 导航栏 */
-        .main-header {
-            background: #2c3e50;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .main-nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .nav-links a.active {
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
         /* 页面容器 */
         .page-container {
             max-width: 1200px;
@@ -98,19 +48,53 @@
             margin: 0 auto 20px;
         }
         
-        /* 建筑类型筛选器 */
-        .building-filters {
+        /* 搜索与筛选区域 */
+        .search-and-filters {
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
             margin: 30px 0 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="%237f8c8d" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 15px center;
+            background-size: 18px;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .filters-container {
+            display: flex;
+            gap: 10px;
             flex-wrap: wrap;
         }
         
         .building-filter {
             background: white;
             border: 2px solid #e0e0e0;
-            padding: 10px 25px;
+            padding: 10px 20px;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -135,12 +119,25 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
+        /* 主内容区布局 */
+        .main-content-layout {
+            display: flex;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        
+        /* 左侧建筑网格容器 */
+        .buildings-grid-container {
+            flex: 3;
+            min-width: 0;
+        }
+        
         /* 3D建筑网格 */
         .buildings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0 60px;
+            gap: 25px;
+            margin-bottom: 40px;
         }
         
         .building-card {
@@ -151,7 +148,7 @@
             transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
-            position: relative;
+            display: block;
         }
         
         .building-card:hover {
@@ -161,19 +158,6 @@
         
         .building-card:hover .building-image img {
             transform: scale(1.05);
-        }
-        
-        .building-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #e74c3c;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            z-index: 2;
         }
         
         .building-image {
@@ -190,19 +174,19 @@
         }
         
         .building-info {
-            padding: 25px;
+            padding: 20px;
         }
         
         .building-info h3 {
             color: #2c3e50;
             margin-bottom: 8px;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
         
         .building-location {
             color: #3498db;
             font-size: 0.9rem;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
         }
@@ -215,53 +199,176 @@
         .building-period {
             color: #95a5a6;
             font-size: 0.9rem;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .building-description {
             color: #7f8c8d;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.5;
+            margin-bottom: 10px;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
         
-        .building-features {
+        .tags-container {
             display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
         }
         
-        .feature {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .tag {
+            background: #f0e8df;
+            color: #8b0000;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
         }
         
-        .feature-icon {
-            font-size: 1.2rem;
+        /* 右侧每日推荐侧边栏 */
+        .daily-featured-sidebar {
+            flex: 1;
+            min-width: 300px;
+            position: sticky;
+            top: 30px;
+            height: fit-content;
+        }
+        
+        .featured-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transition: transform 0.3s ease;
+        }
+        
+        .featured-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .featured-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .featured-header h3 {
+            font-size: 1.5rem;
             margin-bottom: 5px;
         }
         
-        .feature-label {
-            font-size: 0.8rem;
-            color: #95a5a6;
+        .featured-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #2c3e50;
+        .featured-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .featured-card:hover .featured-image img {
+            transform: scale(1.05);
+        }
+        
+        .featured-info {
+            padding: 20px;
+        }
+        
+        .featured-info h4 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .featured-location, .featured-period {
+            color: #3498db;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .featured-description {
+            color: #666;
+            line-height: 1.6;
+            margin: 15px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .featured-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
             color: white;
             text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-top: 15px;
         }
-
+        
+        .featured-button:hover {
+            background: #2980b9;
+        }
+        
+        /* 加载动画 */
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #e0e0e0;
+            border-top-color: #8b0000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .main-content-layout {
+                flex-direction: column;
+            }
+            
+            .daily-featured-sidebar {
+                min-width: 100%;
+                position: static;
+            }
+            
+            .search-and-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .filters-container {
+                justify-content: center;
+            }
+        }
+        
         @media (max-width: 768px) {
             .buildings-grid {
                 grid-template-columns: 1fr;
@@ -269,16 +376,6 @@
             
             .page-title {
                 font-size: 2.2rem;
-            }
-            
-            .building-filters {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .building-filter {
-                width: 100%;
-                max-width: 250px;
             }
             
             .nav-links {
@@ -289,29 +386,11 @@
                 padding: 6px 12px;
                 font-size: 0.85rem;
             }
-        }
-        
-        /* 加载动画 */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
-        }
-        
-        .loading-spinner {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            
+            .building-filter {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -319,9 +398,7 @@
     <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
-            <a href="../index.html" class="nav-logo">
-                筑迹经纬
-            </a>
+            <a href="../index.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
                 <a href="timeline.html">朝代建筑</a>
                 <a href="architects.html">建筑大师</a>
@@ -338,246 +415,58 @@
             <p class="page-subtitle">沉浸式探索中国古代建筑瑰宝，体验三维数字化复原的魅力</p>
         </div>
 
-        <!-- 建筑类型筛选器 -->
-        <div class="building-filters">
-            <button class="building-filter active" data-type="all">全部建筑</button>
-            <button class="building-filter" data-type="palace">宫殿建筑</button>
-            <button class="building-filter" data-type="bridge">桥梁建筑</button>
-            <button class="building-filter" data-type="garden">园林建筑</button>
+        <!-- 搜索与筛选栏 -->
+        <div class="search-and-filters">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索建筑名称、地点、朝代或特征...">
+            </div>
+            <div class="filters-container">
+                <button class="building-filter active" data-type="all">全部建筑</button>
+                <button class="building-filter" data-type="宫殿">宫殿建筑</button>
+                <button class="building-filter" data-type="园林">园林建筑</button>
+                <button class="building-filter" data-type="桥梁">桥梁建筑</button>
+                <button class="building-filter" data-type="都城遗址">都城遗址</button>
+                <button class="building-filter" data-type="民居">民居建筑</button>
+                <button class="building-filter" data-type="塔">塔式建筑</button>
+            </div>
         </div>
 
-        <!-- 3D建筑网格 -->
-        <div class="buildings-grid" id="buildings-grid">
-            <!-- 建筑卡片将通过JavaScript动态加载 -->
+        <!-- 主内容区：左侧网格 + 右侧每日推荐 -->
+        <div class="main-content-layout">
+            <!-- 左侧：建筑网格 -->
+            <div class="buildings-grid-container">
+                <div class="buildings-grid" id="buildings-grid">
+                    <!-- 建筑卡片将通过JavaScript动态加载 -->
+                </div>
+            </div>
+
+            <!-- 右侧：每日推荐 -->
+            <aside class="daily-featured-sidebar">
+                <div class="featured-card">
+                    <div class="featured-header">
+                        <h3> 每日一筑</h3>
+                        <p>探索今日为您随机推荐的中国建筑瑰宝</p>
+                    </div>
+                    <div class="featured-image">
+                        <img id="dailyFeaturedImage" src="" alt="今日推荐建筑">
+                    </div>
+                    <div class="featured-info">
+                        <h4 id="dailyFeaturedName">建筑名称</h4>
+                        <div class="featured-location" id="dailyFeaturedLocation">📍 地点</div>
+                        <div class="featured-period" id="dailyFeaturedPeriod">⏳ 年代</div>
+                        <p class="featured-description" id="dailyFeaturedDesc">建筑描述...</p>
+                        <a href="#" id="dailyFeaturedLink" class="featured-button">🏛️ 探索3D模型</a>
+                    </div>
+                </div>
+            </aside>
         </div>
     </div>
 
     <!-- 页脚 -->
     <footer class="main-footer">
-            <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script>
-        // 建筑数据
-        const buildingsData = [
-            {
-                id: 1,
-                name: "赵州桥",
-                location: "河北赵县",
-                period: "隋代（595-605年）",
-                type: "bridge",
-                description: "世界上现存最古老的单孔敞肩石拱桥，由隋代匠师李春建造，以其独特的结构设计和千年不倒的坚固闻名于世。",
-                image: "/assets/images/3D/sui-zhaozhouqiao.jpg",
-                modelUrl: "../../建筑/zhaozhou-bridge.html#three-d",
-                features: {
-                    scale: "大型",
-                    interaction: "高度交互",
-                    detail: "精细"
-                }
-            },
-            {
-                id: 2,
-                name: "汉长安城",
-                location: "陕西西安",
-                period: "西汉（公元前202年-公元8年）",
-                type: "palace",
-                description: "西汉都城，规模宏大，布局严整，是中国古代都城制度的典范。三维复原展示其宫殿、城墙等重要建筑结构。",
-                image: "../../assets/images/hanchangancheng.png",
-                modelUrl: "../../建筑/han-changan.html#three-d",
-                features: {
-                    scale: "大型",
-                    interaction: "高度交互",
-                    detail: "精细"
-                }
-            },
-            {
-                id: 3,
-                name: "沈阳故宫",
-                location: "辽宁省沈阳市",
-                period: "清初（1625年始建）",
-                type: "palace",
-                description: "中国现存完整的两座宫殿建筑群之一，清朝入关前的皇宫。始建于1625年，融合满、汉、蒙、藏建筑风格。主要建筑包括大政殿、十王亭、崇政殿、凤凰楼、文溯阁等，展现了早期清朝宫廷文化与多民族艺术特色。",
-                image: "/assets/images/3D/qing-shenyanggugong.jpg", 
-                modelUrl: "/3D展示/shenyanggugong.html",
-                features: {
-                    scale: "大型",
-                    interaction: "自由漫游",
-                    detail: "极高"
-                }
-            },
-            
-            {
-                id: 4,
-                name: "故宫",
-                location: "北京",
-                period: "明代（1420年）",
-                type: "palace",
-                description: "故宫外朝三大殿之一，俗称金銮殿，是中国现存最大的木结构大殿，代表着中国古代宫殿建筑的巅峰。",
-                image: "/assets/images/3D/ming-gugong.jpg",
-                modelUrl: "taihedian-3d.html",
-                features: {
-                    scale: "巨型",
-                    interaction: "中度交互",
-                    detail: "极高"
-                }
-            },
-            {
-                id: 5,
-                name: "拙政园",
-                location: "江苏苏州",
-                period: "明代（1509年）",
-                type: "garden",
-                description: "苏州现存最大的古典园林，以水景著称，疏朗自然，呈现浓郁的江南水乡特色，被誉为'天下园林之母'。",
-                image: "/assets/images/3D/ming-zhuozhengyuan.jpg",
-                modelUrl: "zhuozhengyuan-3d.html",
-                features: {
-                    scale: "大型",
-                    interaction: "自由漫游",
-                    detail: "精细"
-                }
-            },
-            {
-                id: 6,
-                name: "福建土楼",
-                location: "福建永定",
-                period: "清代（17-20世纪）",
-                type: "palace",
-                description: "又称福建客家土楼，是中国东南山区客家人的大型夯土民居建筑，以其独特的圆形或方形结构和防御功能闻名。",
-                image: "/assets/images/3D/qing-tulou.png",
-                modelUrl: "fujian-tulou-3d.html",
-                features: {
-                    scale: "大型",
-                    interaction: "室内外漫游",
-                    detail: "精细"
-                }
-            },
-            {
-                id: 7,
-                name: "颐和园长廊",
-                location: "北京颐和园",
-                period: "清代（1750年）",
-                type: "garden",
-                description: "世界上最长的画廊，全长728米，枋梁上绘有14000余幅彩画，内容包括山水风景、花鸟鱼虫、人物典故等。",
-                image: "../../assets/images/3D/qing-yihechanglang.png",
-                modelUrl: "yihe-changlang-3d.html",
-                features: {
-                    scale: "大型",
-                    interaction: "自由漫游",
-                    detail: "极高"
-                }
-            }
-        ];
-
-        // 获取建筑类型中文标签
-        function getBuildingTypeLabel(type) {
-            const typeLabels = {
-                'all': '全部建筑',
-                'palace': '宫殿建筑',
-                'bridge': '桥梁建筑',
-                'garden': '园林建筑'
-            };
-            return typeLabels[type] || type;
-        }
-
-        // 渲染建筑卡片
-        function renderBuildings(filterType = 'all') {
-            const grid = document.getElementById('buildings-grid');
-            
-            // 清空当前内容
-            grid.innerHTML = '';
-            
-            // 筛选建筑
-            const filteredBuildings = filterType === 'all' 
-                ? buildingsData 
-                : buildingsData.filter(building => building.type === filterType);
-            
-            // 如果没有匹配的建筑
-            if (filteredBuildings.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d;">
-                        <div style="font-size: 3rem; margin-bottom: 20px;">🏗️</div>
-                        <h3>暂无此类建筑模型</h3>
-                        <p>我们正在努力添加更多建筑的三维模型，敬请期待！</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // 渲染建筑卡片
-            filteredBuildings.forEach(building => {
-                const card = document.createElement('a');
-                card.className = 'building-card';
-                card.href = building.modelUrl;
-                card.setAttribute('data-type', building.type);
-                
-                // 获取特征图标
-                const scaleIcon = building.features.scale === '巨型' ? '🏛️' : 
-                                building.features.scale === '大型' ? '🏢' : '🏠';
-                const interactionIcon = building.features.interaction === '高度交互' ? '👆' :
-                                      building.features.interaction === '自由漫游' ? '🚶‍♂️' : '🖱️';
-                const detailIcon = building.features.detail === '极高' ? '✨' : '🔍';
-                
-                card.innerHTML = `
-                    <div class="building-image">
-                        <img src="${building.image}" alt="${building.name}" loading="lazy">
-                    </div>
-                    <div class="building-info">
-                        <h3>${building.name}</h3>
-                        <div class="building-location">${building.location}</div>
-                        <div class="building-period">${building.period}</div>
-                        <p class="building-description">${building.description}</p>
-                    </div>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-
-        // 建筑筛选功能
-        function setupBuildingFilters() {
-            const filterButtons = document.querySelectorAll('.building-filter');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除所有active类
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加active类到当前按钮
-                    this.classList.add('active');
-                    
-                    const filterType = this.getAttribute('data-type');
-                    renderBuildings(filterType);
-                });
-            });
-        }
-
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始渲染所有建筑
-            renderBuildings();
-            
-            // 设置筛选功能
-            setupBuildingFilters();
-            
-            console.log('三维营造页面已加载完成！');
-            
-            // 添加简单的页面加载动画
-            const pageContainer = document.querySelector('.page-container');
-            pageContainer.style.opacity = '0';
-            pageContainer.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                pageContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                pageContainer.style.opacity = '1';
-                pageContainer.style.transform = 'translateY(0)';
-            }, 100);
-        });
-
-        // 图片加载错误处理
-        document.addEventListener('error', function(e) {
-            if (e.target.tagName === 'IMG') {
-                e.target.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200"><rect width="400" height="200" fill="%23f0f0f0"/><text x="200" y="100" font-family="Arial" font-size="16" text-anchor="middle" fill="%23999">建筑图片</text></svg>';
-            }
-        }, true);
-    </script>
+    <script src="/assets/js/3d-reconstruction.js"></script>
 </body>
 </html>

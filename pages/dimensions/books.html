@@ -4,73 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>建筑书籍 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f7fa;
-            min-height: 100vh;
-        }
-        
-        /* 导航栏 */
-        .main-header {
-            background: #2c3e50;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .main-nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-logo:hover {
-            transform: scale(1.05);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .nav-links a.active {
-            background: rgba(255,255,255,0.2);
-        }
-        
         /* 页面容器 */
         .page-container {
             max-width: 1200px;
@@ -155,28 +90,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
-        .book-image {
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .book-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.1);
-        }
-        
         .book-info {
             padding: 25px;
             flex-grow: 1;
@@ -237,15 +150,6 @@
             transform: scale(1.05);
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
-        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .books-grid {
@@ -302,10 +206,7 @@
         <!-- 建筑书籍网格 -->
         <div class="books-grid">
             <!-- 《营造法式》卡片 -->
-            <a href="../../建筑书籍/ying-zao-fa-shi.html" class="book-card" data-dynasty="song" data-type="technical">
-                <div class="book-image">
-                    <span>📐</span>
-                </div>
+            <a href="/建筑书籍/ying-zao-fa-shi.html" class="book-card" data-dynasty="song" data-type="technical">
                 <div class="book-info">
                     <h3>《营造法式》</h3>
                     <div class="book-period">李诫 · 北宋（1100年）</div>
@@ -320,10 +221,7 @@
             </a>
             
              <!-- 《工程做法则例》卡片 -->
-            <a href="../../建筑书籍/gongcheng-zuofa-zel.html" class="book-card" data-dynasty="ming" data-type="technical">
-                <div class="book-image">
-                    <span>🏗️</span>
-                </div>
+            <a href="/建筑书籍/gongcheng-zuofa-zel.html" class="book-card" data-dynasty="ming" data-type="technical">
                 <div class="book-info">
                     <h3>《工程做法则例》</h3>
                     <div class="book-period">清代工部 · 清代（1734年）</div>
@@ -338,10 +236,7 @@
             </a>
 
             <!-- 《园冶》卡片 -->
-            <a href="../../建筑书籍/yuan-ye.html" class="book-card" data-dynasty="ming" data-type="theory">
-                <div class="book-image">
-                    <span>🏞️</span>
-                </div>
+            <a href="/建筑书籍/yuan-ye.html" class="book-card" data-dynasty="ming" data-type="theory">
                 <div class="book-info">
                     <h3>《园冶》</h3>
                     <div class="book-period">计成 · 明代（1631年）</div>
@@ -355,29 +250,23 @@
                 </div>
             </a>
             
-            <!-- 《木经》卡片 -->
-            <a href="#" class="book-card" data-dynasty="song" data-type="technical">
-                <div class="book-image">
-                    <span>🌲</span>
-                </div>
+           <!-- 《天工开物》卡片 -->
+            <a href="/建筑书籍/tiangongkaiwu.html" class="book-card" data-dynasty="ming" data-type="technical">
                 <div class="book-info">
-                    <h3>《木经》</h3>
-                    <div class="book-period">喻皓 · 北宋（约1000年）</div>
-                    <p class="book-description">古代木构建筑技术专著，系统总结木结构建筑技术，对宋代建筑发展有重要影响。</p>
+                    <h3>《天工开物》</h3>
+                    <div class="book-period">宋应星 · 明末（1637年）</div>
+                    <p class="book-description">中国古代综合性科学技术著作，被誉为“中国17世纪的工艺百科全书”。系统记述了农业、手工业、建筑、冶炼等30多个生产部门的技术经验。</p>
                     <div class="book-specialty">
-                        <span class="specialty-tag">木构技术</span>
-                        <span class="specialty-tag">技术手册</span>
-                        <span class="specialty-tag">建筑工艺</span>
+                        <span class="specialty-tag">工艺技术</span>
+                        <span class="specialty-tag">百科全书</span>
+                        <span class="specialty-tag">农业手工业</span>
                     </div>
                     <span class="view-details">查看详情 →</span>
                 </div>
             </a>
             
             <!-- 《考工记》卡片 -->
-            <a href="#" class="book-card" data-dynasty="ancient" data-type="technical">
-                <div class="book-image">
-                    <span>⚒️</span>
-                </div>
+            <a href="/建筑书籍/kaogongji.html" class="book-card" data-dynasty="ancient" data-type="technical">
                 <div class="book-info">
                     <h3>《考工记》</h3>
                     <div class="book-period">佚名 · 战国</div>
@@ -392,10 +281,7 @@
             </a>
             
             <!-- 《长物志》卡片 -->
-            <a href="#" class="book-card" data-dynasty="ming" data-type="theory">
-                <div class="book-image">
-                    <span>🪑</span>
-                </div>
+            <a href="/建筑书籍/zhangwuzhi.html" class="book-card" data-dynasty="ming" data-type="theory">
                 <div class="book-info">
                     <h3>《长物志》</h3>
                     <div class="book-period">文震亨 · 明代（1621年）</div>
@@ -410,10 +296,7 @@
             </a>
             
             <!-- 《鲁班经》卡片 -->
-            <a href="#" class="book-card" data-dynasty="ming" data-type="technical">
-                <div class="book-image">
-                    <span>📏</span>
-                </div>
+            <a href="/建筑书籍/lubanjin.html" class="book-card" data-dynasty="ming" data-type="technical">
                 <div class="book-info">
                     <h3>《鲁班经》</h3>
                     <div class="book-period">民间传承 · 明代</div>
@@ -428,10 +311,7 @@
             </a>
             
             <!-- 《梓人遗制》卡片 -->
-            <a href="#" class="book-card" data-dynasty="song" data-type="technical">
-                <div class="book-image">
-                    <span>🛠️</span>
-                </div>
+            <a href="/建筑书籍/zi-ren-yi-zhi.html" class="book-card" data-dynasty="song" data-type="technical">
                 <div class="book-info">
                     <h3>《梓人遗制》</h3>
                     <div class="book-period">薛景石 · 元代</div>
@@ -452,50 +332,6 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script>
-        // 筛选功能实现
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.dynasty-filter');
-            const bookCards = document.querySelectorAll('.book-card');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除所有active类
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加active类到当前按钮
-                    this.classList.add('active');
-                    
-                    const filter = this.getAttribute('data-dynasty');
-                    
-                    // 筛选书籍卡片
-                    bookCards.forEach(card => {
-                        if (filter === 'all') {
-                            card.style.display = 'flex';
-                        } else {
-                            const dynasty = card.getAttribute('data-dynasty');
-                            const type = card.getAttribute('data-type');
-                            
-                            if (dynasty === filter || type === filter) {
-                                card.style.display = 'flex';
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        }
-                    });
-                });
-            });
-            
-            // 添加卡片悬停效果
-            bookCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-10px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-    </script>
+    <script src="/assets/js/books.js">  </script>
 </body>
 </html>

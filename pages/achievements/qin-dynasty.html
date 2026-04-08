@@ -8,29 +8,93 @@
     <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dynasty-container {
-            max-width: 1200px;
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 100px 20px 20px; 
         }
         
-        .dynasty-hero {
-            text-align: center;
-            padding: 60px 0;
-            background: #b25d25;
+        /* 左侧朝代信息栏 */
+        .dynasty-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: linear-gradient(135deg, #b25d25 0%, #8a451c 100%);
             color: white;
             border-radius: 15px;
-            margin-bottom: 40px;
+            padding: 40px 25px;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
         }
         
-        .dynasty-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .dynasty-sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 300px;
+            line-height: 1.3;
+            letter-spacing: 8px;
+            font-weight: 700;
         }
         
-        .dynasty-period {
-            font-size: 1.3rem;
+        .dynasty-period-sidebar {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             opacity: 0.9;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
+        }
+        
+        .dynasty-intro {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 180px;
+            letter-spacing: 2px;
+        }
+        
+        .dynasty-features {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+        
+        /* 右侧主内容区 */
+        .dynasty-main-content {
+            flex: 1;
+            min-width: 0; 
         }
         
         /* 图表容器样式 */
@@ -38,8 +102,9 @@
             background: #f8f9fa;
             border-radius: 12px;
             padding: 30px;
-            margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 40px auto 0;
         }
         
         .section-title {
@@ -86,12 +151,34 @@
             line-height: 1.4;
         }
         
+        /* 建筑成就标题区域  */
+        .achievements-title-area {
+            margin-top: 60px; 
+            margin-bottom: 20px;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        
+        .achievements-title-area h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievements-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
         /* 建筑成就网格布局 */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin: 40px 0;
+            max-width: 900px; 
+            margin: 40px auto;
         }
         
         .achievement-card {
@@ -108,9 +195,10 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
+        /* 缩小卡片图片高度 */
         .achievement-image {
             width: 100%;
-            height: 200px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -149,31 +237,35 @@
         }
         
         .achievement-content {
-            padding: 25px;
+            padding: 20px; 
         }
         
         .achievement-content h3 {
             color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
+            margin-bottom: 12px; 
+            font-size: 1.3rem; 
+        }
+        
+        .achievement-content p {
+            font-size: 0.95rem;
+            color: #666;
         }
         
         .achievement-meta {
             display: flex;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 12px; 
+            margin: 12px 0; 
             flex-wrap: wrap;
         }
         
         .meta-tag {
             background: #ecf0f1;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 15px;
-            font-size: 0.9rem;
+            font-size: 0.85rem; 
             color: #7f8c8d;
         }
         
-        /* 模态框样式 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -301,6 +393,8 @@
             padding: 40px;
             border-radius: 12px;
             margin: 40px 0;
+            max-width: 900px;
+            margin: 40px auto 0;
         }
         
         .back-link {
@@ -315,17 +409,53 @@
             text-decoration: underline;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
+
+        
 
         /* 响应式调整 */
+        @media (max-width: 1100px) {
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .dynasty-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+                height: auto;
+                max-height: none;
+            }
+            
+            .dynasty-sidebar h1 {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .dynasty-intro {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .achievements-title-area {
+                margin-top: 40px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 80px 15px 15px; 
+            }
+            
             .modal-content {
                 max-height: 85vh;
             }
@@ -346,8 +476,24 @@
                 height: 200px;
             }
             
+
             .achievements-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .achievements-title-area {
+                margin-top: 30px;
+            }
+            
+            .achievements-title-area h2 {
+                font-size: 1.7rem;
+            }
+        }
+        
+        @media (min-width: 1400px) {
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             }
         }
     </style>
@@ -365,94 +511,123 @@
         </nav>
     </header>
 
-    <div class="dynasty-container">
-        <div class="dynasty-hero">
-            <h1 class="dynasty-title">秦朝建筑成就</h1>
-            <div class="dynasty-period">公元前221年 - 公元前207年 | 规天矩地，制启华夏</div>
-        </div>
-
-        <div class="historical-context">
-            <h2>历史背景</h2>
-            <p>宋朝是中国古代建筑技术与理论并重的集大成时期。在唐代雄浑风格的基础上，宋代建筑转向精致典雅、富于理性，木构技艺登峰造极，并颁布了第一部官方建筑规范《营造法式》，标志着中国建筑进入高度模数化、标准化的成熟阶段。</p>
-            <ul>
-                <li><strong>《营造法式》颁布：</strong>李诫编修的建筑巨著，系统总结技术、工料、样式，影响后世深远</li>
-                <li><strong>木构技艺巅峰：</strong>斗拱体系精巧复杂，结构作用与装饰效果完美结合，出现减柱、移柱等创新</li>
-                <li><strong>城市与商业建筑：</strong>打破里坊制，出现开放式街市，商铺、酒楼等商业建筑形式蓬勃发展</li>
-            </ul>
-        </div>
-
-        <!-- 数据可视化图表区域 -->
-        <div class="data-visualization-section">
-            <h2 class="section-title">秦朝建筑工程数据可视化</h2>
-            <div class="charts-container">
-                <!-- 左侧：建筑类型统计柱状图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">秦朝·建筑类型统计</h3>
-                    <div class="chart-container">
-                        <canvas id="buildingTypesChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：基于历史文献记载与考古发现统计，反映出秦朝建筑活动的一个显著特点：民居与桥梁的建设规模尤为突出，这体现了秦统一后安置人口、巩固基层统治的迫切需求，以及为加强控制而大力发展全国交通网络的国家意志。</p>
-                </div>
-                
-                <!-- 右侧：建筑材质分析雷达图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">秦朝·建筑材质分析</h3>
-                    <div class="chart-container">
-                        <canvas id="materialChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：基于考古发现与文献记载分析，秦朝营造以木材与夯土为核心材料，木材广泛用于宫殿结构与战备设施，夯土则大规模应用于城墙、台基等防御与基础工程，砖瓦与石材在特定建筑中亦有重要应用。</p>
-                </div>
+    <div class="main-content-wrapper">
+        <!-- 左侧朝代信息栏 -->
+        <div class="dynasty-sidebar">
+            <h1>秦</h1>
+            <div class="dynasty-period-sidebar">公元前221年 - 公元前207年</div>
+            <div class="dynasty-intro">规天矩地<br>制启华夏</div>
+            <div class="dynasty-features">
+                <span class="feature-tag">大一统</span>
+                <span class="feature-tag">标准化</span>
+                <span class="feature-tag">工程奇迹</span>
+                <span class="feature-tag">法家治国</span>
             </div>
         </div>
-
-        <h2>秦朝代表性建筑成就</h2>
-        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
         
-        <div class="achievements-grid">
-            <!-- 咸阳宫遗址 -->
-            <div class="achievement-card" data-building="xianyanggong">
-                <div class="achievement-image">
-                    <img src="../achievements/images/qin-xianyanggong.jpg" alt="咸阳宫遗址">
-                </div>
-                <div class="achievement-content">
-                    <h3>咸阳宫遗址</h3>
-                    <p>秦都咸阳宫阙，规模宏大而规整，高台错落其间，甬道纵横相连，展现出以宫殿群统领广阔都城的营造思想，集中体现了秦代建筑的雄浑气象与威权意识。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">巨型夯土台</span>
-                        <span class="meta-tag">复道连接</span>
-                        <span class="meta-tag">帝国气魄</span>
+        <!-- 右侧主内容区 -->
+        <div class="dynasty-main-content">
+            <div class="historical-context">
+                <h2>历史背景</h2>
+                <p>秦朝是中国历史上第一个大一统王朝，其建筑成就体现了中央集权制度下的宏大规划与高效执行。秦始皇统一六国后，推行"车同轨、书同文"，在建筑领域也实现了标准化和规模化，创造了多项世界建筑史上的奇迹。</p>
+                <ul>
+                    <li><strong>统一度量衡：</strong>标准化营造尺度，为大规模工程建设奠定基础</li>
+                    <li><strong>集权体制：</strong>集中全国人力物力，完成超大型国家工程</li>
+                    <li><strong>军事防御：</strong>建筑服务于国防，长城、直道等工程具有明确军事目的</li>
+                </ul>
+            </div>
+
+            <!-- 数据可视化图表区域 -->
+            <div class="data-visualization-section">
+                <h2 class="section-title">秦朝建筑工程数据可视化</h2>
+                <div class="charts-container">
+                    <!-- 左侧：建筑类型统计柱状图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">秦朝·建筑类型统计</h3>
+                        <div class="chart-container">
+                            <canvas id="buildingTypesChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：基于历史文献记载与考古发现统计，反映出秦朝建筑活动的一个显著特点：民居与桥梁的建设规模尤为突出，这体现了秦统一后安置人口、巩固基层统治的迫切需求，以及为加强控制而大力发展全国交通网络的国家意志。</p>
+                    </div>
+                    
+                    <!-- 右侧：建筑材质分析雷达图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">秦朝·建筑材质分析</h3>
+                        <div class="chart-container">
+                            <canvas id="materialChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：基于考古发现与文献记载分析，秦朝营造以木材与夯土为核心材料，木材广泛用于宫殿结构与战备设施，夯土则大规模应用于城墙、台基等防御与基础工程，砖瓦与石材在特定建筑中亦有重要应用。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 直道和驰道 -->
-            <div class="achievement-card" data-building="road">
-                <div class="achievement-image">
-                    <img src="../achievements/images/qin-road.jpg" alt="直道和驰道">
-                </div>
-                <div class="achievement-content">
-                    <h3>直道和驰道</h3>
-                    <p><p>秦朝修建的直道和驰道，是连接各地的重要交通干线，体现了秦朝强大的组织能力和工程水平。</p></p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">法家工程</span>
-                        <span class="meta-tag">夯土基础</span>
-                        <span class="meta-tag">秦国命脉</span>
+            <!-- 建筑成就标题区域 -->
+            <div class="achievements-title-area">
+                <h2>秦朝代表性建筑成就</h2>
+                <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
+            </div>
+            
+            <div class="achievements-grid">
+                <!-- 咸阳宫遗址 -->
+                <div class="achievement-card" data-building="xianyanggong">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qin-xianyanggong.jpg" alt="咸阳宫遗址">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>咸阳宫遗址</h3>
+                        <p>秦都咸阳宫阙，规模宏大而规整，高台错落其间，甬道纵横相连，展现出以宫殿群统领广阔都城的营造思想，集中体现了秦代建筑的雄浑气象与威权意识。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">巨型夯土台</span>
+                            <span class="meta-tag">复道连接</span>
+                            <span class="meta-tag">帝国气魄</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 秦长城（遗址） -->
-            <div class="achievement-card" data-building="qinchangcheng">
-                <div class="achievement-image">
-                    <img src="../achievements/images/qin-changcheng.jpg" alt="秦长城（遗址）">
+                <!-- 直道和驰道 -->
+                <div class="achievement-card" data-building="road">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qin-road.jpg" alt="直道和驰道">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>直道和驰道</h3>
+                        <p><p>秦朝修建的直道和驰道，是连接各地的重要交通干线，体现了秦朝强大的组织能力和工程水平。</p></p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">法家工程</span>
+                            <span class="meta-tag">夯土基础</span>
+                            <span class="meta-tag">秦国命脉</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement-content">
-                    <h3>秦长城（遗址）</h3>
-                    <p>秦长城是秦始皇为抵御北方游牧民族入侵而修建的军事防御工程，展现了秦朝强大的组织能力和工程水平。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">万里长城</span>
-                        <span class="meta-tag">防御工程</span>
-                        <span class="meta-tag">秦帝国象征</span>
+
+                <div class="achievement-card" data-building="fengxiang">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qin-fengxiang.jpg" alt="凤翔民居遗址">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>凤翔民居</h3>
+                        <p>关中地区典型的秦人聚落遗存，以半地穴式窝棚为主，结构简朴实用，与同期宏伟宫殿形成鲜明对比，揭示帝国基层民众的真实生活图景。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">半地穴式</span>
+                            <span class="meta-tag">基层聚落</span>
+                            <span class="meta-tag">法家简约风</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 秦长城（遗址） -->
+                <div class="achievement-card" data-building="qinchangcheng">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qin-changcheng.jpg" alt="秦长城（遗址）">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>秦长城（遗址）</h3>
+                        <p>秦长城是秦始皇为抵御北方游牧民族入侵而修建的军事防御工程，展现了秦朝强大的组织能力和工程水平。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">万里长城</span>
+                            <span class="meta-tag">防御工程</span>
+                            <span class="meta-tag">秦帝国象征</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -479,7 +654,6 @@
                     </div>
                 </div>
                 <div class="modal-description" id="modalDescription">
-                    <!-- 建筑描述将通过JavaScript动态填充 -->
                 </div>
             </div>
         </div>
@@ -631,75 +805,103 @@
                 materialChart.resize();
             });
 
-            // 建筑数据（已为每个建筑添加详情页图片路径）
+            // 建筑数据
             const buildingData = {
-    xianyanggong: {
-        title: "咸阳宫遗址",
-        subtitle: "巨型夯土台 | 复道连接 | 帝国气魄",
-        image: "../achievements/images/qin-xianyanggongall.jpg", 
-        description: `
-            <p>秦朝咸阳宫，位于今陕西咸阳东北，是中国历史上第一个大一统帝国的权力中枢。它不再仅仅是诸侯王的宫殿，而是被设计为一个<strong>象征性宇宙模型</strong>，体现了"法天象地"的规划思想，彰显了秦帝国"六合之内，皇帝之土"的磅礴气魄，代表了法家思想指导下集权帝国在建筑上的极致表达。</p>
+                'xianyanggong': {
+                    title: "咸阳宫遗址",
+                    subtitle: "巨型夯土台 | 复道连接 | 帝国气魄",
+                    image: "../achievements/images/qin-xianyanggongall.jpg", 
+                    description: `
+                        <p>秦朝咸阳宫，位于今陕西咸阳东北，是中国历史上第一个大一统帝国的权力中枢。它不再仅仅是诸侯王的宫殿，而是被设计为一个<strong>象征性宇宙模型</strong>，体现了"法天象地"的规划思想，彰显了秦帝国"六合之内，皇帝之土"的磅礴气魄，代表了法家思想指导下集权帝国在建筑上的极致表达。</p>
         
-            <h4>"法天象地"的都城规划</h4>
-            <p>咸阳宫的规划打破了战国时期封闭的宫城模式，采用了一种前所未有的<strong>开放式、发散式布局</strong>。秦始皇"筑咸阳宫，因北陵营殿，端门四达，以则紫宫，象帝居"，将渭水比作银河，在两岸仿建六国宫殿，形成"渭水贯都，以象天汉；横桥南渡，以法牵牛"的壮丽景象，使整座都城成为一个微缩的宇宙图式。</p>
+                        <h4>"法天象地"的都城规划</h4>
+                        <p>咸阳宫的规划打破了战国时期封闭的宫城模式，采用了一种前所未有的<strong>开放式、发散式布局</strong>。秦始皇"筑咸阳宫，因北陵营殿，端门四达，以则紫宫，象帝居"，将渭水比作银河，在两岸仿建六国宫殿，形成"渭水贯都，以象天汉；横桥南渡，以法牵牛"的壮丽景象，使整座都城成为一个微缩的宇宙图式。</p>
         
-            <h4>轴线与高台的权力叙事</h4>
-            <p>咸阳宫的核心建筑群以南北轴线组织，但这条轴线并非封闭于宫墙之内，而是通过复道、甬道、驰道等交通网络，<strong>向整个帝国疆域辐射</strong>。主要宫殿建于夯土高台之上（如著名的"咸阳宫一号遗址"高台），既体现了防御功能，更通过绝对的高度差，实现了皇权对臣民视觉与心理的绝对压制。</p>
-            <ul>
-                <li><strong>象征性</strong>：都城布局是对"天下一统"政治理念的空间转译。</li>
-                <li><strong>集权性</strong>：以宫殿为中心辐射全国的交通网络，是中央集权制度的物质体现。</li>
-                <li><strong>技术性</strong>：大规模的高台建筑、地下排水系统、壁画的运用，代表了当时建筑技术的最高水平。</li>
-            </ul>
+                        <h4>轴线与高台的权力叙事</h4>
+                        <p>咸阳宫的核心建筑群以南北轴线组织，但这条轴线并非封闭于宫墙之内，而是通过复道、甬道、驰道等交通网络，<strong>向整个帝国疆域辐射</strong>。主要宫殿建于夯土高台之上（如著名的"咸阳宫一号遗址"高台），既体现了防御功能，更通过绝对的高度差，实现了皇权对臣民视觉与心理的绝对压制。</p>
+                        <ul>
+                            <li><strong>象征性</strong>：都城布局是对"天下一统"政治理念的空间转译。</li>
+                            <li><strong>集权性</strong>：以宫殿为中心辐射全国的交通网络，是中央集权制度的物质体现。</li>
+                            <li><strong>技术性</strong>：大规模的高台建筑、地下排水系统、壁画的运用，代表了当时建筑技术的最高水平。</li>
+                        </ul>
         
-            <h4>独特的历史地位</h4>
-            <p>秦咸阳宫是中国建筑史上从"王国宫殿"向"帝国宫殿"转型的里程碑。它虽在战火中化为焦土，但其"法天象地"的规划思想、轴线对称的布局手法、高台建筑的营造技术，为后世汉唐都城与宫殿建设奠定了范式，是集权帝国初创时期政治雄心在建筑上的集中爆发。</p>
-        `
-    },
-    road: {
-        title: "直道和驰道",
-        subtitle: "法家工程 | 夯土基础 | 秦国命脉",
-        image: "../achievements/images/qin-roadall.jpg", 
-        description: `
-            <p>秦朝直道与驰道，是中国历史上第一个中央集权帝国构建的全国性陆路交通网络。它们不仅是军事防御与政治控制的<strong>物理延伸</strong>，更是秦始皇"书同文，车同轨"治国理念的空间实践，将原本割裂的六国故地紧密编织成一体，开创了古代中国"条条大路通咸阳"的帝国交通格局，为后世大一统王朝的交通建设确立了基本范式。</p>
-        
-            <h4>驰道：帝国主动脉与标准化工程</h4>
-            <p>驰道以咸阳为中心，呈放射状通往各重要郡县与边境，是秦朝的"国道"系统。其最显著的特征是<strong>严格的标准化建设</strong>：路面宽阔（道宽五十步），两侧植树为界，每隔三丈植青松一株。更为重要的是，驰道实现了真正的"车同轨"，统一的车轨宽度（六尺）使帝国战车与辎重车辆能够在全境畅通无阻，极大提高了军队调动与物资运输效率。</p>
-        
-            <h4>直道：军事工程的巅峰之作</h4>
-            <p>直道是专为北击匈奴而修建的军事高速公路，由名将蒙恬监修，从云阳（今陕西淳化）直通九原郡（今内蒙古包头）。工程<strong>完全服务于军事目的</strong>，选址尽可能取直线，遇山开山，遇壑填壑，穿越黄土高原与鄂尔多斯草原，缩短了边境与首都的时空距离。其路面采用黄土夯筑，坚硬如石，即便雨雪天气也能保证车马通行，是秦朝工程技术与军事战略结合的典范。</p>
-            <ul>
-                <li><strong>军事性</strong>：直道是纯粹的军事工程，驰道也具备快速运兵功能，共同构成了帝国的防御与投射网络。</li>
-                <li><strong>政治性</strong>：道路网络是中央权力的触角，加强了对地方的控制，促进了政令统一与文化融合。</li>
-                <li><strong>技术性</strong>：体现了当时道路勘测、路基处理、排水系统等方面的最高工程技术水平。</li>
-            </ul>
-        
-            <h4>独特的历史价值</h4>
-            <p>秦直道与驰道虽历经两千余年风雨，部分遗迹至今仍存。它们不仅是冷兵器时代规模空前、设计科学的交通基础设施，更是秦朝高度组织能力与工程技术的实物见证。这套系统为汉朝所继承与发展，奠定了此后两千年中原王朝以京师为中心、驿道为骨架的交通网络基础，是帝国体制得以有效运转的看不见的支柱。</p>
-        `
-    },
-    qinchangcheng: {
-        title: "秦长城",
-        subtitle: "万里长城 | 防御工程 | 秦帝国象征",
-        image: "../achievements/images/qin-changchengall.jpg", 
-        description: `
-            <p>秦长城，是人类历史上最宏大的军事防御工程，是秦始皇统一六国后为巩固北疆、防御匈奴而修建的<strong>永久性防线</strong>。它并非完全新建，而是以战国时期秦、赵、燕三国北长城为基础，连接、增筑、修缮而成，西起临洮（今甘肃岷县），东至辽东，延袤万余里，首次在中国北方形成了完整的、连续的军事防御体系，奠定了此后两千年中原王朝北疆防御的基本格局。</p>
-        
-            <h4>"因险制塞"的选址智慧</h4>
-            <p>秦长城的走向并非追求绝对直线，而是严格遵循<strong>地理与军事的双重逻辑</strong>。其选址充分利用了北方的天然险阻：沿山脊而行，借河为塞，在峡谷险要处设置关隘。这种"因地形，用制险塞"的规划思想，既减少了工程量，又最大化地发挥了地形的防御优势，使长城本身与山川地理融为一体，构成了一道难以逾越的立体屏障。</p>
-        
-            <h4>体系化的防御设施</h4>
-            <p>秦长城并非一道简单的墙，而是一个包含多重要素的<strong>综合性军事体系</strong>。墙体本身是主体，沿线均匀分布着用于驻军和储存的障城、用于预警和通讯的烽燧（烽火台），以及控制交通的关隘。墙体、障城、烽燧、关隘四者通过驰道相连，构成了一个可以快速传递军情、调动兵力、补充给养的有机整体，体现了高度的军事系统化思维。</p>
-            <ul>
-                <li><strong>军事性</strong>：是纯粹的国防工程，其选址、结构、设施均服务于防御匈奴骑兵的核心战略目标。</li>
-                <li><strong>工程性</strong>：在缺乏现代机械的条件下，于复杂险峻的地形中完成如此浩大的土石工程，展现了秦帝国惊人的组织与施工能力。</li>
-                <li><strong>开创性</strong>：首次将中原农耕文明与北方游牧文明以一道连续的、有组织的防线清晰分隔，确立了此后历代中原王朝的北疆经略模式。</li>
-            </ul>
-        
-            <h4>独特的历史价值</h4>
-            <p>秦长城虽在汉代以后多被增修、改线，其原貌亦多湮没于岁月，但它作为中国历史上第一个大一统帝国塑造地理与国家边界的伟大尝试，其意义已远超军事本身。它不仅是冷兵器时代防御工程的巅峰，更是秦朝国家意志、工程技术和军事战略的集中体现，是中华文明为应对特定历史环境而创造的独特文化景观，对后世的政治地理、民族关系和边疆治理产生了极为深远的影响。</p>
-        `
-    }
-};
+                        <h4>独特的历史地位</h4>
+                        <p>秦咸阳宫是中国建筑史上从"王国宫殿"向"帝国宫殿"转型的里程碑。它虽在战火中化为焦土，但其"法天象地"的规划思想、轴线对称的布局手法、高台建筑的营造技术，为后世汉唐都城与宫殿建设奠定了范式，是集权帝国初创时期政治雄心在建筑上的集中爆发。</p>
+                    `
+                },
+                'road': {
+                    title: "直道和驰道",
+                    subtitle: "法家工程 | 夯土基础 | 秦国命脉",
+                    image: "../achievements/images/qin-roadall.jpg", 
+                    description: `
+                        <p>秦朝直道与驰道，是中国历史上第一个中央集权帝国构建的全国性陆路交通网络。它们不仅是军事防御与政治控制的<strong>物理延伸</strong>，更是秦始皇"书同文，车同轨"治国理念的空间实践，将原本割裂的六国故地紧密编织成一体，开创了古代中国"条条大路通咸阳"的帝国交通格局，为后世大一统王朝的交通建设确立了基本范式。</p>
+
+                        <h4>驰道：帝国主动脉与标准化工程</h4>
+                        <p>驰道以咸阳为中心，呈放射状通往各重要郡县与边境，是秦朝的"国道"系统。其最显著的特征是<strong>严格的标准化建设</strong>：路面宽阔（道宽五十步），两侧植树为界，每隔三丈植青松一株。更为重要的是，驰道实现了真正的"车同轨"，统一的车轨宽度（六尺）使帝国战车与辎重车辆能够在全境畅通无阻，极大提高了军队调动与物资运输效率。</p>
+
+                        <h4>直道：军事工程的巅峰之作</h4>
+                        <p>直道是专为北击匈奴而修建的军事高速公路，由名将蒙恬监修，从云阳（今陕西淳化）直通九原郡（今内蒙古包头）。工程<strong>完全服务于军事目的</strong>，选址尽可能取直线，遇山开山，遇壑填壑，穿越黄土高原与鄂尔多斯草原，缩短了边境与首都的时空距离。其路面采用黄土夯筑，坚硬如石，即便雨雪天气也能保证车马通行，是秦朝工程技术与军事战略结合的典范。</p>
+                        <ul>
+                            <li><strong>军事性</strong>：直道是纯粹的军事工程，驰道也具备快速运兵功能，共同构成了帝国的防御与投射网络。</li>
+                            <li><strong>政治性</strong>：道路网络是中央权力的触角，加强了对地方的控制，促进了政令统一与文化融合。</li>
+                            <li><strong>技术性</strong>：体现了当时道路勘测、路基处理、排水系统等方面的最高工程技术水平。</li>
+                        </ul>
+
+                        <h4>独特的历史价值</h4>
+                        <p>秦直道与驰道虽历经两千余年风雨，部分遗迹至今仍存。它们不仅是冷兵器时代规模空前、设计科学的交通基础设施，更是秦朝高度组织能力与工程技术的实物见证。这套系统为汉朝所继承与发展，奠定了此后两千年中原王朝以京师为中心、驿道为骨架的交通网络基础，是帝国体制得以有效运转的看不见的支柱。</p>
+                    `
+                },
+                'fengxiang': {
+                    title: '凤翔民居遗址',
+                    subtitle: '秦代基层聚落的真实写照',
+                    image: '../achievements/images/qin-fengxiang.jpg',
+                    description: `
+                        <p>秦代凤翔民居遗址位于关中地区，是典型的秦人聚落遗存，为我们揭示了帝国一统格局下普通民众的生活实态。遗址多为密集分布的半地穴式或浅地穴式窝棚，平面呈圆形或方形，面积通常不足十平方米，结构与陈设极为简朴。</p>
+                            <h4>建筑特色</h4>
+                        <ul>
+                            <li><strong>半地穴式结构</strong>：穴壁经火烘烤或涂抹草拌泥以防潮，有利于抵御关中地区的风寒；</li>
+                            <li><strong>简易屋顶</strong>：推测为木架结构，覆以茅草，无瓦件出土，停留在“茅茨土阶”层面；</li>
+                            <li><strong>内部设施</strong>：居住面常见火塘（灶坑）、储物窖穴，满足基本生存需求；</li>
+                            <li><strong>聚落布局</strong>：相对松散，部分遗址可见夯土墙基，可能为里坊雏形或小型自卫设施。</li>
+                        </ul>
+                            <h4>出土遗物</h4>
+                        <ul>
+                            <li>日用粗陶：陶釜、罐、瓮等，器型简朴实用；</li>
+                            <li>铁制农具与工具开始出现但尚不普及；</li>
+                            <li>铜器极为罕见，反映资源高度向上集中的社会现实。</li>
+                        </ul>
+                            <h4>历史意义</h4>
+                        <ul>
+                            <li>与同期咸阳宫、阿房宫形成强烈对比，体现秦帝国资源分配的极端不均；</li>
+                            <li>展现严酷赋役征发与军事化管理下基层民众的真实生活境况；</li>
+                            <li>映射早期帝国时代国家权力与社会基层生活之间的深刻张力；</li>
+                            <li>是理解秦代社会基底、帝国兴衰节奏的关键窗口。</li>
+                        </ul>
+                 `
+                },
+                'qinchangcheng': {
+                    title: "秦长城",
+                    subtitle: "万里长城 | 防御工程 | 秦帝国象征",
+                    image: "../achievements/images/qin-changchengall.jpg", 
+                    description: `
+                        <p>秦长城，是人类历史上最宏大的军事防御工程，是秦始皇统一六国后为巩固北疆、防御匈奴而修建的<strong>永久性防线</strong>。它并非完全新建，而是以战国时期秦、赵、燕三国北长城为基础，连接、增筑、修缮而成，西起临洮（今甘肃岷县），东至辽东，延袤万余里，首次在中国北方形成了完整的、连续的军事防御体系，奠定了此后两千年中原王朝北疆防御的基本格局。</p>
+
+                        <h4>"因险制塞"的选址智慧</h4>
+                        <p>秦长城的走向并非追求绝对直线，而是严格遵循<strong>地理与军事的双重逻辑</strong>。其选址充分利用了北方的天然险阻：沿山脊而行，借河为塞，在峡谷险要处设置关隘。这种"因地形，用制险塞"的规划思想，既减少了工程量，又最大化地发挥了地形的防御优势，使长城本身与山川地理融为一体，构成了一道难以逾越的立体屏障。</p>
+
+                        <h4>体系化的防御设施</h4>
+                        <p>秦长城并非一道简单的墙，而是一个包含多重要素的<strong>综合性军事体系</strong>。墙体本身是主体，沿线均匀分布着用于驻军和储存的障城、用于预警和通讯的烽燧（烽火台），以及控制交通的关隘。墙体、障城、烽燧、关隘四者通过驰道相连，构成了一个可以快速传递军情、调动兵力、补充给养的有机整体，体现了高度的军事系统化思维。</p>
+                        <ul>
+                            <li><strong>军事性</strong>：是纯粹的国防工程，其选址、结构、设施均服务于防御匈奴骑兵的核心战略目标。</li>
+                            <li><strong>工程性</strong>：在缺乏现代机械的条件下，于复杂险峻的地形中完成如此浩大的土石工程，展现了秦帝国惊人的组织与施工能力。</li>
+                            <li><strong>开创性</strong>：首次将中原农耕文明与北方游牧文明以一道连续的、有组织的防线清晰分隔，确立了此后历代中原王朝的北疆经略模式。</li>
+                        </ul>
+
+                        <h4>独特的历史价值</h4>
+                        <p>秦长城虽在汉代以后多被增修、改线，其原貌亦多湮没于岁月，但它作为中国历史上第一个大一统帝国塑造地理与国家边界的伟大尝试，其意义已远超军事本身。它不仅是冷兵器时代防御工程的巅峰，更是秦朝国家意志、工程技术和军事战略的集中体现，是中华文明为应对特定历史环境而创造的独特文化景观，对后世的政治地理、民族关系和边疆治理产生了极为深远的影响。</p>
+                    `
+                }
+            };
         
 
             // 获取DOM元素

@@ -7,41 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        * 
-        .main-nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
         /* 英雄区域 */
         .hero-section {
             display: grid;
@@ -56,54 +21,29 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
         
-        .hero-content {
-            text-align: center;
-        }
-        
-        .achievement-title {
-            font-size: 2.8rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        .achievement-subtitle {
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-        
-        .meta-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        
-        .meta-row {
-            display: flex;
-            margin-bottom: 8px;
-        }
-        
-        .meta-label {
-            font-weight: 600;
-            color: #2c3e50;
-            width: 120px;
-        }
-        
-        .meta-value {
-            color: #2c3e50;
-        }
-        
         .hero-buttons {
             display: flex;
             gap: 15px;
             margin-top: 20px;
             justify-content: center;
+        }
+
+        .achievement-title {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align:center;
+        }
+        
+         .achievement-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            text-align: left;
+            text-indent: 2em; 
         }
         
         .btn {
@@ -482,15 +422,80 @@
             background: #c0392b;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
+        /* 基本信息卡区域 */
+        .basic-info-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
         }
         
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .info-card-header {
+            background: #3498db;
+            padding: 20px 30px;
+            color: white;
+        }
+        
+        .info-card-header h3 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        
+        .info-card-content {
+            padding: 30px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 140px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #333;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        /* 雷达图容器样式  */
+        .radar-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .radar-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        #radar-chart {
+            width: 100%;
+            height: 500px;
+        }
+
         /* 响应式设计 */
         @media (max-width: 1024px) {
             .cards-container {
@@ -510,10 +515,6 @@
             
             .cards-container {
                 grid-template-columns: 1fr;
-            }
-            
-            .achievement-title {
-                font-size: 2.2rem;
             }
             
             .section-title {
@@ -579,10 +580,6 @@
                 padding: 20px;
             }
             
-            .achievement-title {
-                font-size: 1.8rem;
-            }
-            
             .hero-image img {
                 max-height: 300px;
             }
@@ -603,35 +600,12 @@
         </nav>
     </header>
 
-    <!-- 英雄区域 - 已修复图例位置 -->
+    <!-- 英雄区域  -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">《工程做法则例》</h1>
             <p class="achievement-subtitle">清雍正十二年（1734年），工部颁布这部清代建筑"国标"，标志着中国古代建筑技术标准化与制度化的巅峰。它将"斗口"确立为核心模数，成为紫禁城、天坛、颐和园等清代官式建筑的营造法典。</p>
-            
-            <div class="meta-info">
-                <div class="meta-row">
-                    <div class="meta-label">颁布时间：</div>
-                    <div class="meta-value">清雍正十二年（1734年）</div>
-                </div>
-                <div class="meta-row">
-                    <div class="meta-label">编纂机构：</div>
-                    <div class="meta-value">清工部（国家工程管理机构）</div>
-                </div>
-                <div class="meta-row">
-                    <div class="meta-label">文献规模：</div>
-                    <div class="meta-value">七十四卷，约50万字</div>
-                </div>
-                <div class="meta-row">
-                    <div class="meta-label">核心制度：</div>
-                    <div class="meta-value">确立"斗口"模数制（分11等）</div>
-                </div>
-                <div class="meta-row">
-                    <div class="meta-label">历史地位：</div>
-                    <div class="meta-value">继宋代《营造法式》后的第二部官方建筑法典</div>
-                </div>
-            </div>
-            
+
             <div class="hero-buttons">
                 <a href="#cards" class="btn">解读核心体系</a>
                 <a href="#comparison" class="btn btn-outline">对比《营造法式》</a>
@@ -642,6 +616,58 @@
         <div class="hero-image">
             <img src="../建筑书籍/assets/images/gongcheng-zuofa-zel.png" alt="《工程做法则例》封面">
             <div class="image-caption"></div>
+        </div>
+    </section>
+
+    <!-- 工程做法则例 雷达图区域 -->
+    <section class="radar-container">
+        <h2 class="section-title">《工程做法则例》核心能力图谱</h2>
+        <p class="section-subtitle">从六大维度直观展示清代建筑法典的技术实力与特点</p>
+        <div class="radar-box">
+            <div id="radar-chart"></div>
+        </div>
+    </section>
+
+    <!-- 文献档案信息卡  -->
+    <section class="basic-info-section">
+        <div class="info-card">
+            <div class="info-card-header">
+                <h3>文献档案</h3>
+            </div>
+            <div class="info-card-content">
+                <div class="info-row">
+                    <div class="info-label">成书年代：</div>
+                    <div class="info-value">清雍正十二年（1734年）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">编纂机构：</div>
+                    <div class="info-value">清工部（国家工程管理机构）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">全书规模：</div>
+                    <div class="info-value">七十四卷，约50万字</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">核心制度：</div>
+                    <div class="info-value">确立“斗口”模数制（分11等）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">核心性质：</div>
+                    <div class="info-value">清代官式建筑的强制性国家营造标准与工料预算定额</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">历史地位：</div>
+                    <div class="info-value">继宋代《营造法式》后的第二部官方建筑法典，中国古代建筑标准化与制度化的巅峰</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">影响范围：</div>
+                    <div class="info-value">作为清代200余年官式建筑的唯一营造标准，直接指导了故宫、天坛、颐和园、清东陵、清西陵等世界遗产的建设。</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">现代意义：</div>
+                    <div class="info-value">是研究、鉴定和修复清代古建筑最核心的文献依据，对故宫大修等重大文物保护工程具有不可替代的指导价值。</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -824,7 +850,7 @@
                         </td>
                         <td class="qing-dynasty">
                             <strong>"斗口为纲"</strong><br>
-                            强调建筑的等级规制与工料控制，一切以斗口等级为准，设计弹性小，强调标准化。
+                            强调建筑的等级礼制与工料控制，一切以斗口等级为准，设计弹性小，强调标准化。
                         </td>
                         <td>
                             <strong>从"结构美学"到"等级礼制"</strong><br>
@@ -858,7 +884,7 @@
             </table>
         </div>
         
-        <!-- 时间轴容器 - 已修复文字居中问题 -->
+        <!-- 时间轴容器 - -->
         <div class="timeline-container">
             <h3 class="timeline-title">《工程做法则例》的历史影响</h3>
             <div class="timeline">
@@ -909,6 +935,7 @@
             </div>
         </div>
     </section>
+    
 
     <!-- 结语与导航 -->
     <section class="conclusion-section">
@@ -965,6 +992,45 @@
                     this.style.backgroundColor = '';
                 });
             });
+            
+            // ==================== 工程做法则例雷达图 ====================
+            const radarChart = echarts.init(document.getElementById('radar-chart'));
+            const option = {
+                tooltip: {},
+                legend: {
+                    data: ['《工程做法则例》'],
+                    bottom: 0
+                },
+                radar: {
+                    radius: '70%',
+                    indicator: [
+                        { name: '官式规范性', max: 5 },
+                        { name: '技术系统性', max: 5 },
+                        { name: '图纸完整度', max: 5 },
+                        { name: '历史影响力', max: 5 },
+                        { name: '实操实用性', max: 5 },
+                        { name: '美学艺术性', max: 5 }
+                    ]
+                },
+                series: [{
+                    name: '能力图谱',
+                    type: 'radar',
+                    data: [
+                        {
+                            value: [5, 5, 3, 4, 4, 1],
+                            name: '《工程做法则例》',
+                            areaStyle: {
+                                color: 'rgba(231, 76, 60, 0.3)'
+                            },
+                            itemStyle: {
+                                color: '#e74c3c'
+                            }
+                        }
+                    ]
+                }]
+            };
+            radarChart.setOption(option);
+            window.addEventListener('resize', () => radarChart.resize());
             
             console.log('《工程做法则例》专题页加载完成！');
         });

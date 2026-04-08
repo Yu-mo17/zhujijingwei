@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
     <style>
-        /* 原有样式保持不变，仅补充地图卡片内需要的微调 */
         .timeline-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -848,16 +847,15 @@
             <div class="scroll-indicator" id="scroll-indicator"></div>
         </div>
 
-        <!-- 官方数据图表区域（已替换第二个卡片为中国古建筑分布地图） -->
+        <!-- 官方数据图表区域 -->
         <div class="data-charts-section">
             <div class="section-header">
                 <h2>基于官方数据的建筑统计</h2>
                 <p>数据来源：国家文物局《全国重点文物保护单位名录》（2023年）</p>
             </div>
 
-            <!-- 各朝代建筑遗存图表 + 新地图（原第二项替换） -->
+            <!-- 各朝代建筑遗存图表  -->
             <div class="charts-grid">
-                <!-- 第一项：各朝代现存建筑数量统计（保持不变） -->
                 <div class="chart-card">
                     <div class="chart-title">
                         各朝代现存建筑数量统计
@@ -871,7 +869,6 @@
                     </div>
                 </div>
 
-                <!-- 第二项：原先的“唐代至清代建筑遗存趋势”已替换为“中国古代建筑分布地图” -->
                 <div class="chart-card">
                     <div class="chart-title">
                         中国古代建筑分布地图
@@ -888,7 +885,7 @@
                 </div>
             </div>
 
-            <!-- 建筑类型统计图表（保持不变） -->
+            <!-- 建筑类型统计图表-->
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title">
@@ -911,7 +908,7 @@
             </div>
         </div>
 
-        <!-- 时间轴区域（保持不变） -->
+        <!-- 时间轴区域 -->
         <div class="timeline-visual">
             <div class="timeline-header">
                 <h2>中国古代历史时间轴</h2>
@@ -967,7 +964,7 @@
                                 <span class="achievement-tag">棋盘布局</span>
                                 <span class="achievement-tag">汉代建筑</span>
                             </div>
-                            <a href="../../建筑/han-changan.html" class="timeline-link">探索详情 →</a>
+                            <a href="/建筑/han-changan.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
                     
@@ -985,79 +982,19 @@
                             <a href="../../建筑/zhaozhou-bridge.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
-                    
-                    <!-- 唐朝 -->
-                    <div class="timeline-item" data-dynasty="tang">
-                        <div class="timeline-content">
-                            <span class="dynasty-tag">唐朝</span>
-                            <h3 class="timeline-title">大明宫（陕西西安）</h3>
-                            <p class="timeline-description">大明宫是盛唐时期的皇家宫殿建筑群，以其宏大规模与精美布局闻名，是唐代政治、文化与建筑艺术的代表。</p>
-                            <div>
-                                <span class="achievement-tag">皇家宫殿典范</span>
-                                <span class="achievement-tag">国家政治中心</span>
-                                <span class="achievement-tag">夯土高台遗址</span>
-                            </div>
-                            <a href="../../建筑/daming-palace.html" class="timeline-link">探索详情 →</a>
-                        </div>
-                    </div>
-                    
-                    <!-- 宋朝 -->
-                    <div class="timeline-item" data-dynasty="song">
-                        <div class="timeline-content">
-                            <span class="dynasty-tag">宋朝</span>
-                            <h3 class="timeline-title">洛阳桥（泉州）</h3>
-                            <p class="timeline-description">中国古代著名的跨海梁式大石桥，首创“筏型基础”与“种蛎固基”技术，桥长731米，是宋代桥梁工程的杰出代表。</p>
-                            <div>
-                                <span class="achievement-tag">桥梁工程</span>
-                                <span class="achievement-tag">筏型基础</span>
-                                <span class="achievement-tag">种蛎固基</span>
-                            </div>
-                            <a href="../../建筑/luoyangqiao.html" class="timeline-link">探索详情 →</a>
-                        </div>
-                    </div>
-                    
-                    <!-- 元朝 -->
-                    <div class="timeline-item" data-dynasty="yuan">
-                        <div class="timeline-content">
-                            <span class="dynasty-tag">元朝</span>
-                            <h3 class="timeline-title">元大都（北京）</h3>
-                            <p class="timeline-description">元大都为元朝都城，采用中轴对称布局，融合汉族与蒙古建筑传统，城池方正、街道整齐，是中国古代都城规划与城市建筑的典范。</p>
-                            <div>
-                                <span class="achievement-tag">都城规划</span>
-                                <span class="achievement-tag">中轴对称</span>
-                                <span class="achievement-tag">元代建筑</span>
-                            </div>
-                            <a href="../../建筑/yuandadu.html" class="timeline-link">探索详情 →</a>
-                        </div>
-                    </div>
-                    
-                    <!-- 明朝 - 南京明城墙 -->
-                    <div class="timeline-item ming-wall" data-dynasty="ming">
-                        <div class="timeline-content">
-                            <span class="dynasty-tag">明朝</span>
-                            <h3 class="timeline-title">明城墙（南京）</h3>
-                            <p class="timeline-description">明代初建的南京城墙，全长约35.5公里，是世界上规模最大的古代城垣，体现了明朝的国防力量和城市规划水平。</p>
-                            <div>
-                                <span class="achievement-tag">城墙防御</span>
-                                <span class="achievement-tag">城市规划</span>
-                                <span class="achievement-tag">明代工程</span>
-                            </div>
-                            <a href="../achievements/ming-dynasty.html" class="timeline-link">探索详情 →</a>
-                        </div>
-                    </div>
 
                     <!-- 明朝 - 北京紫禁城 -->
                     <div class="timeline-item" data-dynasty="ming">
                         <div class="timeline-content">
                             <span class="dynasty-tag">明朝</span>
-                            <h3 class="timeline-title">紫禁城（北京）</h3>
+                            <h3 class="timeline-title">故宫</h3>
                             <p class="timeline-description">永乐年间建成的皇家宫殿，是明清两代的政治中心，集中体现了中国古代宫殿建筑的等级制度与中轴对称布局。</p>
                             <div>
                                 <span class="achievement-tag">宫殿建筑</span>
                                 <span class="achievement-tag">中轴对称</span>
                                 <span class="achievement-tag">皇家礼制</span>
                             </div>
-                            <a href="../achievements/ming-dynasty.html" class="timeline-link">探索详情 →</a>
+                            <a href="/3D展示/beijinggugong.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
                     
@@ -1072,7 +1009,7 @@
                                 <span class="achievement-tag">中西合璧</span>
                                 <span class="achievement-tag">万园之园</span>
                             </div>
-                            <a href="../../建筑/old-summer-palace.html" class="timeline-link">探索详情 →</a>
+                            <a href="/3D展示/yuanmingyuan.html" class="timeline-link">探索详情 →</a>
                         </div>
                     </div>
                 </div> 
@@ -1084,488 +1021,8 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // ========== 时间轴滚动动画 ==========
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1 });
-            timelineItems.forEach(item => observer.observe(item));
+    <script src="/assets/js/timeline.js"></script>
 
-            // ========== 朝代筛选 ==========
-            const filterTags = document.querySelectorAll('.filter-tag');
-            const allItems = document.querySelectorAll('.timeline-item');
-            filterTags.forEach(tag => {
-                tag.addEventListener('click', function() {
-                    filterTags.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    const dynasty = this.getAttribute('data-dynasty');
-                    allItems.forEach(item => {
-                        if (dynasty === 'all' || item.getAttribute('data-dynasty') === dynasty) {
-                            item.style.display = 'flex';
-                            setTimeout(() => observer.observe(item), 100);
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                    setTimeout(() => {
-                        const firstVisible = document.querySelector('.timeline-item[style*="display: flex"]');
-                        if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 300);
-                });
-            });
-
-            // ========== 轮播控制：自动播放 + 鼠标暂停 + 20秒恢复 ==========
-            (function() {
-                const container = document.getElementById('dynasty-scroll-container');
-                const wrapper = document.getElementById('dynasty-scroll-wrapper');
-                const leftBtn = document.getElementById('scroll-left');
-                const rightBtn = document.getElementById('scroll-right');
-                const indicatorContainer = document.getElementById('scroll-indicator');
-
-                if (!wrapper || !leftBtn || !rightBtn || !container) return;
-
-                const cards = Array.from(document.querySelectorAll('.dynasty-scroll-card'));
-                const cardCount = cards.length;
-                const cardWidth = 280;          // 卡片宽度（与CSS一致）
-                const cardGap = 25;              // 间距
-                const step = cardWidth + cardGap; // 每次移动的像素
-
-                let currentIndex = 0; // 当前最左边卡片的索引
-
-                // 自动播放相关
-                let autoPlayTimer = null;          // 自动播放定时器
-                let resumeTimer = null;             // 鼠标移出后延迟恢复的定时器
-                const AUTO_PLAY_INTERVAL = 2000;   // 20秒
-
-                // 更新轮播位置
-                function updateCarousel(index) {
-                    const offset = -index * step;
-                    wrapper.style.transform = `translateX(${offset}px)`;
-                    // 更新指示点
-                    if (indicatorContainer) {
-                        const dots = indicatorContainer.querySelectorAll('.indicator-dot');
-                        dots.forEach((dot, i) => {
-                            dot.classList.toggle('active', i === index);
-                        });
-                    }
-                }
-
-                // 切换到下一张
-                function nextCard() {
-                    currentIndex = (currentIndex + 1) % cardCount;
-                    updateCarousel(currentIndex);
-                }
-
-                // 切换到上一张
-                function prevCard() {
-                    currentIndex = (currentIndex - 1 + cardCount) % cardCount;
-                    updateCarousel(currentIndex);
-                }
-
-                // 清除所有定时器
-                function clearAllTimers() {
-                    if (autoPlayTimer) {
-                        clearTimeout(autoPlayTimer);
-                        autoPlayTimer = null;
-                    }
-                    if (resumeTimer) {
-                        clearTimeout(resumeTimer);
-                        resumeTimer = null;
-                    }
-                }
-
-                // 启动自动播放（设置定时器，下次自动播放）
-                function startAutoPlay() {
-                    clearAllTimers(); // 确保没有残留定时器
-                    autoPlayTimer = setTimeout(function tick() {
-                        nextCard();
-                        autoPlayTimer = setTimeout(tick, AUTO_PLAY_INTERVAL);
-                    }, AUTO_PLAY_INTERVAL);
-                }
-
-                // 停止自动播放（清除定时器）
-                function stopAutoPlay() {
-                    if (autoPlayTimer) {
-                        clearTimeout(autoPlayTimer);
-                        autoPlayTimer = null;
-                    }
-                }
-
-                // 重置自动播放（通常用于手动操作后，重新计时）
-                function resetAutoPlay() {
-                    if (!autoPlayTimer && !resumeTimer) {
-                        // 如果当前没有自动播放（例如鼠标移出后未恢复），则不重置
-                        return;
-                    }
-                    stopAutoPlay();
-                    // 如果鼠标不在容器内，直接启动自动播放；如果在容器内，则等待鼠标移出后恢复
-                    if (!isMouseInside) {
-                        startAutoPlay();
-                    }
-                }
-
-                // 鼠标状态
-                let isMouseInside = false;
-
-                // 鼠标进入容器
-                function handleMouseEnter() {
-                    isMouseInside = true;
-                    // 清除任何待执行的恢复定时器
-                    if (resumeTimer) {
-                        clearTimeout(resumeTimer);
-                        resumeTimer = null;
-                    }
-                    // 停止自动播放
-                    stopAutoPlay();
-                }
-
-                // 鼠标离开容器
-                function handleMouseLeave() {
-                    isMouseInside = false;
-                    // 设置20秒后恢复自动播放的定时器
-                    if (resumeTimer) {
-                        clearTimeout(resumeTimer);
-                        resumeTimer = null;
-                    }
-                    resumeTimer = setTimeout(() => {
-                        // 如果鼠标在此期间没有再次进入，则启动自动播放
-                        if (!isMouseInside) {
-                            startAutoPlay();
-                        }
-                        resumeTimer = null;
-                    }, AUTO_PLAY_INTERVAL);
-                }
-
-                // 手动操作后的处理：重置自动播放计时
-                function handleManualAction(action) {
-                    action(); // 执行切换
-                    // 重置自动播放
-                    if (!isMouseInside) {
-                        // 如果鼠标不在容器内，重新启动自动播放（从头计时）
-                        stopAutoPlay();
-                        startAutoPlay();
-                    } else {
-                        // 如果鼠标在容器内，只需清除自动播放（因为鼠标在时本来就不该自动播放），但不需要启动
-                        stopAutoPlay();
-                        // 同时清除可能存在的恢复定时器（因为鼠标还在内，不应该有恢复定时器）
-                        if (resumeTimer) {
-                            clearTimeout(resumeTimer);
-                            resumeTimer = null;
-                        }
-                    }
-                }
-
-                // 创建指示点
-                if (indicatorContainer) {
-                    for (let i = 0; i < cardCount; i++) {
-                        const dot = document.createElement('div');
-                        dot.className = 'indicator-dot' + (i === 0 ? ' active' : '');
-                        dot.addEventListener('click', () => {
-                            handleManualAction(() => {
-                                currentIndex = i;
-                                updateCarousel(currentIndex);
-                            });
-                        });
-                        indicatorContainer.appendChild(dot);
-                    }
-                }
-
-                // 左按钮点击
-                leftBtn.addEventListener('click', () => {
-                    handleManualAction(prevCard);
-                });
-
-                // 右按钮点击
-                rightBtn.addEventListener('click', () => {
-                    handleManualAction(nextCard);
-                });
-
-                // 容器鼠标事件
-                container.addEventListener('mouseenter', handleMouseEnter);
-                container.addEventListener('mouseleave', handleMouseLeave);
-
-                // 初始化位置和自动播放
-                updateCarousel(0);
-                startAutoPlay(); // 页面加载后立即启动自动播放
-            })();
-
-            console.log('页面加载完成（自动轮播版）');
-        });
-    </script>
-
-    <!-- ECharts 图表初始化（包括新增的中国地图） -->
-    <script>
-        (function() {
-            if (typeof echarts === 'undefined') return;
-
-            // ==================== 官方数据（原三个图表保持不变） ====================
-            const officialDynastyData = [
-                { dynasty: '夏', value: 3, type: '遗址', color: '#8e44ad' },
-                { dynasty: '商', value: 12, type: '遗址', color: '#9b59b6' },
-                { dynasty: '周', value: 28, type: '遗址', color: '#3498db' },
-                { dynasty: '秦', value: 8, type: '遗址/建筑', color: '#5dade2' },
-                { dynasty: '汉', value: 45, type: '遗址/建筑', color: '#2ecc71' },
-                { dynasty: '魏晋南北朝', value: 32, type: '遗址/建筑', color: '#27ae60' },
-                { dynasty: '隋', value: 15, type: '遗址/建筑', color: '#e67e22' },
-                { dynasty: '唐', value: 42, type: '建筑/遗址', color: '#f39c12' },
-                { dynasty: '五代十国', value: 18, type: '建筑/遗址', color: '#d35400' },
-                { dynasty: '宋', value: 156, type: '建筑', color: '#c0392b' },
-                { dynasty: '辽', value: 28, type: '建筑', color: '#e74c3c' },
-                { dynasty: '金', value: 45, type: '建筑', color: '#1abc9c' },
-                { dynasty: '元', value: 89, type: '建筑', color: '#16a085' },
-                { dynasty: '明', value: 1248, type: '建筑', color: '#8e44ad' },
-                { dynasty: '清', value: 1856, type: '建筑', color: '#2c3e50' }
-            ];
-
-            const buildingTypeData = [
-                { name: '民居宅第', value: 803, percentage: 28.7 },
-                { name: '城防关隘', value: 518, percentage: 18.5 },
-                { name: '宫殿府衙', value: 175, percentage: 6.3 },
-                { name: '塔幢经幢', value: 89, percentage: 3.2 },
-                { name: '桥梁码头', value: 75, percentage: 2.7 },
-                { name: '园林', value: 45, percentage: 1.6 },
-            ];
-
-            const typeEvolutionData = {
-                categories: ['汉', '唐', '宋', '明', '清'],
-                palace: [12, 8, 5, 18, 25],
-                temple: [45, 65, 85, 120, 150],
-                residence: [25, 18, 35, 85, 120],
-                defense: [15, 8, 12, 45, 60],
-                tomb: [3, 1, 2, 8, 10],
-                garden: [0, 0, 2, 12, 20]
-            };
-
-            // ==================== 新增：中国古建筑分布数据（34省份） ====================
-            const regionData = [
-                { name: '山西', value: 421, rank: 1, representativeBuildings: [ '平遥古城'] },
-                { name: '河北', value: 287, rank: 2, representativeBuildings: ['赵州桥', '山海关', '承德避暑山庄'] },
-                { name: '陕西', value: 256, rank: 3, representativeBuildings: ['西安城墙', '大雁塔'] },
-                { name: '浙江', value: 234, rank: 4, representativeBuildings: ['西湖古建筑群', '普陀山古建筑群'] },
-                { name: '河南', value: 198, rank: 5, representativeBuildings: ['嵩山古建筑群', '白马寺', '龙门石窟'] },
-                { name: '四川', value: 176, rank: 6, representativeBuildings: ['都江堰', '青城山古建筑群'] },
-                { name: '江苏', value: 165, rank: 7, representativeBuildings: ['苏州园林', '中山陵', '周庄古镇'] },
-                { name: '安徽', value: 143, rank: 8, representativeBuildings: ['徽派古民居', '宏村', '西递', '黄山古建筑群'] },
-                { name: '福建', value: 128, rank: 9, representativeBuildings: ['土楼', '福州三坊七巷', '武夷山古建筑'] },
-                { name: '云南', value: 112, rank: 10, representativeBuildings: ['丽江古城', '崇圣寺三塔', '和顺古镇', '大理古城'] },
-                { name: '湖北', value: 98, rank: 11, representativeBuildings: ['武当山古建筑群', '荆州古城'] },
-                { name: '山东', value: 95, rank: 12, representativeBuildings: ['曲阜三孔', '泰山古建筑群', '蓬莱阁'] },
-                { name: '甘肃', value: 87, rank: 13, representativeBuildings: ['莫高窟', '嘉峪关'] },
-                { name: '湖南', value: 85, rank: 14, representativeBuildings: ['岳麓书院', '凤凰古城', '岳阳楼'] },
-                { name: '江西', value: 79, rank: 15, representativeBuildings: ['庐山古建筑群', '景德镇古窑'] },
-                { name: '广东', value: 76, rank: 16, representativeBuildings: ['开平碉楼'] },
-                { name: '广西', value: 68, rank: 17, representativeBuildings: ['桂林靖江王城', '程阳永济桥', '友谊关'] },
-                { name: '辽宁', value: 65, rank: 18, representativeBuildings: ['沈阳故宫', '兴城古城'] },
-                { name: '西藏', value: 58, rank: 19, representativeBuildings: ['布达拉宫'] },
-                { name: '内蒙古', value: 52, rank: 20, representativeBuildings: ['五当召'] },
-                { name: '重庆', value: 48, rank: 21, representativeBuildings: ['大足石刻','白帝城'] },
-                { name: '贵州', value: 45, rank: 22, representativeBuildings: ['镇远古城'] },
-                { name: '北京', value: 42, rank: 23, representativeBuildings: ['故宫', '天坛', '颐和园', '八达岭长城'] },
-                { name: '吉林', value: 38, rank: 24, representativeBuildings: ['伪满皇宫', '长白山古建筑', '珲春防川'] },
-                { name: '新疆', value: 35, rank: 25, representativeBuildings: ['高昌故城', '交河故城', '克孜尔石窟'] },
-                { name: '天津', value: 31, rank: 26, representativeBuildings: ['黄崖关长城'] },
-                { name: '上海', value: 28, rank: 27, representativeBuildings: ['豫园'] },
-                { name: '黑龙江', value: 26, rank: 28, representativeBuildings: ['中央大街', '金上京遗址'] },
-                { name: '青海', value: 22, rank: 29, representativeBuildings: ['丹噶尔古城'] },
-                { name: '宁夏', value: 19, rank: 30, representativeBuildings: [ '海宝塔', '镇北堡'] },
-                { name: '海南', value: 15, rank: 31, representativeBuildings: [ '东坡书院'] },
-                { name: '香港', value: 12, rank: 32, representativeBuildings: ['志莲净苑', '香港文物探知馆'] },
-                { name: '澳门', value: 8, rank: 33, representativeBuildings: [ '郑家大屋'] },
-                { name: '台湾', value: 0, rank: 34, representativeBuildings: ['数据暂缺'] }
-            ];
-            const totalBuildings = regionData.reduce((sum, item) => sum + item.value, 0);
-
-            // ==================== 图表主题配置 ====================
-            const chartTheme = {
-                backgroundColor: '#ffffff',
-                textStyle: { color: '#2c3e50' },
-                axisLine: { lineStyle: { color: '#dcdde1' } },
-                axisLabel: { color: '#7f8c8d' },
-                splitLine: { lineStyle: { color: '#f0f0f0', type: 'dashed' } },
-                tooltip: {
-                    backgroundColor: 'rgba(255,255,255,0.95)',
-                    borderColor: '#c19a6b',
-                    textStyle: { color: '#2c3e50' }
-                }
-            };
-
-            // 各朝代建筑数量图表（原）
-            function initDynastyChart() {
-                const chart = echarts.init(document.getElementById('dynastyChart'));
-                const option = {
-                    ...chartTheme,
-                    tooltip: {
-                        ...chartTheme.tooltip,
-                        formatter: function(params) {
-                            const idx = params[0].dataIndex;
-                            const item = officialDynastyData[idx];
-                            return `${item.dynasty}<br/>现存数量: ${item.value} 处<br/>类型: ${item.type}`;
-                        }
-                    },
-                    grid: { left: '8%', right: '5%', bottom: '10%', top: '10%', containLabel: true },
-                    xAxis: {
-                        type: 'category',
-                        data: officialDynastyData.map(d => d.dynasty),
-                        axisLabel: { rotate: 45, color: '#7f8c8d' },
-                        axisLine: { lineStyle: { color: '#dcdde1' } }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        name: '现存数量（处）',
-                        nameTextStyle: { color: '#7f8c8d' },
-                        axisLabel: { color: '#7f8c8d' },
-                        splitLine: { lineStyle: { color: '#f0f0f0' } },
-                        max: 2000
-                    },
-                    series: [{
-                        type: 'bar',
-                        data: officialDynastyData.map((d, i) => ({
-                            value: d.value,
-                            itemStyle: { color: d.color }
-                        })),
-                        barWidth: '60%',
-                        label: {
-                            show: true,
-                            position: 'top',
-                            color: '#2c3e50',
-                            fontSize: 11,
-                            formatter: (p) => p.value > 500 ? p.value : ''
-                        }
-                    }]
-                };
-                chart.setOption(option);
-                window.addEventListener('resize', () => chart.resize());
-            }
-
-            // 新增：中国地图初始化（替换原timelineChart）
-            function initChinaMapChart() {
-                const chart = echarts.init(document.getElementById('chinaMapChart'));
-                const option = {
-                    tooltip: {
-                        trigger: 'item',
-                        backgroundColor: 'rgba(255,255,255,0.95)',
-                        borderColor: '#c19a6b',
-                        textStyle: { color: '#2c3e50' },
-                        formatter: function(params) {
-                            if (params.data) {
-                                const value = params.data.value;
-                                const percentage = ((value / totalBuildings) * 100).toFixed(1);
-                                const province = regionData.find(p => p.name === params.name);
-                                const buildings = province?.representativeBuildings || [];
-                                let buildingsList = '';
-                                if (buildings.length > 0) {
-                                    buildingsList = buildings.slice(0, 3).map(b => '• ' + b).join('<br/>');
-                                    if (buildings.length > 3) buildingsList += '<br/>• ...等';
-                                }
-                                return `
-                                    <div style="font-weight:bold; margin-bottom:5px;">${params.name} (第${province?.rank || 'N'}名)</div>
-                                    <div>古建筑数量: <b>${value}</b> 处 (占全国 ${percentage}%)</div>
-                                    ${buildingsList ? '<div style="margin-top:5px;">代表建筑:<br/>' + buildingsList + '</div>' : ''}
-                                `;
-                            }
-                            return params.name;
-                        }
-                    },
-                    visualMap: {
-                        left: 20,
-                        bottom: 20,
-                        min: 0,
-                        max: 500,
-                        text: ['数量多', '数量少'],
-                        realtime: false,
-                        calculable: true,
-                        inRange: { color: ['#f0f9ff', '#a8d5ff', '#5ea8ff', '#1a7dff', '#0052cc'] },
-                        textStyle: { color: '#2c3e50' }
-                    },
-                    series: [{
-                        name: '古建筑数量',
-                        type: 'map',
-                        map: 'china',
-                        roam: true,
-                        zoom: 1.1,
-                        center: [105, 36],
-                        label: {
-                            show: true,
-                            fontSize: 10,
-                            color: '#333',
-                            formatter: function(params) {
-                                return (params.data && params.data.value > 100) ? params.name : '';
-                            }
-                        },
-                        emphasis: {
-                            label: { show: true, color: '#fff', backgroundColor: 'rgba(193,154,107,0.9)', padding: [5,10], borderRadius: 4 },
-                            itemStyle: { areaColor: '#c19a6b', borderColor: '#8b6b3b', borderWidth: 2 }
-                        },
-                        itemStyle: { borderColor: '#ddd', borderWidth: 0.5, areaColor: '#f5f5f5' },
-                        data: regionData
-                    }]
-                };
-                chart.setOption(option);
-                window.addEventListener('resize', () => chart.resize());
-            }
-
-            // 建筑类型分布饼图（原）
-            function initTypeChart() {
-                const chart = echarts.init(document.getElementById('typeChart'));
-                const option = {
-                    ...chartTheme,
-                    tooltip: {
-                        ...chartTheme.tooltip,
-                        formatter: (params) => {
-                            const item = buildingTypeData.find(d => d.name === params.name);
-                            return `${params.name}<br/>数量：${params.value}处<br/>占比：${item.percentage}%`;
-                        }
-                    },
-                    legend: { orient: 'vertical', right: 10, top: 'center', textStyle: { color: '#2c3e50' } },
-                    series: [{
-                        type: 'pie',
-                        radius: ['40%', '70%'],
-                        avoidLabelOverlap: false,
-                        itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
-                        label: { show: false },
-                        emphasis: { label: { show: true, color: '#2c3e50', fontSize: 14 } },
-                        data: buildingTypeData.map(d => ({ name: d.name, value: d.value })),
-                        color: ['#e74c3c', '#f39c12', '#2ecc71', '#3498db', '#9b59b6', '#1abc9c']
-                    }]
-                };
-                chart.setOption(option);
-                window.addEventListener('resize', () => chart.resize());
-            }
-
-            // 建筑类型演变折线图（原）
-            function initTypeEvolutionChart() {
-                const chart = echarts.init(document.getElementById('typeEvolutionChart'));
-                const option = {
-                    ...chartTheme,
-                    tooltip: { trigger: 'axis' },
-                    legend: { data: ['宫殿', '民居', '城防', '园林'], textStyle: { color: '#2c3e50' }, top: 0 },
-                    grid: { left: '8%', right: '5%', bottom: '10%', top: '15%' },
-                    xAxis: { type: 'category', data: typeEvolutionData.categories, axisLabel: { color: '#7f8c8d' } },
-                    yAxis: {
-                        type: 'value', name: '现存数量', nameTextStyle: { color: '#7f8c8d' },
-                        axisLabel: { color: '#7f8c8d' }, splitLine: { lineStyle: { color: '#f0f0f0' } }
-                    },
-                    series: [
-                        { name: '宫殿', type: 'line', smooth: true, data: typeEvolutionData.palace, color: '#e74c3c' },
-                        { name: '民居', type: 'line', smooth: true, data: typeEvolutionData.residence, color: '#2ecc71' },
-                        { name: '城防', type: 'line', smooth: true, data: typeEvolutionData.defense, color: '#3498db' },
-                        { name: '园林', type: 'line', smooth: true, data: typeEvolutionData.garden, color: '#1abc9c' }
-                    ]
-                };
-                chart.setOption(option);
-                window.addEventListener('resize', () => chart.resize());
-            }
-
-            // 依次初始化所有图表（注意原timelineChart不再调用，改为chinaMapChart）
-            initDynastyChart();
-            initChinaMapChart();    // 替换了原来的唐代至清代趋势图
-            initTypeChart();
-            initTypeEvolutionChart();
-        })();
-    </script>
+    <script src="/assets/js/timeline-echart.js"></script>
 </body>
 </html>

@@ -8,38 +8,111 @@
     <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dynasty-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .dynasty-hero {
-            text-align: center;
-            padding: 60px 0;
-            background: #7f8c8d;
+
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 20px; 
+        }
+        
+        /* 左侧朝代信息栏 */
+        .dynasty-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: linear-gradient(135deg, #7f8c8d 0%, #5d6d7e 100%); /* 保留清朝灰色 */
             color: white;
             border-radius: 15px;
-            margin-bottom: 40px;
+            padding: 40px 25px;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
         }
         
-        .dynasty-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .dynasty-sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 300px;
+            line-height: 1.3;
+            letter-spacing: 8px;
+            font-weight: 700;
         }
         
-        .dynasty-period {
-            font-size: 1.3rem;
+        .dynasty-period-sidebar {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             opacity: 0.9;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
         }
         
-        /* 图表容器样式 */
+        .dynasty-intro {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 180px;
+            letter-spacing: 2px;
+        }
+        
+        .dynasty-features {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+        
+        .dynasty-main-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+        
         .data-visualization-section {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 30px;
-            margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px; 
+            margin: 40px auto 0; 
         }
         
         .section-title {
@@ -86,12 +159,32 @@
             line-height: 1.4;
         }
         
-        /* 建筑成就网格布局 */
+        /* 建筑成就标题区域*/
+        .achievements-title-area {
+            max-width: 900px; 
+            margin: 40px auto 20px;
+        }
+        
+        .achievements-title-area h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievements-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        /* 建筑成就网格布局  */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin: 40px 0;
+            max-width: 900px; 
+            margin: 40px auto;
         }
         
         .achievement-card {
@@ -296,13 +389,6 @@
             margin-bottom: 8px;
         }
         
-        .historical-context {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
-        }
-        
         .back-link {
             display: inline-block;
             color: #3498db;
@@ -315,17 +401,47 @@
             text-decoration: underline;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
+        /* 响应式调整  */
+        @media (max-width: 1100px) {
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .dynasty-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+                height: auto;
+                max-height: none;
+            }
+            
+            .dynasty-sidebar h1 {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .dynasty-intro {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
 
-        /* 响应式调整 */
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 80px 15px 15px; 
+            }
+            
             .modal-content {
                 max-height: 85vh;
             }
@@ -346,8 +462,20 @@
                 height: 200px;
             }
             
+
             .achievements-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dynasty-title {
+                font-size: 2.5rem; 
+            }
+            
+            .historical-context,
+            .data-visualization-section,
+            .achievements-grid {
+                max-width: 100%; 
             }
         }
     </style>
@@ -365,94 +493,127 @@
         </nav>
     </header>
 
-    <div class="dynasty-container">
-        <div class="dynasty-hero">
-            <h1 class="dynasty-title">清朝建筑成就</h1>
-            <div class="dynasty-period">公元1644年 - 公元1912年 | 古典建筑的最后辉煌与中西融合</div>
-        </div>
 
-        <div class="historical-context">
-            <h2>历史背景</h2>
-            <p>清朝是中国古典建筑走向极致的时代，皇家园林、宫殿和庙宇的营建达到巅峰。同时，在晚期西方建筑元素传入后，出现了中西合璧的建筑风格。</p>
-            <ul>
-                <li><strong>皇家园林：</strong>颐和园、圆明园等园林达到布局与景观的高度融合；</li>
-                <li><strong>宫殿建筑：</strong>故宫等宫殿体现清朝典雅宏大的礼制与装饰；</li>
-                <li><strong>中西合璧：</strong>晚清洋楼与传统宫殿并存，体现文化碰撞。</li>
-            </ul>
+    <div class="main-content-wrapper">
+        <!-- 左侧朝代信息栏 -->
+        <div class="dynasty-sidebar">
+            <h1>清</h1>
+            <div class="dynasty-period-sidebar">公元1644年 - 公元1912年</div>
+            <div class="dynasty-intro">纳西融洋<br>启今之端</div>
+            <div class="dynasty-features">
+                <span class="feature-tag">皇家园林</span>
+                <span class="feature-tag">宫殿建筑</span>
+                <span class="feature-tag">中西合璧</span>
+                <span class="feature-tag">彩绘装饰</span>
+            </div>
         </div>
+        
+        <!-- 右侧主内容区 -->
+        <div class="dynasty-main-content">
+            <!-- 历史背景区域 -->
+            <div class="historical-context">
+                <h2>历史背景</h2>
+                <p>清朝是中国古典建筑走向极致的时代，皇家园林、宫殿和庙宇的营建达到巅峰。同时，在晚期西方建筑元素传入后，出现了中西合璧的建筑风格。</p>
+                <ul>
+                    <li><strong>皇家园林：</strong>颐和园、圆明园等园林达到布局与景观的高度融合；</li>
+                    <li><strong>宫殿建筑：</strong>故宫等宫殿体现清朝典雅宏大的礼制与装饰；</li>
+                    <li><strong>中西合璧：</strong>晚清洋楼与传统宫殿并存，体现文化碰撞。</li>
+                </ul>
+            </div>
 
-        <!-- 数据可视化图表区域 -->
-        <div class="data-visualization-section">
-            <h2 class="section-title">清朝建筑工程数据可视化</h2>
-            <div class="charts-container">
-                <!-- 左侧：建筑类型统计柱状图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">清朝·建筑类型统计</h3>
-                    <div class="chart-container">
-                        <canvas id="buildingTypesChart"></canvas>
+            <!-- 数据可视化图表区域 -->
+            <div class="data-visualization-section">
+                <h2 class="section-title">清朝建筑工程数据可视化</h2>
+                <div class="charts-container">
+                    <!-- 左侧：建筑类型统计柱状图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">清朝·建筑类型统计</h3>
+                        <div class="chart-container">
+                            <canvas id="buildingTypesChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：清朝以宫殿、园林、庙宇为主要建筑类型，晚清则出现越来越多的公共建筑与西式洋楼。</p>
                     </div>
-                    <p class="chart-note">注：清朝以宫殿、园林、庙宇为主要建筑类型，晚清则出现越来越多的公共建筑与西式洋楼。</p>
+                    
+                    <!-- 右侧：建筑材质分析雷达图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">清朝·建筑材质分析</h3>
+                        <div class="chart-container">
+                            <canvas id="materialChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：清代建筑以木构、砖石为基础，彩绘、雕刻等装饰工艺达到极高水平，晚清洋楼则引入钢筋、玻璃等材料。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 建筑成就标题区域 -->
+            <div class="achievements-title-area">
+                <h2>清朝代表性建筑成就</h2>
+                <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
+            </div>
+            
+            <!-- 建筑成就网格 -->
+            <div class="achievements-grid">
+                <!-- 故宫 -->
+                <div class="achievement-card" data-building="forbidden-city">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qing-gugong.jpg" alt="故宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>故宫</h3>
+                        <p>作为明清两代皇宫，故宫规模宏大，装饰华丽，体现了最高等级规范与国家礼制的建筑形式。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">皇家礼制</span>
+                            <span class="meta-tag">宫殿群落</span>
+                            <span class="meta-tag">精美雕刻</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 颐和园 -->
+                <div class="achievement-card" data-building="summer-palace">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qing-yihe.jpg" alt="颐和园">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>颐和园</h3>
+                        <p>颐和园是清代皇家园林的典范，以人工与自然景观相融的"借景"手法著称，具有极高的园林艺术价值。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">借景园林</span>
+                            <span class="meta-tag">湖光山色</span>
+                            <span class="meta-tag">皇家园林</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- 右侧：建筑材质分析雷达图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">清朝·建筑材质分析</h3>
-                    <div class="chart-container">
-                        <canvas id="materialChart"></canvas>
+                <!-- 圆明园 -->
+                <div class="achievement-card" data-building="yuanmingyuan">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qing-yuanmingyuan.jpg" alt="圆明园">
                     </div>
-                    <p class="chart-note">注：清代建筑以木构、砖石为基础，彩绘、雕刻等装饰工艺达到极高水平，晚清洋楼则引入钢筋、玻璃等材料。</p>
-                </div>
-            </div>
-        </div>
-
-        <h2>清朝代表性建筑成就</h2>
-        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
-        
-        <div class="achievements-grid">
-            <!-- 故宫 -->
-            <div class="achievement-card" data-building="forbidden-city">
-                <div class="achievement-image">
-                    <img src="../achievements/images/qing-gugong.jpg" alt="故宫">
-                </div>
-                <div class="achievement-content">
-                    <h3>故宫</h3>
-                    <p>作为明清两代皇宫，故宫规模宏大，装饰华丽，体现了最高等级规范与国家礼制的建筑形式。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">皇家礼制</span>
-                        <span class="meta-tag">宫殿群落</span>
-                        <span class="meta-tag">精美雕刻</span>
+                    <div class="achievement-content">
+                        <h3>圆明园</h3>
+                        <p>清代皇家园林巅峰之作，集中国传统造园艺术之大成，同时融入西洋楼等异域建筑，被誉为“万园之园”，是中西建筑文化碰撞与融合的经典范例。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">万园之园</span>
+                            <span class="meta-tag">中西合璧</span>
+                            <span class="meta-tag">皇家园林</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 颐和园 -->
-            <div class="achievement-card" data-building="summer-palace">
-                <div class="achievement-image">
-                    <img src="../achievements/images/qing-yihe.jpg" alt="颐和园">
-                </div>
-                <div class="achievement-content">
-                    <h3>颐和园</h3>
-                    <p>颐和园是清代皇家园林的典范，以人工与自然景观相融的“借景”手法著称，具有极高的园林艺术价值。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">借景园林</span>
-                        <span class="meta-tag">湖光山色</span>
-                        <span class="meta-tag">皇家园林</span>
+                <!-- 十七孔桥 -->
+                <div class="achievement-card" data-building="shiqikongqiao">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/qing-shiqikongqiao.jpg" alt="颐和园十七孔桥">
                     </div>
-                </div>
-            </div>
-
-            <!-- 中西合璧洋楼 -->
-            <div class="achievement-card" data-building="western-building">
-                <div class="achievement-image">
-                    <img src="../achievements/images/qing-xiyang.jpg" alt="中西合璧洋楼">
-                </div>
-                <div class="achievement-content">
-                    <h3>中西合璧洋楼</h3>
-                    <p>晚清时期，洋务运动推动洋楼建筑兴起，传统屋顶与西式立面、拱门融合，形成独特的中西合璧风格。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">洋式建筑</span>
-                        <span class="meta-tag">材料革新</span>
-                        <span class="meta-tag">文化交融</span>
+                    <div class="achievement-content">
+                        <h3>十七孔桥</h3>
+                        <p>颐和园内最长的石拱桥，连接东堤与南湖岛，桥身十七孔如虹卧波，将江南水乡韵味融入皇家园林，是清代桥梁建筑技艺的杰出代表。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">石拱桥</span>
+                            <span class="meta-tag">皇家园林</span>
+                            <span class="meta-tag">桥梁典范</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -479,7 +640,7 @@
                     </div>
                 </div>
                 <div class="modal-description" id="modalDescription">
-                    <!-- 建筑描述将通过JavaScript动态填充 -->
+
                 </div>
             </div>
         </div>
@@ -493,11 +654,15 @@
             const buildingTypesChart = new Chart(buildingTypesCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['宫殿', '园林',  '洋楼'],
+                    labels: ['民居','官府', '桥梁', '皇家建筑'],
                     datasets: [{
                         label: '建设数量',
-                        data: [80, 70, 45],
-                        backgroundColor: '#7f8c8d',
+                        data: [2500,1000,800,200],
+                        backgroundColor: '#FF9800',
+                        borderColor: '#FF9800',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                        barPercentage: 0.6,
                     }]
                 },
                 options: {
@@ -553,14 +718,18 @@
             const materialChart = new Chart(materialCtx, {
                 type: 'radar',
                 data: {
-                    labels: ['木材', '砖瓦', '石材', '彩绘', '钢筋'],
+                    labels: ['木材', '砖瓦', '石材', '彩绘', '砖瓦'],
                     datasets: [{
                         label: '使用频率',
-                        data: [65, 75, 70, 60, 40],
-                        backgroundColor: 'rgba(127, 140, 141, 0.3)',
-                        borderColor: '#7f8c8d',
+                        data: [80, 75, 90, 60, 98],
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                        borderColor: '#4CAF50',
+                        pointBackgroundColor: '#4CAF50',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#4CAF50',
                         borderWidth: 2,
-                        pointBackgroundColor: '#7f8c8d'
+                        pointRadius: 4
                     }]
                 },
                 options: {
@@ -648,23 +817,59 @@
                         <p>颐和园以昆明湖与万寿山为依托，通过万寿山的山水借景构建了一个层次丰富的皇家园林空间。</p>
                         <h4>建筑特色</h4>
                         <ul>
-                            <li>“曲径通幽”式的园林布局；</li>
+                            <li>"曲径通幽"式的园林布局；</li>
                             <li>长廊彩绘与石舫等特色建筑；</li>
                             <li>水景与建筑巧妙融合。</li>
                         </ul>
                     `
                 },
-                'western-building': {
-                    title: '中西合璧洋楼',
-                    subtitle: '晚清洋楼体现中西建筑交流',
-                    image: '../achievements/images/qing-xiyangall.jpg',
+                'yuanmingyuan': {
+                    title: '圆明园',
+                    subtitle: '万园之园，中西建筑文化的巅峰融合',
+                    image: '../achievements/images/qing-yuanmingyuanall.jpg',
                     description: `
-                        <p>晚清时期洋务运动推动了中西建筑技术与形式的交流，洋楼常采用西式立面、拱窗与传统屋顶结合的方式，成为近代城市中的景观。</p>
+                        <p>圆明园始建于清康熙四十六年（1707年），历经雍正、乾隆、嘉庆、道光、咸丰五代帝王百余年的扩建，由圆明园、长春园、绮春园三园组成。它集中国传统造园艺术之大成，同时大胆引入西洋建筑元素，被誉为“万园之园”，是清代皇家园林的巅峰之作。</p>
                         <h4>建筑特色</h4>
                         <ul>
-                            <li>西式拱券与栏杆结合；</li>
-                            <li>传统屋顶与现代构件并存；
-                            <li>体现中西合璧的建筑美学。</li>
+                            <li><strong>中西合璧</strong>：长春园北侧的西洋楼景区，由意大利传教士郎世宁、法国传教士蒋友仁等设计，融合巴洛克式石构建筑与中式园林布局；</li>
+                            <li><strong>移天缩地</strong>：仿建江南名园胜景，如杭州西湖十景、苏州狮子林、宁波天一阁等，集天下美景于一园；</li>
+                            <li><strong>建筑多样</strong>：汇集殿、堂、楼、阁、亭、榭、轩、馆、廊、桥等中国传统建筑类型，计有景点百余处；</li>
+                            <li><strong>水景之胜</strong>：水域面积约占全园三分之二，以福海为中心形成庞大水系，融合北方园林的宏阔与江南园林的灵秀。</li>
+                        </ul>
+                        <h4>西洋楼特色</h4>
+                        <ul>
+                            <li>大水法：巴洛克式石雕喷泉，中西合璧的经典意象；</li>
+                            <li>海晏堂：十二生肖兽首水力钟，融西方机械技术与东方生肖文化；</li>
+                            <li>远瀛观、观水法等建筑，首次在中国皇家园林中大规模使用砖石结构、琉璃瓦与西式柱式。</li>
+                        </ul>
+                        <h4>历史意义</h4>
+                        <ul>
+                            <li>代表中国古典园林艺术的最高成就，集历代造园经验之大成；</li>
+                            <li>体现清代“中西合璧”的开放姿态与文化包容性；</li>
+                            <li>1860年被英法联军焚毁，成为近代中国国耻的象征；</li>
+                            <li>现为圆明园遗址公园，承载着文化遗产保护与民族记忆的双重意义。</li>
+                        </ul>
+                        `
+                },
+                'shiqikongqiao': {
+                    title: '十七孔桥',
+                    subtitle: '颐和园内最长石拱桥，清代桥梁艺术杰作',
+                    image: '../achievements/images/qing-shiqikongqiaoall.jpg',
+                    description: `
+                        <p>十七孔桥始建于清乾隆十五年（1750年），是颐和园昆明湖上的重要景观桥梁。桥长150米，宽8米，由17个拱券组成，桥栏望柱上雕有544只形态各异的石狮，与卢沟桥齐名。桥身横跨昆明湖，连接东堤与南湖岛，将江南水乡的桥韵融入皇家苑囿之中。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li><strong>拱券结构</strong>：十七孔桥采用联拱石桥形式，中央拱券最大，两侧依次递减，形成优美的弧线；</li>
+                            <li><strong>石雕艺术</strong>：桥栏望柱雕刻石狮544只，造型生动，姿态各异，体现了清代石雕工艺的巅峰水平；</li>
+                            <li><strong>景观构图</strong>：桥身与南湖岛、佛香阁构成颐和园的视觉中心轴线，远山近水，虚实相生；</li>
+                            <li><strong>光学奇观</strong>：每年冬至前后，夕阳穿过桥孔，形成“金光穿洞”的壮丽景象，被誉为园林与天象的完美结合。</li>
+                        </ul>
+                        <h4>历史意义</h4>
+                        <ul>
+                            <li>是清代皇家园林桥梁建筑的典范，代表了乾隆时期桥梁工程的最高成就；</li>
+                            <li>将江南桥梁艺术与北方皇家气度完美融合，体现清代造园艺术“移天缩地”的核心理念；</li>
+                            <li>与圆明园、颐和园其他建筑共同构成清代皇家园林文化的璀璨遗产；</li>
+                            <li>现为颐和园核心景观之一，入选世界文化遗产。</li>
                         </ul>
                     `
                 }

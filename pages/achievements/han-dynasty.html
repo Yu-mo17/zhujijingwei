@@ -8,38 +8,109 @@
     <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dynasty-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .dynasty-hero {
-            text-align: center;
-            padding: 60px 0;
-            background: #3498db;
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 20px; 
+        }
+        
+        .dynasty-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); 
             color: white;
             border-radius: 15px;
-            margin-bottom: 40px;
+            padding: 40px 25px;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
         }
         
-        .dynasty-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .dynasty-sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 300px;
+            line-height: 1.3;
+            letter-spacing: 8px;
+            font-weight: 700;
         }
         
-        .dynasty-period {
-            font-size: 1.3rem;
+        .dynasty-period-sidebar {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             opacity: 0.9;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
         }
         
-        /* 图表容器样式 */
+        .dynasty-intro {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 180px;
+            letter-spacing: 2px;
+        }
+        
+        .dynasty-features {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+        
+        .dynasty-main-content {
+            flex: 1;
+            min-width: 0; 
+        }
+        
+  
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px;
+            margin: 40px auto 0;
+        }
+        
         .data-visualization-section {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 30px;
-            margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px; 
+            margin: 40px auto 0;
         }
         
         .section-title {
@@ -86,12 +157,30 @@
             line-height: 1.4;
         }
         
-        /* 建筑成就网格布局 */
-        .achievements-grid {
+        .achievements-title-area {
+            max-width: 900px;
+            margin: 40px auto 20px;
+        }
+        
+        .achievements-title-area h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievements-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin: 40px 0;
+            max-width: 900px;
+            margin: 40px auto; 
         }
         
         .achievement-card {
@@ -173,7 +262,7 @@
             color: #7f8c8d;
         }
         
-        /* 模态框样式 */
+        /* 模态框样式 - 保持汉朝原有样式 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -296,13 +385,6 @@
             margin-bottom: 8px;
         }
         
-        .historical-context {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
-        }
-        
         .back-link {
             display: inline-block;
             color: #3498db;
@@ -315,17 +397,45 @@
             text-decoration: underline;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
+        @media (max-width: 1100px) {
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .dynasty-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+                height: auto;
+                max-height: none;
+            }
+            
+            .dynasty-sidebar h1 {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .dynasty-intro {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
         }
-
-        /* 响应式调整 */
+        
         @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 80px 15px 15px; 
+            }
+            
             .modal-content {
                 max-height: 85vh;
             }
@@ -348,6 +458,17 @@
             
             .achievements-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dynasty-title {
+                font-size: 2.5rem; 
+            }
+            
+            .historical-context,
+            .data-visualization-section,
+            .achievements-grid {
+                max-width: 100%; 
             }
         }
     </style>
@@ -365,94 +486,127 @@
         </nav>
     </header>
 
-    <div class="dynasty-container">
-        <div class="dynasty-hero">
-            <h1 class="dynasty-title">汉朝建筑成就</h1>
-            <div class="dynasty-period">公元前202年 - 公元220年 | 承秦启汉，木构迈向成熟</div>
-        </div>
-
-        <div class="historical-context">
-            <h2>历史背景</h2>
-            <p>汉朝继承秦制并推进中央集权，建筑上既延续了秦朝的宏伟气势，又发展出更为成熟的木结构体系和城镇规划理念。汉代宫殿、陵墓、都城与桥梁等大型工程的建设，展现了宏大国家机器与工匠团队的卓越组织能力。</p>
-            <ul>
-                <li><strong>木构体系完善：</strong>汉代木构架结构细节更为成熟，斗拱、椽子等构件规范化程度提高。</li>
-                <li><strong>城市与都城建设：</strong>长安、洛阳等都城规模宏大，体现“九州一统”的政治意象。</li>
-                <li><strong>桥梁与水利：</strong>赵州桥之后，汉代桥梁造诣继续提升，水利工程如都江堰维护与拓展。</li>
-            </ul>
-        </div>
-
-        <!-- 数据可视化图表区域 -->
-        <div class="data-visualization-section">
-            <h2 class="section-title">汉朝建筑工程数据可视化</h2>
-            <div class="charts-container">
-                <!-- 左侧：建筑类型统计柱状图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">汉朝·建筑类型统计</h3>
-                    <div class="chart-container">
-                        <canvas id="buildingTypesChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：基于历史文献与考古资料统计，汉代建筑表现出宫殿与陵墓占比显著，同时水利与桥梁建设体现中央对河道与交通的高度重视。</p>
-                </div>
-                
-                <!-- 右侧：建筑材质分析雷达图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">汉朝·建筑材质分析</h3>
-                    <div class="chart-container">
-                        <canvas id="materialChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：汉朝建筑以木材、夯土和砖石为主，木结构持续主导宫殿与民居；夯土、砖石则在城墙、陵墓以及水利工程中大量应用。</p>
-                </div>
+    <!-- 修改为左右分栏布局（参考秦朝布局） -->
+    <div class="main-content-wrapper">
+        <!-- 左侧朝代信息栏（参考秦朝布局） -->
+        <div class="dynasty-sidebar">
+            <h1>汉</h1>
+            <div class="dynasty-period-sidebar">公元前202年 - 公元220年</div>
+            <div class="dynasty-intro">承秦启汉<br>木构迈向成熟</div>
+            <div class="dynasty-features">
+                <span class="feature-tag">大一统延续</span>
+                <span class="feature-tag">木构成熟</span>
+                <span class="feature-tag">城市规划</span>
+                <span class="feature-tag">礼制建筑</span>
             </div>
         </div>
-
-        <h2>汉朝代表性建筑成就</h2>
-        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
         
-        <div class="achievements-grid">
-            <!-- 长安城（汉长安城） -->
-            <div class="achievement-card" data-building="changancheng">
-                <div class="achievement-image">
-                    <img src="../achievements/images/han-changancheng.jpg" alt="汉长安城">
-                </div>
-                <div class="achievement-content">
-                    <h3>汉长安城</h3>
-                    <p>作为西汉首都的长安城规模宏大，布局严谨，宫城与皇城分区明确，反映出汉代都城规划的高标准与政治象征意义。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">宫城布局</span>
-                        <span class="meta-tag">礼制象征</span>
-                        <span class="meta-tag">城市规划</span>
+        <!-- 右侧主内容区（参考秦朝布局） -->
+        <div class="dynasty-main-content">
+            <!-- 历史背景区域 -->
+            <div class="historical-context">
+                <h2>历史背景</h2>
+                <p>汉朝继承秦制并推进中央集权，建筑上既延续了秦朝的宏伟气势，又发展出更为成熟的木结构体系和城镇规划理念。汉代宫殿、陵墓、都城与桥梁等大型工程的建设，展现了宏大国家机器与工匠团队的卓越组织能力。</p>
+                <ul>
+                    <li><strong>木构体系完善：</strong>汉代木构架结构细节更为成熟，斗拱、椽子等构件规范化程度提高。</li>
+                    <li><strong>城市与都城建设：</strong>长安、洛阳等都城规模宏大，体现"九州一统"的政治意象。</li>
+                    <li><strong>桥梁与水利：</strong>赵州桥之后，汉代桥梁造诣继续提升，水利工程如都江堰维护与拓展。</li>
+                </ul>
+            </div>
+
+            <!-- 数据可视化图表区域 -->
+            <div class="data-visualization-section">
+                <h2 class="section-title">汉朝建筑工程数据可视化</h2>
+                <div class="charts-container">
+                    <!-- 左侧：建筑类型统计柱状图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">汉朝·建筑类型统计</h3>
+                        <div class="chart-container">
+                            <canvas id="buildingTypesChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：基于历史文献与考古资料统计，汉代建筑表现出宫殿与陵墓占比显著，同时水利与桥梁建设体现中央对河道与交通的高度重视。</p>
+                    </div>
+                    
+                    <!-- 右侧：建筑材质分析雷达图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">汉朝·建筑材质分析</h3>
+                        <div class="chart-container">
+                            <canvas id="materialChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：汉朝建筑以木材、夯土和砖石为主，木结构持续主导宫殿与民居；夯土、砖石则在城墙、陵墓以及水利工程中大量应用。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 洛阳城 -->
-            <div class="achievement-card" data-building="luoyangcheng">
-                <div class="achievement-image">
-                    <img src="../achievements/images/han-luoyang.jpg" alt="汉洛阳城">
-                </div>
-                <div class="achievement-content">
-                    <h3>汉洛阳城</h3>
-                    <p>东汉时期的洛阳城为都城，继承并发展了长安的格局，同时在河道治理和城市尺度上有显著提升，成为汉代后期政治文化中心。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">都城格局</span>
-                        <span class="meta-tag">水利治理</span>
-                        <span class="meta-tag">政治中心</span>
+            <!-- 建筑成就标题区域 -->
+            <div class="achievements-title-area">
+                <h2>汉朝代表性建筑成就</h2>
+                <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
+            </div>
+            
+            <!-- 建筑成就网格 -->
+            <div class="achievements-grid">
+                <!-- 长安城（汉长安城） -->
+                <div class="achievement-card" data-building="changancheng">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/han-changancheng.jpg" alt="汉长安城">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>长安城</h3>
+                        <p>作为西汉首都的长安城规模宏大，布局严谨，宫城与皇城分区明确，反映出汉代都城规划的高标准与政治象征意义。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">宫城布局</span>
+                            <span class="meta-tag">礼制象征</span>
+                            <span class="meta-tag">城市规划</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 郦道元渠（示例） -->
-            <div class="achievement-card" data-building="waterworks">
-                <div class="achievement-image">
-                    <img src="../achievements/images/han-water.jpg" alt="汉代水利工程">
+                <!-- 洛阳城 -->
+                <div class="achievement-card" data-building="luoyangcheng">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/han-luoyang.jpg" alt="汉洛阳城">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>洛阳城</h3>
+                        <p>东汉时期的洛阳城为都城，继承并发展了长安的格局，同时在河道治理和城市尺度上有显著提升，成为汉代后期政治文化中心。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">都城格局</span>
+                            <span class="meta-tag">水利治理</span>
+                            <span class="meta-tag">政治中心</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement-content">
-                    <h3>汉代水利工程</h3>
-                    <p>汉代水利治理在江汉平原与黄河流域展开，多处水利工程奠定了后世农业生产和城镇发展的基础。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">河道治理</span>
-                        <span class="meta-tag">灌溉系统</span>
-                        <span class="meta-tag">民生工程</span>
+
+                <!-- 长安闾里 -->
+                <div class="achievement-card" data-building="hanLifang">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/han-lifang.jpg" alt="汉长安闾里">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>长安闾里</h3>
+                        <p>汉代都城及地方城市普遍实行里坊制度，以“里”为单位封闭管理，形成规整的平民居住区，奠定了中国古代城市居住空间的基本范式。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">里坊制度</span>
+                            <span class="meta-tag">封闭管理</span>
+                            <span class="meta-tag">城市居住单元</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 郦道元渠 -->
+                <div class="achievement-card" data-building="waterworks">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/han-water.jpg" alt="汉代水利工程">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>郦道元渠</h3>
+                        <p>汉代水利治理在江汉平原与黄河流域展开，多处水利工程奠定了后世农业生产和城镇发展的基础。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">河道治理</span>
+                            <span class="meta-tag">灌溉系统</span>
+                            <span class="meta-tag">民生工程</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -479,7 +633,7 @@
                     </div>
                 </div>
                 <div class="modal-description" id="modalDescription">
-                    <!-- 建筑描述将通过JavaScript动态填充 -->
+
                 </div>
             </div>
         </div>
@@ -493,11 +647,12 @@
             const buildingTypesChart = new Chart(buildingTypesCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['宫殿', '都城', '水利'],
+                    labels: ['民居', '宫殿', '水利', '桥梁'],
                     datasets: [{
                         label: '建设数量',
-                        data: [120, 60, 80],
-                        backgroundColor: '#3498db',
+                        data: [600, 120, 80, 50],
+                        backgroundColor: '#FF9800',
+                        borderColor: '#FF9800',
                         borderWidth: 1,
                         borderRadius: 5,
                         barPercentage: 0.6,
@@ -551,7 +706,6 @@
                 }
             });
 
-
             // 2. 建筑材质分析雷达图
             const materialCtx = document.getElementById('materialChart').getContext('2d');
             const materialChart = new Chart(materialCtx, {
@@ -560,11 +714,15 @@
                     labels: ['木材', '夯土', '砖瓦', '石材', '青铜'],
                     datasets: [{
                         label: '使用频率',
-                        data: [85, 70, 60, 50, 25],
-                        backgroundColor: 'rgba(52, 152, 219, 0.3)',
-                        borderColor: '#3498db',
+                        data: [75, 50, 40, 50, 25],
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                        borderColor: '#4CAF50',
+                        pointBackgroundColor: '#4CAF50',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#4CAF50',
                         borderWidth: 2,
-                        pointBackgroundColor: '#3498db'
+                        pointRadius: 4
                     }]
                 },
                 options: {
@@ -631,7 +789,7 @@
 
             const buildingData = {
                 changancheng: {
-                    title: '汉长安城',
+                    title: '长安城',
                     subtitle: '西汉首都，规模宏大，礼制显赫',
                     image: '../achievements/images/han-changanchengall.jpg',
                     description: `
@@ -645,7 +803,7 @@
                     `
                 },
                 luoyangcheng: {
-                    title: '汉洛阳城',
+                    title: '洛阳城',
                     subtitle: '东汉都城，政治与文化中心',
                     image: '../achievements/images/han-luoyangall.jpg',
                     description: `
@@ -658,8 +816,29 @@
                         </ul>
                     `
                 },
+                hanLifang: {
+                    title: '长安闾里',
+                    subtitle: '里坊制度的成熟典范，平民居住与城市管理的基本单元',
+                    image: '../achievements/images/han-lifang.jpg',
+                    description: `
+                        <p>汉代“里”是城市居民的基本组织单位，长安城内设有160余个闾里，遍布于宫城与市场之间。每个里四周筑墙，早晚启闭坊门，设“里正”管理治安、户籍与祭祀，形成高度秩序化的居住空间。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>方形或矩形平面，四周夯土坊墙，墙设坊门；</li>
+                            <li>内部排列整齐的宅院，多为“一堂二内”式小型院落；</li>
+                            <li>里内常设社坛、水井、公共排水沟等设施；</li>
+                            <li>手工作坊、店铺与住宅混杂，体现前店后坊的早期形态。</li>
+                        </ul>
+                        <h4>制度影响</h4>
+                        <ul>
+                            <li>为后世北魏、隋唐的里坊制提供直接范本；</li>
+                            <li>将城市管理从宫城延伸至基层，强化国家对平民生活的控制；</li>
+                            <li>“里”作为地名单元，沿用至近现代中国城市。</li>
+                        </ul>
+                    `
+                },           
                 waterworks: {
-                    title: '汉代水利工程',
+                    title: '郦道元渠',
                     subtitle: '河道治理与灌溉体系',
                     image: '../achievements/images/han-waterworks.jpg',
                     description: `

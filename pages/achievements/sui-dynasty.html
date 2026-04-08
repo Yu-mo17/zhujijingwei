@@ -8,38 +8,114 @@
     <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dynasty-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .dynasty-hero {
-            text-align: center;
-            padding: 60px 0;
-            background: #e29c45;
+
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 20px; 
+        }
+        
+        /* 左侧朝代信息栏 */
+        .dynasty-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: linear-gradient(135deg, #cf594c 0%, #e74c3c 100%); /* 保留隋朝橙黄色 */
             color: white;
             border-radius: 15px;
-            margin-bottom: 40px;
+            padding: 40px 25px;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
         }
         
-        .dynasty-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .dynasty-sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 300px;
+            line-height: 1.3;
+            letter-spacing: 8px;
+            font-weight: 700;
         }
         
-        .dynasty-period {
-            font-size: 1.3rem;
+        .dynasty-period-sidebar {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             opacity: 0.9;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
         }
         
-        /* 图表容器样式 */
+        .dynasty-intro {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 120px;
+            letter-spacing: 2px;
+        }
+        
+        .dynasty-features {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+        
+        /* 右侧主内容区 */
+        .dynasty-main-content {
+            flex: 1;
+            min-width: 0; 
+        }
+        
+        /* 历史背景区域  */
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px; 
+            margin: 40px auto 0; 
+        }
+        
+        /* 图表容器样式  */
         .data-visualization-section {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 30px;
-            margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px; 
+            margin: 40px auto 0; 
         }
         
         .section-title {
@@ -86,12 +162,32 @@
             line-height: 1.4;
         }
         
+        /* 建筑成就标题区域  */
+        .achievements-title-area {
+            max-width: 900px; 
+            margin: 40px auto 20px;
+        }
+        
+        .achievements-title-area h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievements-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
         /* 建筑成就网格布局 */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin: 40px 0;
+            max-width: 900px; 
+            margin: 40px auto;
         }
         
         .achievement-card {
@@ -173,7 +269,7 @@
             color: #7f8c8d;
         }
         
-        /* 模态框样式 */
+        /* 模态框样式  */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -296,13 +392,6 @@
             margin-bottom: 8px;
         }
         
-        .historical-context {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
-        }
-        
         .back-link {
             display: inline-block;
             color: #3498db;
@@ -315,17 +404,47 @@
             text-decoration: underline;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
-
         /* 响应式调整 */
+        @media (max-width: 1100px) {
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .dynasty-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+                height: auto;
+                max-height: none;
+            }
+            
+            .dynasty-sidebar h1 {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .dynasty-intro {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 80px 15px 15px; 
+            }
+            
             .modal-content {
                 max-height: 85vh;
             }
@@ -346,8 +465,20 @@
                 height: 200px;
             }
             
+
             .achievements-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dynasty-title {
+                font-size: 2.5rem; 
+            }
+            
+            .historical-context,
+            .data-visualization-section,
+            .achievements-grid {
+                max-width: 100%; 
             }
         }
     </style>
@@ -365,101 +496,133 @@
         </nav>
     </header>
 
-    <div class="dynasty-container">
-        <div class="dynasty-hero">
-            <h1 class="dynasty-title">隋朝建筑成就</h1>
-            <div class="dynasty-period">公元581年 - 公元618年 | 短暂统一，影响深远</div>
-        </div>
 
-        <div class="historical-context">
-            <h2>历史背景</h2>
-            <p>秦朝虽国祚短暂，但在建筑领域进行了前所未有的、规模浩大的国家工程建设，以高度的标准化、组织力与雄心，奠定了大一统帝国的基础设施框架，对后世产生了制度性、技术性的深远影响。</p>
-            <ul>
-                <li><strong>长城修筑体系化：</strong>将战国时期北方诸侯国的长城连接、加固与延展，初步形成了统一的军事防御工程体系</li>
-                <li><strong>驰道与直道建设：</strong>以咸阳为中心修筑通达全国的“驰道”网络，以及通往北方的军事通道“直道”，建立了高效的陆路交通骨干</li>
-                <li><strong>宫殿与陵寝工程：</strong>兴建阿房宫等巨型宫殿，并以秦始皇陵（含兵马俑坑）为代表，展现了登峰造极的土木工程与地下建筑设计</li>
-            </ul>
+    <div class="main-content-wrapper">
+        <!-- 左侧朝代信息栏 -->
+        <div class="dynasty-sidebar">
+            <h1>隋</h1>
+            <div class="dynasty-period-sidebar">公元581年 - 公元618年</div>
+            <div class="dynasty-intro">短暂统一<br>影响深远</div>
+            <div class="dynasty-features">
+                <span class="feature-tag">都城规划</span>
+                <span class="feature-tag">佛教建筑</span>
+                <span class="feature-tag">水利工程</span>
+                <span class="feature-tag">桥梁技术</span>
+            </div>
         </div>
+        
+        <!-- 右侧主内容区 -->
+        <div class="dynasty-main-content">
+            <!-- 历史背景区域 -->
+            <div class="historical-context">
+                <h2>历史背景</h2>
+                <p>隋朝虽国祚短暂，但在建筑领域进行了前所未有的、规模浩大的国家工程建设，以高度的标准化、组织力与雄心，奠定了大一统帝国的基础设施框架，对后世产生了制度性、技术性的深远影响。</p>
+                <ul>
+                    <li><strong>都城规划革新：</strong>兴建大兴城（长安前身）和洛阳城，开创了中国古代都城规划的新范式</li>
+                    <li><strong>佛教建筑兴盛：</strong>大兴佛教，修建了大量佛寺、佛塔，推动佛教建筑艺术发展</li>
+                    <li><strong>水利工程完善：</strong>开凿大运河，修建水利工程，促进南北经济文化交流</li>
+                </ul>
+            </div>
 
-        <!-- 数据可视化图表区域 -->
-        <div class="data-visualization-section">
-            <h2 class="section-title">隋朝建筑工程数据可视化</h2>
-            <div class="charts-container">
-                <!-- 左侧：建筑类型统计柱状图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">隋朝·建筑类型统计</h3>
-                    <div class="chart-container">
-                        <canvas id="buildingTypesChart"></canvas>
+            <!-- 数据可视化图表区域 -->
+            <div class="data-visualization-section">
+                <h2 class="section-title">隋朝建筑工程数据可视化</h2>
+                <div class="charts-container">
+                    <!-- 左侧：建筑类型统计柱状图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">隋朝·建筑类型统计</h3>
+                        <div class="chart-container">
+                            <canvas id="buildingTypesChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：数据基于历史文献记载与考古发现统计，反映隋朝建筑活动的相对规模。宗教/祭祀建筑的建设规模远超其他类型。</p>
                     </div>
-                    <p class="chart-note">注：数据基于历史文献记载与考古发现统计，反映隋朝建筑活动的相对规模。宗教/祭祀建筑的建设规模远超其他类型。</p>
+                    
+                    <!-- 右侧：建筑材质分析雷达图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">隋朝·建筑材质分析</h3>
+                        <div class="chart-container">
+                            <canvas id="materialChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：基于隋朝建筑遗存与文献记载分析，木材是主要结构材料，石材在桥梁与雕刻中有精湛应用。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 建筑成就标题区域 -->
+            <div class="achievements-title-area">
+                <h2>隋朝代表性建筑成就</h2>
+                <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
+            </div>
+            
+            <!-- 建筑成就网格 -->
+            <div class="achievements-grid">
+                <!-- 大兴城皇宫 -->
+                <div class="achievement-card" data-building="daxing">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/sui-daxingcheng.jpg" alt="大兴城皇宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>大兴城皇宫</h3>
+                        <p>隋文帝所建大兴宫（唐代改称太极宫），是隋唐长安城的核心与起点，标志着中国古代都城规划在历经南北朝多元探索后，于隋代重归严谨中正、规模空前的礼制典范。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">都城规划</span>
+                            <span class="meta-tag">里坊制典范</span>
+                            <span class="meta-tag">陕西西安</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 洛阳紫微城 -->
+                <div class="achievement-card" data-building="luoyang">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/sui-ziweicheng.jpg" alt="洛阳紫微城">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>洛阳紫微城</h3>
+                        <p>隋唐两代的东都宫城，以其极致的轴线格局、壮丽的建筑组群与巧妙的水系利用，将中国古代宫殿的象征性与实用性推向新的高度。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">东都核心</span>
+                            <span class="meta-tag">极尽奢华</span>
+                            <span class="meta-tag">河南洛阳</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- 右侧：建筑材质分析雷达图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">隋朝·建筑材质分析</h3>
-                    <div class="chart-container">
-                        <canvas id="materialChart"></canvas>
+                <!-- 隋代关中民居 -->                
+                <div class="achievement-card" data-building="guanzhong">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/sui-guanzhong.jpg" alt="隋代关中民居">
                     </div>
-                    <p class="chart-note">注：基于隋朝建筑遗存与文献记载分析，木材是主要结构材料，石材在桥梁与雕刻中有精湛应用。</p>
-                </div>
-            </div>
-        </div>
-
-        <h2>隋朝代表性建筑成就</h2>
-        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
-        
-        <div class="achievements-grid">
-            <!-- 大兴城皇宫 -->
-            <div class="achievement-card" data-building="daxing">
-                <div class="achievement-image">
-                    <img src="../achievements/images/sui-daxingcheng.jpg" alt="大兴城皇宫">
-                </div>
-                <div class="achievement-content">
-                    <h3>大兴城皇宫</h3>
-                    <p>隋文帝所建大兴宫（唐代改称太极宫），是隋唐长安城的核心与起点，标志着中国古代都城规划在历经南北朝多元探索后，于隋代重归严谨中正、规模空前的礼制典范。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">都城规划</span>
-                        <span class="meta-tag">里坊制典范</span>
-                        <span class="meta-tag">陕西西安</span>
+                    <div class="achievement-content">
+                        <h3>隋代关中民居</h3>
+                        <p>隋朝统一初期的基层居住形态，在继承北朝传统基础上呈现等级分化，乡村以半地穴式简朴住宅为主，城中则出现规整合院雏形，为唐代民居发展奠定基础。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">经济复苏</span>
+                            <span class="meta-tag">标准化</span>
+                            <span class="meta-tag">合院雏形</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 洛阳紫微城 -->
-            <div class="achievement-card" data-building="luoyang">
-                <div class="achievement-image">
-                    <img src="../achievements/images/sui-ziweicheng.jpg" alt="洛阳紫微城">
-                </div>
-                <div class="achievement-content">
-                    <h3>洛阳紫微城</h3>
-                    <p>隋唐两代的东都宫城，以其极致的轴线格局、壮丽的建筑组群与巧妙的水系利用，将中国古代宫殿的象征性与实用性推向新的高度。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">东都核心</span>
-                        <span class="meta-tag">极尽奢华</span>
-                        <span class="meta-tag">河南洛阳</span>
+                <!-- 赵州桥 -->
+                <div class="achievement-card" data-building="zhaozhou">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/sui-zhaozhouqiao.jpg" alt="赵州桥">
                     </div>
-                </div>
-            </div>
-
-            <!-- 赵州桥 -->
-            <div class="achievement-card" data-building="zhaozhou">
-                <div class="achievement-image">
-                    <img src="../achievements/images/sui-zhaozhouqiao.jpg" alt="赵州桥">
-                </div>
-                <div class="achievement-content">
-                    <h3>赵州桥（安济桥）</h3>
-                    <p>世界现存最早、保存最完善的古代敞肩石拱桥，由工匠李春设计建造，体现了隋代高超的桥梁工程技术。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">桥梁建筑</span>
-                        <span class="meta-tag">石拱技术</span>
-                        <span class="meta-tag">河北赵县</span>
+                    <div class="achievement-content">
+                        <h3>赵州桥（安济桥）</h3>
+                        <p>世界现存最早、保存最完善的古代敞肩石拱桥，由工匠李春设计建造，体现了隋代高超的桥梁工程技术。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">桥梁建筑</span>
+                            <span class="meta-tag">石拱技术</span>
+                            <span class="meta-tag">河北赵县</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> <!-- 关闭 dynasty-container 容器 -->
+    </div>
 
-    <!-- 页脚现在在容器外部，会撑满整行 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
@@ -474,14 +637,14 @@
             </div>
             <div class="modal-body">
                 <div class="modal-image" id="modalImage">
-                    <!-- 图片将通过JavaScript动态加载 -->
+                    
                     <div class="modal-image-placeholder">
                         <div>建筑图片位置</div>
                         <div style="font-size: 0.9rem; margin-top: 10px;">点击卡片查看建筑图片</div>
                     </div>
                 </div>
                 <div class="modal-description" id="modalDescription">
-                    <!-- 建筑描述将通过JavaScript动态填充 -->
+
                 </div>
             </div>
         </div>
@@ -633,9 +796,9 @@
                 materialChart.resize();
             });
 
-            // 建筑数据（已为每个建筑添加详情页图片路径）
+            // 建筑数据
             const buildingData = {
-                daxing: {
+                'daxing': {
                     title: "大兴城皇宫",
                     subtitle: "规划严整 | 里坊制典范 | 影响深远",
                     image: "../achievements/images/sui-daxingchengall.jpg", // 详情页大图
@@ -658,7 +821,7 @@
                         <p>大兴宫在建筑技术与规模上集前代大成。其夯土基址规模宏大，殿宇采用成熟的木构技术，布局疏朗开阔。它虽在后来被更宏伟的大明宫超越，但其确立的宫城核心地位、严谨的中轴对称格局以及宫-皇-郭三城相套的体系，成为中国古代都城规划的经典范式，深刻影响了后世乃至东亚地区的都城建设。</p>
                     `
                 },
-                luoyang: {
+                'luoyang': {
                     title: "洛阳紫微城",
                     subtitle: "极尽奢华 | 东都核心 | 运河关联",
                     image: "../achievements/images/sui-ziweichengall.jpg", // 详情页大图
@@ -681,7 +844,41 @@
                         <p>紫微城的另一大创新在于发达的水系园林网络。引洛水、谷水入城，在宫城内形成了众多池苑，如九州池，并与殿宇亭台巧妙结合，创造出富丽幽深的园林景观。这种将严整的朝政区与优美的游赏区紧密结合的模式，极大地丰富了宫廷生活的空间体验。</p>
                     `
                 },
-                zhaozhou: {
+                'guanzhong': {
+                    title: '隋代关中民居',
+                    subtitle: '国家统一初期的基层居住形态，北朝传统与唐代先声',
+                    image: '../achievements/images/sui-guanzhongall.jpg',
+                    description: `
+                        <p>隋代关中地区的民居，在继承北朝传统的基础上，呈现出国家统一初期社会渐趋稳定、但等级分化依然鲜明的时代特征。其形态与质量因主人身份差异巨大，主要可分为乡村平民住宅与城中官民宅第两类。</p>
+                        <h4>乡村平民住宅</h4>
+                        <ul>
+                            <li><strong>建筑形制</strong>：长方形或曲尺形的单室或双室，多为半地穴式或浅地穴式（窖穴式）建筑，以节省建材并适应关中气候；</li>
+                            <li><strong>墙体屋顶</strong>：木骨泥墙或夯土墙，屋顶铺茅草或低质板瓦，简陋实用；</li>
+                            <li><strong>室内设施</strong>：设土炕或火塘取暖，伴有储物窖穴；</li>
+                            <li><strong>聚落布局</strong>：相对松散，受“畿内移民”与“均田制”政策影响，呈现一定规划痕迹，宅院旁常有小片自耕地。</li>
+                        </ul>
+                        <h4>城中官民宅第</h4>
+                        <ul>
+                            <li><strong>低级官吏/富裕平民</strong>：地面起建的木构瓦房，形成规整院落，常见“一堂二内”（一间厅堂、两间卧室）基本格局，配有独立厨房、仓库等辅助建筑，屋顶普遍使用板瓦，墙面可能经过粉刷；</li>
+                            <li><strong>高级官员/贵族府邸</strong>：规模更大，采用多进院落布局，建筑有夯土台基，使用筒瓦、莲花纹瓦当等高级构件，庭院内或有水井、花木，与平民住宅形成显著差距。</li>
+                        </ul>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li><strong>技术延续</strong>：在技术与材料上延续多于创新，保留了北朝以来的生活传统；</li>
+                            <li><strong>合院雏形</strong>：城中宅第已出现规整的院落布局，为唐代合院式民居的成熟奠定基础；</li>
+                            <li><strong>等级分明</strong>：从半地穴窝棚到多进院落，建筑形态折射出隋朝社会等级的严格分化；</li>
+                            <li><strong>政策影响</strong>：聚落布局受到均田制、畿内移民等国家政策的直接影响。</li>
+                        </ul>
+                        <h4>历史意义</h4>
+                        <ul>
+                            <li>反映隋朝统一后社会基层建筑的真实面貌，是理解隋代社会结构的重要窗口；</li>
+                            <li>承北朝之传统，启唐代之规制，在民居发展史上处于承上启下的关键位置；</li>
+                            <li>乡村简陋住宅与城中规整宅第的对比，生动体现隋朝资源分配与社会分层的现实；</li>
+                            <li>为唐代民居的进一步发展和规制化奠定了技术与形态基础。</li>
+                        </ul>
+                    `
+                },
+                'zhaozhou': {
                     title: "赵州桥（安济桥）",
                     subtitle: "敞肩石拱 | 单孔大跨度 | 隋代工程典范",
                     image: "../achievements/images/sui-zhaozhouqiaoall.jpg", // 详情页大图
@@ -711,7 +908,7 @@
                         <h4>设计者</h4>
                         <p>由隋代杰出工匠<strong>李春</strong>设计建造，体现了中国古代工匠高超的技术水平和创新精神。</p>
                     `
-                },
+                }
             };
 
             // 获取DOM元素

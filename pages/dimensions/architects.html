@@ -4,65 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>建筑名家 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
-        /* 基础样式 - 与时间维度页面保持一致 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-        }
-        
-        /* 导航栏 */
-        .main-header {
-            background: #2c3e50;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .main-nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .nav-links a.active {
-            background: rgba(255,255,255,0.2);
-        }
-        
         /* 页面容器 */
         .page-container {
             max-width: 1200px;
@@ -176,14 +119,8 @@
             line-height: 1.5;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
+
+        
         
         /* 响应式设计 */
         @media (max-width: 768px) {
@@ -264,7 +201,7 @@
             </a>
             
             <!-- 李诫卡片 -->
-            <a href="#" class="architect-card" data-dynasty="song">
+            <a href="../../建筑师/li-jie.html" class="architect-card" data-dynasty="song">
                 <div class="architect-image">
                     <img src="../../建筑师/assets/images/lijie.png" alt="李诫"
                          style="width:180px;height:180px;object-fit:cover;border-radius:12px;" />
@@ -277,7 +214,7 @@
             </a>
             
             <!-- 蒯祥卡片 -->
-            <a href="#" class="architect-card" data-dynasty="ming">
+            <a href="../../建筑师/kuai-xiang.html" class="architect-card" data-dynasty="ming">
                 <div class="architect-image">
                     <img src="../../建筑师/assets/images/kuaixiang.png" alt="蒯祥"
                          style="width:180px;height:180px;object-fit:cover;border-radius:12px;" />
@@ -290,7 +227,7 @@
             </a>
             
             <!-- 雷发达卡片 -->
-            <a href="#" class="architect-card" data-dynasty="ming">
+            <a href="../../建筑师/lei-fa-da.html" class="architect-card" data-dynasty="ming">
                 <div class="architect-image">
                     <img src="../../建筑师/assets/images/leifada.png" alt="雷发达"
                          style="width:180px;height:180px;object-fit:cover;border-radius:12px;" />
@@ -303,7 +240,7 @@
             </a>
             
             <!-- 喻皓卡片 -->
-            <a href="#" class="architect-card" data-dynasty="song">
+            <a href="../../建筑师/yu-hao.html" class="architect-card" data-dynasty="song">
                 <div class="architect-image">
                     <img src="../../建筑师/assets/images/yuhao.png" alt="喻皓"
                          style="width:180px;height:180px;object-fit:cover;border-radius:12px;" />
@@ -322,38 +259,6 @@
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script>
-        // 朝代筛选功能
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.dynasty-filter');
-            const architectCards = document.querySelectorAll('.architect-card');
-            
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // 移除所有active类
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // 添加active类到当前按钮
-                    this.classList.add('active');
-                    
-                    const filter = this.getAttribute('data-dynasty');
-                    
-                    // 筛选建筑师卡片
-                    architectCards.forEach(card => {
-                        if (filter === 'all') {
-                            card.style.display = 'block';
-                        } else {
-                            const dynasty = card.getAttribute('data-dynasty');
-                            
-                            if (dynasty === filter) {
-                                card.style.display = 'block';
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    <script src="../../assets/js/architects.js"></script>
 </body>
 </html>

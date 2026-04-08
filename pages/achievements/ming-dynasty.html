@@ -8,38 +8,108 @@
     <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dynasty-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .dynasty-hero {
-            text-align: center;
-            padding: 60px 0;
-            background: #d35400;
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 20px; 
+        }
+        
+        .dynasty-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: linear-gradient(135deg, #d35400 0%, #a84300 100%); /* 保留明朝橙色 */
             color: white;
             border-radius: 15px;
-            margin-bottom: 40px;
+            padding: 40px 25px;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
         }
         
-        .dynasty-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .dynasty-sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 300px;
+            line-height: 1.3;
+            letter-spacing: 8px;
+            font-weight: 700;
         }
         
-        .dynasty-period {
-            font-size: 1.3rem;
+        .dynasty-period-sidebar {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             opacity: 0.9;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
         }
         
-        /* 图表容器样式 */
+        .dynasty-intro {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 180px;
+            letter-spacing: 2px;
+        }
+        
+        .dynasty-features {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+        
+        .dynasty-main-content {
+            flex: 1;
+            min-width: 0; 
+        }
+        
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px; 
+            margin: 40px auto 0; 
+        }
+        
         .data-visualization-section {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 30px;
-            margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px; 
+            margin: 40px auto 0; 
         }
         
         .section-title {
@@ -86,12 +156,30 @@
             line-height: 1.4;
         }
         
-        /* 建筑成就网格布局 */
+        .achievements-title-area {
+            max-width: 900px; 
+            margin: 40px auto 20px;
+        }
+        
+        .achievements-title-area h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievements-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin: 40px 0;
+            max-width: 900px; 
+            margin: 40px auto;
         }
         
         .achievement-card {
@@ -173,7 +261,6 @@
             color: #7f8c8d;
         }
         
-        /* 模态框样式 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -296,13 +383,6 @@
             margin-bottom: 8px;
         }
         
-        .historical-context {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
-        }
-        
         .back-link {
             display: inline-block;
             color: #3498db;
@@ -315,17 +395,49 @@
             text-decoration: underline;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
 
-        /* 响应式调整 */
+        
+
+        @media (max-width: 1100px) {
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .dynasty-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+                height: auto;
+                max-height: none;
+            }
+            
+            .dynasty-sidebar h1 {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .dynasty-intro {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
+        }
+        
         @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 80px 15px 15px; 
+            }
+            
             .modal-content {
                 max-height: 85vh;
             }
@@ -346,8 +458,20 @@
                 height: 200px;
             }
             
+
             .achievements-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dynasty-title {
+                font-size: 2.5rem; 
+            }
+            
+            .historical-context,
+            .data-visualization-section,
+            .achievements-grid {
+                max-width: 100%; 
             }
         }
     </style>
@@ -365,94 +489,127 @@
         </nav>
     </header>
 
-    <div class="dynasty-container">
-        <div class="dynasty-hero">
-            <h1 class="dynasty-title">明朝建筑成就</h1>
-            <div class="dynasty-period">公元1368年 - 公元1644年 | 古典建筑的集大成时期</div>
-        </div>
-
-        <div class="historical-context">
-            <h2>历史背景</h2>
-            <p>明朝是中国古典建筑艺术的集大成时期，宫殿、城墙、陵墓等大型工程的建设达到巅峰。明代建筑既继承了宋元以来的木构技术，又在规模与装饰上有所创新，形成独特的明式风格。</p>
-            <ul>
-                <li><strong>宫殿建筑：</strong>紫禁城等宫殿体现皇权至上的礼制观念，布局严谨，装饰华丽。</li>
-                <li><strong>长城修筑：</strong>明长城是长城体系的最后完善阶段，体现了明朝强大的组织能力和防御意识。</li>
-                <li><strong>陵墓建筑：</strong>明十三陵等陵墓体现了明代陵寝制度的完善与艺术成就。</li>
-            </ul>
-        </div>
-
-        <!-- 数据可视化图表区域 -->
-        <div class="data-visualization-section">
-            <h2 class="section-title">明朝建筑工程数据可视化</h2>
-            <div class="charts-container">
-                <!-- 左侧：建筑类型统计柱状图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">明朝·建筑类型统计</h3>
-                    <div class="chart-container">
-                        <canvas id="buildingTypesChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：明代建筑以宫殿、城墙与陵墓为主，反映出皇权与国防在建筑活动中的主导地位，同时民间建筑也得到发展。</p>
-                </div>
-                
-                <!-- 右侧：建筑材质分析雷达图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">明朝·建筑材质分析</h3>
-                    <div class="chart-container">
-                        <canvas id="materialChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：明代建筑以木材、砖石为主，木构技术成熟，砖石在城墙、陵墓中大量应用，彩绘与雕刻工艺精湛。</p>
-                </div>
+    <!-- 修改为左右分栏布局-->
+    <div class="main-content-wrapper">
+        <!-- 左侧朝代信息栏-->
+        <div class="dynasty-sidebar">
+            <h1>明</h1>
+            <div class="dynasty-period-sidebar">公元1368年 - 公元1644年</div>
+            <div class="dynasty-intro">承元革旧<br>启清立新</div>
+            <div class="dynasty-features">
+                <span class="feature-tag">宫殿建筑</span>
+                <span class="feature-tag">长城完善</span>
+                <span class="feature-tag">陵墓艺术</span>
+                <span class="feature-tag">木构创新</span>
             </div>
         </div>
-
-        <h2>明朝代表性建筑成就</h2>
-        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
         
-        <div class="achievements-grid">
-            <!-- 紫禁城 -->
-            <div class="achievement-card" data-building="forbidden-city">
-                <div class="achievement-image">
-                    <img src="../achievements/images/ming-zijincheng.jpg" alt="紫禁城">
-                </div>
-                <div class="achievement-content">
-                    <h3>紫禁城</h3>
-                    <p>明代皇宫建筑的巅峰之作，布局严谨，装饰华丽，体现了明朝皇权至上的礼制观念与建筑艺术的极致表达。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">皇家宫殿</span>
-                        <span class="meta-tag">礼制建筑</span>
-                        <span class="meta-tag">中轴对称</span>
+        <!-- 右侧主内容区-->
+        <div class="dynasty-main-content">
+            <!-- 历史背景区域 -->
+            <div class="historical-context">
+                <h2>历史背景</h2>
+                <p>明朝是中国古典建筑艺术的集大成时期，宫殿、城墙、陵墓等大型工程的建设达到巅峰。明代建筑既继承了宋元以来的木构技术，又在规模与装饰上有所创新，形成独特的明式风格。</p>
+                <ul>
+                    <li><strong>宫殿建筑：</strong>紫禁城等宫殿体现皇权至上的礼制观念，布局严谨，装饰华丽。</li>
+                    <li><strong>长城修筑：</strong>明长城是长城体系的最后完善阶段，体现了明朝强大的组织能力和防御意识。</li>
+                    <li><strong>陵墓建筑：</strong>明十三陵等陵墓体现了明代陵寝制度的完善与艺术成就。</li>
+                </ul>
+            </div>
+
+            <!-- 数据可视化图表区域 -->
+            <div class="data-visualization-section">
+                <h2 class="section-title">明朝建筑工程数据可视化</h2>
+                <div class="charts-container">
+                    <!-- 左侧：建筑类型统计柱状图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">明朝·建筑类型统计</h3>
+                        <div class="chart-container">
+                            <canvas id="buildingTypesChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：明代建筑以宫殿、城墙与陵墓为主，反映出皇权与国防在建筑活动中的主导地位，同时民间建筑也得到发展。</p>
+                    </div>
+                    
+                    <!-- 右侧：建筑材质分析雷达图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">明朝·建筑材质分析</h3>
+                        <div class="chart-container">
+                            <canvas id="materialChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：明代建筑以木材、砖石为主，木构技术成熟，砖石在城墙、陵墓中大量应用，彩绘与雕刻工艺精湛。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 明长城 -->
-            <div class="achievement-card" data-building="ming-great-wall">
-                <div class="achievement-image">
-                    <img src="../achievements/images/ming-changcheng.jpg" alt="明长城">
-                </div>
-                <div class="achievement-content">
-                    <h3>明长城</h3>
-                    <p>明代长城是长城体系的最后完善阶段，砖石结构坚固，关隘密布，体现了明朝强大的组织能力和国防意识。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">军事防御</span>
-                        <span class="meta-tag">砖石结构</span>
-                        <span class="meta-tag">边防工程</span>
+            <!-- 建筑成就标题区域 -->
+            <div class="achievements-title-area">
+                <h2>明朝代表性建筑成就</h2>
+                <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
+            </div>
+            
+            <!-- 建筑成就网格 -->
+            <div class="achievements-grid">
+                <!-- 紫禁城 -->
+                <div class="achievement-card" data-building="forbidden-city">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/ming-zijincheng.jpg" alt="紫禁城">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>紫禁城</h3>
+                        <p>明代皇宫建筑的巅峰之作，布局严谨，装饰华丽，体现了明朝皇权至上的礼制观念与建筑艺术的极致表达。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">皇家宫殿</span>
+                            <span class="meta-tag">礼制建筑</span>
+                            <span class="meta-tag">中轴对称</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 明十三陵 -->
-            <div class="achievement-card" data-building="ming-tombs">
-                <div class="achievement-image">
-                    <img src="../achievements/images/ming-shisan.jpg" alt="明十三陵">
+                <!-- 明长城 -->
+                <div class="achievement-card" data-building="ming-great-wall">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/ming-changcheng.jpg" alt="明长城">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>明长城</h3>
+                        <p>明代长城是长城体系的最后完善阶段，砖石结构坚固，关隘密布，体现了明朝强大的组织能力和国防意识。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">军事防御</span>
+                            <span class="meta-tag">砖石结构</span>
+                            <span class="meta-tag">边防工程</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement-content">
-                    <h3>明十三陵</h3>
-                    <p>明代帝王陵墓群，布局严谨，石雕精美，体现了明代陵寝制度的完善与丧葬建筑的艺术成就。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">帝王陵墓</span>
-                        <span class="meta-tag">石雕艺术</span>
-                        <span class="meta-tag">陵寝制度</span>
+
+                <!-- 明故宫 -->
+                <div class="achievement-card" data-building="minggugong">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/ming-minggugong.jpg" alt="明故宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>明故宫</h3>
+                        <p>明代初年都城皇宫，以中轴线统御全城，开创“前朝后寝”与“五门三朝”之制，成为明清两代宫城建设的直接范本。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">宫城典范</span>
+                            <span class="meta-tag">中轴对称</span>
+                            <span class="meta-tag">明清祖制</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 明十三陵 -->
+                <div class="achievement-card" data-building="ming-tombs">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/ming-shisan.jpg" alt="明十三陵">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>明十三陵</h3>
+                        <p>明代帝王陵墓群，布局严谨，石雕精美，体现了明代陵寝制度的完善与丧葬建筑的艺术成就。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">帝王陵墓</span>
+                            <span class="meta-tag">石雕艺术</span>
+                            <span class="meta-tag">陵寝制度</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -479,7 +636,7 @@
                     </div>
                 </div>
                 <div class="modal-description" id="modalDescription">
-                    <!-- 建筑描述将通过JavaScript动态填充 -->
+
                 </div>
             </div>
         </div>
@@ -493,11 +650,12 @@
             const buildingTypesChart = new Chart(buildingTypesCtx, {
                 type: 'bar',
                 data: {
-                    labels: ['宫殿', '城墙', '官府', '桥梁'],
+                    labels: ['城墙','民居', '官府', '桥梁'],
                     datasets: [{
                         label: '建设数量',
-                        data: [980, 400, 1700, 4000],
-                        backgroundColor: '#d35400',
+                        data: [4000,2000, 800, 500],
+                        backgroundColor: '#FF9800',
+                        borderColor: '#FF9800',
                         borderWidth: 1,
                         borderRadius: 5,
                         barPercentage: 0.6,
@@ -559,11 +717,15 @@
                     labels: ['木材', '砖瓦', '石材', '彩绘', '雕刻'],
                     datasets: [{
                         label: '使用频率',
-                        data: [70, 80, 75, 65, 60],
-                        backgroundColor: 'rgba(211, 84, 0, 0.3)',
-                        borderColor: '#d35400',
+                        data: [85, 95, 85, 65, 60],
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                        borderColor: '#4CAF50',
+                        pointBackgroundColor: '#4CAF50',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#4CAF50',
                         borderWidth: 2,
-                        pointBackgroundColor: '#d35400'
+                        pointRadius: 4
                     }]
                 },
                 options: {
@@ -620,6 +782,7 @@
                 }
             });
 
+
             // 模态框逻辑
             const modal = document.getElementById('buildingModal');
             const closeModal = document.getElementById('closeModal');
@@ -654,6 +817,27 @@
                             <li>砖石结构坚固，墙体宽厚，具有强大的防御功能；</li>
                             <li>关隘建筑精美，城楼、敌楼、烽火台等设施完善；</li>
                             <li>长城沿线形成了完整的军事防御体系。</li>
+                        </ul>
+                    `
+                },
+                minggugong: {
+                    title: '明故宫',
+                    subtitle: '明清宫城之祖，南京明代皇宫遗址',
+                    image: '../achievements/images/ming-minggugongall.jpg',
+                    description: `
+                        <p>明故宫位于南京，始建于元至正二十六年（1366年），明太祖朱元璋定都南京后扩建为皇宫。其规划以中轴线贯穿南北，依次为洪武门、承天门、端门、午门、奉天门，内建奉天、华盖、谨身三殿与乾清、坤宁二宫，首开明清两代“五门三朝”“前朝后寝”的宫城制度。</p>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li>严格的中轴对称布局，奠定后世都城核心区范式；</li>
+                            <li>首创“三殿二宫”格局，奉天殿为当时全国最高等级木构建筑；</li>
+                            <li>大量使用巨石、琉璃及高等级彩画，彰显开国气象；</li>
+                            <li>城墙与护城河系统规模宏大，兼具防御与礼制象征。</li>
+                        </ul>
+                        <h4>历史影响</h4>
+                        <ul>
+                            <li>明成祖迁都北京后，北京紫禁城以南京明故宫为蓝本营建；</li>
+                            <li>其宫城制度被清代全盘继承，贯穿明清两代五百余年；</li>
+                            <li>现为全国重点文物保护单位，遗址公园展现明代宫城格局。</li>
                         </ul>
                     `
                 },

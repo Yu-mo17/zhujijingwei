@@ -8,38 +8,114 @@
     <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .dynasty-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .dynasty-hero {
-            text-align: center;
-            padding: 60px 0;
-            background: linear-gradient(135deg, #e29c45 0%, #d6893e 100%);
+
+        .main-content-wrapper {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 20px; 
+        }
+        
+        /* 左侧朝代信息栏 */
+        .dynasty-sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: linear-gradient(135deg, #e29c45 0%, #d6893e 100%); /* 保留唐朝橙黄色 */
             color: white;
             border-radius: 15px;
-            margin-bottom: 40px;
+            padding: 40px 25px;
+            margin-right: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
         }
         
-        .dynasty-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .dynasty-sidebar h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 300px;
+            line-height: 1.3;
+            letter-spacing: 8px;
+            font-weight: 700;
         }
         
-        .dynasty-period {
-            font-size: 1.3rem;
+        .dynasty-period-sidebar {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
             opacity: 0.9;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
         }
         
-        /* 图表容器样式 */
+        .dynasty-intro {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 120px;
+            letter-spacing: 2px;
+        }
+        
+        .dynasty-features {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+        
+        /* 右侧主内容区 */
+        .dynasty-main-content {
+            flex: 1;
+            min-width: 0; 
+        }
+        
+        /* 历史背景区域  */
+        .historical-context {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px; 
+            margin: 40px auto 0; 
+        }
+        
+        /* 图表容器样式  */
         .data-visualization-section {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 30px;
-            margin: 40px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 900px; 
+            margin: 40px auto 0; 
         }
         
         .section-title {
@@ -86,12 +162,32 @@
             line-height: 1.4;
         }
         
-        /* 建筑成就网格布局 */
+        /* 建筑成就标题区域  */
+        .achievements-title-area {
+            max-width: 900px; 
+            margin: 40px auto 20px;
+        }
+        
+        .achievements-title-area h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .achievements-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        /* 建筑成就网格布局  */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin: 40px 0;
+            max-width: 900px; 
+            margin: 40px auto;
         }
         
         .achievement-card {
@@ -173,7 +269,7 @@
             color: #7f8c8d;
         }
         
-        /* 模态框样式 */
+        /* 模态框样式  */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -296,13 +392,6 @@
             margin-bottom: 8px;
         }
         
-        .historical-context {
-            background: #f8f9fa;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
-        }
-        
         .back-link {
             display: inline-block;
             color: #3498db;
@@ -315,17 +404,50 @@
             text-decoration: underline;
         }
         
-        /* 页脚 */
-        .main-footer {
-            background: #34495e;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
+
+        
+
+        /* 响应式调整 */
+        @media (max-width: 1100px) {
+            .main-content-wrapper {
+                flex-direction: column;
+            }
+            
+            .dynasty-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 30px;
+                position: static;
+                height: auto;
+                max-height: none;
+            }
+            
+            .dynasty-sidebar h1 {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+            .dynasty-intro {
+                writing-mode: horizontal-tb;
+                height: auto;
+                letter-spacing: normal;
+                margin-bottom: 20px;
+            }
+            
+
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+            }
         }
         
-        /* 响应式调整 */
         @media (max-width: 768px) {
+            .main-content-wrapper {
+                padding: 80px 15px 15px; 
+            }
+            
             .modal-content {
                 max-height: 85vh;
             }
@@ -346,8 +468,20 @@
                 height: 200px;
             }
             
+
             .achievements-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dynasty-title {
+                font-size: 2.5rem; 
+            }
+            
+            .historical-context,
+            .data-visualization-section,
+            .achievements-grid {
+                max-width: 100%; 
             }
         }
     </style>
@@ -365,94 +499,127 @@
         </nav>
     </header>
 
-    <div class="dynasty-container">
-        <div class="dynasty-hero">
-            <h1 class="dynasty-title">唐朝建筑成就</h1>
-            <div class="dynasty-period">公元618年 - 公元907年 | 盛世气象，规制深远</div>
-        </div>
 
-        <div class="historical-context">
-            <h2>历史背景</h2>
-            <p>唐朝是中国历史上最为强盛、开放和包容的时代之一，其建筑在继承前代的基础上，融合中外元素，形成了规模宏大、气魄雄浑、格调高迈的独特风格。唐代建筑技术成熟，木构架体系完善，都城规划严整，对后世中国建筑乃至东亚建筑圈产生了千年不易的典范影响。</p>
-            <ul>
-                <li><strong>都城典范：</strong>长安城为当时世界最大都城，棋盘式里坊布局、中轴对称的规划思想臻于极致，成为东亚都城建设的蓝本。</li>
-                <li><strong>木构成熟：</strong>木结构技术体系完全定型，斗栱硕大，出檐深远，屋顶舒展，展现出结构力学与艺术造型的完美结合。</li>
-                <li><strong>佛教鼎盛：</strong>佛教建筑空前繁荣，寺塔林立，石窟开凿达到高峰，建筑与雕塑、壁画艺术融为一体。</li>
-            </ul>
-        </div>
-
-        <!-- 数据可视化图表区域 -->
-        <div class="data-visualization-section">
-            <h2 class="section-title">唐朝建筑工程数据可视化</h2>
-            <div class="charts-container">
-                <!-- 左侧：建筑类型统计柱状图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">唐朝·建筑类型统计</h3>
-                    <div class="chart-container">
-                        <canvas id="buildingTypesChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：数据基于历史文献记载与考古发现统计，主要反映唐朝建筑活动的总体特征。民居在各类建筑中数量显著领先。</p>
-                </div>
-                
-                <!-- 右侧：建筑材质分析雷达图 -->
-                <div class="chart-wrapper">
-                    <h3 class="chart-title">唐朝·建筑材质分析</h3>
-                    <div class="chart-container">
-                        <canvas id="materialChart"></canvas>
-                    </div>
-                    <p class="chart-note">注：基于唐朝建筑遗存与文献记载分析，木质结构在营造材质中占据主导地位。</p>
-                </div>
+    <div class="main-content-wrapper">
+        <!-- 左侧朝代信息栏 -->
+        <div class="dynasty-sidebar">
+            <h1>唐</h1>
+            <div class="dynasty-period-sidebar">公元618年 - 公元907年</div>
+            <div class="dynasty-intro">盛世气象<br>规制深远</div>
+            <div class="dynasty-features">
+                <span class="feature-tag">都城典范</span>
+                <span class="feature-tag">木构成熟</span>
+                <span class="feature-tag">佛教鼎盛</span>
+                <span class="feature-tag">建筑辉煌</span>
             </div>
         </div>
-
-        <h2>唐朝代表性建筑成就</h2>
-        <p style="color: #7f8c8d; margin-bottom: 20px;">点击任意卡片查看详细信息</p>
         
-        <div class="achievements-grid">
-            <!-- 大明宫 -->
-            <div class="achievement-card" data-building="daming">
-                <div class="achievement-image">
-                    <img src="../achievements/images/tang-daminggong.jpg" alt="大明宫">
-                </div>
-                <div class="achievement-content">
-                    <h3>大明宫</h3>
-                    <p>大明宫是唐代长安城的政治核心与建筑艺术巅峰。它打破了完全对称的布局，顺应龙首原地形，开创了"前朝后苑、因势布局"的新典范。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">宫殿建筑群</span>
-                        <span class="meta-tag">政治中心</span>
-                        <span class="meta-tag">陕西西安</span>
+        <!-- 右侧主内容区 -->
+        <div class="dynasty-main-content">
+            <!-- 历史背景区域 -->
+            <div class="historical-context">
+                <h2>历史背景</h2>
+                <p>唐朝是中国历史上最为强盛、开放和包容的时代之一，其建筑在继承前代的基础上，融合中外元素，形成了规模宏大、气魄雄浑、格调高迈的独特风格。唐代建筑技术成熟，木构架体系完善，都城规划严整，对后世中国建筑乃至东亚建筑圈产生了千年不易的典范影响。</p>
+                <ul>
+                    <li><strong>都城典范：</strong>长安城为当时世界最大都城，棋盘式里坊布局、中轴对称的规划思想臻于极致，成为东亚都城建设的蓝本。</li>
+                    <li><strong>木构成熟：</strong>木结构技术体系完全定型，斗栱硕大，出檐深远，屋顶舒展，展现出结构力学与艺术造型的完美结合。</li>
+                    <li><strong>佛教鼎盛：</strong>佛教建筑空前繁荣，寺塔林立，石窟开凿达到高峰，建筑与雕塑、壁画艺术融为一体。</li>
+                </ul>
+            </div>
+
+            <!-- 数据可视化图表区域 -->
+            <div class="data-visualization-section">
+                <h2 class="section-title">唐朝建筑工程数据可视化</h2>
+                <div class="charts-container">
+                    <!-- 左侧：建筑类型统计柱状图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">唐朝·建筑类型统计</h3>
+                        <div class="chart-container">
+                            <canvas id="buildingTypesChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：数据基于历史文献记载与考古发现统计，主要反映唐朝建筑活动的总体特征。民居在各类建筑中数量显著领先。</p>
+                    </div>
+                    
+                    <!-- 右侧：建筑材质分析雷达图 -->
+                    <div class="chart-wrapper">
+                        <h3 class="chart-title">唐朝·建筑材质分析</h3>
+                        <div class="chart-container">
+                            <canvas id="materialChart"></canvas>
+                        </div>
+                        <p class="chart-note">注：基于唐朝建筑遗存与文献记载分析，木质结构在营造材质中占据主导地位。</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 太极宫 -->
-            <div class="achievement-card" data-building="taiji">
-                <div class="achievement-image">
-                    <img src="../achievements/images/tang-taijigong.jpg" alt="太极宫">
-                </div>
-                <div class="achievement-content">
-                    <h3>太极宫</h3>
-                    <p>太极宫，即隋代兴建的大兴宫，是唐长安城最初的皇宫和政治中枢。它代表了中国古代都城宫城规划理性化与礼制化的巅峰。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">初唐政治中心</span>
-                        <span class="meta-tag">承隋制</span>
-                        <span class="meta-tag">布局规整</span>
+            <!-- 建筑成就标题区域 -->
+            <div class="achievements-title-area">
+                <h2>唐朝代表性建筑成就</h2>
+                <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
+            </div>
+            
+            <!-- 建筑成就网格 -->
+            <div class="achievements-grid">
+                <!-- 大明宫 -->
+                <div class="achievement-card" data-building="daming">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/tang-daminggong.jpg" alt="大明宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>大明宫</h3>
+                        <p>大明宫是唐代长安城的政治核心与建筑艺术巅峰。它打破了完全对称的布局，顺应龙首原地形，开创了"前朝后苑、因势布局"的新典范。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">宫殿建筑群</span>
+                            <span class="meta-tag">政治中心</span>
+                            <span class="meta-tag">陕西西安</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 唐代津桥 -->
-            <div class="achievement-card" data-building="jinqiao">
-                <div class="achievement-image">
-                    <img src="../achievements/images/tang-jinqiao.jpg" alt="唐代津桥">
+                <!-- 太极宫 -->
+                <div class="achievement-card" data-building="taiji">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/tang-taijigong.jpg" alt="太极宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>太极宫</h3>
+                        <p>太极宫，即隋代兴建的大兴宫，是唐长安城最初的皇宫和政治中枢。它代表了中国古代都城宫城规划理性化与礼制化的巅峰。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">初唐政治中心</span>
+                            <span class="meta-tag">承隋制</span>
+                            <span class="meta-tag">布局规整</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement-content">
-                    <h3>唐代津桥</h3>
-                    <p>唐代汴州（今开封）的津桥，是连接大运河（通济渠段）南北两岸、保障漕运与陆路交通顺畅的关键枢纽。</p>
-                    <div class="achievement-meta">
-                        <span class="meta-tag">水路枢纽</span>
-                        <span class="meta-tag">商业繁荣</span>
-                        <span class="meta-tag">交通节点</span>
+
+                <!-- 兴庆宫 -->
+                <div class="achievement-card" data-building="xingqinggong">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/tang-xingqinggong.jpg" alt="唐兴庆宫">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>兴庆宫</h3>
+                        <p>唐玄宗时期扩建的宫廷园林杰作，以“宫苑一体”格局打破传统宫殿规制，将政务、起居与游赏融于龙池胜景之中，成为盛唐宫廷文化世俗化转型的缩影。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">宫苑一体</span>
+                            <span class="meta-tag">龙池景观</span>
+                            <span class="meta-tag">政治娱乐</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 唐代津桥 -->
+                <div class="achievement-card" data-building="jinqiao">
+                    <div class="achievement-image">
+                        <img src="../achievements/images/tang-jinqiao.jpg" alt="唐代津桥">
+                    </div>
+                    <div class="achievement-content">
+                        <h3>唐代津桥</h3>
+                        <p>唐代汴州（今开封）的津桥，是连接大运河（通济渠段）南北两岸、保障漕运与陆路交通顺畅的关键枢纽。</p>
+                        <div class="achievement-meta">
+                            <span class="meta-tag">水路枢纽</span>
+                            <span class="meta-tag">商业繁荣</span>
+                            <span class="meta-tag">交通节点</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -473,14 +640,13 @@
             </div>
             <div class="modal-body">
                 <div class="modal-image" id="modalImage">
-                    <!-- 图片将通过JavaScript动态加载 -->
                     <div class="modal-image-placeholder">
                         <div>建筑图片位置</div>
                         <div style="font-size: 0.9rem; margin-top: 10px;">点击卡片查看建筑图片</div>
                     </div>
                 </div>
                 <div class="modal-description" id="modalDescription">
-                    <!-- 建筑描述将通过JavaScript动态填充 -->
+
                 </div>
             </div>
         </div>
@@ -632,9 +798,9 @@
                 materialChart.resize();
             });
 
-            // 建筑数据（已为每个建筑添加详情页图片路径）- 修改为唐朝建筑信息
+            // 建筑数据- 修改为唐朝建筑信息
             const buildingData = {
-                daming: {
+                'daming': {
                     title: "大明宫",
                     subtitle: "盛唐气象 | 规模最大 | 含元殿",
                     image: "../achievements/images/tang-daminggongall.jpg", // 详情页大图
@@ -656,7 +822,7 @@
                         <p>大明宫代表了盛唐的宏伟气象与开放精神，不仅是中国古代宫殿规划成熟的标志，其建筑语言与空间艺术也深远影响了整个东亚文化圈。它是举世闻名的盛唐文明纪念碑，至今仍是研究唐代建筑、政治、文化的重要实物资料。</p>
                     `
                 },
-                taiji: {
+                'taiji': {
                     title: "太极宫",
                     subtitle: "初唐政治中枢 | 承隋制 | 布局规整",
                     image: "../achievements/images/tang-taijigongall.jpg", // 详情页大图
@@ -678,7 +844,35 @@
                         <p>尽管在唐代后期其政治中心地位逐渐被更宏伟的大明宫取代，但太极宫作为唐帝国的起点，其严谨的礼制空间秩序和规划思想，始终是唐代宫廷建筑的根基与法度所在。它确立的宫城核心地位、严谨的中轴对称格局以及宫-皇-郭三城相套的体系，成为中国古代都城规划的经典范式，对后世都城宫城布局影响极为深远。</p>
                     `
                 },
-                jinqiao: {
+                'xingqinggong': {
+                    title: '兴庆宫',
+                    subtitle: '盛唐宫廷文化的转型之作，园林式宫殿的典范',
+                    image: '../achievements/images/tang-xingqinggongall.jpg',
+                    description: `
+                        <p>兴庆宫是唐玄宗时期在长安兴庆坊扩建的宫殿，以其独特的“宫苑一体”格局和浓厚的生活气息著称。它并非传统的前朝后寝式宫殿，而是以龙池为核心，将政务、起居与游赏功能融于优美的园林环境中，在中国宫殿史上独树一帜。</p>
+                        <h4>建筑布局</h4>
+                        <ul>
+                            <li><strong>龙池核心</strong>：以龙池（兴庆池）为景观中心，建筑依水而建，形成疏朗开阔的园林式布局；</li>
+                            <li><strong>打破规制</strong>：突破传统宫殿的礼仪轴线，使宫殿更像一座宏伟的皇家别墅；</li>
+                            <li><strong>功能融合</strong>：政务、起居、游赏功能在园林环境中自然融合，体现宫廷生活的世俗化转向。</li>
+                        </ul>
+                        <h4>建筑特色</h4>
+                        <ul>
+                            <li><strong>勤政务本楼</strong>：临水而建，是玄宗处理日常政务之所，楼名体现其励精图治的政治理念；</li>
+                            <li><strong>花萼相辉楼</strong>：用于宴饮兄弟、举行娱乐盛会，取《诗经》“常棣之华，鄂不韡韡”之意，彰显皇室亲情；</li>
+                            <li><strong>宫苑一体</strong>：打破宫殿与园林的界限，将建筑与自然山水融为一体；</li>
+                            <li><strong>空间氛围</strong>：布局轻松开放，与大明宫、太极宫的严整规制形成鲜明对比。</li>
+                        </ul>
+                        <h4>文化意义</h4>
+                            <ul>
+                            <li><strong>盛唐缩影</strong>：见证了开元盛世的繁华与唐玄宗前期的政治辉煌；</li>
+                            <li><strong>艺术舞台</strong>：因其轻松开放的氛围，成为唐代诗歌、音乐、舞蹈等艺术活动的重要场所，李白、杜甫等诗人多有吟咏；</li>
+                            <li><strong>宫廷转型</strong>：标志着唐代宫廷文化由礼仪中心向生活艺术中心的转变；</li>
+                            <li><strong>历史记忆</strong>：安史之乱后逐渐衰落，但其承载的盛唐气象与人文精神，成为后世追忆的经典意象。</li>
+                        </ul>
+                    `   
+                },
+                'jinqiao': {
                     title: "唐代津桥",
                     subtitle: "水路枢纽 | 商业繁荣 | 交通节点",
                     image: "../achievements/images/tang-jinqiaoall.jpg", // 详情页大图

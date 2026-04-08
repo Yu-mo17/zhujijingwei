@@ -243,7 +243,7 @@
                 if (featuredCard) {
                     featuredCard.innerHTML = `
                         <div class="featured-header">
-                            <h3>🎲 每日一筑</h3>
+                            <h3> 每日一筑</h3>
                             <p>探索今日为您推荐的中国建筑瑰宝</p>
                         </div>
                         <div class="featured-info">
