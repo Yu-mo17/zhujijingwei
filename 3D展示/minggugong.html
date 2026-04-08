@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>明故宫（南京） - 筑迹经纬</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        @media (max-width: 768px) {
+            .main-nav {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+    
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        @media (max-width: 480px) {
+            .main-nav {
+                padding: 10px;
+            }
+    
+            .nav-links {
+                gap: 10px;
+            }
+    
+            .nav-links a {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+        }
+
+        
+        h1 {
+            font-size: 2.2rem;
+            color: #8b0000; /* 古建红色 */
+            margin-bottom: 8px;
+        }
+        
+        /* 主内容区 - 左侧模型 + 右侧建筑卡片 */
+        .model-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        /* 左侧3D模型区域 */
+        .model-section {
+            flex: 3;
+            min-width: 0; 
+        }
+        
+        .model-viewer {
+            position: relative;
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: 500px;
+        }
+        
+        .canvas-container {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #model-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8e0d5 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(139, 0, 0, 0.2);
+            border-radius: 50%;
+            border-top-color: #8b0000;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            color: #8b0000;
+            margin-bottom: 5px;
+        }
+        
+        .loading-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 101;
+            border: 1px solid #e0d6c8;
+        }
+        
+        .error-icon {
+            font-size: 2.5rem;
+            color: #8b0000;
+            margin-bottom: 15px;
+        }
+        
+        .error-text {
+            color: #8b0000;
+            margin-bottom: 20px;
+            max-width: 300px;
+        }
+        
+        .retry-button {
+            background-color: #8b0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .retry-button:hover {
+            background-color: #a00;
+        }
+        
+        /* 外部控制面板样式 - 放在3D模型区域下方 */
+        .external-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0d6c8;
+        }
+        
+        .controls-panel {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #e0d6c8;
+            background: white;
+            color: #8b0000;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .control-btn:hover {
+            background-color: #8b0000;
+            color: white;
+        }
+        
+        .control-btn.active {
+            background-color: #8b0000;
+            color: white;
+        }
+        
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .control-btn:disabled:hover {
+            background: white;
+            color: #8b0000;
+        }
+        
+        .hint-text {
+            color: #666;
+            font-size: 0.9rem;
+            background-color: #f9f5f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #e8e0d5;
+        }
+        
+        /* 右侧建筑卡片区域 */
+        .card-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .building-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0d6c8;
+        }
+        
+        .building-title {
+            font-size: 1.8rem;
+            color: #8b0000;
+            margin-bottom: 5px;
+        }
+        
+        .building-address {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e8e0d5;
+        }
+        
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .tag {
+            background-color: #f0e8df;
+            color: #8b0000;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            color: #3c2f2f;
+            font-weight: 500;
+        }
+        
+        /* 建筑简介区域 */
+        .description-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0d6c8;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #8b0000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8e0d5;
+        }
+        
+        .description-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        
+        /* 相关建筑链接卡片区域 */
+        .related-section {
+            margin-bottom: 30px;
+        }
+        
+        .related-title {
+            font-size: 1.5rem;
+            color: #8b0000;
+            margin-bottom: 20px;
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .related-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e8e0d5;
+        }
+        
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+        }
+        
+        .related-thumbnail {
+            height: 160px;
+            background: linear-gradient(135deg, #8b0000, #b22222);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        .related-content {
+            padding: 20px;
+        }
+        
+        .related-card-title {
+            font-size: 1.2rem;
+            color: #8b0000;
+            margin-bottom: 10px;
+        }
+        
+        .related-card-desc {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .view-button {
+            display: inline-block;
+            background-color: #8b0000;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .view-button:hover {
+            background-color: #a00;
+        }
+        
+        .fromwhich {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            border-top: 1px solid #e8e0d5;
+        }
+        
+        @media (max-width: 768px) {
+            .model-viewer {
+                height: 400px;
+            }
+            
+            .external-controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .controls-panel {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hint-text {
+                text-align: center;
+                width: 100%;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .card-section {
+                min-width: 100%;
+            }
+            
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="../pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="../pages/dimensions/architects.html">建筑大师</a>
+                <a href="../pages/dimensions/books.html">建筑经典</a>
+                <a href="../pages/dimensions/3d-reconstruction.html" style="background: rgba(255,255,255,0.2);">三维建筑</a>
+            </div>
+        </nav>
+    </header>
+
+<section class="container">
+        <div class="model-content">
+            <div class="model-section">
+                <div class="model-viewer">
+                    <div class="loading-screen" id="loading-screen">
+                        <div class="loader"></div>
+                        <div class="loading-content">
+                            <div class="loading-text">正在加载南京明故宫3D模型</div>
+                            <div class="loading-details" id="loading-details">加载中，请稍候...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="error-message" id="error-message">
+                        <div class="error-icon">⚠️</div>
+                        <div class="error-text" id="error-text">模型加载失败，请检查控制台错误信息</div>
+                        <button class="retry-button" id="retry-button">重试加载</button>
+                    </div>
+                    
+                    <div class="canvas-container">
+                        <canvas id="model-canvas"></canvas>
+                    </div>
+                </div>
+                
+                <div class="external-controls">
+                    <div class="hint-text">鼠标左键旋转 | 滚轮缩放</div>
+                    <div class="controls-panel">
+                        <button class="control-btn active" id="toggle-autorotate" title="自动旋转">↻</button>
+                        <button class="control-btn" id="reset-view" title="还原视角">↺</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-section">
+                <div class="building-card">
+                    <h2 class="building-title">南京明故宫</h2>
+                    <p class="building-address">江苏省南京市玄武区中山东路311号</p>
+                    
+                    <div class="tag-container">
+                        <span class="tag">明代皇宫遗址</span>
+                        <span class="tag">明代</span>
+                        <span class="tag">全国重点文保单位</span>
+                        <span class="tag">历史遗址</span>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">建筑类型</div>
+                            <div class="info-value">明代皇家宫殿遗址</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">历史时期</div>
+                            <div class="info-value">明代（明初都城皇宫）</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">建造年份</div>
+                            <div class="info-value">1366年 - 1375年</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">所在城市</div>
+                            <div class="info-value">南京</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">原占地面积</div>
+                            <div class="info-value">约101.25万平方米</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">历史地位</div>
+                            <div class="info-value">中国古代都城宫殿典范</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="description-section">
+            <h3 class="section-title">建筑介绍</h3>
+            <div class="description-text">
+                <p>南京明故宫是明初都城皇宫，始建于1366年，曾是世界最大宫殿建筑群，现以遗址形式保存。</p>
+                <p>其布局遵循对称原则，分外朝、内廷，是北京故宫的设计蓝本，后因战乱损毁，现存残垣柱础。</p>
+                <p>现为全国重点文保单位，遗址公园对外开放，是研究明代宫殿建筑的重要实例。</p>
+            </div>
+        </div>
+<div class="related-section">
+    <h3 class="related-title">相关古建筑</h3>
+    <div class="related-grid">
+        <div class="related-card">
+            <div class="related-thumbnail">
+                <img src="../assets/images/3D/bishushanzhuang.jpg" alt="承德避暑山庄">
+            </div>
+            <div class="related-content">
+                <h4 class="related-card-title">承德避暑山庄</h4>
+                <p class="related-card-desc">清代皇家园林，中国现存最大古典皇家园林，位于河北省承德市。</p>
+                <a href="cdbssz.html" class="view-button">查看详情</a>
+            </div>
+        </div>
+
+		<!-- 拙政园 -->
+		<div class="related-card">
+			<div class="related-thumbnail">
+                <img src="../assets/images/3D/ming-zhuozhengyuan.jpg" alt="拙政园">
+            </div>
+			<div class="related-content">
+				<h4 class="related-card-title">拙政园</h4>
+				<p class="related-card-desc">中国四大名园之首，江南古典园林代表，位于江苏省苏州市姑苏区。</p>
+				<a href="zhuozhengyuan.html" class="view-button">查看详情</a>
+			</div>
+		</div>
+
+		<!-- 赵州桥 -->
+		<div class="related-card">
+			<div class="related-thumbnail">
+                <img src="../assets/images/3D/sui-zhaozhouqiao.jpg" alt="赵州桥">
+            </div>
+			<div class="related-content">
+				<h4 class="related-card-title">赵州桥</h4>
+				<p class="related-card-desc">世界现存最古老的石拱桥，隋代建造，位于河北省石家庄市赵县。</p>
+				<a href="zhaozhouqiao.html" class="view-button">查看详情</a>
+			</div>
+		</div>
+    </div>
+</div>
+</section>
+
+        <div class="fromwhich">
+            <p>数据来源：百度百科</p>
+        </div>
+    </div>
+
+          <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <script>
+        // Three.js 3D场景
+        let scene, camera, renderer, controls;
+        let model = null;
+        let wireframeMode = false;
+        let gridEnabled = false;
+        let autoRotate = true; // 默认开启自动旋转
+        
+        // DOM元素
+        const canvas = document.getElementById('model-canvas');
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingDetails = document.getElementById('loading-details');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const retryButton = document.getElementById('retry-button');
+        
+        // 检查WebGL支持
+        function checkWebGLSupport() {
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                return gl && gl instanceof WebGLRenderingContext;
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        if (!checkWebGLSupport()) {
+            document.getElementById('error-text').textContent = '您的浏览器不支持WebGL，请使用Chrome、Firefox、Edge等现代浏览器';
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('error-message').style.display = 'block';
+        }
+        
+        // 初始化Three.js场景
+        function init() {
+            try {
+                // 创建场景
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xf0f0f0);
+                
+                // 创建相机
+                camera = new THREE.PerspectiveCamera(
+                    45, 
+                    canvas.clientWidth / canvas.clientHeight, 
+                    0.1, 
+                    1000
+                );
+                camera.position.set(30, 20, 30); // 调整相机初始位置
+                
+                // 创建渲染器
+                renderer = new THREE.WebGLRenderer({ 
+                    canvas: canvas,
+                    antialias: true,
+                    alpha: true
+                });
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.shadowMap.enabled = true;
+                renderer.outputEncoding = THREE.sRGBEncoding;
+                
+                // 添加轨道控制器 - 移除垂直角度限制
+                if (typeof THREE.OrbitControls !== 'undefined') {
+                    controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    controls.enableDamping = true;
+                    controls.dampingFactor = 0.05;
+                    controls.minDistance = 5;
+                    controls.maxDistance = 150; // 增加最大距离
+                    // 移除垂直角度限制，允许任意角度旋转
+                    controls.maxPolarAngle = Math.PI; // 允许相机旋转到任何角度
+                    controls.minPolarAngle = 0; // 允许从底部看
+                    // 启用自动旋转
+                    controls.autoRotate = autoRotate;
+                    controls.autoRotateSpeed = 0.5; // 设置旋转速度
+                } else {
+                    console.error('OrbitControls未加载');
+                    showError('Three.js控制器未正确加载');
+                    return;
+                }
+                
+                // 添加光源
+                setupLights();
+                
+                // 添加辅助工具
+                setupHelpers();
+                
+                // 注意：这里注释掉了创建地面的函数调用
+                // createGround(); // 移除地面
+                
+                // 加载模型
+                loadModel();
+                
+                // 开始渲染循环
+                animate();
+                
+                // 添加窗口大小调整监听
+                window.addEventListener('resize', onWindowResize);
+                
+                // 添加控制按钮事件
+                setupControls();
+                
+            } catch (error) {
+                console.error('初始化失败:', error);
+                showError('场景初始化失败: ' + error.message);
+            }
+        }
+        
+        // 设置光源
+        function setupLights() {
+            // 环境光
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            // 主定向光
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            // 补充光
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+            fillLight.position.set(-10, 10, -5);
+            scene.add(fillLight);
+        }
+        
+        // 设置辅助工具
+        function setupHelpers() {
+            // 网格辅助
+            gridHelper = new THREE.GridHelper(30, 30, 0x888888, 0x444444);
+            gridHelper.position.y = 0; // 调整到y=0位置
+            gridHelper.visible = false;
+            scene.add(gridHelper);
+        }
+        
+        // 加载3D模型
+        function loadModel() {
+            const modelUrl = './assets/3D/minggugong.glb';
+            loadingDetails.textContent = '正在加载模型文件...';
+            
+            // 创建GLTF加载器
+            const loader = new THREE.GLTFLoader();
+            
+            // 加载模型
+            loader.load(
+                modelUrl,
+                // 加载成功回调
+                function(gltf) {
+                    console.log('模型加载成功');
+                    model = gltf.scene;
+                    model.scale.set(100, 100, 100); // 放大6倍以适应场景
+                    
+                    // 计算模型包围盒，使其底部在y=0位置
+                    const box = new THREE.Box3().setFromObject(model);
+                    const minY = box.min.y;
+                    const center = box.getCenter(new THREE.Vector3());
+                    
+                    // 调整模型位置
+                    model.position.set(0, -minY, 0);
+                    
+                    // 启用阴影
+                    model.traverse(function(child) {
+                        if (child.isMesh) {
+                            child.castShadow = true;
+                            child.receiveShadow = true;
+                        }
+                    });
+                    
+                    // 添加到场景
+                    scene.add(model);
+                    
+                    // 调整相机位置
+                    centerModel();
+                    
+                    // 隐藏加载屏幕
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                        }, 500);
+                    }, 1000);
+                },
+                // 加载进度回调
+                function(xhr) {
+                    if (xhr.total > 0) {
+                        const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                        loadingDetails.textContent = `加载进度: ${percent}%`;
+                    } else {
+                        loadingDetails.textContent = `加载中...`;
+                    }
+                },
+                // 加载失败回调
+                function(error) {
+                    console.error('模型加载失败:', error);
+                    
+                    let errorMsg = '模型加载失败: ';
+                    if (error.message && error.message.includes('404')) {
+                        errorMsg = '模型文件未找到，请确保文件路径正确: ./assets/3D/shenyanggugong.glb';
+                    } else if (error.message && error.message.includes('NetworkError')) {
+                        errorMsg = '网络错误，请检查网络连接';
+                    } else {
+                        errorMsg = '模型加载失败，请检查控制台获取详细信息';
+                    }
+                    
+                    showError(errorMsg);
+                }
+            );
+        }
+        
+        // 居中模型
+        function centerModel() {
+            if (!model) return;
+            
+            try {
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+                
+                // 计算合适的相机距离
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fov = camera.fov * (Math.PI / 180);
+                let cameraZ = Math.abs(maxDim / Math.tan(fov / 2));
+                
+                // 调整相机位置
+                camera.position.set(
+                    center.x + cameraZ * 0.7,
+                    center.y + cameraZ * 0.3,
+                    center.z + cameraZ * 0.7
+                );
+                
+                controls.target.copy(center);
+                controls.update();
+                
+            } catch (err) {
+                console.warn('模型居中失败:', err);
+            }
+        }
+        
+        // 显示错误信息
+        function showError(message) {
+            errorText.textContent = message;
+            loadingScreen.style.display = 'none';
+            errorMessage.style.display = 'block';
+        }
+        
+        // 设置控制按钮事件
+        function setupControls() {
+            // 重置视图
+            document.getElementById('reset-view').addEventListener('click', () => {
+                if (model) {
+                    centerModel();
+                } else {
+                    camera.position.set(30, 20, 30);
+                    camera.lookAt(0, 0, 0);
+                }
+                controls.update();
+            });
+            
+            // 切换自动旋转
+            document.getElementById('toggle-autorotate').addEventListener('click', function() {
+                autoRotate = !autoRotate;
+                controls.autoRotate = autoRotate;
+                this.classList.toggle('active', autoRotate);
+            });
+            
+            // 重试按钮
+            retryButton.addEventListener('click', function() {
+                errorMessage.style.display = 'none';
+                loadingScreen.style.display = 'flex';
+                loadingScreen.style.opacity = '1';
+                loadModel();
+            });
+        }
+        
+        // 窗口大小调整
+        function onWindowResize() {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        }
+        
+        // 动画循环
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (controls) {
+                controls.update();
+            }
+            
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，开始初始化3D场景...');
+            init();
+        });
+    </script>
+</body>
+</html>

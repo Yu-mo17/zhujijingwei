@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《长物志》 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* 英雄区域 */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin: 40px auto;
+            padding: 40px;
+            max-width: 1200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .hero-content {
+            text-align: center;
+        }
+        
+        .achievement-title {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align:center;
+        }
+        
+        .achievement-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            text-align: left;
+            text-indent: 2em; 
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #3498db;
+            color: #3498db;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .hero-image {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            display: block;
+        }
+        
+         .basic-info-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .info-card-header {
+            background: #3498db;
+            padding: 20px 30px;
+            color: white;
+        }
+        
+        .info-card-header h3 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        
+        .info-card-content {
+            padding: 30px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 140px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #333;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        /* 核心解密卡片区 */
+        .cards-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #3498db;
+        }
+        
+        .section-subtitle {
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card-icon {
+            height: 150px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #2c3e50;
+        }
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            margin: 10px 0;
+            line-height: 1.7;
+            color: #555;
+            flex-grow: 1;
+        }
+        
+        /* 数据表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* 对比图表区域 */
+        .comparison-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 40px 20px;
+        }
+        
+        .comparison-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .comparison-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th:nth-child(1), 
+        .comparison-table td:nth-child(1) {
+            width: 12%; /* 对比维度列 */
+        }
+        
+        .comparison-table th:nth-child(2), 
+        .comparison-table td:nth-child(2) {
+            width: 25%; /* 宋代列 */
+        }
+        
+        .comparison-table th:nth-child(3), 
+        .comparison-table td:nth-child(3) {
+            width: 25%; /* 清代列 */
+        }
+        
+        .comparison-table th:nth-child(4), 
+        .comparison-table td:nth-child(4) {
+            width: 38%; /* 对比解读列 */
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .comparison-table .song-dynasty {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .comparison-table .qing-dynasty {
+            background: rgba(231, 76, 60, 0.1);
+        }
+        
+        .comparison-table .highlight {
+            background: #fffde7;
+            font-weight: 600;
+        }
+        
+        /* 时间轴样式 - 修复文字居中问题 */
+        .timeline-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .timeline-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e74c3c;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* 修复时间轴年份文字居中问题 */
+        .timeline-year {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            background: #e74c3c;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            line-height: 1;
+            padding: 0;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-left: 20px;
+        }
+        
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* 结语与导航 */
+        .conclusion-section {
+            max-width: 1200px;
+            margin: 40px auto 60px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: left; 
+            border: 1px solid #e0e0e0;
+        }
+        
+        .conclusion-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left; 
+            text-indent: 2em; 
+        }
+        
+        .global-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            padding: 12px 30px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn-alternate {
+            background: #e74c3c;
+        }
+        
+        .nav-btn-alternate:hover {
+            background: #c0392b;
+        }
+
+        /* 长物志雷达图专用样式 */
+        .radar-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .radar-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        #radar-chart {
+            width: 100%;
+            height: 500px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .comparison-table {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievement-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons, .global-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn, .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .comparison-table th:nth-child(1), 
+            .comparison-table td:nth-child(1) {
+                width: 20%;
+            }
+            
+            .comparison-table th:nth-child(2), 
+            .comparison-table td:nth-child(2) {
+                width: 30%;
+            }
+            
+            .comparison-table th:nth-child(3), 
+            .comparison-table td:nth-child(3) {
+                width: 30%;
+            }
+            
+            .comparison-table th:nth-child(4), 
+            .comparison-table td:nth-child(4) {
+                width: 40%;
+            }
+            
+            /* 小屏幕时间轴调整 */
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline-year {
+                width: 50px;
+                height: 50px;
+                left: -25px;
+                font-size: 0.8rem;
+            }
+            
+            .comparison-table th, 
+            .comparison-table td {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: 20px;
+            }
+            
+            .achievement-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-image img {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="../pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="../pages/dimensions/architects.html">建筑大师</a>
+                <a href="../pages/dimensions/books.html" style="background: rgba(255,255,255,0.2);">建筑经典</a>
+                <a href="../pages/dimensions/3d-reconstruction.html">三维建筑</a>
+            </div>
+        </nav>
+    </header>
+
+<!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="achievement-title">《长物志》</h1>
+            <p class="achievement-subtitle">明崇祯年间，文震亨撰成这部中式生活美学的巅峰典籍。它不只是器物图鉴，更是一套以“雅”为核心的空间审美体系，奠定了明清文人园林、居室、器物、陈设的评判标准，被后世奉为文人生活艺术的“圣经”。</p>
+            
+            <div class="hero-buttons">
+                <a href="#cards" class="btn">解读核心体系</a>
+                <a href="#comparison" class="btn btn-outline">对比《园冶》</a>
+            </div>
+        </div>
+        
+        <!-- 图例图片现在在右侧 -->
+        <div class="hero-image">
+            <img src="../建筑书籍/assets/images/zhangwuzhi.jpg" alt="《长物志》古籍书影">
+            <div class="image-caption"></div>
+        </div>
+    </section>
+
+    <!-- 长物志雷达图区域 -->
+    <section class="radar-section">
+        <h2 class="section-title">《长物志》核心能力图谱</h2>
+        <p class="section-subtitle">六大维度直观展示文人生活美学第一典籍的理论高度</p>
+        <div class="radar-box">
+            <div id="radar-chart"></div>
+        </div>
+    </section>
+
+    <!-- 文献档案信息卡 - 统一风格重构 -->
+    <section class="basic-info-section">
+        <div class="info-card">
+            <div class="info-card-header">
+                <h3>文献档案</h3>
+            </div>
+            <div class="info-card-content">
+                <div class="info-row">
+                    <div class="info-label">成书年代：</div>
+                    <div class="info-value">明崇祯七年（1634年）前后</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">作者：</div>
+                    <div class="info-value">文震亨，字启美，明代苏州文坛领袖，书画家文徵明曾孙</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">全书规模：</div>
+                    <div class="info-value">十二卷，分述室庐、花木、水石、禽鱼、书画、几榻、器具、衣饰、舟车、位置、蔬果、香茗等</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">核心思想：</div>
+                    <div class="info-value">宁简毋繁，宁雅毋俗，宜朴不宜巧。追求“虽由人作，宛自天开”的自然雅致之境。</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">核心性质：</div>
+                    <div class="info-value">中国古代文人生活美学的系统性理论总结与品评标准，涵盖园林、居室、器物、陈设、赏玩等全方位。</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">历史地位：</div>
+                    <div class="info-value">被后世奉为“中国古代文人生活美学第一经典”，是明清园林艺术、陈设美学与文人品味的最高纲领。</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">影响范围：</div>
+                    <div class="info-value">奠定了明清乃至近代中式园林、书房、茶室、家具及文房雅玩的设计与审美基调，其理念深刻影响日本、韩国等东亚文化圈。</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">现代意义：</div>
+                    <div class="info-value">是当代“新中式”设计、东方极简美学、茶道、香道、花道等文化生活方式的古典理论源头与精神内核。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心解密卡片区 -->
+    <section id="cards" class="cards-section">
+        <h2 class="section-title">文人生活美学体系</h2>
+        <p class="section-subtitle">《长物志》以“雅”为纲，构建了从空间到器物、从自然到陈设的完整审美标准</p>
+        
+        <div class="cards-container">
+            <!-- 卡片一：审美核心准则 -->
+            <div class="card">
+                <div class="card-icon">📐</div>
+                <div class="card-content">
+                    <h3><span class="icon">📐</span>文人审美核心：宁雅毋俗</h3>
+                    <p><strong>核心概念：</strong>全书以“雅”为最高标准，提出“宁简毋繁，宁朴毋巧，宁冷毋热”。反对堆砌、炫富、匠气，推崇简洁、疏朗、自然、含蓄的格调。</p>
+                    <p><strong>审美革命：</strong>将器物与空间从实用功能提升到精神境界，强调“物为人用，境为心造”，确立了文人空间独有的价值判断体系。</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>审美原则</th>
+                            <th>具体要求</th>
+                            <th>典型体现</th>
+                        </tr>
+                        <tr>
+                            <td>宜简</td>
+                            <td>少而精，去繁饰</td>
+                            <td>居室空朗，陈设疏落有致</td>
+                        </tr>
+                        <tr>
+                            <td>宜古</td>
+                            <td>尚古意，弃浮华</td>
+                            <td>古木、旧石、素器为上</td>
+                        </tr>
+                        <tr>
+                            <td>宜自然</td>
+                            <td>顺物性，去造作</td>
+                            <td>花木随宜，水石天成</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 卡片二：室庐与空间营造 -->
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-content">
+                    <h3><span class="icon">室庐营造：文人空间范式</h3>
+                    <p><strong>空间法则：</strong>《长物志》对堂、斋、轩、栏、台阶、门窗、墙壁等都有严格审美规定，强调“室庐贵雅，不贵丽”。</p>
+                    <p><strong>布局意义：</strong>首次系统建立文人居所的空间范式，区分厅堂、书斋、卧室、庭院的气质差异，影响后世中式软装与造园陈设数百年。</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>空间类型</th>
+                            <th>审美要求</th>
+                            <th>营造目的</th>
+                        </tr>
+                        <tr>
+                            <td>书斋</td>
+                            <td>明窗净几，清雅幽静</td>
+                            <td>静心读书、焚香作画</td>
+                        </tr>
+                        <tr>
+                            <td>庭院</td>
+                            <td>疏朗有致，花木相宜</td>
+                            <td>寄情山水，亲近自然</td>
+                        </tr>
+                        <tr>
+                            <td>厅堂</td>
+                            <td>庄重古朴，不尚繁丽</td>
+                            <td>待客会友，彰显气度</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 卡片三：花木水石与自然意趣 -->
+            <div class="card">
+                <div class="card-icon">🏛️</div>
+                <div class="card-content">
+                    <h3><span class="icon">花木水石：园林意境之本</h3>
+                    <p><strong>自然审美：</strong>详细论述山、水、石、竹、花、木的配置原则，主张“石令人古，水令人远”，以小见大，咫尺山林。</p>
+                    <p><strong>造园逻辑：</strong>反对刻意雕琢，推崇自然野趣。一花一木、一峰一水皆要合乎画意，为文人园林提供了可操作的意境营造方法。</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>造园要素</th>
+                            <th>审美标准</th>
+                            <th>意境追求</th>
+                        </tr>
+                        <tr>
+                            <td>山石</td>
+                            <td>瘦、皱、漏、透，古朴为上</td>
+                            <td>峰峦气象，山林意趣</td>
+                        </tr>
+                        <tr>
+                            <td>花木</td>
+                            <td>梅兰竹菊，清雅为贵</td>
+                            <td>四季有景，诗意栖居</td>
+                        </tr>
+                        <tr>
+                            <td>水泉</td>
+                            <td>曲折自然，动静相宜</td>
+                            <td>空灵悠远，心境平和</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 卡片四：器具陈设与生活格调 -->
+            <div class="card">
+                <div class="card-icon">📜</div>
+                <div class="card-content">
+                    <h3><span class="icon">器具陈设：器物即人格</h3>
+                    <p><strong>器物观：</strong>对家具、书画、香炉、茶具、文房等都定立雅俗标准，强调“随方置象，各有所宜”，器物不在名贵而在格调。</p>
+                    <p><strong>文化价值：</strong>是明清家具、文房、赏石、书画陈设的理论源头，也是今天中式美学、侘寂风、极简东方审美最重要的古代依据。</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>影响方面</th>
+                            <th>具体体现</th>
+                        </tr>
+                        <tr>
+                            <td>中式陈设</td>
+                            <td>现代茶室、书房设计核心参考</td>
+                        </tr>
+                        <tr>
+                            <td>文物鉴赏</td>
+                            <td>古家具、文房雅器鉴定重要依据</td>
+                        </tr>
+                        <tr>
+                            <td>生活美学</td>
+                            <td>当代东方极简生活思想源头</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 对比分析区 -->
+    <section id="comparison" class="comparison-section">
+        <div class="comparison-container">
+            <h2 class="comparison-title">《长物志》与《园冶》核心对比</h2>
+            <p class="section-subtitle">从造园技艺到生活美学，明代两大园林典籍的互补与分野</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>对比维度</th>
+                        <th class="song-dynasty">《园冶》<br>(明·计成)</th>
+                        <th class="qing-dynasty">《长物志》<br>(明·文震亨)</th>
+                        <th>对比解读与定位差异</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">核心侧重</td>
+                        <td class="song-dynasty">
+                            <strong>造园技艺与布局</strong><br>
+                            • 相地、立基、屋宇、掇山、借景<br>
+                            • 侧重工程结构与空间构图<br>
+                            • 虽由人作，宛自天开
+                        </td>
+                        <td class="qing-dynasty">
+                            <strong>文人审美与陈设</strong><br>
+                            • 室庐、花木、水石、器具、陈设<br>
+                            • 侧重格调、雅俗、品位判断<br>
+                            • 宁简毋繁，宁雅毋俗
+                        </td>
+                        <td>
+                            <strong>“造园之法”与“居园之品”</strong><br>
+                            • 《园冶》教你如何建一座园子<br>
+                            • 《长物志》教你如何活得有格调
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">视角身份</td>
+                        <td class="song-dynasty">
+                            <strong>造园家视角</strong><br>
+                            工匠、设计师、营造者视角
+                        </td>
+                        <td class="qing-dynasty">
+                            <strong>文人主人视角</strong><br>
+                            园主、鉴赏家、生活家视角
+                        </td>
+                        <td>
+                            <strong>建造者 vs 使用者</strong><br>
+                            • 《园冶》是设计师手册<br>
+                            • 《长物志》是生活美学指南
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">风格气质</td>
+                        <td class="song-dynasty">
+                            <strong>结构写意，山水格局</strong><br>
+                            重空间、重借景、重画意
+                        </td>
+                        <td class="qing-dynasty">
+                            <strong>清雅简约，文心内敛</strong><br>
+                            重格调、重品位、重心境
+                        </td>
+                        <td>
+                            <strong>空间骨架 vs 精神灵魂</strong><br>
+                            • 《园冶》定园林之形<br>
+                            • 《长物志》赋园林之神
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 时间轴容器  -->
+        <div class="timeline-container">
+            <h3 class="timeline-title">《长物志》的历史影响</h3>
+            <div class="timeline">
+                <!-- 时间轴项目1 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">1634</div>
+                    <div class="timeline-content">
+                        <h4>明末成书，格调初立</h4>
+                        <p>文震亨撰成《长物志》，系统总结明代文人审美，成为江南士人圈层的生活准则。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目2 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">清中期</div>
+                    <div class="timeline-content">
+                        <h4>风靡士林，影响深远</h4>
+                        <p>成为清代文人造园、家居、收藏、陈设的权威标准，深刻影响宫廷与民间审美。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目3 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">民国</div>
+                    <div class="timeline-content">
+                        <h4>重刊流传，学术重视</h4>
+                        <p>被重新整理出版，成为中国园林史、工艺美术史、家具史研究的重要文献。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目4 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">1990后</div>
+                    <div class="timeline-content">
+                        <h4>美学复兴，再度流行</h4>
+                        <p>随着中式生活美学回归，成为茶室、民宿、新中式设计的核心理论来源。</p>
+                    </div>
+                </div>
+                
+                <!-- 时间轴项目5 -->
+                <div class="timeline-item">
+                    <div class="timeline-year">至今</div>
+                    <div class="timeline-content">
+                        <h4>东方生活圣经</h4>
+                        <p>被誉为中式极简美学鼻祖，影响全球东方设计、陈设艺术与生活方式。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 结语与导航 -->
+    <section class="conclusion-section">
+        <p class="conclusion-text">
+            《长物志》是中国文人精神在器物与空间上的最高表达。它以“雅”为尺，以“简”为法，将居住、园林、花木、陈设升华为人格与心境的延伸。它不教技巧，只传格调；不重奢华，只重意境，成为穿越数百年依然指引东方生活美学的精神坐标。
+        </p>
+        
+        <div class="global-nav">
+            <a href="../pages/dimensions/books.html" class="nav-btn">返回建筑名著</a>
+            <a href="ying-zao-fa-shi.html" class="nav-btn nav-btn-alternate">对比阅读：《营造法式》</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <script>  
+        // 交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 平滑滚动
+            const exploreBtn = document.querySelectorAll('.btn');
+            exploreBtn.forEach(btn => {
+                if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        document.getElementById(targetId).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            });
+            
+            // 表格行悬停效果
+            const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f5f9ff';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+
+            // ==================== 长物志雷达图 ====================
+            const radarChart = echarts.init(document.getElementById('radar-chart'));
+            const option = {
+                tooltip: {},
+                legend: {
+                    data: ['《长物志》'],
+                    bottom: 0
+                },
+                radar: {
+                    radius: '70%',
+                    indicator: [
+                        { name: '生活美学', max: 5 },
+                        { name: '陈设艺术', max: 5 },
+                        { name: '园林审美', max: 5 },
+                        { name: '文化影响', max: 5 },
+                        { name: '理论体系', max: 5 },
+                        { name: '工程规范', max: 5 }
+                    ]
+                },
+                series: [{
+                    name: '能力图谱',
+                    type: 'radar',
+                    data: [
+                        {
+                            value: [5, 5, 5, 5, 4, 1],
+                            name: '《长物志》',
+                            areaStyle: {
+                                color: 'rgba(52, 152, 219, 0.3)'
+                            },
+                            itemStyle: {
+                                color: '#3498db'
+                            }
+                        }
+                    ]
+                }]
+            };
+            radarChart.setOption(option);
+            window.addEventListener('resize', () => radarChart.resize());
+            
+            console.log('《长物志》专题页加载完成！');
+        });
+    </script>
+</body>
+</html>

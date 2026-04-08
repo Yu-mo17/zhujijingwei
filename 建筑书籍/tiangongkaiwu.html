@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《天工开物》 - 筑迹经纬</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        /* 英雄区域 */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin: 40px auto;
+            padding: 40px;
+            max-width: 1200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .hero-content {
+            text-align: left;
+        }
+        
+        .achievement-title {
+            font-size: 2.8rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: left;
+        }
+        
+        .achievement-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            text-align: left;
+            text-indent: 2em;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: flex-start;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #27ae60; 
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #27ae60;
+            color: #27ae60;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .hero-image {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        
+        .hero-image:hover img {
+            transform: scale(1.03);
+        }
+        
+        /* 核心解密卡片区 */
+        .cards-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #27ae60;
+        }
+        
+        .section-subtitle {
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        .card-icon {
+            height: 150px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #2c3e50;
+        }
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            margin: 10px 0;
+            line-height: 1.7;
+            color: #555;
+            flex-grow: 1;
+        }
+        
+        .card-highlight {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .card-highlight p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+        
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        /* 对比分析区 */
+        .comparison-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 40px 20px;
+        }
+        
+        .comparison-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .comparison-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .comparison-table .song-dynasty {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .comparison-table .yuan-ye {
+            background: rgba(39, 174, 96, 0.1);
+        }
+        
+        .comparison-table .western {
+            background: rgba(155, 89, 182, 0.1);
+        }
+        
+        .comparison-table .highlight {
+            background: #fffde7;
+            font-weight: 600;
+        }
+        
+        /* 时间轴样式 */
+        .timeline-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .timeline-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #27ae60;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-year {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            background: #27ae60;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-left: 20px;
+        }
+        
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* 基本信息卡区域 */
+        .basic-info-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .info-card-header {
+            background: #27ae60;
+            padding: 20px 30px;
+            color: white;
+        }
+        
+        .info-card-header h3 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        
+        .info-card-content {
+            padding: 30px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 140px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            color: #333;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+        
+        /* 结语与导航 */
+        .conclusion-section {
+            max-width: 1200px;
+            margin: 40px auto 60px;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .conclusion-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-indent: 2em;
+        }
+        
+        .global-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            padding: 12px 30px;
+            background: #27ae60;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: #219653;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn-alternate {
+            background: #3498db;
+        }
+        
+        .nav-btn-alternate:hover {
+            background: #2980b9;
+        }
+        
+
+        
+
+        /* 天工开物雷达图样式 */
+        .radar-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .radar-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+        }
+        #radar-chart {
+            width: 100%;
+            height: 500px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievement-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons, .global-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn, .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline-year {
+                width: 50px;
+                height: 50px;
+                left: -25px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../index.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="../pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="../pages/dimensions/architects.html">建筑大师</a>
+                <a href="../pages/dimensions/books.html" style="background: rgba(255,255,255,0.2);">建筑经典</a>
+                <a href="../pages/dimensions/3d-reconstruction.html">三维建筑</a>
+            </div>
+        </nav>
+    </header>
+
+<!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="achievement-title">《天工开物》</h1>
+            <p class="achievement-subtitle">明崇祯十年（1637年），宋应星完成这部中国古代第一部关于农业和手工业生产技术的综合性百科全书。它全面系统记载了古代农作物种植、纺织、制盐、造纸、冶铸、造船、陶瓷、兵器制造等生产技艺，首次将生产经验升华为科学体系，被誉为"中国17世纪的工艺百科全书"，是世界科技史上珍贵的古代工艺典籍。</p>
+            
+            <div class="hero-buttons">
+                <a href="#cards" class="btn">探索核心技艺</a>
+                <a href="../architects/song-ying-xing.html" class="btn btn-outline">了解作者：宋应星</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="./assets/images/tiangongkaiwu.jpg" >
+        </div>
+    </section>
+
+    <!-- 天工开物雷达图区域 -->
+    <section class="radar-section">
+        <h2 class="section-title">《天工开物》核心能力图谱</h2>
+        <p class="section-subtitle">六大维度展现中国17世纪工艺百科全书的地位</p>
+        <div class="radar-box">
+            <div id="radar-chart"></div>
+        </div>
+    </section>
+
+    <!-- 基本信息卡区域 -->
+    <section class="basic-info-section">
+        <h2 class="section-title">《天工开物》基本信息</h2>
+        
+        <div class="info-card">
+            <div class="info-card-header">
+                <h3>文献档案</h3>
+            </div>
+            <div class="info-card-content">
+                <div class="info-row">
+                    <div class="info-label">书名：</div>
+                    <div class="info-value">《天工开物》（取“天工人其代之”“开物成务”之意）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">作者：</div>
+                    <div class="info-value">宋应星（1587年-？），字长庚，明代著名科学家</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">成书时间：</div>
+                    <div class="info-value">明崇祯十年（1637年）</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">全书结构：</div>
+                    <div class="info-value">共3卷18篇，涵盖农业、纺织、陶瓷、冶金、造纸、舟车、兵器等全门类技艺</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">历史地位：</div>
+                    <div class="info-value">中国古代第一部农业与手工业综合性科技典籍，世界17世纪工艺百科全书</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">流传情况：</div>
+                    <div class="info-value">国内一度失传，近代从日本、欧洲传回，成为中国科技史核心文献</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">理论贡献：</div>
+                    <div class="info-value">首次系统整理古代生产技艺，将实践经验理论化，开创中国古代工艺科学体系</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心解密卡片区 -->
+    <section id="cards" class="cards-section">
+        <h2 class="section-title">古代工艺的科学体系</h2>
+        <p class="section-subtitle">《天工开物》建立了中国古代从农业生产到工业制造的完整技术理论框架</p>
+        
+        <div class="cards-container">
+            <!-- 卡片一：农业与衣食技艺 -->
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <div class="card-content">
+                    <h3><span class="icon">农业与衣食技艺</h3>
+                    <p><strong>核心宗旨：</strong>"贵五谷而贱金玉"——以民生为本，重视粮食与衣物生产</p>
+                    <p><strong>核心法则：</strong>顺应天时、因地制宜、精耕细作、技艺改良</p>
+                    <p><strong>核心内容：</strong>系统记载粮食种植、养蚕、缫丝、纺织、染色、制盐、制糖等民生技艺</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>分类</th>
+                            <th>具体内容</th>
+                        </tr>
+                        <tr>
+                            <td>乃粒（粮食）</td>
+                            <td>稻、麦、黍、稷种植技术，水利灌溉、耕具改良、耕作方法</td>
+                        </tr>
+                        <tr>
+                            <td>乃服（纺织）</td>
+                            <td>养蚕、缫丝、棉纺、麻纺、丝织、印染全套工艺与工具</td>
+                        </tr>
+                        <tr>
+                            <td>甘嗜（制糖）</td>
+                            <td>甘蔗种植、红糖、白糖、冰糖制作工艺与设备</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 卡片二：工业制造技艺 -->
+            <div class="card">
+                <div class="card-icon">🏯</div>
+                <div class="card-content">
+                    <h3><span class="icon">工业制造技艺</h3>
+                    <p><strong>冶金铸造：</strong>详细记载生铁、熟铁、钢铁、铜、锌冶炼技术，领先世界同期水平</p>
+                    <p><strong>陶瓷造纸：</strong>完整记录砖瓦、陶瓷烧制、竹纸、皮纸制造全流程工艺</p>
+                    <p><strong>舟车制造：</strong>系统描述船舶、车辆结构、制作工艺、航行与行驶技术</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>构件类型</th>
+                            <th>技术成就</th>
+                        </tr>
+                        <tr>
+                            <td>冶铸</td>
+                            <td>失蜡法、泥型铸造、大型铸件工艺，世界最早记载锌（倭铅）冶炼技术</td>
+                        </tr>
+                        <tr>
+                            <td>陶瓷</td>
+                            <td>从制坯、施釉到窑烧完整流程，涵盖民用、官用陶瓷工艺</td>
+                        </tr>
+                        <tr>
+                            <td>造纸</td>
+                            <td>斩竹漂塘、煮楻足火、荡料入帘、覆帘压纸、透火焙干全套技艺</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 卡片三：系统性生产流程 -->
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-content">
+                    <h3><span class="icon">系统性生产流程</h3>
+                    <p>《天工开物》建立了从原料到成品的全流程生产体系，形成可复制、可推广的科学方法论：</p>
+                    
+                    <div class="card-highlight">
+                        <p><strong>1. 原料采集 → 加工处理 → 初步成型</strong></p>
+                        <p><strong>2. 高温炼制 / 机械加工 → 精细修整 → 品质检验</strong></p>
+                        <p><strong>3. 成品使用 → 技艺总结 → 标准传承</strong></p>
+                    </div>
+                    
+                    <p><strong>工艺特点：</strong>图文并茂、数据精准、流程清晰、可操作性强，是古代工匠的实用技术指南。</p>
+                </div>
+            </div>
+            
+            <!-- 卡片四：历史地位与传承 -->
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <div class="card-content">
+                    <h3><span class="icon">历史地位与传承</h3>
+                    <p><strong>历史地位：</strong>中国古代科技史里程碑，世界第一部综合性工农业技术百科全书。</p>
+                    <p><strong>流传情况：</strong>国内清代一度失传，1920年代从日本、法国传回重刊，重归中国科技体系。</p>
+                    
+                    <table class="data-table">
+                        <tr>
+                            <th>对后世影响</th>
+                            <th>具体体现</th>
+                        </tr>
+                        <tr>
+                            <td>直接指导</td>
+                            <td>明清民间手工业、农业生产技术标准化、规范化</td>
+                        </tr>
+                        <tr>
+                            <td>世界传播</td>
+                            <td>被译为日、法、英、德等文字，影响世界近代科技发展</td>
+                        </tr>
+                        <tr>
+                            <td>现代价值</td>
+                            <td>非遗技艺复原、传统工艺研究、古代科技史研究的核心依据</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 对比分析区 -->
+    <section class="comparison-section">
+        <div class="comparison-container">
+            <h2 class="comparison-title">理论对比分析</h2>
+            <p class="section-subtitle">从不同视角理解《天工开物》的独特科技价值</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th width="20%">维度</th>
+                        <th width="25%" class="song-dynasty">《营造法式》（宋）</th>
+                        <th width="25%" class="yuan-ye">《天工开物》（明）</th>
+                        <th width="30%">本质区别</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">性质</td>
+                        <td class="song-dynasty">官式建筑技术规范</td>
+                        <td class="yuan-ye">工农业全门类科技百科</td>
+                        <td>专业建筑 vs 全域科技</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">核心</td>
+                        <td class="song-dynasty">木构建筑标准化</td>
+                        <td class="yuan-ye">生产技艺科学化</td>
+                        <td>营造法度 vs 工艺原理</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">目标</td>
+                        <td class="song-dynasty">规范建筑等级与工料</td>
+                        <td class="yuan-ye">记录民生与生产技术</td>
+                        <td>工程管理 vs 科学记录</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">范围</td>
+                        <td class="song-dynasty">仅限建筑营造领域</td>
+                        <td class="yuan-ye">覆盖农业、工业全领域</td>
+                        <td>单一行业 vs 全产业体系</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="comparison-container">
+            <h3 class="comparison-title">中西科技典籍对比</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th width="20%">方面</th>
+                        <th width="28%" class="yuan-ye">《天工开物》中国科技</th>
+                        <th width="28%" class="western">西方近代科技</th>
+                        <th width="35%">文化根源</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">研究对象</td>
+                        <td class="yuan-ye">实用民生、工农业技艺</td>
+                        <td class="western">数理逻辑、实验科学</td>
+                        <td>实用主义 vs 理性主义</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">记载方式</td>
+                        <td class="yuan-ye">经验总结、图文对照</td>
+                        <td class="western">公式推导、实验证明</td>
+                        <td>实践经验 vs 理论体系</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">时代价值</td>
+                        <td class="yuan-ye">17世纪世界工艺巅峰</td>
+                        <td class="western">近代科学革命开端</td>
+                        <td>古代科技高峰 vs 现代科学起点</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">传承特点</td>
+                        <td class="yuan-ye">技艺传承、民生为本</td>
+                        <td class="western">学术传播、知识革新</td>
+                        <td>工匠传承 vs 学院研究</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 结语与导航 -->
+    <section class="conclusion-section">
+        <p class="conclusion-text">
+            《天工开物》不仅是一部古代工艺技术手册，更是一部承载中华文明实用智慧的科技经典。它以"贵五谷而贱金玉"的民生理念，将农业与手工业技艺系统整理，让中国古代千万工匠的实践智慧升华为科学体系。从农田耕作到冶金制造，从纺织造纸到舟车建造，它完整展现了17世纪中国领先世界的科技水平。这部典籍不仅是中国古代科技的"活档案"，更是世界文明史上珍贵的科技遗产，至今仍在传统工艺复原、非遗传承、文化自信建设中发挥着不可替代的价值。
+        </p>
+        
+        <div class="global-nav">
+            <a href="architecture-books.html" class="nav-btn">返回建筑名著</a>
+            <a href="./ying-zao-fa-shi.html" class="nav-btn nav-btn-alternate">对比阅读：《营造法式》</a>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <script>
+        // 交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 平滑滚动
+            const exploreBtn = document.querySelectorAll('.btn');
+            exploreBtn.forEach(btn => {
+                if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        document.getElementById(targetId).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            });
+            
+            // 表格行悬停效果
+            const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f0f9f0';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // 基本信息卡悬停效果
+            const infoCard = document.querySelector('.info-card');
+            if (infoCard) {
+                infoCard.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.12)';
+                });
+                infoCard.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
+                });
+            }
+
+            // ==================== 天工开物雷达图 ====================
+            const radarChart = echarts.init(document.getElementById('radar-chart'));
+            const option = {
+                tooltip: {},
+                legend: {
+                    data: ['《天工开物》'],
+                    bottom: 0
+                },
+                radar: {
+                    radius: '70%',
+                    indicator: [
+                        { name: '农业技艺', max: 5 },
+                        { name: '工业制造', max: 5 },
+                        { name: '工艺体系', max: 5 },
+                        { name: '科学价值', max: 5 },
+                        { name: '世界影响', max: 5 },
+                        { name: '传承意义', max: 5 }
+                    ]
+                },
+                series: [{
+                    name: '能力图谱',
+                    type: 'radar',
+                    data: [
+                        {
+                            value: [5, 5, 5, 5, 4, 5],
+                            name: '《天工开物》',
+                            areaStyle: {
+                                color: 'rgba(39, 174, 96, 0.3)'
+                            },
+                            itemStyle: {
+                                color: '#27ae60'
+                            }
+                        }
+                    ]
+                }]
+            };
+            radarChart.setOption(option);
+            window.addEventListener('resize', () => radarChart.resize());
+            
+            console.log('《天工开物》专题页加载完成！');
+        });
+    </script>
+</body>
+</html>
