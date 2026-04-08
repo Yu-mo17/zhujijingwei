@@ -1,15 +1,5 @@
 // AI问答 + AI出题筑学挑战 独立脚本（支持 Markdown 渲染）
 (function() {
-    // ========== DeepSeek 配置 ==========
-    // 本地测试：请将下面的字符串替换为您的真实 DeepSeek API Key
-    const HARDCODED_API_KEY = 'YOUR_DEEPSEEK_API_KEY';  // <-- 在这里填入您的 Key
-    
-    let API_KEY = (HARDCODED_API_KEY !== 'YOUR_DEEPSEEK_API_KEY') 
-        ? HARDCODED_API_KEY 
-        : localStorage.getItem('deepseek_api_key') || '';
-    
-    const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-    
     // ========== 筑学挑战状态 ==========
     let currentQuestions = [];
     let userAnswers = new Array(10).fill(-1);
@@ -30,32 +20,23 @@
     // 渲染 Markdown（如果 marked 库可用）
     function renderMarkdown(text) {
         if (!text) return '';
-        // 如果 marked 库已加载，使用它
         if (typeof marked !== 'undefined') {
             try {
-                // marked 新版本推荐使用异步，但为了简单，这里使用同步兼容写法
                 if (typeof marked.parse === 'function') {
-                    // 尝试同步调用（某些版本支持）
                     let result = marked.parse(text, { async: false });
                     if (result && typeof result === 'string') return result;
                 }
-                // 降级：使用 marked 默认
                 return marked(text);
             } catch(e) {
                 console.warn('Markdown 解析失败:', e);
                 return escapeHtml(text);
             }
         }
-        // 没有 marked 库，只做基本换行和转义
         return escapeHtml(text).replace(/\n/g, '<br>');
     }
     
-    // ========== AI 出题（不变） ==========
+    // ========== AI 出题 ==========
     async function generateQuizQuestions() {
-        if (!API_KEY) {
-            throw new Error('未配置 API Key，请在代码中设置 HARDCODED_API_KEY');
-        }
-        
         const systemPrompt = `你是一位中国古代建筑教育专家。请生成10道关于中国古代建筑的选择题，题目需覆盖建筑历史、结构技术、著名建筑、建筑师、经典著作等方面。每道题包含题干、四个选项（A、B、C、D）以及正确答案的字母。请严格按照以下 JSON 格式输出，不要包含任何其他文字：
 
 [
@@ -70,12 +51,9 @@
 注意：答案必须是大写字母 A、B、C 或 D。题目要有一定难度但合理，适合知识测试。确保 JSON 格式有效。`;
         
         try {
-            const response = await fetch(DEEPSEEK_API_URL, {
+            const response = await fetch('https://my-api-proxy.lin849617064.workers.dev/deepseek', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${API_KEY}`
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: 'deepseek-chat',
                     messages: [
@@ -124,7 +102,7 @@
         }
     }
     
-    // ========== 筑学挑战 UI（不变，但题目文本需要转义） ==========
+    // ========== 筑学挑战 UI ==========
     function showQuizStart() {
         const container = document.getElementById('quiz-body');
         if (!container) return;
@@ -274,7 +252,7 @@
         }
     }
     
-    // ========== AI 问答（支持 Markdown） ==========
+    // ========== AI 问答 ==========
     let qaInitialized = false;
     function initAIQA() {
         if (qaInitialized) return;
@@ -285,20 +263,15 @@
         const sendBtn = document.getElementById('send-btn');
         if (!chatMessages || !userInput || !sendBtn) return;
         
-        // 增强的 addMessage：支持 Markdown 渲染
         function addMessage(text, isUser = false, isError = false) {
             const div = document.createElement('div');
             div.className = `message ${isUser ? 'user' : ''}`;
-            
             let contentHtml = '';
             if (isUser) {
-                // 用户消息纯文本转义
                 contentHtml = escapeHtml(text);
             } else {
-                // AI 消息：解析 Markdown
                 contentHtml = renderMarkdown(text);
             }
-            
             const bubbleClass = isError ? 'message-bubble error' : 'message-bubble';
             div.innerHTML = `
                 <div class="message-avatar">${isUser ? '我' : 'AI'}</div>
@@ -328,18 +301,11 @@
         }
         
         async function callDeepSeek(userQuestion) {
-            if (!API_KEY) {
-                addMessage('⚠️ 未配置 API Key，请在代码中设置 HARDCODED_API_KEY。', false, true);
-                return null;
-            }
             const systemPrompt = `你是一位专业的中国古代建筑专家，精通中国建筑历史、结构技术、著名建筑、建筑师和经典著作。请用中文回答用户的问题，语言通俗易懂，内容准确详实。如果问题不相关，请礼貌地引导回建筑话题。`;
             try {
-                const response = await fetch(DEEPSEEK_API_URL, {
+                const response = await fetch('https://my-api-proxy.lin849617064.workers.dev/deepseek', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         model: 'deepseek-chat',
                         messages: [
@@ -357,9 +323,9 @@
                 const data = await response.json();
                 return data.choices[0].message.content;
             } catch (error) {
-                console.error('DeepSeek API 调用失败:', error);
+                console.error('Worker 代理调用失败:', error);
                 let errorMsg = `抱歉，AI 服务出错了：${error.message}`;
-                if (error.message.includes('401')) errorMsg = 'API Key 无效，请检查代码中的 Key 是否正确。';
+                if (error.message.includes('401')) errorMsg = 'API Key 无效，请联系管理员。';
                 if (error.message.includes('429')) errorMsg = 'API 调用频率过高，请稍后再试。';
                 addMessage(errorMsg, false, true);
                 return null;
@@ -381,12 +347,6 @@
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
-        
-        if (!API_KEY) {
-            addMessage('⚠️ 未检测到 API Key。请在 ai-assistant.js 文件开头的 HARDCODED_API_KEY 变量中填入您的 DeepSeek API Key，然后刷新页面。', false, true);
-        } else {
-            addMessage('✅ API Key 已就绪，您可以开始提问了！', false);
-        }
     }
     
     // ========== 初始化入口 ==========
