@@ -859,7 +859,7 @@
         <div class="model-container">
             <div class="loading-overlay" id="loading-overlay">
                 <div class="loading-spinner"></div>
-                <div>加载汉长安城3D模型中...</div>
+                <div>加载中...</div>
             </div>
             <canvas id="changan-3d-canvas"></canvas>
             
@@ -1223,7 +1223,7 @@
                     // 加载长安城三维模型
                     const modelLoader = new THREE.GLTFLoader();
                     modelLoader.load(
-                        './assets/3D/hanchangancheng.glb',
+                        'http://td8hczf6c.hd-bkt.clouddn.com/%E4%BB%8B%E7%BB%8D-hanchangancheng.glb',
                         function(gltf) {
                             const model = gltf.scene;
                             model.scale.set(30, 30, 30);

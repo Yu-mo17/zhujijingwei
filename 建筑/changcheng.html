@@ -848,7 +848,6 @@
         
         <div class="view-controls">
             <button class="view-btn" data-view="overview">正面视角</button>
-            <button class="view-btn" data-view="wall-section">城墙剖面</button>
             <button class="view-btn" data-view="watchtower">敌楼近观</button>
             <button class="view-btn" data-view="battlement">垛口特写</button>
             <button class="view-btn" data-view="foundation">地基结构</button>
@@ -861,7 +860,7 @@
         <div class="model-container">
             <div class="loading-overlay" id="loading-overlay">
                 <div class="loading-spinner"></div>
-                <div>加载长城3D模型中...</div>
+                <div>模型加载中，请稍候...</div>
             </div>
             <canvas id="greatwall-3d-canvas"></canvas>
             
@@ -1316,7 +1315,7 @@
             
             // 创建相机
             const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-            camera.position.set(0, 15, 30);
+            camera.position.set(30, 10, 0);
             
             // 创建渲染器
             const renderer = new THREE.WebGLRenderer({ 
@@ -1460,8 +1459,9 @@
             // 加载模型或创建默认模型
             const loadingOverlay = document.getElementById('loading-overlay');
             const modelLoader = new THREE.GLTFLoader();
+            // 修改：移除进度条更新逻辑，避免抽搐，只保留静态加载提示
             modelLoader.load(
-                './assets/3D/changcheng.glb', // 请根据实际文件路径修改
+                'http://td8hczf6c.hd-bkt.clouddn.com/%E4%BB%8B%E7%BB%8D-changcheng.glb',
                 function(gltf) {
                     const model = gltf.scene;
                     model.scale.set(30, 30, 30);
@@ -1479,10 +1479,15 @@
                     loadingOverlay.style.display = 'none';
                     createTriggerButtons();
                 },
-                function(xhr) {
-                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
-                    loadingOverlay.innerHTML = `<div class="loading-spinner"></div><div>加载3D模型中... ${percent}%</div>`;
-                },
+                undefined, // 不再使用进度更新回调，彻底移除动态百分比显示
+                function(error) {
+                    console.error('模型加载失败:', error);
+                    loadingOverlay.innerHTML = '<div style="color:red;">模型加载失败，请检查网络或刷新页面重试。</div>';
+                    // 5秒后自动隐藏错误提示
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 5000);
+                }
             );
             
             // 视角切换功能
@@ -1541,7 +1546,7 @@
             // 长城触发点数据
             const triggerData = {
                 'trigger-1': {
-                    title: '城墙剖面',
+                    title: '城墙',
                     content: '明长城城墙主体呈梯形剖面，底宽6-7米，顶宽4-5米，高7-8米。这种“下宽上窄”的设计极大地增强了稳定性。外部多包砌青砖或条石，内部填充夯土、碎石和石灰的混合物。',
                     // 应用图文并茂输出规则：此处描述与文档中的长城全景图含义强相关（都展示长城结构），因此引用该图片。
                     image: {
@@ -1587,7 +1592,7 @@
                     if (existingImage) existingImage.remove();
                     if (existingCaption) existingCaption.remove();
                     
-                    // 图文并茂输出：仅当点击“城墙剖面”(trigger-1)时，引用相关图片
+                    // 图文并茂输出：仅当点击“城墙”(trigger-1)时，引用相关图片
                     if (triggerId === 'trigger-1' && data.image && data.image.src) {
                         const img = document.createElement('img');
                         img.src = data.image.src;

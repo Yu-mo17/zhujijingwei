@@ -412,14 +412,17 @@
         
         .related-thumbnail {
             height: 160px;
-            background: linear-gradient(135deg, #8b0000, #b22222);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.5rem;
+            border-radius: 8px;
+            overflow: hidden;
         }
         
+        .related-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .related-content {
             padding: 20px;
         }
@@ -623,7 +626,7 @@
             <div class="related-content">
                 <h4 class="related-card-title">明故宫（南京）</h4>
                 <p class="related-card-desc">明代初期皇宫遗址，中国古代宫殿建筑典范，位于江苏省南京市。</p>
-                <a href="nanjingminggugong.html" class="view-button">查看详情</a>
+                <a href="minggugong.html" class="view-button">查看详情</a>
             </div>
         </div>
         
@@ -776,7 +779,7 @@
         
         // 加载3D模型
         function loadModel() {
-            const modelUrl = './assets/3D/hanchangancheng.glb';
+            const modelUrl = 'http://td8hczf6c.hd-bkt.clouddn.com/hanchangancheng.glb';
             loadingDetails.textContent = '正在加载模型文件...';
             
             // 创建GLTF加载器

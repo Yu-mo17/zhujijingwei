@@ -79,7 +79,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #00A1D6; /* B站主题色 */
+            background: #00A1D6;
             color: white;
             padding: 12px 24px;
             border-radius: 8px;
@@ -643,7 +643,7 @@
         <div class="model-container">
             <div class="loading-overlay" id="loading-overlay">
                 <div class="loading-spinner"></div>
-                <div>加载3D模型中...</div>
+                <div>模型加载中，请稍候...</div>
             </div>
             <canvas id="bridge-3d-canvas"></canvas>
             
@@ -686,7 +686,7 @@
         <div class="model-container">
             <div class="loading-overlay" id="stone-loading-overlay">
                 <div class="loading-spinner"></div>
-                <div>加载石板3D模型中...</div>
+                <div>石板模型加载中，请稍候...</div>
             </div>
             <canvas id="stone-model-canvas"></canvas>
             
@@ -1151,7 +1151,7 @@
             
             // 尝试加载外部模型，如果失败则创建自定义模型
             loader.load(
-                './assets/3D/zhaozhouqiao.glb',
+                'http://td8hczf6c.hd-bkt.clouddn.com/%E4%BB%8B%E7%BB%8D-zhaozhouqiao.glb',
                 function(gltf) {
                     // 模型加载成功
                     const model = gltf.scene;
@@ -1180,14 +1180,7 @@
                     // 创建触发按钮
                     createTriggerButtons();
                 },
-                function(xhr) {
-                    // 加载进度
-                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
-                    loadingOverlay.innerHTML = `
-                        <div class="loading-spinner"></div>
-                        <div>加载3D模型中... ${percent}%</div>
-                    `;
-                },
+                undefined, // 移除进度回调，避免动态百分比抽搐
                 function(error) {
                     // 加载失败，创建自定义模型
                     console.log('加载外部3D模型失败，创建自定义模型:', error);
@@ -1203,7 +1196,7 @@
                     createTriggerButtons();
                     
                     // 更新信息提示
-                    const infoElement = document.querySelector('.model-info:last-child p');
+                    const infoElement = document.querySelector('.three-d-section .model-info:last-child p');
                     infoElement.innerHTML = infoElement.innerHTML + 
                         '<br><span style="color:#e67e22;">(注：当前显示为赵州桥三维结构模型)</span>';
                 }
@@ -1654,7 +1647,7 @@
             
             // 尝试加载石板模型
             loader.load(
-                './assets/3D/zhaozhouqiaoshiban.glb',
+                'http://td8hczf6c.hd-bkt.clouddn.com/%E4%BB%8B%E7%BB%8D-zhaozhouqiaoshiban.glb',
                 function(gltf) {
                     // 模型加载成功
                     const model = gltf.scene;
@@ -1681,14 +1674,7 @@
                     // 创建触发按钮
                     createStoneTriggerButtons();
                 },
-                function(xhr) {
-                    // 加载进度
-                    const percent = Math.round((xhr.loaded / xhr.total) * 100);
-                    loadingOverlay.innerHTML = `
-                        <div class="loading-spinner"></div>
-                        <div>加载石板3D模型中... ${percent}%</div>
-                    `;
-                },
+                undefined, // 移除进度回调，避免动态百分比抽搐
                 function(error) {
                     // 加载失败，创建自定义模型
                     console.log('加载石板3D模型失败，创建自定义模型:', error);
