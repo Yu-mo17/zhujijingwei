@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>筑迹经纬 - 中国古代建筑成就可视化系统</title>
+    <!-- 原有样式（外部） -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <!-- 艺术字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-    <!-- 引入AI独立样式 -->
     <link rel="stylesheet" href="/assets/css/ai-assistant.css">
+    
+    <!-- 原有内联样式（完全保留） -->
     <style>
         .hero-section {
             text-align: center;
@@ -239,103 +240,141 @@
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        
         @media (max-width: 1200px) {
             .ai-card { max-width: 100%; }
         }
         @media (max-width: 992px) {
-            .explore-dimensions { 
-                flex-direction: column; 
-            }
-
-            .dimensions-nav { 
-                flex-direction: row; 
-                flex-wrap: wrap; 
-            }
-
-            .nav-card { 
-                flex: 1; 
-                min-width: calc(50% - 10px); 
-            }
+            .explore-dimensions { flex-direction: column; }
+            .dimensions-nav { flex-direction: row; flex-wrap: wrap; }
+            .nav-card { flex: 1; min-width: calc(50% - 10px); }
         }
-
         @media (max-width: 768px) {
-            .hero-section { 
-                padding: 80px 20px 60px; 
-            }
-
-            .platform-title { 
-                font-size: 2.8rem; 
-            }
-
-            .platform-subtitle { 
-                font-size: 1.2rem; 
-            }
-
-            .section-title { 
-                font-size: 2rem; 
-            }
-
-            .nav-card { 
-                min-width: 100%; 
-            }
-
-            .nav-card h3 { 
-                font-size: 1.4rem; 
-            }
-
-            .quick-links { 
-                flex-direction: column; 
-                align-items: center; 
-            }
-            .quick-link { 
-                width: 100%; 
-                text-align: center; 
-            }
-
-            .ai-interaction-title { 
-                font-size: 1.8rem; 
-            }
-
-            .modal-content { 
-                width: 95%; 
-                height: 85vh; 
-            }
+            .hero-section { padding: 80px 20px 60px; }
+            .platform-title { font-size: 2.8rem; }
+            .platform-subtitle { font-size: 1.2rem; }
+            .section-title { font-size: 2rem; }
+            .nav-card { min-width: 100%; }
+            .nav-card h3 { font-size: 1.4rem; }
+            .quick-links { flex-direction: column; align-items: center; }
+            .quick-link { width: 100%; text-align: center; }
+            .ai-interaction-title { font-size: 1.8rem; }
+            .modal-content { width: 95%; height: 85vh; }
         }
-
         @media (max-width: 480px) {
-            .platform-title { 
-                font-size: 2.2rem; 
-            }
+            .platform-title { font-size: 2.2rem; }
+            .content-info { padding: 20px; }
+            .quick-access { padding: 30px 20px; }
+            .explore-dimensions { padding: 20px; }
+            .nav-card h3 { font-size: 1.2rem; }
+            .ai-card { padding: 25px 20px; }
+            .message-bubble { max-width: 80%; padding: 12px; }
+        }
+    </style>
 
-            .content-info { 
-                padding: 20px; 
-            }
-
-            .quick-access { 
-                padding: 30px 20px; 
-            }
-
-            .explore-dimensions { 
-                padding: 20px; 
-            }
-
-            .nav-card h3 { 
-                font-size: 1.2rem; 
-            }
-
-            .ai-card { 
-                padding: 25px 20px; 
-            }
-
-            .message-bubble { 
-                max-width: 80%; 
-                padding: 12px; 
-            }
+    <!-- 引导层额外样式（不影响原有样式） -->
+    <style>
+        .guide-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('./assets/images/home.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
+            font-family: "Microsoft YaHei", "PingFang SC", "STKaiti", serif;
+        }
+        .guide-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #f8f5f1;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.6);
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeInUp 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        .guide-subtitle {
+            font-size: 1.5rem;
+            color: #e6d2b5;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 3px;
+            text-align: center;
+            animation: fadeInUp 1.5s ease-out 0.3s forwards;
+            opacity: 0;
+            margin-bottom: 50px;
+        }
+        .guide-panel {
+            max-width: 800px;
+            background: rgba(0,0,0,0.6);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px;
+            animation: fadeInUp 1.5s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+        .guide-panel p {
+            color: #f8f5f1;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: justify;
+            text-indent: 2em;
+        }
+        .guide-panel p:last-of-type {
+            margin-bottom: 30px;
+        }
+        .explore-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: #c19a6b;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .explore-btn:hover {
+            background: #a87c4c;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .guide-overlay.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
+    <!-- 引导层覆盖层 -->
+    <div id="guideOverlay" class="guide-overlay">
+        <h1 class="guide-title">筑迹经纬</h1>
+        <p class="guide-subtitle">中国古代建筑成就可视化系统</p>
+        <div class="guide-panel">
+            <p>您好，欢迎来到这片由木头、石头与智慧构筑的殿堂。</p>
+            <p>当您穿行于现代都市的钢铁森林，可曾想过，在东方大地上，曾矗立着另一套截然不同的建筑体系？它不用一根钉子，却能历经千年风雨而屹立不倒；它遵循严格的礼制，却在飞檐翘角间流露出飞扬的诗意。这里，亭台楼阁不仅是生活的容器，更是宇宙观的缩影，是"天人合一"哲学在人间大地的立体书写。</p>
+            <p>这不是一本静止的教科书，而是一次邀您身临其境的文明之旅。</p>
+            <p>从一榫一卯的巧思，到一殿一塔的雄浑，我们试图呈现的，不仅是中国古代建筑的"成就"，更是其背后那个完整、深邃、充满生命力的精神世界。</p>
+            <button id="exploreBtn" class="explore-btn">开始探索</button>
+        </div>
+    </div>
+
+    <!-- 以下为原有 HTML 结构（不变） -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="index.html" class="nav-logo">筑迹经纬</a>
@@ -388,7 +427,6 @@
             </div>
         </div>
 
-        <!-- AI互动区域（白色简约卡片） -->
         <div class="ai-interaction-section">
             <h2 class="ai-interaction-title">AI互动探索</h2>
             <div class="ai-interaction-container">
@@ -410,7 +448,7 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <!-- AI问答模态框 -->
+    <!-- 模态框 -->
     <div id="qa-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -432,7 +470,6 @@
         </div>
     </div>
 
-    <!-- 筑学挑战模态框 -->
     <div id="quiz-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -440,18 +477,24 @@
                 <span class="close-modal" id="close-quiz-modal">&times;</span>
             </div>
             <div class="modal-body" id="quiz-body">
-                <!-- 动态内容由JS生成 -->
+                <!-- 动态内容 -->
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- 引入AI独立脚本 -->
     <script src="assets/js/ai-assistant.js"></script>
-
-    <!-- 探索维度切换脚本 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 引导层隐藏
+            const guideOverlay = document.getElementById('guideOverlay');
+            const exploreBtn = document.getElementById('exploreBtn');
+            if (exploreBtn) {
+                exploreBtn.addEventListener('click', function() {
+                    guideOverlay.classList.add('hide');
+                });
+            }
+            // 原有维度切换脚本
             const navCards = document.querySelectorAll('.nav-card');
             const displayImage = document.getElementById('display-image');
             const displayTitle = document.getElementById('display-title');
@@ -487,23 +530,25 @@
                     linkText: '探索三维建筑'
                 }
             };
-            navCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const target = this.getAttribute('data-target');
-                    navCards.forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                    if(cardData[target]) {
-                        const data = cardData[target];
-                        displayImage.src = data.image;
-                        displayTitle.textContent = data.title;
-                        displayDescription.textContent = data.description;
-                        displayLink.href = data.link;
-                        displayLink.textContent = data.linkText;
-                        const imageLink = document.querySelector('.content-image-link');
-                        if(imageLink) imageLink.href = data.link;
-                    }
+            if (navCards.length) {
+                navCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        const target = this.getAttribute('data-target');
+                        navCards.forEach(c => c.classList.remove('active'));
+                        this.classList.add('active');
+                        if (cardData[target]) {
+                            const data = cardData[target];
+                            displayImage.src = data.image;
+                            displayTitle.textContent = data.title;
+                            displayDescription.textContent = data.description;
+                            displayLink.href = data.link;
+                            displayLink.textContent = data.linkText;
+                            const imageLink = document.querySelector('.content-image-link');
+                            if (imageLink) imageLink.href = data.link;
+                        }
+                    });
                 });
-            });
+            }
         });
     </script>
 </body>
