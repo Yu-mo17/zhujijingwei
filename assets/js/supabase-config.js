@@ -2,7 +2,7 @@
 // 通过 Cloudflare Worker 代理 Supabase 请求，隐藏真实 URL 和 Anon Key
 
 // Worker 代理地址（你的 Cloudflare Worker 域名 + /supabase 路径）
-const SUPABASE_PROXY_URL = 'https://my-api-proxy.lin849617064.workers.dev/supabase';
+const SUPABASE_PROXY_URL = 'https://zhujijingwei.pages.dev/supabase';
 
 // 创建 Supabase 客户端
 // 注意：第二个参数可以填写任意字符串，因为实际鉴权在 Worker 端使用真实 Anon Key

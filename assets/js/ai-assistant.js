@@ -51,7 +51,7 @@
 注意：答案必须是大写字母 A、B、C 或 D。题目要有一定难度但合理，适合知识测试。确保 JSON 格式有效。`;
         
         try {
-            const response = await fetch('/deepseek', {
+            const response = await fetch('https://zhujijingwei.pages.dev/deepseek', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -303,7 +303,7 @@
         async function callDeepSeek(userQuestion) {
             const systemPrompt = `你是一位专业的中国古代建筑专家，精通中国建筑历史、结构技术、著名建筑、建筑师和经典著作。请用中文回答用户的问题，语言通俗易懂，内容准确详实。如果问题不相关，请礼貌地引导回建筑话题。`;
             try {
-                const response = await fetch('/deepseek', {
+                const response = await fetch('https://zhujijingwei.pages.dev/deepseek', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
