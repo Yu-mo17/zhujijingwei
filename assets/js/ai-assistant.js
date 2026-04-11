@@ -1,9 +1,9 @@
 // AI问答 + AI出题筑学挑战 独立脚本（支持 Markdown 渲染）
 (function() {
     // ========== DeepSeek 配置 ==========
-    const HARDCODED_API_KEY = 'sk-d488d6fad28647b9a1828e39062d490a'; 
+    const HARDCODED_API_KEY = 'sk-41be33b93ed34ee2abbc020b3af78da9'; 
     
-    let API_KEY = (HARDCODED_API_KEY !== 'sk-d488d6fad28647b9a1828e39062d490a') 
+    let API_KEY = (HARDCODED_API_KEY !== 'sk-41be33b93ed34ee2abbc020b3af78da9') 
         ? HARDCODED_API_KEY 
         : localStorage.getItem('deepseek_api_key') || '';
     
