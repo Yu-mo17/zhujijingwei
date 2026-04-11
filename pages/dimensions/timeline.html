@@ -1024,5 +1024,37 @@
     <script src="/assets/js/timeline.js"></script>
 
     <script src="/assets/js/timeline-echart.js"></script>
+    <script>
+    (function() {
+        // 模型URL映射（根据你的实际链接）
+        const modelMap = {
+            'zhaozhouqiao': 'https://cdn.zhujijingwei.top/介绍-zhaozhouqiao.glb',
+            'changcheng': 'https://cdn.zhujijingwei.top/介绍-changcheng.glb'
+        };
+        // 预加载函数
+        function preloadModel(url) {
+            if (!url) return;
+            // 使用 fetch 请求，不等待响应，只触发缓存
+            fetch(url, { mode: 'no-cors' }).catch(e => console.log('预加载失败', e));
+        }
+        // 监听快速访问链接悬停
+        const quickLinks = document.querySelectorAll('.quick-link');
+        quickLinks.forEach(link => {
+            // 从链接文本或 href 中提取模型标识（示例：链接文本包含“赵州桥”）
+            link.addEventListener('mouseenter', () => {
+                const text = link.innerText;
+                if (text.includes('赵州桥')) preloadModel(modelMap.zhaozhouqiao);
+                else if (text.includes('故宫')) preloadModel(modelMap.beijinggugong);
+                else if (text.includes('长城')) preloadModel(modelMap.changcheng);
+            });
+        });
+        // 可选：预加载第一个卡片对应的模型（朝代建筑默认展示故宫？可根据需要）
+        // 页面加载后延迟预加载最热门的模型
+        setTimeout(() => {
+            preloadModel(modelMap.beijinggugong);
+        }, 2000);
+    })();
+    </script>
+
 </body>
 </html>

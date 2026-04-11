@@ -51,7 +51,7 @@
 注意：答案必须是大写字母 A、B、C 或 D。题目要有一定难度但合理，适合知识测试。确保 JSON 格式有效。`;
         
         try {
-            const response = await fetch('https://my-api-proxy.lin849617064.workers.dev/deepseek', {
+            const response = await fetch('/deepseek', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -217,15 +217,15 @@
     
     function showQuizResult(score) {
         let rating = '';
-        if (score <= 3) rating = '🌱 初出茅庐 · 再读梁思成';
-        else if (score <= 6) rating = '📚 博学秀才 · 营造有术';
-        else if (score <= 9) rating = '🏆 建筑大师 · 匠心独具';
-        else rating = '🎉 营造宗师 · 满级大神';
+        if (score <= 3) rating = '初出茅庐 · 再读梁思成';
+        else if (score <= 6) rating = '博学秀才 · 营造有术';
+        else if (score <= 9) rating = '建筑大师 · 匠心独具';
+        else rating = '营造宗师 · 满级大神';
         const container = document.getElementById('quiz-body');
         if (!container) return;
         container.innerHTML = `
             <div class="quiz-result">
-                <h2>📊 挑战完成</h2>
+                <h2>挑战完成</h2>
                 <div class="result-score">得分：${score} / 10</div>
                 <div class="result-rating">${rating}</div>
                 <button class="quiz-btn" id="restart-quiz">重新挑战</button>
@@ -303,7 +303,7 @@
         async function callDeepSeek(userQuestion) {
             const systemPrompt = `你是一位专业的中国古代建筑专家，精通中国建筑历史、结构技术、著名建筑、建筑师和经典著作。请用中文回答用户的问题，语言通俗易懂，内容准确详实。如果问题不相关，请礼貌地引导回建筑话题。`;
             try {
-                const response = await fetch('https://my-api-proxy.lin849617064.workers.dev/deepseek', {
+                const response = await fetch('/deepseek', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
