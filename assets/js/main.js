@@ -21,12 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 导航栏活动状态管理
 function initNavigation() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPage = window.location.pathname.split('/').pop() || 'home.html';
     const navLinks = document.querySelectorAll('.nav-links a');
     
     navLinks.forEach(link => {
         const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage || (currentPage === 'index.html' && linkHref === '../index.html')) {
+        if (linkHref === currentPage || (currentPage === 'home.html' && linkHref === '../home.html')) {
             link.classList.add('active');
             link.style.background = 'rgba(255,255,255,0.2)';
         }

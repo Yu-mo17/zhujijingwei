@@ -4,341 +4,507 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>筑迹经纬 - 中国古代建筑成就可视化系统</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- 艺术字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <!-- 引入AI独立样式 -->
+    <link rel="stylesheet" href="/assets/css/ai-assistant.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: "Microsoft YaHei", "PingFang SC", "STKaiti", serif;
-            line-height: 1.8;
-            color: #333;
-            background-color: #f8f5f1;
-            overflow-x: hidden;
-            height: 100%;
-        }
-        
-        /* 网站名称区域 - 全屏显示 */
-        .site-title-section {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: 
-                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
-                url('./assets/images/home.jpg') no-repeat center center;
-            background-size: cover;
+        .hero-section {
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: url('./assets/images/home.jpg') center/cover no-repeat;
+            color: white;
             position: relative;
-            overflow: hidden;
-            transition: opacity 1.5s ease, transform 1.5s ease;
+            margin-bottom: 60px;
         }
-        
-        .site-title {
-            font-size: 4.5rem;
-            font-weight: 700;
-            color: #f8f5f1;
-            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
-            letter-spacing: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            animation: fadeInUp 2s ease-out forwards;
-            opacity: 0;
-        }
-        
-        .site-subtitle {
-            font-size: 1.5rem;
-            color: #e6d2b5;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            letter-spacing: 3px;
-            text-align: center;
-            animation: fadeInUp 2s ease-out 0.5s forwards;
-            opacity: 0;
-        }
-        
-        .scroll-hint {
+        .hero-section::before {
+            content: '';
             position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #e6d2b5;
-            font-size: 1.2rem;
-            animation: fadeIn 2s ease-out 1s forwards, bounce 2s infinite 3s;
-            opacity: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
         }
-        
-        .scroll-hint i {
-            display: block;
-            font-size: 1.8rem;
-            margin-top: 10px;
-            text-align: center;
-        }
-        
-        /* 前言区域 - 全屏显示 */
-        .preface-section {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: 
-                linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.9)),
-                url('./assets/images/setting.jpg') no-repeat center center;
-            background-size: cover;
-            padding: 40px;
+        .hero-content {
             position: relative;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1.5s ease, transform 1.5s ease;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        
-        .preface-container {
-            max-width: 1250px; 
-            text-align: justify;
-            line-height: 1.9;
+        .platform-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         }
-        
-        .preface-title {
-            font-size: 2.8rem;
-            color: #f8f5f1;
-            margin-bottom: 50px;
+        .platform-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+        .section-title {
             text-align: center;
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 50px;
             position: relative;
             padding-bottom: 20px;
         }
-        
-        .preface-title::after {
-            content: "";
+        .section-title::after {
+            content: '';
             position: absolute;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
+            width: 100px;
             height: 3px;
             background: #c19a6b;
         }
-        
-        .preface-content {
-            font-size: 1rem; 
-            color: #f8f5f1;
-            margin-bottom: 50px;
-            text-indent: 2em;
+        .explore-dimensions {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 1000px; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 40px auto 0;
         }
-        
-        .preface-content p {
-            margin-bottom: 10px; 
+        .dimensions-nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
-        
-        .preface-content p:last-child {
-            margin-bottom: 0;
+        .nav-card {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
         }
-        
-        .explore-button-container {
+        .nav-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .nav-card.active {
+            border-left-width: 6px;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        .nav-card[data-target="timeline"] {
+            background-color: #ffe8cc;
+            border-left-color: #ffc773;
+        }
+        .nav-card[data-target="architects"] {
+            background-color: #f5e8d3;
+            border-left-color: #d3b17d;
+        }
+        .nav-card[data-target="books"] {
+            background-color: #f0f9e6;
+            border-left-color: #bce672;
+        }
+        .nav-card[data-target="3d"] {
+            background-color: #e6eaf0;
+            border-left-color: #a1afc9;
+        }
+        .nav-card.active[data-target="timeline"] {
+            background-color: #ffc773;
+        }
+        .nav-card.active[data-target="architects"] {
+            background-color: #d3b17d;
+        }
+        .nav-card.active[data-target="books"] {
+            background-color: #bce672;
+        }
+        .nav-card.active[data-target="3d"] {
+            background-color: #a1afc9;
+        }
+        .nav-card h3 {
+            font-family: 'Ma Shan Zheng', serif;
+            font-size: 2.0rem;
+            color: #5a3921;
+            margin-bottom: 8px;
+            font-weight: normal;
             text-align: center;
-            margin-top: 50px;
         }
-        
-        .explore-button {
-            display: inline-block;
-            padding: 20px 60px;
-            background: #c19a6b;
-            color: white;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            transition: all 0.4s ease;
-            border: 2px solid #c19a6b;
-            position: relative;
+        .nav-card p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        .dimension-display {
+            flex: 2;
+        }
+        .content-card {
+            background: #f9f9f9;
+            border-radius: 8px;
             overflow: hidden;
-            letter-spacing: 2px;
-        }
-        
-        .explore-button:hover {
-            background: #a87c4c;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .explore-button::after {
-            content: "→";
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 100%;
             transition: all 0.3s ease;
         }
-        
-        .explore-button:hover::after {
-            opacity: 1;
-            right: 15px;
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
-        
-        /* 加载动画 */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #2c3e50;
+        .content-image-link {
+            display: block;
+            height: 260px;
+            overflow: hidden;
+        }
+        .content-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .content-image-link:hover .content-image {
+            transform: scale(1.05);
+        }
+        .content-info {
+            padding: 25px;
+        }
+        .content-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .content-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .content-link {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .content-link:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(52,152,219,0.3);
+        }
+        .quick-access {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-top: 40px;
+            max-width: 1000px;
+            margin: 40px auto 0;
+        }
+        .quick-access h3 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+        .quick-links {
             display: flex;
             justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .quick-link {
+            background: #3498db;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .quick-link:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-top: 5px solid #c19a6b;
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
+        @media (max-width: 1200px) {
+            .ai-card { max-width: 100%; }
         }
-        
-        /* 动画效果 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+        @media (max-width: 992px) {
+            .explore-dimensions { 
+                flex-direction: column; 
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .dimensions-nav { 
+                flex-direction: row; 
+                flex-wrap: wrap; 
+            }
+
+            .nav-card { 
+                flex: 1; 
+                min-width: calc(50% - 10px); 
             }
         }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0) translateX(-50%);
-            }
-            40% {
-                transform: translateY(-10px) translateX(-50%);
-            }
-            60% {
-                transform: translateY(-5px) translateX(-50%);
-            }
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 1024px) {
-            .preface-container {
-                max-width: 900px;
-            }
-        }
-        
+
         @media (max-width: 768px) {
-            .site-title {
-                font-size: 3.5rem;
-                letter-spacing: 5px;
+            .hero-section { 
+                padding: 80px 20px 60px; 
             }
-            
-            .site-subtitle {
-                font-size: 1.2rem;
-                letter-spacing: 2px;
+
+            .platform-title { 
+                font-size: 2.8rem; 
             }
-            
-            .preface-section {
-                padding: 30px 20px;
+
+            .platform-subtitle { 
+                font-size: 1.2rem; 
             }
-            
-            .preface-container {
-                max-width: 100%;
+
+            .section-title { 
+                font-size: 2rem; 
             }
-            
-            .preface-title {
-                font-size: 2.3rem;
-                margin-bottom: 40px;
+
+            .nav-card { 
+                min-width: 100%; 
             }
-            
-            .preface-content {
-                font-size: 1.2rem;
+
+            .nav-card h3 { 
+                font-size: 1.4rem; 
             }
-            
-            .explore-button {
-                padding: 18px 40px;
-                font-size: 1.3rem;
+
+            .quick-links { 
+                flex-direction: column; 
+                align-items: center; 
+            }
+            .quick-link { 
+                width: 100%; 
+                text-align: center; 
+            }
+
+            .ai-interaction-title { 
+                font-size: 1.8rem; 
+            }
+
+            .modal-content { 
+                width: 95%; 
+                height: 85vh; 
             }
         }
-        
+
         @media (max-width: 480px) {
-            .site-title {
-                font-size: 2.8rem;
-                letter-spacing: 3px;
+            .platform-title { 
+                font-size: 2.2rem; 
             }
-            
-            .preface-title {
-                font-size: 2rem;
+
+            .content-info { 
+                padding: 20px; 
             }
-            
-            .preface-content {
-                font-size: 1.1rem;
+
+            .quick-access { 
+                padding: 30px 20px; 
             }
-            
-            .explore-button {
-                padding: 15px 30px;
-                font-size: 1.2rem;
+
+            .explore-dimensions { 
+                padding: 20px; 
+            }
+
+            .nav-card h3 { 
+                font-size: 1.2rem; 
+            }
+
+            .ai-card { 
+                padding: 25px 20px; 
+            }
+
+            .message-bubble { 
+                max-width: 80%; 
+                padding: 12px; 
             }
         }
     </style>
 </head>
 <body>
-    <!-- 加载动画 -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-spinner"></div>
-    </div>
-    
-    <!-- 网站名称区域 -->
-    <section id="site-title" class="site-title-section">
-        <h1 class="site-title">筑迹经纬</h1>
-        <p class="site-subtitle">中国古代建筑成就可视化系统</p>
-        <div class="scroll-hint">
-            向下滑动
-        </div>
-    </section>
-    
-    <!-- 前言区域 -->
-    <section id="preface" class="preface-section">
-        <div class="preface-container">
-            <h2 class="preface-title">前言</h2>
-            <div class="preface-content">
-                <p>您好，欢迎来到这片由木头、石头与智慧构筑的殿堂。</p>
-                <p>当您穿行于现代都市的钢铁森林，可曾想过，在东方大地上，曾矗立着另一套截然不同的建筑体系？它不用一根钉子，却能历经千年风雨而屹立不倒；它遵循严格的礼制，却在飞檐翘角间流露出飞扬的诗意。这里，亭台楼阁不仅是生活的容器，更是宇宙观的缩影，是"天人合一"哲学在人间大地的立体书写。</p>
-                <p>这不是一本静止的教科书，而是一次邀您身临其境的文明之旅。</p>
-                <p>在这里，您将结识那些被时光铭记的建筑家。从"样式雷"家族为皇室绘制的烫样图纸，到近代梁思成、林徽因夫妇在战火中为民族存留的测绘手稿，他们的匠心与执着，是伟大工程背后不朽的灵魂。</p>
-                <p>您将翻阅那些传世的建筑法典。《营造法式》不仅是宋代的"国标"，更是一部破译北宋美学的密码本；《园冶》所论述的，远不止造园技术，更是古代文人理想的生活境界。这些典籍，是打开理解之门的钥匙。</p>
-                <p>您更将直面那些沉默的巨人——从巍峨的紫禁城到精巧的赵州桥，从应县木塔的奇迹到苏州园林的写意。每一处结构、每一种装饰，都是一个等待被解读的文化符号。</p>
-                <p>从一榫一卯的巧思，到一殿一塔的雄浑，我们试图呈现的，不仅是中国古代建筑的"成就"，更是其背后那个完整、深邃、充满生命力的精神世界。</p>
-                <p>请与我们一同，沿着梁柱的脉络，触摸历史的温度，看见那支撑起万千广厦的、独属于中华的智慧与浪漫。</p>
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="home.html" class="nav-logo">筑迹经纬</a>
+            <div class="nav-links">
+                <a href="pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="pages/dimensions/architects.html">建筑大师</a>
+                <a href="pages/dimensions/books.html">建筑经典</a>
+                <a href="pages/dimensions/3d-reconstruction.html">三维建筑</a>
             </div>
-            <div class="explore-button-container">
-                <a href="index.html" id="explore-btn" class="explore-button">开始探索</a>
-            </div>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="platform-title">筑迹经纬</h1>
+            <p class="platform-subtitle">中国古代建筑成就多维可视化系统 · 探索千年建筑智慧</p>
         </div>
     </section>
 
-    <script src="/assets/js/home.js">
+    <main class="main-content">
+        <h2 class="section-title">探索维度</h2>
+        <div class="explore-dimensions">
+            <div class="dimensions-nav">
+                <div class="nav-card active" data-target="timeline"><h3>朝代建筑</h3></div>
+                <div class="nav-card" data-target="architects"><h3>建筑大师</h3></div>
+                <div class="nav-card" data-target="books"><h3>建筑经典</h3></div>
+                <div class="nav-card" data-target="3d"><h3>三维建筑</h3></div>
+            </div>
+            <div class="dimension-display">
+                <div class="content-card">
+                    <a href="pages/dimensions/timeline.html" class="content-image-link">
+                        <img src="./assets/images/chaodaijianzhu.png" alt="朝代建筑" class="content-image" id="display-image">
+                    </a>
+                    <div class="content-info">
+                        <h3 class="content-title" id="display-title">朝代建筑</h3>
+                        <p class="content-description" id="display-description">探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展脉络与历史变迁。</p>
+                        <a href="pages/dimensions/timeline.html" class="content-link" id="display-link">进入朝代建筑专题</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-access">
+            <h3>快速访问精选内容</h3>
+            <div class="quick-links">
+                <a href="建筑/zhaozhou-bridge.html" class="quick-link">🌟 赵州桥 - 隋代桥梁杰作</a>
+                <a href="建筑/changcheng.html" class="quick-link">🏯 万里长城 - 三维结构探索</a>
+                <a href="建筑师/li-chun.html" class="quick-link">👨‍🔧 李春 - 赵州桥设计师</a>
+                <a href="pages/achievements/sui-dynasty.html" class="quick-link">⏳ 隋朝建筑成就专题</a>
+            </div>
+        </div>
+
+        <!-- AI互动区域（白色简约卡片） -->
+        <div class="ai-interaction-section">
+            <h2 class="ai-interaction-title">AI互动探索</h2>
+            <div class="ai-interaction-container">
+                <div class="ai-card" id="ai-qa-card">
+                    <h3>AI问答</h3>
+                    <p>与古建助手对话，解答您关于中国古代建筑的任何疑问。</p>
+                    <div class="ai-action">开始对话</div>
+                </div>
+                <div class="ai-card" id="quiz-card">
+                    <h3>筑学挑战</h3>
+                    <p>AI实时生成10道古建题目，挑战最强大脑！</p>
+                    <div class="ai-action">开始挑战</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
+    </footer>
+
+    <!-- AI问答模态框 -->
+    <div id="qa-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>AI古建助手</h3>
+                <span class="close-modal" id="close-qa-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message">
+                        <div class="message-avatar">AI</div>
+                        <div class="message-bubble">您好！我是古建助手。请问您想了解什么？</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="user-input" placeholder="输入问题...">
+                    <button class="chat-send" id="send-btn">发送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 筑学挑战模态框 -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>筑学挑战</h3>
+                <span class="close-modal" id="close-quiz-modal">&times;</span>
+            </div>
+            <div class="modal-body" id="quiz-body">
+                <!-- 动态内容由JS生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 引入AI独立脚本 -->
+    <script src="assets/js/ai-assistant.js"></script>
+
+    <!-- 探索维度切换脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navCards = document.querySelectorAll('.nav-card');
+            const displayImage = document.getElementById('display-image');
+            const displayTitle = document.getElementById('display-title');
+            const displayDescription = document.getElementById('display-description');
+            const displayLink = document.getElementById('display-link');
+            const cardData = {
+                timeline: {
+                    image: './assets/images/chaodaijianzhu.png',
+                    title: '朝代建筑',
+                    description: '探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展脉络与历史变迁。',
+                    link: 'pages/dimensions/timeline.html',
+                    linkText: '进入朝代建筑专题'
+                },
+                architects: {
+                    image: './assets/images/jianzhudashi.png',
+                    title: '建筑大师',
+                    description: '认识中国历代建筑巨匠，了解他们的生平事迹、设计理念、技术贡献与代表作品，学习建筑大师的智慧与创新精神。',
+                    link: 'pages/dimensions/architects.html',
+                    linkText: '了解建筑大师'
+                },
+                books: {
+                    image: './assets/images/jianzhujindian.png',
+                    title: '建筑经典',
+                    description: '研读中国古代建筑经典著作，从《营造法式》到《园冶》，深入理解建筑理论体系、建筑技艺与美学思想。',
+                    link: 'pages/dimensions/books.html',
+                    linkText: '阅读建筑经典'
+                },
+                '3d': {
+                    image: './assets/images/sanweijianzhu.png',
+                    title: '三维建筑',
+                    description: '通过3D模型与虚拟重建技术，直观探索中国古代建筑的结构细节、构造工艺与空间布局，体验身临其境的建筑探索。',
+                    link: 'pages/dimensions/3d-reconstruction.html',
+                    linkText: '探索三维建筑'
+                }
+            };
+            navCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const target = this.getAttribute('data-target');
+                    navCards.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    if(cardData[target]) {
+                        const data = cardData[target];
+                        displayImage.src = data.image;
+                        displayTitle.textContent = data.title;
+                        displayDescription.textContent = data.description;
+                        displayLink.href = data.link;
+                        displayLink.textContent = data.linkText;
+                        const imageLink = document.querySelector('.content-image-link');
+                        if(imageLink) imageLink.href = data.link;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
