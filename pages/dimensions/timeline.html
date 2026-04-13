@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>时间维度 - 筑迹经纬</title>
+    <title>营造时序 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <!-- ECharts 核心库 & 中国地图注册 -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
     <style>
@@ -40,7 +39,7 @@
             margin: 0 auto 20px;
         }
         
-        /* ========== 朝代探索区域 - 自动轮播 + 手动按钮 ========== */
+        /* 朝代探索区域 */
         .dynasty-explore-section {
             margin: 40px 0 60px;
         }
@@ -133,7 +132,6 @@
             box-shadow: 0 20px 30px rgba(0,0,0,0.2);
         }
         
-        /* 不同朝代的颜色变量 */
         .dynasty-scroll-card.qin {
             --dynasty-color: #8e44ad;
             --dynasty-color-light: #9b59b6;
@@ -218,7 +216,6 @@
             transform: translateY(-2px);
         }
         
-        /* 指示点 */
         .scroll-indicator {
             display: flex;
             justify-content: center;
@@ -241,7 +238,7 @@
             transform: scale(1.2);
         }
         
-        /* ========== 时间轴样式 ========== */
+        /*  时间轴样式  */
         .timeline-visual {
             background: white;
             padding: 40px;
@@ -323,7 +320,6 @@
             margin: 0 5%;
         }
 
-        /* 按朝代使用不同背景图 */
         .timeline-item[data-dynasty="qin"] .timeline-content {
             background-image: url('../../assets/images/changcheng.png');
         }
@@ -345,7 +341,6 @@
         .timeline-item[data-dynasty="ming"] .timeline-content {
             background-image: url('../../assets/images/zijincheng.png');
         }
-        /* 明朝 - 南京明城墙使用专用背景图 */
         .timeline-item.ming-wall .timeline-content {
             background-image: url('../../assets/images/mingchengqiang.png');
         }
@@ -458,7 +453,7 @@
             color: #2c3e50;
             margin-bottom: 15px;
             font-size: 1.2rem;
-            text-align: center;  /* 新增：标题居中 */
+            text-align: center; 
         }
         
         .filter-tags {
@@ -485,29 +480,11 @@
             border-color: #c19a6b;
         }
         
-        /* 加载动画（保留未用） */
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
         
-        /* 响应式设计 */
         @media (max-width: 768px) {
             .dynasty-explore-header {
                 flex-direction: column;
@@ -593,7 +570,7 @@
             }
         }
 
-        /* ========== 官方数据图表区域 ========== */
+        /*  官方数据图表区域  */
         .data-charts-section {
             margin-top: 60px;
             padding-top: 20px;
@@ -655,7 +632,7 @@
 
         .chart-box {
             width: 100%;
-            height: 400px;  /* 地图也适应这个高度，通过调整visualMap和zoom */
+            height: 400px; 
         }
 
         .stats-grid {
@@ -756,21 +733,21 @@
         <nav class="main-nav">
             <a href="../../home.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="timeline.html" style="background: rgba(255,255,255,0.2);">朝代建筑</a>
+                <a href="timeline.html" style="background: rgba(255,255,255,0.2);">营造时序</a>
                 <a href="architects.html">建筑大师</a>
                 <a href="books.html">建筑经典</a>
-                <a href="3d-reconstruction.html">三维建筑</a>
+                <a href="3d-reconstruction.html">数境重现</a>
             </div>
         </nav>
     </header>
 
     <div class="timeline-container">
         <div class="page-header">
-            <h1 class="page-title">时间维度 · 历史建筑演变</h1>
+            <h1 class="page-title">营造时序 · 历史建筑演变</h1>
             <p class="page-subtitle">从远古到明清，探索中国古代建筑的发展历程与技术突破</p>
         </div>
         
-        <!-- 朝代探索区域 - 自动轮播 + 手动按钮 -->
+        <!-- 朝代探索区域 -->
         <div class="dynasty-explore-section">
             <div class="dynasty-explore-header">
                 <div>
@@ -843,18 +820,15 @@
                 </div>
             </div>
 
-            <!-- 指示点 -->
             <div class="scroll-indicator" id="scroll-indicator"></div>
         </div>
 
-        <!-- 官方数据图表区域 -->
         <div class="data-charts-section">
             <div class="section-header">
                 <h2>基于官方数据的建筑统计</h2>
                 <p>数据来源：国家文物局《全国重点文物保护单位名录》（2023年）</p>
             </div>
 
-            <!-- 各朝代建筑遗存图表  -->
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title">
@@ -874,9 +848,7 @@
                         中国古代建筑分布地图
                         <span class="chart-subtitle">全国重点文物保护单位（古建筑类）</span>
                     </div>
-                    <!-- 地图容器 -->
                     <div id="chinaMapChart" class="chart-box"></div>
-                    <!-- 简洁数据说明，与地图风格融合 -->
                     <div class="data-explanation">
                         <h3>📊 省份排名</h3>
                         <p>山西 421处 · 河北 287处 · 陕西 256处 · 浙江 234处 · 河南 198处 · 四川 176处 · 江苏 165处 · 安徽 143处</p>
@@ -885,7 +857,6 @@
                 </div>
             </div>
 
-            <!-- 建筑类型统计图表-->
             <div class="charts-grid">
                 <div class="chart-card">
                     <div class="chart-title">
@@ -908,14 +879,12 @@
             </div>
         </div>
 
-        <!-- 时间轴区域 -->
         <div class="timeline-visual">
             <div class="timeline-header">
                 <h2>中国古代历史时间轴</h2>
                 <p>从先秦时期到明清时代，中国建筑技术经历了漫长而精彩的发展历程</p>
             </div>
             
-            <!-- 筛选器 -->
             <div class="filter-container">
                 <h3 class="filter-title">筛选时间轴朝代</h3>
                 <div class="filter-tags" id="dynasty-filters">
@@ -931,12 +900,9 @@
                 </div>
             </div>
             
-            <!-- 时间轴主体 -->
             <div class="timeline-main-container">
-                <!-- 时间轴线 -->
                 <div class="timeline-line"></div>
                 
-                <!-- 时间轴节点容器 -->
                 <div class="timeline-items-container" id="timeline-items">
                     <!-- 秦朝 -->
                     <div class="timeline-item" data-dynasty="qin">
@@ -1026,21 +992,20 @@
     <script src="/assets/js/timeline-echart.js"></script>
     <script>
     (function() {
-        // 模型URL映射（根据你的实际链接）
         const modelMap = {
             'zhaozhouqiao': 'https://cdn.zhujijingwei.top/介绍-zhaozhouqiao.glb',
             'changcheng': 'https://cdn.zhujijingwei.top/介绍-changcheng.glb'
         };
-        // 预加载函数
+
         function preloadModel(url) {
             if (!url) return;
-            // 使用 fetch 请求，不等待响应，只触发缓存
+
             fetch(url, { mode: 'no-cors' }).catch(e => console.log('预加载失败', e));
         }
-        // 监听快速访问链接悬停
+
         const quickLinks = document.querySelectorAll('.quick-link');
         quickLinks.forEach(link => {
-            // 从链接文本或 href 中提取模型标识（示例：链接文本包含“赵州桥”）
+
             link.addEventListener('mouseenter', () => {
                 const text = link.innerText;
                 if (text.includes('赵州桥')) preloadModel(modelMap.zhaozhouqiao);
@@ -1048,8 +1013,7 @@
                 else if (text.includes('长城')) preloadModel(modelMap.changcheng);
             });
         });
-        // 可选：预加载第一个卡片对应的模型（朝代建筑默认展示故宫？可根据需要）
-        // 页面加载后延迟预加载最热门的模型
+
         setTimeout(() => {
             preloadModel(modelMap.beijinggugong);
         }, 2000);

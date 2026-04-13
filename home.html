@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-    <!-- 引入AI独立样式 -->
     <link rel="stylesheet" href="/assets/css/ai-assistant.css">
     <style>
         .hero-section {
@@ -340,10 +339,10 @@
         <nav class="main-nav">
             <a href="home.html" class="nav-logo">筑迹经纬</a>
             <div class="nav-links">
-                <a href="pages/dimensions/timeline.html">朝代建筑</a>
+                <a href="pages/dimensions/timeline.html">营造时序</a>
                 <a href="pages/dimensions/architects.html">建筑大师</a>
                 <a href="pages/dimensions/books.html">建筑经典</a>
-                <a href="pages/dimensions/3d-reconstruction.html">三维建筑</a>
+                <a href="pages/dimensions/3d-reconstruction.html">数境重现</a>
             </div>
         </nav>
     </header>
@@ -359,20 +358,20 @@
         <h2 class="section-title">探索维度</h2>
         <div class="explore-dimensions">
             <div class="dimensions-nav">
-                <div class="nav-card active" data-target="timeline"><h3>朝代建筑</h3></div>
+                <div class="nav-card active" data-target="timeline"><h3>营造时序</h3></div>
                 <div class="nav-card" data-target="architects"><h3>建筑大师</h3></div>
                 <div class="nav-card" data-target="books"><h3>建筑经典</h3></div>
-                <div class="nav-card" data-target="3d"><h3>三维建筑</h3></div>
+                <div class="nav-card" data-target="3d"><h3>数境重现</h3></div>
             </div>
             <div class="dimension-display">
                 <div class="content-card">
                     <a href="pages/dimensions/timeline.html" class="content-image-link">
-                        <img src="./assets/images/chaodaijianzhu.png" alt="朝代建筑" class="content-image" id="display-image">
+                        <img src="./assets/images/chaodaijianzhu.png" alt="营造时序" class="content-image" id="display-image">
                     </a>
                     <div class="content-info">
-                        <h3 class="content-title" id="display-title">朝代建筑</h3>
+                        <h3 class="content-title" id="display-title">营造时序</h3>
                         <p class="content-description" id="display-description">探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展脉络与历史变迁。</p>
-                        <a href="pages/dimensions/timeline.html" class="content-link" id="display-link">进入朝代建筑专题</a>
+                        <a href="pages/dimensions/timeline.html" class="content-link" id="display-link">进入营造时序专题</a>
                     </div>
                 </div>
             </div>
@@ -381,14 +380,14 @@
         <div class="quick-access">
             <h3>快速访问精选内容</h3>
             <div class="quick-links">
-                <a href="建筑/zhaozhou-bridge.html" class="quick-link">🌟 赵州桥 - 隋代桥梁杰作</a>
-                <a href="建筑/changcheng.html" class="quick-link">🏯 万里长城 - 三维结构探索</a>
-                <a href="建筑师/li-chun.html" class="quick-link">👨‍🔧 李春 - 赵州桥设计师</a>
-                <a href="pages/achievements/sui-dynasty.html" class="quick-link">⏳ 隋朝建筑成就专题</a>
+                <a href="建筑/zhaozhou-bridge.html" class="quick-link">赵州桥 - 隋代桥梁杰作</a>
+                <a href="3D展示/shenyanggugong.html" class="quick-link">沈阳故宫 - 三维结构探索</a>
+                <a href="建筑师/li-chun.html" class="quick-link">李春 - 赵州桥设计师</a>
+                <a href="pages/achievements/sui-dynasty.html" class="quick-link">隋朝建筑成就专题</a>
             </div>
         </div>
 
-        <!-- AI互动区域（白色简约卡片） -->
+        <!-- AI互动区域  -->
         <div class="ai-interaction-section">
             <h2 class="ai-interaction-title">AI互动探索</h2>
             <div class="ai-interaction-container">
@@ -440,16 +439,13 @@
                 <span class="close-modal" id="close-quiz-modal">&times;</span>
             </div>
             <div class="modal-body" id="quiz-body">
-                <!-- 动态内容由JS生成 -->
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- 引入AI独立脚本 -->
     <script src="assets/js/ai-assistant.js"></script>
 
-    <!-- 探索维度切换脚本 -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navCards = document.querySelectorAll('.nav-card');
@@ -460,10 +456,10 @@
             const cardData = {
                 timeline: {
                     image: './assets/images/chaodaijianzhu.png',
-                    title: '朝代建筑',
+                    title: '营造时序',
                     description: '探索从先秦到明清的建筑演变历程，了解各朝代的建筑特征、风格演变与技术进步，见证中国古代建筑的发展脉络与历史变迁。',
                     link: 'pages/dimensions/timeline.html',
-                    linkText: '进入朝代建筑专题'
+                    linkText: '进入营造时序专题'
                 },
                 architects: {
                     image: './assets/images/jianzhudashi.png',
@@ -481,10 +477,10 @@
                 },
                 '3d': {
                     image: './assets/images/sanweijianzhu.png',
-                    title: '三维建筑',
+                    title: '数境重现',
                     description: '通过3D模型与虚拟重建技术，直观探索中国古代建筑的结构细节、构造工艺与空间布局，体验身临其境的建筑探索。',
                     link: 'pages/dimensions/3d-reconstruction.html',
-                    linkText: '探索三维建筑'
+                    linkText: '探索数境重现'
                 }
             };
             navCards.forEach(card => {
