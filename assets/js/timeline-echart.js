@@ -88,7 +88,6 @@
                 }
             };
 
-            // 各朝代建筑数量图表
             function initDynastyChart() {
                 const chart = echarts.init(document.getElementById('dynastyChart'));
                 const option = {
@@ -136,74 +135,137 @@
                 window.addEventListener('resize', () => chart.resize());
             }
 
-            // 新增：中国地图初始化
-            function initChinaMapChart() {
-                const chart = echarts.init(document.getElementById('chinaMapChart'));
-                const option = {
-                    tooltip: {
-                        trigger: 'item',
-                        backgroundColor: 'rgba(255,255,255,0.95)',
-                        borderColor: '#c19a6b',
-                        textStyle: { color: '#2c3e50' },
-                        formatter: function(params) {
-                            if (params.data) {
-                                const value = params.data.value;
-                                const percentage = ((value / totalBuildings) * 100).toFixed(1);
-                                const province = regionData.find(p => p.name === params.name);
-                                const buildings = province?.representativeBuildings || [];
-                                let buildingsList = '';
-                                if (buildings.length > 0) {
-                                    buildingsList = buildings.slice(0, 3).map(b => '• ' + b).join('<br/>');
-                                    if (buildings.length > 3) buildingsList += '<br/>• ...等';
-                                }
-                                return `
-                                    <div style="font-weight:bold; margin-bottom:5px;">${params.name} (第${province?.rank || 'N'}名)</div>
-                                    <div>古建筑数量: <b>${value}</b> 处 (占全国 ${percentage}%)</div>
-                                    ${buildingsList ? '<div style="margin-top:5px;">代表建筑:<br/>' + buildingsList + '</div>' : ''}
-                                `;
-                            }
-                            return params.name;
-                        }
-                    },
-                    visualMap: {
-                        left: 20,
-                        bottom: 20,
-                        min: 0,
-                        max: 500,
-                        text: ['数量多', '数量少'],
-                        realtime: false,
-                        calculable: true,
-                        inRange: { color: ['#f0f9ff', '#a8d5ff', '#5ea8ff', '#1a7dff', '#0052cc'] },
-                        textStyle: { color: '#2c3e50' }
-                    },
-                    series: [{
-                        name: '古建筑数量',
-                        type: 'map',
-                        map: 'china',
-                        roam: true,
-                        zoom: 1.1,
-                        center: [105, 36],
-                        label: {
-                            show: true,
-                            fontSize: 10,
-                            color: '#333',
-                            formatter: function(params) {
-                                return (params.data && params.data.value > 100) ? params.name : '';
-                            }
-                        },
-                        emphasis: {
-                            label: { show: true, color: '#fff', backgroundColor: 'rgba(193,154,107,0.9)', padding: [5,10], borderRadius: 4 },
-                            itemStyle: { areaColor: '#c19a6b', borderColor: '#8b6b3b', borderWidth: 2 }
-                        },
-                        itemStyle: { borderColor: '#ddd', borderWidth: 0.5, areaColor: '#f5f5f5' },
-                        data: regionData
-                    }]
+            function initBaiduMapChart() {
+                const mapContainer = document.getElementById('baiduMapContainer');
+                if (!mapContainer) return;
+
+                // 1. 创建地图实例
+                const map = new BMap.Map("baiduMapContainer");
+                // 2. 设置初始中心点（中国中部）和缩放级别
+                const point = new BMap.Point(105.0, 37.0);
+                map.centerAndZoom(point, 5);
+                // 3. 启用鼠标滚轮缩放
+                map.enableScrollWheelZoom();
+                // 4. （可选）添加缩放平移控件
+                map.addControl(new BMap.NavigationControl());
+                // 5. （可选）添加比例尺控件
+                map.addControl(new BMap.ScaleControl());
+
+                // 6. 准备数据：将 regionData 转换为百度地图需要的格式
+                const points = [];
+                const dataRange = { min: Infinity, max: -Infinity };
+
+                // 预设各省会城市的经纬度（这是一个简化示例，实际项目应从数据库获取坐标）
+                const provinceCoords = {
+                    '山西': { lng: 112.549, lat: 37.857 },
+                    '河北': { lng: 114.502, lat: 38.045 },
+                    '陕西': { lng: 108.948, lat: 34.263 },
+                    '浙江': { lng: 120.154, lat: 30.287 },
+                    '河南': { lng: 113.665, lat: 34.758 },
+                    '四川': { lng: 104.066, lat: 30.659 },
+                    '江苏': { lng: 118.767, lat: 32.041 },
+                    '安徽': { lng: 117.283, lat: 31.861 },
+                    '福建': { lng: 119.306, lat: 26.075 },
+                    '云南': { lng: 102.712, lat: 25.041 },
+                    '湖北': { lng: 114.299, lat: 30.584 },
+                    '山东': { lng: 117.001, lat: 36.675 },
+                    '甘肃': { lng: 103.824, lat: 36.058 },
+                    '湖南': { lng: 112.982, lat: 28.194 },
+                    '江西': { lng: 115.892, lat: 28.676 },
+                    '广东': { lng: 113.281, lat: 23.125 },
+                    '广西': { lng: 108.32, lat: 22.824 },
+                    '辽宁': { lng: 123.429, lat: 41.797 },
+                    '西藏': { lng: 91.117, lat: 29.647 },
+                    '内蒙古': { lng: 111.671, lat: 40.818 },
+                    '重庆': { lng: 106.555, lat: 29.563 },
+                    '贵州': { lng: 106.707, lat: 26.598 },
+                    '北京': { lng: 116.407, lat: 39.904 },
+                    '吉林': { lng: 125.35, lat: 43.886 },
+                    '新疆': { lng: 87.618, lat: 43.792 },
+                    '天津': { lng: 117.19, lat: 39.126 },
+                    '上海': { lng: 121.475, lat: 31.23 },
+                    '黑龙江': { lng: 126.642, lat: 45.757 },
+                    '青海': { lng: 101.78, lat: 36.622 },
+                    '宁夏': { lng: 106.278, lat: 38.466 },
+                    '海南': { lng: 110.332, lat: 20.031 },
+                    '香港': { lng: 114.173, lat: 22.32 },
+                    '澳门': { lng: 113.549, lat: 22.199 },
+                    '台湾': { lng: 121.509, lat: 25.044 } // 数据暂缺，但应在地图上标示
                 };
-                chart.setOption(option);
-                window.addEventListener('resize', () => chart.resize());
+
+                // 遍历数据，生成覆盖物点
+                regionData.forEach(province => {
+                    const coord = provinceCoords[province.name];
+                    if (coord && province.value > 0) {
+                        points.push({
+                            lng: coord.lng,
+                            lat: coord.lat,
+                            count: province.value,
+                            name: province.name,
+                            rank: province.rank,
+                            buildings: province.representativeBuildings
+                        });
+                        dataRange.min = Math.min(dataRange.min, province.value);
+                        dataRange.max = Math.max(dataRange.max, province.value);
+                    }
+                });
+
+                // 7. 根据数据大小动态计算标记点大小和颜色
+                const sizeScale = d => 8 + (d.count / dataRange.max) * 20; // 标记点基础大小
+                const getColorByCount = (count) => {
+                    // 根据数量返回渐变颜色
+                    const ratio = (count - dataRange.min) / (dataRange.max - dataRange.min || 1);
+                    if (ratio < 0.25) return '#f0f9ff';
+                    if (ratio < 0.5) return '#a8d5ff';
+                    if (ratio < 0.75) return '#5ea8ff';
+                    return '#1a7dff';
+                };
+
+                // 8. 创建自定义覆盖物（圆点）
+                points.forEach(point => {
+                    const myIcon = new BMap.Icon('', new BMap.Size(20, 20), {
+                        anchor: new BMap.Size(10, 10) // 锚点为中心
+                    });
+
+                    const label = new BMap.Label(`<div style="
+                        background: ${getColorByCount(point.count)};
+                        border: 2px solid white;
+                        border-radius: 50%;
+                        width: ${sizeScale(point.count)}px;
+                        height: ${sizeScale(point.count)}px;
+                        cursor: pointer;
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+                    "></div>`, {
+                        offset: new BMap.Size(-sizeScale(point.count)/2, -sizeScale(point.count)/2),
+                        position: new BMap.Point(point.lng, point.lat)
+                    });
+
+                    label.setStyle({
+                        border: 'none',
+                        background: 'transparent',
+                        padding: 0
+                    });
+
+                    // 9. 添加鼠标悬停提示框
+                    const content = `
+                        <div style="padding: 10px; max-width: 250px;">
+                            <h4 style="margin:0 0 8px; color: #2c3e50;">${point.name} (第${point.rank}名)</h4>
+                            <p style="margin:5px 0;"><strong>古建筑数量：</strong>${point.count} 处</p>
+                            ${point.buildings && point.buildings.length > 0 ? 
+                            `<p style="margin:5px 0;"><strong>代表建筑：</strong><br>${point.buildings.slice(0,3).map(b=>'• '+b).join('<br>')}</p>` 
+                            : ''}
+                        </div>
+                    `;
+                    const infoWindow = new BMap.InfoWindow(content, { width: 250 });
+
+                    label.addEventListener('mouseover', function(e) {
+                        map.openInfoWindow(infoWindow, new BMap.Point(point.lng, point.lat));
+                    });
+
+                    map.addOverlay(label);
+                });
             }
 
-            // 建筑类型分布饼图
             function initTypeChart() {
                 const chart = echarts.init(document.getElementById('typeChart'));
                 const option = {
@@ -231,7 +293,6 @@
                 window.addEventListener('resize', () => chart.resize());
             }
 
-            // 建筑类型演变折线图
             function initTypeEvolutionChart() {
                 const chart = echarts.init(document.getElementById('typeEvolutionChart'));
                 const option = {
@@ -255,9 +316,8 @@
                 window.addEventListener('resize', () => chart.resize());
             }
 
-            // 依次初始化所有图表
             initDynastyChart();
-            initChinaMapChart();
+            initBaiduMapChart();
             initTypeChart();
             initTypeEvolutionChart();
         })();

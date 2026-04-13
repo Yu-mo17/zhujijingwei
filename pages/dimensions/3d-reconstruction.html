@@ -14,7 +14,6 @@
     <!-- Supabase 配置文件 -->
     <script src="/assets/js/supabase-config.js"></script>
     <style>
-        /* 页面容器 */
         .page-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -22,7 +21,6 @@
             min-height: calc(100vh - 140px);
         }
         
-        /* 页面标题区域 */
         .page-header {
             text-align: center;
             margin: 40px 0 40px;
@@ -48,7 +46,6 @@
             margin: 0 auto 20px;
         }
         
-        /* 搜索与筛选区域 */
         .search-and-filters {
             display: flex;
             flex-wrap: wrap;
@@ -119,20 +116,17 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
-        /* 主内容区布局 */
         .main-content-layout {
             display: flex;
             gap: 40px;
             margin-top: 20px;
         }
         
-        /* 左侧建筑网格容器 */
         .buildings-grid-container {
             flex: 3;
             min-width: 0;
         }
         
-        /* 3D建筑网格 */
         .buildings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -228,7 +222,6 @@
             font-size: 0.8rem;
         }
         
-        /* 右侧每日推荐侧边栏 */
         .daily-featured-sidebar {
             flex: 1;
             min-width: 300px;
@@ -328,7 +321,6 @@
             background: #2980b9;
         }
         
-        /* 加载动画 */
         .loading-spinner {
             width: 50px;
             height: 50px;
@@ -344,7 +336,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* 响应式设计 */
         @media (max-width: 1024px) {
             .main-content-layout {
                 flex-direction: column;
@@ -395,7 +386,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="/home.html" class="nav-logo">筑迹经纬</a>
@@ -408,14 +398,12 @@
         </nav>
     </header>
 
-    <!-- 页面内容 -->
     <div class="page-container">
         <div class="page-header">
             <h1 class="page-title">三维营造</h1>
             <p class="page-subtitle">沉浸式探索中国古代建筑瑰宝，体验三维数字化复原的魅力</p>
         </div>
 
-        <!-- 搜索与筛选栏 -->
         <div class="search-and-filters">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="搜索建筑名称、地点、朝代或特征...">
@@ -431,16 +419,12 @@
             </div>
         </div>
 
-        <!-- 主内容区：左侧网格 + 右侧每日推荐 -->
         <div class="main-content-layout">
-            <!-- 左侧：建筑网格 -->
             <div class="buildings-grid-container">
                 <div class="buildings-grid" id="buildings-grid">
-                    <!-- 建筑卡片将通过JavaScript动态加载 -->
                 </div>
             </div>
 
-            <!-- 右侧：每日推荐 -->
             <aside class="daily-featured-sidebar">
                 <div class="featured-card">
                     <div class="featured-header">
@@ -453,16 +437,15 @@
                     <div class="featured-info">
                         <h4 id="dailyFeaturedName">建筑名称</h4>
                         <div class="featured-location" id="dailyFeaturedLocation">📍 地点</div>
-                        <div class="featured-period" id="dailyFeaturedPeriod">⏳ 年代</div>
+                        <div class="featured-period" id="dailyFeaturedPeriod">年代</div>
                         <p class="featured-description" id="dailyFeaturedDesc">建筑描述...</p>
-                        <a href="#" id="dailyFeaturedLink" class="featured-button">🏛️ 探索3D模型</a>
+                        <a href="#" id="dailyFeaturedLink" class="featured-button">探索3D模型</a>
                     </div>
                 </div>
             </aside>
         </div>
     </div>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>

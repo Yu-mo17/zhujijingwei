@@ -6,7 +6,6 @@
     <title>建筑书籍 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
-        /* 页面容器 */
         .page-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -14,7 +13,6 @@
             min-height: calc(100vh - 140px);
         }
         
-        /* 页面标题区域 */
         .page-header {
             text-align: center;
             margin: 40px 0 40px;
@@ -40,7 +38,6 @@
             margin: 0 auto;
         }
         
-        /* 朝代筛选器 */
         .dynasty-filters {
             display: flex;
             justify-content: center;
@@ -65,7 +62,6 @@
             border-color: #3498db;
         }
         
-        /* 建筑书籍网格 */
         .books-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -150,7 +146,6 @@
             transform: scale(1.05);
         }
         
-        /* 响应式设计 */
         @media (max-width: 768px) {
             .books-grid {
                 grid-template-columns: 1fr;
@@ -173,7 +168,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="../../home.html" class="nav-logo">筑迹经纬</a>
@@ -186,14 +180,12 @@
         </nav>
     </header>
 
-    <!-- 页面内容 -->
     <div class="page-container">
         <div class="page-header">
             <h1 class="page-title">建筑书籍</h1>
             <p class="page-subtitle">从《营造法式》到《园冶》，深入中国古代建筑理论体系</p>
         </div>
 
-        <!-- 朝代筛选器 -->
         <div class="dynasty-filters">
             <button class="dynasty-filter active" data-dynasty="all">全部</button>
             <button class="dynasty-filter" data-dynasty="song">宋元</button>
@@ -203,7 +195,6 @@
             <button class="dynasty-filter" data-dynasty="theory">理论著作</button>
         </div>
 
-        <!-- 建筑书籍网格 -->
         <div class="books-grid">
             <!-- 《营造法式》卡片 -->
             <a href="/建筑书籍/ying-zao-fa-shi.html" class="book-card" data-dynasty="song" data-type="technical">
@@ -327,11 +318,49 @@
         </div>
     </div>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script src="/assets/js/books.js">  </script>
+    <script >  
+                document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.dynasty-filter');
+            const bookCards = document.querySelectorAll('.book-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-dynasty');
+                    
+                    bookCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'flex';
+                        } else {
+                            const dynasty = card.getAttribute('data-dynasty');
+                            const type = card.getAttribute('data-type');
+                            
+                            if (dynasty === filter || type === filter) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+            
+            bookCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <title>营造时序 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=q5314HyZOGmTAIKeiUoP2tf2sE9AR72U"></script>
     <style>
         .timeline-container {
             max-width: 1200px;
@@ -39,7 +39,6 @@
             margin: 0 auto 20px;
         }
         
-        /* 朝代探索区域 */
         .dynasty-explore-section {
             margin: 40px 0 60px;
         }
@@ -848,11 +847,12 @@
                         中国古代建筑分布地图
                         <span class="chart-subtitle">全国重点文物保护单位（古建筑类）</span>
                     </div>
-                    <div id="chinaMapChart" class="chart-box"></div>
+                    <div id="baiduMapContainer" class="chart-box"></div>
                     <div class="data-explanation">
-                        <h3>📊 省份排名</h3>
-                        <p>山西 421处 · 河北 287处 · 陕西 256处 · 浙江 234处 · 河南 198处 · 四川 176处 · 江苏 165处 · 安徽 143处</p>
+                        <h3>地图使用说明</h3>
+                        <p><strong>地图服务：</strong>本页面地图由百度地图提供。</p>
                         <p><strong>数据来源：</strong>国家文物局《全国重点文物保护单位名录》(2023) 古建筑类，包含明清及早期遗存。</p>
+                        <p><strong>📊 省份排名：</strong>山西 421处 · 河北 287处 · 陕西 256处 · 浙江 234处 · 河南 198处 · 四川 176处 · 江苏 165处 · 安徽 143处</p>
                     </div>
                 </div>
             </div>

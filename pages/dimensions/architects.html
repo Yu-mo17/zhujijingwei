@@ -6,14 +6,12 @@
     <title>建筑名家 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
-        /* 页面容器 */
         .page-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        /* 页面标题区域 */
         .page-header {
             text-align: center;
             margin: 40px 0 40px;
@@ -39,7 +37,6 @@
             margin: 0 auto;
         }
         
-        /* 朝代筛选器 */
         .dynasty-filters {
             display: flex;
             justify-content: center;
@@ -64,7 +61,6 @@
             border-color: #3498db;
         }
         
-        /* 建筑名家网格 */
         .architects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -119,10 +115,6 @@
             line-height: 1.5;
         }
         
-
-        
-        
-        /* 响应式设计 */
         @media (max-width: 768px) {
             .architects-grid {
                 grid-template-columns: 1fr;
@@ -145,7 +137,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="/home.html" class="nav-logo">筑迹经纬</a>
@@ -158,14 +149,12 @@
         </nav>
     </header>
 
-    <!-- 页面内容 -->
     <div class="page-container">
         <div class="page-header">
             <h1 class="page-title">建筑名家</h1>
             <p class="page-subtitle">认识历代建筑巨匠，了解他们的设计理念、技术贡献与代表作品</p>
         </div>
 
-        <!-- 朝代筛选器 -->
         <div class="dynasty-filters">
             <button class="dynasty-filter active" data-dynasty="all">全部</button>
             <button class="dynasty-filter" data-dynasty="sui">隋唐</button>
@@ -173,8 +162,8 @@
             <button class="dynasty-filter" data-dynasty="ming">明清</button>
         </div>
 
-        <!-- 建筑名家网格 -->
         <div class="architects-grid">
+            <!-- 李春卡片 -->
             <a href="../../建筑师/li-chun.html" class="architect-card" data-dynasty="sui">
                 <div class="architect-image">
                 <img src="../../建筑师/assets/images/lichun.png" alt="李春"
@@ -259,6 +248,34 @@
         <p>© 2025 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script src="../../assets/js/architects.js"></script>
+    <script>
+                document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.dynasty-filter');
+            const architectCards = document.querySelectorAll('.architect-card');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-dynasty');
+                    
+                    architectCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            const dynasty = card.getAttribute('data-dynasty');
+                            
+                            if (dynasty === filter) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
