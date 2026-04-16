@@ -885,8 +885,7 @@
             document.querySelectorAll('.structure-card, .defense-item, .tech-step').forEach(card => {
                 observer.observe(card);
             });
-            
-            // 返回顶部按钮
+
             const backToTopBtn = document.getElementById('back-to-top');
             window.addEventListener('scroll', () => {
                 if (window.pageYOffset > 300) {
@@ -903,29 +902,21 @@
                     behavior: 'smooth'
                 });
             });
-            
-            // 3D模型初始化（简化版）
+
             const canvas = document.getElementById('changan-3d-canvas');
             const loadingOverlay = document.getElementById('loading-overlay');
-            
-            // 模拟3D模型加载
+
             setTimeout(() => {
                 loadingOverlay.style.display = 'none';
-                // 这里可以初始化Three.js 3D模型
                 init3DModel();
             }, 2000);
             
             function init3DModel() {
-                // 参考 changcheng.html 的3D视角与参数
                 if (typeof THREE !== 'undefined') {
                     const scene = new THREE.Scene();
                     scene.background = new THREE.Color(0xf0f0f0);
-
-                    // 创建相机，参数与 changcheng.html 保持一致
                     const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
                     camera.position.set(0, 15, 30);
-
-                    // 创建渲染器
                     const renderer = new THREE.WebGLRenderer({ 
                         canvas: canvas,
                         antialias: true,
@@ -936,7 +927,6 @@
                     renderer.shadowMap.enabled = true;
                     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-                    // 添加轨道控制器
                     const controls = new THREE.OrbitControls(camera, renderer.domElement);
                     controls.enableDamping = true;
                     controls.dampingFactor = 0.05;
@@ -944,7 +934,6 @@
                     controls.minDistance = 10;
                     controls.maxDistance = 100;
 
-                    // 添加光源
                     const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
                     scene.add(ambientLight);
                     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -952,7 +941,6 @@
                     directionalLight.castShadow = true;
                     scene.add(directionalLight);
 
-                    // 加载长安城三维模型
                     const modelLoader = new THREE.GLTFLoader();
                     modelLoader.load(
                         'https://cdn.zhujijingwei.top/介绍-hanchangancheng.glb',
@@ -981,14 +969,12 @@
                         }
                     );
 
-                    // 动画循环
                     function animate() {
                         requestAnimationFrame(animate);
                         renderer.render(scene, camera);
                     }
                     animate();
 
-                    // 视角切换
                     document.querySelectorAll('.view-btn').forEach(btn => {
                         btn.addEventListener('click', function() {
                             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -1017,12 +1003,11 @@
                     });
                 }
             }
-            
-            // 图表初始化
+
             initCharts();
             
             function initCharts() {
-                // 功能分区占比饼图
+
                 const functionChart = echarts.init(document.getElementById('function-chart'));
                 functionChart.setOption({
                     tooltip: {
@@ -1053,8 +1038,7 @@
                         }
                     }]
                 });
-                
-                // 人口发展柱状图
+
                 const populationChart = echarts.init(document.getElementById('population-chart'));
                 populationChart.setOption({
                     tooltip: {
@@ -1080,8 +1064,7 @@
                         }
                     }]
                 });
-                
-                // 建筑规模对比
+
                 const buildingChart = echarts.init(document.getElementById('building-chart'));
                 buildingChart.setOption({
                     tooltip: {
@@ -1107,8 +1090,7 @@
                         }
                     }]
                 });
-                
-                // 城市对比
+
                 const comparisonChart = echarts.init(document.getElementById('comparison-chart'));
                 comparisonChart.setOption({
                     tooltip: {
@@ -1150,8 +1132,7 @@
                     ]
                 });
             }
-            
-            // 响应式图表调整
+
             window.addEventListener('resize', function() {
                 functionChart.resize();
                 populationChart.resize();
