@@ -1,4 +1,3 @@
-// 赵州桥页面图表初始化
 function initStructureAdvantageChart() {
     const chartDom = document.getElementById('structure-advantage-chart');
     if (!chartDom) return;
@@ -52,7 +51,6 @@ function initStructureAdvantageChart() {
     window.addEventListener('resize', () => chart.resize());
 }
 
-// 初始化所有图表
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof echarts === 'undefined') {
         console.error('ECharts未正确加载！');

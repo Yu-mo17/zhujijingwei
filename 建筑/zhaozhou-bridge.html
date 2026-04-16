@@ -1176,7 +1176,15 @@
                     // 创建触发按钮
                     createTriggerButtons();
                 },
-                undefined, // 移除进度回调，避免动态百分比抽搐
+                function(xhr) {
+                    // 添加回进度回调
+                    if (xhr.total > 0) {
+                        const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                        loadingOverlay.innerHTML = `<div class="loading-spinner"></div><div>模型加载中... ${percent}%</div>`;
+                    } else {
+                        loadingOverlay.innerHTML = `<div class="loading-spinner"></div><div>加载中... ${(xhr.loaded / 1024 / 1024).toFixed(2)} MB</div>`;
+                    }
+                }, // 移除进度回调，避免动态百分比抽搐
                 function(error) {
                     // 加载失败，创建自定义模型
                     console.log('加载外部3D模型失败，创建自定义模型:', error);
@@ -1669,7 +1677,15 @@
                     // 创建触发按钮
                     createStoneTriggerButtons();
                 },
-                undefined, // 移除进度回调，避免动态百分比抽搐
+                 function(xhr) {
+                    // 添加回进度回调
+                    if (xhr.total > 0) {
+                        const percent = Math.round((xhr.loaded / xhr.total) * 100);
+                        loadingOverlay.innerHTML = `<div class="loading-spinner"></div><div>模型加载中... ${percent}%</div>`;
+                    } else {
+                        loadingOverlay.innerHTML = `<div class="loading-spinner"></div><div>加载中... ${(xhr.loaded / 1024 / 1024).toFixed(2)} MB</div>`;
+                    }
+                }, // 移除进度回调，避免动态百分比抽搐
                 function(error) {
                     // 加载失败，创建自定义模型
                     console.log('加载石板3D模型失败，创建自定义模型:', error);

@@ -1,5 +1,4 @@
 (function() {
-    //  DeepSeek 配置 
     const API_KEY = 'sk-41be33b93ed34ee2abbc020b3af78da9'; 
     const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
@@ -39,7 +38,7 @@
         if (!API_KEY) {
             throw new Error('未配置 API Key，请在代码中设置 HARDCODED_API_KEY');
         }
-        const systemPrompt = `你是一位中国古代建筑教育专家。请生成10道关于中国古代建筑的选择题，题目需覆盖建筑历史、结构技术、著名建筑、建筑师、经典著作、朝代建筑特点等方面。每道题包含题干、四个选项（A、B、C、D）以及正确答案的字母。请严格按照以下 JSON 格式输出，不要包含任何其他文字：
+        const systemPrompt = `你是一位中国古代建筑教育专家。请生成10道关于中国古代建筑的选择题，题目需覆盖建筑历史、结构技术、著名建筑、建筑师、经典著作、朝代建筑特点等方面，但不要涉及寺庙，皇陵，有宗教意义的建筑。每道题包含题干、四个选项（A、B、C、D）以及正确答案的字母。请严格按照以下 JSON 格式输出，不要包含任何其他文字：
 
 [
   {
@@ -266,7 +265,6 @@
         const sendBtn = document.getElementById('send-btn');
         if (!chatMessages || !userInput || !sendBtn) return;
         
-        // 增强的 addMessage：支持 Markdown 渲染
         function addMessage(text, isUser = false, isError = false) {
             const div = document.createElement('div');
             div.className = `message ${isUser ? 'user' : ''}`;
@@ -311,7 +309,7 @@
                 addMessage('未配置 API Key，请在代码中设置 HARDCODED_API_KEY。', false, true);
                 return null;
             }
-            const systemPrompt = `你是一位专业的中国古代建筑专家，精通中国建筑历史、结构技术、著名建筑、建筑师、朝代建筑特点、建筑潮流变迁和经典著作。请用中文回答用户的问题，语言通俗易懂，内容准确详实。如果问题不相关，请礼貌地引导回建筑话题。`;
+            const systemPrompt = `你是一位专业的中国古代建筑专家，精通中国建筑历史、结构技术、著名建筑、建筑师、朝代建筑特点、建筑潮流变迁和经典著作。请用中文回答用户的问题，语言通俗易懂，内容准确详实。如果问题不相关，请礼貌地引导回建筑话题。介绍中不要涉及寺庙，皇陵，有宗教意义的建筑。`;
             try {
                 const response = await fetch(DEEPSEEK_API_URL, {
                     method: 'POST',
@@ -365,8 +363,7 @@
             addMessage('未检测到 API Key。请在 ai-assistant.js 文件开头的 HARDCODED_API_KEY 变量中填入您的 DeepSeek API Key，然后刷新页面。', false, true);
         } 
     }
-    
-    // ========== 初始化入口 ==========
+
     function init() {
         const aiQaCard = document.getElementById('ai-qa-card');
         const quizCard = document.getElementById('quiz-card');

@@ -97,7 +97,6 @@
             border-radius: 2px;
         }
 
-        /* === 3D模型展示区域 === */
         .model-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -175,7 +174,6 @@
             display: block;
         }
         
-        /* 触发按钮样式 */
         .trigger-btn {
             position: absolute;
             width: 40px;
@@ -222,7 +220,6 @@
             opacity: 1;
         }
         
-        /* 信息卡片样式 */
         .info-card {
             position: absolute;
             background: white;
@@ -336,7 +333,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* 时间轴区域 */
         .timeline-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -429,7 +425,6 @@
             line-height: 1.7;
         }
         
-        /* 结构详情 */
         .structure-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -487,7 +482,6 @@
             top: -5px;
         }
         
-        /* 图表区域 */
         .chart-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -518,7 +512,6 @@
             margin-top: 30px;
         }
         
-        /* 建造技术 */
         .construction-tech {
             max-width: 1200px;
             margin: 40px auto;
@@ -554,7 +547,6 @@
             margin-bottom: 15px;
         }
         
-        /* 文化传承 */
         .culture-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -594,9 +586,6 @@
             margin-bottom: 15px;
         }
 
- 
-        
-        /* 动画效果 */
         .animate-in {
             animation: fadeInUp 0.6s ease forwards;
         }
@@ -611,8 +600,7 @@
                 transform: translateY(0);
             }
         }
-        
-        /* 返回顶部按钮 */
+
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -641,8 +629,7 @@
             background: #c0392b;
             transform: translateY(-5px);
         }
-        
-        /* 响应式设计 */
+
         @media (max-width: 1024px) {
             .charts-grid {
                 grid-template-columns: 1fr;
@@ -906,8 +893,7 @@
                 </ul>
             </div>
         </div>
-        
-    <!-- 建造技术 -->
+
     <section class="construction-tech">
         <h2 class="section-title">长城建造技术</h2>
         <p class="section-subtitle">古代大规模工程的施工智慧与组织管理</p>
@@ -938,7 +924,6 @@
             </div>
     </section>
 
-    <!-- 文化传承 -->
     <section class="culture-section">
         <h2 class="section-title">文化传承与当代价值</h2>
         <div class="culture-content">
@@ -964,19 +949,15 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <!-- 返回顶部按钮 -->
     <a href="#" class="back-to-top" id="backToTop">↑</a>
 
     
     <script>
-        // 返回顶部功能
         const backToTop = document.getElementById('backToTop');
-        
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 backToTop.classList.add('visible');
@@ -996,7 +977,6 @@
         function initDynastyLengthChart() {
             const chartDom = document.getElementById('dynasty-length-chart');
             if (!chartDom) return;
-            
             const chart = echarts.init(chartDom);
             const option = {
                 tooltip: {
@@ -1212,8 +1192,7 @@
             
             let modelTriggerPoints = [];
             let currentView = 'overview';
-            
-            // 创建触发按钮
+
             function createTriggerButtons() {
                 triggerButtonsContainer.innerHTML = '';
                 
@@ -1234,8 +1213,7 @@
                     triggerButtonsContainer.appendChild(button);
                 });
             }
-            
-            // 更新触发按钮可见性
+
             function updateTriggerVisibility(viewType) {
                 currentView = viewType;
                 
@@ -1250,8 +1228,7 @@
                     }
                 });
             }
-            
-            // 更新触发按钮在屏幕上的位置
+
             function updateTriggerPositions() {
                 if (!modelTriggerPoints.length) return;
                 
@@ -1282,8 +1259,7 @@
                     button.style.fontSize = `${0.8 * scaleFactor}rem`;
                 });
             }
-            
-            // 为模型创建触发点
+
             function createTriggerPointsForModel(model) {
                 modelTriggerPoints.forEach(point => { scene.remove(point); });
                 modelTriggerPoints = [];
@@ -1307,7 +1283,6 @@
             modelLoader.load(
                 'https://cdn.zhujijingwei.top/介绍-changcheng.glb',
                 function(gltf) {
-                    // 模型加载成功后的逻辑
                     const model = gltf.scene;
                     model.scale.set(35, 35, 35);
                     model.position.y = 0;
@@ -1321,35 +1296,25 @@
                     
                     scene.add(model);
                     createTriggerPointsForModel(model);
-                    // 加载完成后，隐藏加载遮罩
                     loadingOverlay.style.display = 'none';
                     createTriggerButtons();
                 },
-                // ======== 重新添加的进度回调函数 (关键) ========
                 function(xhr) {
-                    // xhr 是一个 XMLHttpRequest 对象
                     if (xhr.lengthComputable) {
-                        // 计算加载百分比
                         const percentComplete = (xhr.loaded / xhr.total) * 100;
-                        // 获取页面上的百分比显示元素
                         const percentElement = document.getElementById('loading-percentage');
                         if (percentElement) {
-                            // 更新显示文本，例如 "75%"
                             percentElement.textContent = Math.round(percentComplete) + '%';
                         }
                     } else {
-                        // 如果无法计算总大小，则显示已加载的字节数
                         const percentElement = document.getElementById('loading-percentage');
                         if (percentElement) {
-                            // 将字节数转换为更易读的单位 (KB, MB)
                             const loadedMB = (xhr.loaded / (1024 * 1024)).toFixed(2);
                             percentElement.textContent = loadedMB + ' MB 已加载';
                         }
                     }
                 },
-                // ======== 进度回调函数结束 ========
                 function(error) {
-                    // 加载失败的回调
                     console.error('模型加载失败:', error);
                     const percentElement = document.getElementById('loading-percentage');
                     if (percentElement) {
@@ -1362,7 +1327,6 @@
                 }
             );
             
-            // 视角切换功能
             const viewButtons = document.querySelectorAll('.view-btn');
             const viewPresets = {
                 'overview': { position: { x: 30, y: 15, z: 0 }, target: { x: 0, y: 5, z: 0 } },
@@ -1410,13 +1374,11 @@
                 });
             });
             
-            // 信息卡片功能
             const infoCard = document.getElementById('info-card');
             const cardTitle = document.getElementById('card-title');
             const cardContent = document.getElementById('card-content');
             const closeCardBtn = document.getElementById('close-card');
             
-            // 长城触发点数据
             const triggerData = {
                 'trigger-1': {
                     title: '城墙',
@@ -1445,7 +1407,6 @@
                 }
             };
             
-            // 为触发按钮添加点击事件
             triggerButtonsContainer.addEventListener('click', function(e) {
                 if (e.target.classList.contains('trigger-btn')) {
                     e.stopPropagation();
@@ -1461,7 +1422,6 @@
                     if (existingImage) existingImage.remove();
                     if (existingCaption) existingCaption.remove();
                     
-                    // 图文并茂输出：仅当点击“城墙”(trigger-1)时，引用相关图片
                     if (triggerId === 'trigger-1' && data.image && data.image.src) {
                         const img = document.createElement('img');
                         img.src = data.image.src;
@@ -1514,7 +1474,6 @@
                 }
             });
             
-            // 动画循环
             function animate() {
                 requestAnimationFrame(animate);
                 controls.update();
@@ -1534,9 +1493,7 @@
             handleResize();
         }
 
-        // 初始化所有功能
         document.addEventListener('DOMContentLoaded', function() {
-            // 检查ECharts是否加载
             if (typeof echarts === 'undefined') {
                 console.error('ECharts未正确加载！请检查CDN链接。');
             } else {
@@ -1549,7 +1506,6 @@
                 }
             }
             
-            // 检查Three.js并初始化3D模型
             if (typeof THREE !== 'undefined') {
                 initGreatWall3DModel();
             } else {
@@ -1558,7 +1514,6 @@
                 if(overlay) overlay.innerHTML = '<div>Three.js库加载失败，请检查网络连接。</div>';
             }
             
-            // 滚动动画
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -1577,7 +1532,6 @@
             });
         });
         
-        // 响应式调整
         const chartInstances = [];
         window.addEventListener('resize', function() {
             if (window.echartsInstances) {

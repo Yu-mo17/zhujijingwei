@@ -1,4 +1,3 @@
-// 文件: timeline-echart.js
 (function() {
     'use strict';
     
@@ -9,7 +8,6 @@
     
     window.chinaMapChart = null;
     
-    // 数据定义
     const officialDynastyData = [
         { dynasty: '夏', value: 3, type: '遗址', color: '#8e44ad' },
         { dynasty: '商', value: 12, type: '遗址', color: '#9b59b6' },
@@ -671,7 +669,7 @@
                 series: [{
                     data: regionData.map(p => ({
                         name: p.name,
-                        value: Math.round(p.value / 10) // 简化的密度计算
+                        value: Math.round(p.value / 10) 
                     }))
                 }]
             }

@@ -1,6 +1,5 @@
-// 《营造法式》页面图表和交互
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化书籍结构图表
+
     function initBookStructureChart() {
         const chartDom = document.getElementById('book-structure-chart');
         if (!chartDom || typeof echarts === 'undefined') return;
@@ -55,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('resize', () => chart.resize());
     }
 
-    // 初始化影响时间线图表
     function initInfluenceTimelineChart() {
         const chartDom = document.getElementById('influence-timeline-chart');
         if (!chartDom || typeof echarts === 'undefined') return;
@@ -123,18 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('resize', () => chart.resize());
     }
 
-    // 导航链接点击效果
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // 移除所有active类
             navLinks.forEach(l => l.classList.remove('active'));
-            // 添加active类到当前链接
             this.classList.add('active');
             
-            // 滚动到对应章节
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
@@ -146,13 +140,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // 初始化所有图表
     if (typeof echarts !== 'undefined') {
         initBookStructureChart();
         initInfluenceTimelineChart();
     }
 
-    // 添加章节进入视口的动画效果
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -167,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    // 观察所有章节
     const sections = document.querySelectorAll('.book-section');
     sections.forEach(section => {
         section.style.opacity = '0';

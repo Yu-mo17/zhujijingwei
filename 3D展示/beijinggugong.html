@@ -253,7 +253,6 @@
             font-weight: 500;
         }
         
-        /* ========== 2D结构拆解模块样式 ========== */
         .deconstruction-section {
             background-color: #fff;
             border-radius: 12px;
@@ -359,7 +358,6 @@
             box-shadow: 0 0 0 2px #d4a76a;
         }
         
-        /* 图例样式 */
         .deconstruction-legend {
             margin-top: 20px;
         }
@@ -395,7 +393,6 @@
             font-weight: 500;
         }
         
-        /* 右侧信息面板样式 */
         .deconstruction-info {
             flex: 1;
             min-width: 300px;
@@ -459,7 +456,6 @@
             margin-top: 15px;
             font-style: italic;
         }
-        /* ========== 2D结构拆解模块样式结束 ========== */
         
         .description-section {
             background-color: #fff;
@@ -695,7 +691,6 @@
             </div>
         </div>
         
-        <!-- 2D结构拆解模块 -->
         <section class="deconstruction-section" id="structure-deconstruction">
             <div class="deconstruction-header">
                 <h2 class="deconstruction-title">太和殿建筑结构拆解</h2>
@@ -706,12 +701,10 @@
                 <div class="deconstruction-diagram">
                     <h3 class="deconstruction-diagram-title">太和殿立面结构图</h3>
                     <div class="deconstruction-container">
-                        <!-- 注意：需要将图片src路径改为在您项目中的正确位置 -->
                         <img src="assets/images/gugong_2D.jpg" alt="太和殿立面结构图" class="base-image-2d" id="baseImage2D">
                         <div class="deconstruction-interactive-layer" id="interactiveLayer2D"></div>
                     </div>
                     
-                    <!-- 图例 -->
                     <div class="deconstruction-legend">
                         <div class="deconstruction-legend-grid">
                             <div class="deconstruction-legend-item">
@@ -734,7 +727,6 @@
                     </div>
                 </div>
                 
-                <!-- 右侧信息面板 -->
                 <div class="deconstruction-info">
                     <div class="deconstruction-info-card">
                         <h3 class="deconstruction-info-title">构件详解</h3>
@@ -804,7 +796,6 @@
     </footer>
 
     <script>
-        // 3D模型部分
         let scene, camera, renderer, controls;
         let model = null;
         let wireframeMode = false;
@@ -1033,13 +1024,11 @@
             }
         }
 
-        // 页面加载完成后初始化3D场景
         document.addEventListener('DOMContentLoaded', function() {
             console.log('页面加载完成，开始初始化3D场景...');
             init();
         });
 
-        // ========== 2D结构拆解交互逻辑 ==========
         (function initStructureDeconstruction() {
             const components = [
                 {
@@ -1128,7 +1117,6 @@
                 }
             ];
 
-            // 初始化函数
             function initInteraction() {
                 const container = document.getElementById('interactiveLayer2D');
                 const baseImage = document.getElementById('baseImage2D');
@@ -1140,7 +1128,6 @@
                 let activeComponent = null;
                 let hoverTimer = null;
 
-                // 设置图片加载失败时的备用方案
                 baseImage.onerror = function() {
                     console.error('图片加载失败，请检查路径：' + baseImage.src);
                     const errorMsg = document.createElement('div');
@@ -1152,26 +1139,21 @@
                     errorMsg.innerHTML = '太和殿结构图加载失败<br>请检查图片文件路径';
                     container.appendChild(errorMsg);
                 };
-
-                // 等待图片加载完成后获取实际尺寸
+                
                 baseImage.onload = function() {
                     const imgWidth = baseImage.offsetWidth;
                     const imgHeight = baseImage.offsetHeight;
-
-                    // 清除可能存在的错误信息
                     const errorMsg = container.querySelector('div');
                     if (errorMsg && errorMsg.style.position === 'absolute') {
                         container.removeChild(errorMsg);
                     }
 
-                    // 为每个构件创建热点区域
                     components.forEach(comp => {
                         const hotspot = document.createElement('div');
                         hotspot.className = 'deconstruction-hotspot';
                         hotspot.dataset.id = comp.id;
                         hotspot.title = `点击查看：${comp.name}`;
 
-                        // 将百分比坐标转换为实际像素坐标
                         const x = (comp.position.x / 100) * imgWidth;
                         const y = (comp.position.y / 100) * imgHeight;
                         const width = (comp.size.width / 100) * imgWidth;
@@ -1182,7 +1164,6 @@
                         hotspot.style.width = `${width}px`;
                         hotspot.style.height = `${height}px`;
 
-                        // 创建标记点
                         const marker = document.createElement('div');
                         marker.className = 'deconstruction-hotspot-marker';
                         marker.style.left = `${width/2}px`;
@@ -1191,15 +1172,13 @@
                         marker.style.boxShadow = `0 0 0 2px ${comp.color}`;
                         hotspot.appendChild(marker);
 
-                        // 鼠标悬停事件
                         hotspot.addEventListener('mouseenter', () => {
                             clearTimeout(hoverTimer);
                             if (activeComponent !== comp.id) {
                                 updateInfo(comp);
                             }
                         });
-                        
-                        // 点击事件
+
                         hotspot.addEventListener('click', (e) => {
                             e.stopPropagation();
                             clearTimeout(hoverTimer);
@@ -1218,7 +1197,6 @@
                         container.appendChild(hotspot);
                     });
 
-                    // 点击容器其他地方取消激活
                     container.addEventListener('click', (e) => {
                         if (e.target === container) {
                             clearTimeout(hoverTimer);
@@ -1229,10 +1207,8 @@
                     });
                 };
 
-                // 如果图片已缓存
                 if (baseImage.complete) baseImage.onload();
 
-                // 辅助函数
                 function removeAllActive() {
                     document.querySelectorAll('.deconstruction-hotspot').forEach(h => h.classList.remove('active'));
                 }
@@ -1253,18 +1229,13 @@
                         featureList.appendChild(li);
                     });
                 }
-                // 初始化显示
                 resetInfo();
             }
 
-            // 页面加载完成后初始化2D图
             document.addEventListener('DOMContentLoaded', function() {
-                // 3D场景已由原有代码初始化
-                // 现在初始化2D结构图
                 initInteraction();
             });
 
-            // 窗口大小变化时重新计算位置
             window.addEventListener('resize', function() {
                 const container = document.getElementById('interactiveLayer2D');
                 if (container) {
@@ -1273,7 +1244,6 @@
                 }
             });
         })();
-        // ========== 2D交互逻辑结束 ==========
     </script>
 </body>
 </html>

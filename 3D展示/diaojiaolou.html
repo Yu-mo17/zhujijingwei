@@ -253,7 +253,6 @@
             font-weight: 500;
         }
 
-        /* ========== 2D结构拆解模块样式 ========== */
         .deconstruction-section {
             background-color: #fff;
             border-radius: 12px;
@@ -359,7 +358,6 @@
             box-shadow: 0 0 0 2px #d4a76a;
         }
         
-        /* 图例样式 */
         .deconstruction-legend {
             margin-top: 20px;
         }
@@ -394,8 +392,7 @@
             color: #5d4037;
             font-weight: 500;
         }
-        
-        /* 右侧信息面板样式 */
+
         .deconstruction-info {
             flex: 1;
             min-width: 300px;
@@ -459,7 +456,6 @@
             margin-top: 15px;
             font-style: italic;
         }
-        /* ========== 2D结构拆解模块样式结束 ========== */
         
         .description-section {
             background-color: #fff;
@@ -704,7 +700,6 @@
             </div>
         </div>
         
-        <!-- 2D结构拆解模块 -->
         <section class="deconstruction-section" id="structure-deconstruction">
             <div class="deconstruction-header">
                 <h2 class="deconstruction-title">吊脚楼建筑结构拆解</h2>
@@ -715,12 +710,10 @@
                 <div class="deconstruction-diagram">
                     <h3 class="deconstruction-diagram-title">吊脚楼立面结构图</h3>
                     <div class="deconstruction-container">
-                        <!-- 注意：需要将图片src路径改为在您项目中的正确位置 -->
                         <img src="assets/images/diaojiaolou_2D.jpg" alt="吊脚楼立面结构图" class="base-image-2d" id="baseImage2D">
                         <div class="deconstruction-interactive-layer" id="interactiveLayer2D"></div>
                     </div>
                     
-                    <!-- 图例 -->
                     <div class="deconstruction-legend">
                         <div class="deconstruction-legend-grid">
                             <div class="deconstruction-legend-item">
@@ -743,7 +736,6 @@
                     </div>
                 </div>
                 
-                <!-- 右侧信息面板 -->
                 <div class="deconstruction-info">
                     <div class="deconstruction-info-card">
                         <h3 class="deconstruction-info-title">构件详解</h3>
@@ -765,43 +757,43 @@
             </div>
         </div>
 
-<div class="related-section">
-    <h3 class="related-title">相关古建筑</h3>
-    <div class="related-grid">
-        <div class="related-card">
-            <div class="related-thumbnail">
-                <img src="../assets/images/3D/bishushanzhuang.jpg" alt="承德避暑山庄">
+    <div class="related-section">
+        <h3 class="related-title">相关古建筑</h3>
+        <div class="related-grid">
+            <div class="related-card">
+                <div class="related-thumbnail">
+                    <img src="../assets/images/3D/bishushanzhuang.jpg" alt="承德避暑山庄">
+                </div>
+                <div class="related-content">
+                    <h4 class="related-card-title">承德避暑山庄</h4>
+                    <p class="related-card-desc">清代皇家园林，中国现存最大古典皇家园林，位于河北省承德市。</p>
+                    <a href="bishushanzhuang.html" class="view-button">查看详情</a>
+                </div>
             </div>
-            <div class="related-content">
-                <h4 class="related-card-title">承德避暑山庄</h4>
-                <p class="related-card-desc">清代皇家园林，中国现存最大古典皇家园林，位于河北省承德市。</p>
-                <a href="bishushanzhuang.html" class="view-button">查看详情</a>
+            
+            <div class="related-card">
+                <div class="related-thumbnail">
+                    <img src="../assets/images/3D/qing-tulou.png" alt="福建土楼">
+                </div>
+                <div class="related-content">
+                    <h4 class="related-card-title">福建土楼</h4>
+                    <p class="related-card-desc">客家传统民居，世界文化遗产，以圆形夯土结构为特色，位于福建省。</p>
+                    <a href="fujiantulou.html" class="view-button">查看详情</a>
+                </div>
             </div>
-        </div>
-        
-		<div class="related-card">
-			<div class="related-thumbnail">
-                <img src="../assets/images/3D/qing-tulou.png" alt="福建土楼">
-            </div>
-			<div class="related-content">
-				<h4 class="related-card-title">福建土楼</h4>
-				<p class="related-card-desc">客家传统民居，世界文化遗产，以圆形夯土结构为特色，位于福建省。</p>
-				<a href="fujiantulou.html" class="view-button">查看详情</a>
-			</div>
-		</div>
 
-        <div class="related-card">
-            <div class="related-thumbnail">
-                <img src="../assets/images/3D/menggubao.jpg" alt="蒙古包">
-            </div>
-            <div class="related-content">
-                <h4 class="related-card-title">蒙古包</h4>
-                <p class="related-card-desc">蒙古族游牧民居，以毛毡、木架为主要结构，广泛分布于内蒙古草原。</p>
-                <a href="menggubao.html" class="view-button">查看详情</a>
+            <div class="related-card">
+                <div class="related-thumbnail">
+                    <img src="../assets/images/3D/menggubao.jpg" alt="蒙古包">
+                </div>
+                <div class="related-content">
+                    <h4 class="related-card-title">蒙古包</h4>
+                    <p class="related-card-desc">蒙古族游牧民居，以毛毡、木架为主要结构，广泛分布于内蒙古草原。</p>
+                    <a href="menggubao.html" class="view-button">查看详情</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 
         <div class="fromwhich">
@@ -814,7 +806,7 @@
     </footer>
 
     <script>
-        // 3D模型部分
+
         let scene, camera, renderer, controls;
         let model = null;
         let wireframeMode = false;
@@ -1048,7 +1040,6 @@
             init();
         });
 
-        // ========== 2D结构拆解交互逻辑 ==========
         (function initStructureDeconstruction() {
             const components = [
                 {
@@ -1061,7 +1052,6 @@
                         '防潮设计：柱脚悬空，不与地面直接接触',
                         '适应性：可根据地形调整高度，适应山地环境'
                     ],
-                    // 精确对应图片中木柱位置（左上、右上、中间等）
                     position: { x: 50, y: 59 },
                     size: { width: 10, height: 50 },
                     color: '#8b0000'
@@ -1076,7 +1066,6 @@
                         '功能：分隔上下层空间，提供活动平台',
                         '工艺：板缝严密，部分区域设透气孔防潮'
                     ],
-                    // 精确对应图片中楼板位置（中层横向区域）
                     position: { x: 60, y: 68 },
                     size: { width: 70, height: 8 },
                     color: '#2e5c8a'
@@ -1091,7 +1080,6 @@
                         '材料：覆盖青瓦或小青瓦，部分用树皮或茅草',
                         '结构：由檩条、椽子、望板构成骨架'
                     ],
-                    // 精确对应图片中屋顶与屋檐位置（顶部区域）
                     position: { x: 50, y: 20 },
                     size: { width: 80, height: 25 },
                     color: '#4a7c59'
@@ -1106,7 +1094,6 @@
                         '采光：多设窗或天井，引入自然光',
                         '文化：体现家族聚居、尊卑有序的空间伦理'
                     ],
-                    // 精确对应图片中内部空间区域（中部开放区域）
                     position: { x: 50, y: 45 },
                     size: { width: 60, height: 15 },
                     color: '#d4a76a'
@@ -1121,14 +1108,13 @@
                         '位置：多设于房屋一侧或后方',
                         '功能：连接上下层，兼作储物或圈养空间'
                     ],
-                    // 精确对应图片中楼梯位置（左下或右下）
                     position: { x: 28, y: 65 },
                     size: { width: 10, height: 15 },
                     color: '#d4a76a'
                 }
             ];
 
-            // 初始化函数
+
             function initInteraction() {
                 const container = document.getElementById('interactiveLayer2D');
                 const baseImage = document.getElementById('baseImage2D');
@@ -1140,7 +1126,6 @@
                 let activeComponent = null;
                 let hoverTimer = null;
 
-                // 设置图片加载失败时的备用方案
                 baseImage.onerror = function() {
                     console.error('图片加载失败，请检查路径：' + baseImage.src);
                     const errorMsg = document.createElement('div');
@@ -1153,25 +1138,22 @@
                     container.appendChild(errorMsg);
                 };
 
-                // 等待图片加载完成后获取实际尺寸
+
                 baseImage.onload = function() {
                     const imgWidth = baseImage.offsetWidth;
                     const imgHeight = baseImage.offsetHeight;
 
-                    // 清除可能存在的错误信息
                     const errorMsg = container.querySelector('div');
                     if (errorMsg && errorMsg.style.position === 'absolute') {
                         container.removeChild(errorMsg);
                     }
 
-                    // 为每个构件创建热点区域
                     components.forEach(comp => {
                         const hotspot = document.createElement('div');
                         hotspot.className = 'deconstruction-hotspot';
                         hotspot.dataset.id = comp.id;
                         hotspot.title = `点击查看：${comp.name}`;
 
-                        // 将百分比坐标转换为实际像素坐标
                         const x = (comp.position.x / 100) * imgWidth;
                         const y = (comp.position.y / 100) * imgHeight;
                         const width = (comp.size.width / 100) * imgWidth;
@@ -1182,7 +1164,6 @@
                         hotspot.style.width = `${width}px`;
                         hotspot.style.height = `${height}px`;
 
-                        // 创建标记点
                         const marker = document.createElement('div');
                         marker.className = 'deconstruction-hotspot-marker';
                         marker.style.left = `${width/2}px`;
@@ -1191,15 +1172,13 @@
                         marker.style.boxShadow = `0 0 0 2px ${comp.color}`;
                         hotspot.appendChild(marker);
 
-                        // 鼠标悬停事件
                         hotspot.addEventListener('mouseenter', () => {
                             clearTimeout(hoverTimer);
                             if (activeComponent !== comp.id) {
                                 updateInfo(comp);
                             }
                         });
-                        
-                        // 点击事件
+
                         hotspot.addEventListener('click', (e) => {
                             e.stopPropagation();
                             clearTimeout(hoverTimer);
@@ -1218,7 +1197,6 @@
                         container.appendChild(hotspot);
                     });
 
-                    // 点击容器其他地方取消激活
                     container.addEventListener('click', (e) => {
                         if (e.target === container) {
                             clearTimeout(hoverTimer);
@@ -1229,10 +1207,8 @@
                     });
                 };
 
-                // 如果图片已缓存
                 if (baseImage.complete) baseImage.onload();
 
-                // 辅助函数
                 function removeAllActive() {
                     document.querySelectorAll('.deconstruction-hotspot').forEach(h => h.classList.remove('active'));
                 }
@@ -1253,18 +1229,14 @@
                         featureList.appendChild(li);
                     });
                 }
-                // 初始化显示
+
                 resetInfo();
             }
 
-            // 页面加载完成后初始化2D图
             document.addEventListener('DOMContentLoaded', function() {
-                // 3D场景已由原有代码初始化
-                // 现在初始化2D结构图
                 initInteraction();
             });
 
-            // 窗口大小变化时重新计算位置
             window.addEventListener('resize', function() {
                 const container = document.getElementById('interactiveLayer2D');
                 if (container) {

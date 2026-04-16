@@ -675,7 +675,6 @@
     </style>
 </head>
 <body>
-
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -688,7 +687,6 @@
         </nav>
     </header>
 
-    <!-- 英雄区域 -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">汉长安城</h1>
@@ -706,11 +704,9 @@
         </div>
     </section>
 
-    <!-- === 3D模型展示 === -->
     <section class="model-section">
         <h2 class="section-title">汉长安城三维结构探索</h2>
         <p class="section-subtitle">交互式3D模型，可多角度观察汉长安城规划布局细节</p>
-        
         <div class="view-controls">
             <button class="view-btn" data-view="overview">全城鸟瞰</button>
             <button class="view-btn" data-view="palace">未央宫区</button>
@@ -729,11 +725,9 @@
                 <div>加载中...</div>
             </div>
             <canvas id="changan-3d-canvas"></canvas>
-            
-            <!-- 触发按钮 - 将在这里动态创建 -->
+
             <div id="trigger-buttons-container"></div>
-            
-            <!-- 信息卡片 -->
+
             <div class="info-card" id="info-card">
                 <div class="info-card-header">
                     <h3 id="card-title">结构信息</h3>
@@ -751,7 +745,6 @@
         </div>
     </section>
 
-     <!-- 图表区域 -->
     <section class="chart-section">
         <h2 class="section-title">汉长安城数据可视化</h2>
         
@@ -779,8 +772,7 @@
             </div>
         </div>
     </section>
-    
-    <!-- 历史时间线 -->
+
     <section class="timeline-section">
         <h2 class="section-title">汉长安城建造历史时间线</h2>
         <p class="section-subtitle">汉代都城建设的完整历程</p>
@@ -848,7 +840,6 @@
         </div>
     </section>
 
-    <!-- 文化传承 -->
     <section class="culture-section">
         <h2 class="section-title">汉长安城的文化意义</h2>
         <p class="section-subtitle">中国古代都城建设的里程碑</p>
@@ -875,17 +866,14 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <!-- 返回顶部按钮 -->
     <a href="#" class="back-to-top" id="back-to-top">↑</a>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 滚动动画
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {

@@ -356,8 +356,6 @@
         const chartRose = echarts.init(document.getElementById('chart-rose'));
         const chartModern = echarts.init(document.getElementById('chart-modern'));
         const chartEfficiency = echarts.init(document.getElementById('chart-efficiency'));
-
-        // === 关系图配置 (已修改 Tooltip 和 Data) ===
         const optionNetwork = {
             tooltip: {
                 trigger: 'item',
@@ -368,16 +366,12 @@
                 textStyle: {
                     color: '#333'
                 },
-                // 自定义弹窗内容
                 formatter: function(params) {
-                    // 确保 params.data 存在
                     if (params.data) {
-                        // 如果节点包含 description 字段，则显示详细信息
                         if (params.data.description) {
                             return `<strong style="color: #2c3e50;">${params.name}</strong><br/>
                                     <span style="font-size: 0.95em; line-height: 1.6;">${params.data.description}</span>`;
                         } else {
-                            // 否则只显示名称
                             return params.name;
                         }
                     }
@@ -413,7 +407,6 @@
                         symbolSize: 50, 
                         itemStyle: { color: '#f1c40f' }, 
                         category: 1,
-                        // 李诫对著作的贡献
                         description: '李诫奉旨编修《营造法式》，系统总结了北宋及前代的建筑经验，建立了中国最早的建筑模数制度（材份制）'
                     },
                     { 
@@ -421,7 +414,6 @@
                         symbolSize: 40, 
                         itemStyle: { color: '#3498db' }, 
                         category: 2,
-                        // 李诫对开封府的贡献
                         description: '李诫曾主持或监修了开封府衙署的修缮工程。实践了标准化的营造理念，确保了建筑的规制与威严。'
                     },
                     { 
@@ -429,7 +421,6 @@
                         symbolSize: 40, 
                         itemStyle: { color: '#3498db' }, 
                         category: 2,
-                        // 李诫对辟雍的贡献
                         description: '李诫负责其营建，严格遵循礼制规范，确立了国家级文教建筑的形制标准，体现了“天圆地方”的传统宇宙观。'
                     },
                     { 
@@ -437,7 +428,6 @@
                         symbolSize: 40, 
                         itemStyle: { color: '#3498db' }, 
                         category: 2,
-                        // 李诫对朱雀门的贡献
                         description: '李诫主持重修此门，运用了高超的城楼营造技艺，使其成为当时城市中轴线上的标志性建筑。'
                     },
                     { 
@@ -445,7 +435,6 @@
                         symbolSize: 40, 
                         itemStyle: { color: '#3498db' }, 
                         category: 2,
-                        // 李诫对五王邸的贡献
                         description: '他通过统一的营造法式控制了皇宅的规模与装饰等级，既满足了居住需求，又维护了封建礼制的等级秩序。'
                     },
                     { 
@@ -453,7 +442,6 @@
                         symbolSize: 40, 
                         itemStyle: { color: '#3498db' }, 
                         category: 2,
-                        // 李诫对龙德宫的贡献
                         description: '李诫参与了其建设，将《营造法式》中的园林与宫殿结合理念付诸实践，展现了宋代宫廷建筑的高超艺术水平。'
                     }
                 ],
@@ -488,7 +476,6 @@
                     name: '技术贡献',
                     type: 'pie',
                     radius: ['40%', '60%'],
-                    // 颜色使用宋代建筑常见的青绿与朱红配色
                     color: ['#c62828', '#2e7d32', '#1565c0', '#9e9e9e', '#4e342e'],
                     avoidLabelOverlap: false,
                     itemStyle: {

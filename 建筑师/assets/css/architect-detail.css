@@ -1,11 +1,9 @@
-/* 建筑师详情页样式 */
 .architect-detail {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px 40px;
 }
 
-/* 统一的章节标题样式 */
 .section-title {
     color: #2c3e50;
     font-size: 2.2rem;
@@ -16,7 +14,6 @@
     margin: 10px auto 30px;
 }
 
-/* 紫色渐变横线 */
 .section-title::after {
     content: '';
     position: absolute;
@@ -29,7 +26,6 @@
     border-radius: 2px;
 }
 
-/* 英雄区域 */
 .architect-hero {
     text-align: center;
     margin: 40px 0;
@@ -70,7 +66,6 @@
     border: 1px solid rgba(255,255,255,0.3);
 }
 
-/* 传记部分 */
 .biography {
     margin: 60px 0;
     padding: 40px;
@@ -125,7 +120,6 @@
     justify-content: center;
 }
 
-/* 工程理念 */
 .engineering-philosophy {
     margin: 60px 0;
     padding: 40px;
@@ -167,7 +161,6 @@
     line-height: 1.6;
 }
 
-/* 代表作品 */
 .major-works {
     margin: 60px 0;
     padding: 40px;
@@ -231,7 +224,6 @@
     font-weight: 600;
 }
 
-/* 历史评价 */
 .historical-significance {
     margin: 60px 0;
     padding: 40px;
@@ -266,7 +258,6 @@ blockquote footer {
     text-align: right;
 }
 
-/* 响应式设计 */
 @media (max-width: 768px) {
     .architect-hero h1 {
         font-size: 2.5rem;

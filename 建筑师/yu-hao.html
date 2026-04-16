@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <style>
-        /* 保持原有的样式不变 */
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -131,7 +130,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        /* 新增：数据可视化容器样式 */
         .data-viz-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -368,13 +366,10 @@
             });
         });
 
-        // 初始化图表
         const chartNetwork = echarts.init(document.getElementById('chart-network'));
         const chartRose = echarts.init(document.getElementById('chart-rose'));
         const chartModern = echarts.init(document.getElementById('chart-modern'));
         const chartEfficiency = echarts.init(document.getElementById('chart-efficiency'));
-
-        // === 关系图配置 (喻皓版) ===
         const optionNetwork = {
             tooltip: {
                 trigger: 'item',
@@ -468,7 +463,6 @@
             }]
         };
 
-        // === 玫瑰图配置 (喻皓版) ===
         const optionRose = {
             tooltip: {
             trigger: 'axis',
@@ -501,7 +495,7 @@
                 {
                     name: '建筑家能力指数',
                     type: 'bar',
-                    data: [98, 95, 96, 92, 90], // 数值代表他在该领域的极高造诣
+                    data: [98, 95, 96, 92, 90], 
                     itemStyle: {
                         color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                             { offset: 0, color: '#83bff6' },
@@ -514,7 +508,6 @@
             ]
         };
 
-        // === 模数对比图配置 (喻皓版) ===
         const optionModern = {
             tooltip: {
                 trigger: 'axis',
@@ -545,7 +538,6 @@
             }]
         };
 
-        // === 效率/稳定性图配置 (喻皓版) ===
         const optionEfficiency = {
             tooltip: {
                 trigger: 'axis'
@@ -587,7 +579,6 @@
             }]
         };
 
-        // 设置图表选项
         chartNetwork.setOption(optionNetwork);
         chartRose.setOption(optionRose);
         chartModern.setOption(optionModern);

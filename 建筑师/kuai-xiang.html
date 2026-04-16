@@ -94,7 +94,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        /* === 新增：数据可视化容器样式 === */
         .data-viz-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -650,13 +649,11 @@
             }]
         };
 
-        // === 应用配置项到图表 ===
         chartNetwork.setOption(optionNetwork);
         chartRose.setOption(optionRose);
         chartModern.setOption(optionModern);
         chartEfficiency.setOption(optionEfficiency);
 
-        // 处理窗口大小改变时的图表自适应
         window.addEventListener('resize', function () {
             chartNetwork.resize();
             chartRose.resize();
