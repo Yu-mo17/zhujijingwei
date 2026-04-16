@@ -253,6 +253,214 @@
             font-weight: 500;
         }
         
+        /* ========== 2D结构拆解模块样式 ========== */
+        .deconstruction-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 40px 30px;
+            margin: 40px 0 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0d6c8;
+        }
+        
+        .deconstruction-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .deconstruction-title {
+            font-size: 1.8rem;
+            color: #8b0000;
+            margin-bottom: 10px;
+        }
+        
+        .deconstruction-subtitle {
+            font-size: 1.05rem;
+            color: #666;
+        }
+        
+        .deconstruction-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .deconstruction-diagram {
+            flex: 1.2;
+            min-width: 300px;
+        }
+        
+        .deconstruction-diagram-title {
+            font-size: 1.4rem;
+            color: #5d4037;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #d4a76a;
+        }
+        
+        .deconstruction-container {
+            position: relative;
+            width: 100%;
+            background: #fefcf9;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0d0c0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .base-image-2d {
+            width: 100%;
+            display: block;
+            filter: grayscale(10%) brightness(1.02);
+        }
+        
+        .deconstruction-interactive-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .deconstruction-hotspot {
+            position: absolute;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .deconstruction-hotspot:hover {
+            background-color: rgba(139, 0, 0, 0.1);
+        }
+        
+        .deconstruction-hotspot.active {
+            background-color: rgba(212, 167, 106, 0.2);
+            box-shadow: 0 0 0 2px #d4a76a;
+        }
+        
+        .deconstruction-hotspot-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #8b0000;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #8b0000;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .deconstruction-hotspot:hover .deconstruction-hotspot-marker {
+            transform: translate(-50%, -50%) scale(1.3);
+            background-color: #d4a76a;
+            box-shadow: 0 0 0 2px #d4a76a;
+        }
+        
+        /* 图例样式 */
+        .deconstruction-legend {
+            margin-top: 20px;
+        }
+        
+        .deconstruction-legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .deconstruction-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #f9f7f3, #f5f1eb);
+            border: 1px solid #e0d6c8;
+            cursor: default;
+        }
+        
+        .deconstruction-legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+        }
+        
+        .deconstruction-legend-text {
+            font-size: 13px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+        
+        /* 右侧信息面板样式 */
+        .deconstruction-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .deconstruction-info-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.08);
+            border: 1px solid #e8dfd8;
+            height: 100%;
+        }
+        
+        .deconstruction-info-title {
+            font-size: 1.5rem;
+            color: #8b0000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0e8df;
+        }
+        
+        .deconstruction-component-name {
+            font-size: 2rem;
+            color: #5d4037;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+        
+        .deconstruction-component-desc {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+        
+        .deconstruction-feature-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .deconstruction-feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e8dfd8;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        .deconstruction-feature-list li:before {
+            content: "▸";
+            color: #8b0000;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .deconstruction-current-selection {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        /* ========== 2D结构拆解模块样式结束 ========== */
+        
         .description-section {
             background-color: #fff;
             border-radius: 12px;
@@ -358,202 +566,7 @@
             font-size: 0.9rem;
             border-top: 1px solid #e8e0d5;
         }
-        /* ========== 新增：2D结构拆解模块样式 (严格保持原左右布局) ========== */
-        .structure-deconstruction-section {
-            margin-bottom: 40px;
-        }
-        .structure-main-title {
-            font-size: 1.8rem;
-            color: #8b0000;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .structure-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            text-align: center;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        /* 核心左右布局容器 */
-        .structure-content-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-top: 20px;
-        }
-        /* 左侧结构图区域 */
-        .structure-left-panel {
-            flex: 1;
-            min-width: 300px;
-        }
-        .structure-diagram-title {
-            font-size: 1.4rem;
-            color: #5d4037;
-            margin-bottom: 20px;
-            padding-left: 15px;
-            border-left: 5px solid #d4a76a;
-        }
-        .structure-diagram-container {
-            position: relative;
-            width: 100%;
-            background: #fefcf9;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #e0d0c0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .structure-base-image {
-            width: 100%;
-            display: block;
-            filter: grayscale(20%) brightness(1.05);
-        }
-        .structure-interactive-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        /* 热点样式 */
-        .structure-hotspot {
-            position: absolute;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        .structure-hotspot:hover {
-            background-color: rgba(139, 0, 0, 0.15);
-            box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.3);
-        }
-        .structure-hotspot.active {
-            background-color: rgba(212, 167, 106, 0.4);
-            box-shadow: 0 0 0 3px #d4a76a;
-        }
-        .structure-hotspot-marker {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #8b0000;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 0 0 2px #8b0000;
-            transform: translate(-50%, -50%);
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-        .structure-hotspot:hover .structure-hotspot-marker {
-            transform: translate(-50%, -50%) scale(1.3);
-            background-color: #d4a76a;
-            box-shadow: 0 0 0 2px #d4a76a;
-        }
-        /* 图例样式 (保持2x2网格) */
-        .structure-legend {
-            margin-top: 25px;
-        }
-        .structure-legend-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .structure-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 15px;
-            border-radius: 8px;
-            background: linear-gradient(to right, #f9f7f3, #f5f1eb);
-            border: 1px solid #e0d6c8;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-        .structure-legend-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.1);
-            border-color: #d4a76a;
-        }
-        .structure-legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
-        }
-        .structure-legend-text {
-            font-size: 13px;
-            color: #5d4037;
-            font-weight: 500;
-        }
-        /* 右侧信息面板 */
-        .structure-right-panel {
-            flex: 1;
-            min-width: 300px;
-        }
-        .structure-info-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.08);
-            border: 1px solid #e8dfd8;
-            height: 100%;
-        }
-        .structure-info-title {
-            font-size: 1.8rem;
-            color: #8b0000;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0e8df;
-        }
-        .structure-component-name {
-            font-size: 2.2rem;
-            color: #5d4037;
-            margin-bottom: 15px;
-            min-height: 60px;
-        }
-        .structure-component-desc {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 25px;
-            min-height: 120px;
-        }
-        .structure-feature-list {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-        .structure-feature-list li {
-            padding: 12px 0;
-            border-bottom: 1px dashed #e8dfd8;
-            color: #666;
-            display: flex;
-            align-items: center;
-        }
-        .structure-feature-list li:before {
-            content: "▸";
-            color: #8b0000;
-            margin-right: 12px;
-            font-weight: bold;
-        }
-        .structure-current-selection {
-            font-size: 0.9rem;
-            color: #888;
-            text-align: center;
-            margin-top: 20px;
-            font-style: italic;
-        }
-        /* 响应式：小屏幕下恢复上下布局 */
-        @media (max-width: 768px) {
-            .structure-content-wrapper {
-                flex-direction: column;
-            }
-            .structure-legend-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        
         @media (max-width: 768px) {
             .model-viewer {
                 height: 400px;
@@ -583,7 +596,23 @@
                 min-width: 100%;
             }
             
+            .deconstruction-content {
+                flex-direction: column;
+            }
+            
+            .deconstruction-info-card {
+                padding: 20px;
+            }
+            
+            .deconstruction-component-name {
+                font-size: 1.7rem;
+            }
+            
             .related-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .deconstruction-legend-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -665,6 +694,58 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 2D结构拆解模块 -->
+        <section class="deconstruction-section" id="structure-deconstruction">
+            <div class="deconstruction-header">
+                <h2 class="deconstruction-title">太和殿建筑结构拆解</h2>
+                <p class="deconstruction-subtitle">探索故宫核心建筑——太和殿的经典构造。点击或悬停图中标记点，了解其核心构件的名称、功能与建筑智慧。</p>
+            </div>
+            
+            <div class="deconstruction-content">
+                <div class="deconstruction-diagram">
+                    <h3 class="deconstruction-diagram-title">太和殿立面结构图</h3>
+                    <div class="deconstruction-container">
+                        <!-- 注意：需要将图片src路径改为在您项目中的正确位置 -->
+                        <img src="assets/images/gugong_2D.jpg" alt="太和殿立面结构图" class="base-image-2d" id="baseImage2D">
+                        <div class="deconstruction-interactive-layer" id="interactiveLayer2D"></div>
+                    </div>
+                    
+                    <!-- 图例 -->
+                    <div class="deconstruction-legend">
+                        <div class="deconstruction-legend-grid">
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #8b0000;"></div>
+                                <div class="deconstruction-legend-text">屋顶与斗拱</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #2e5c8a;"></div>
+                                <div class="deconstruction-legend-text">梁柱结构</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #4a7c59;"></div>
+                                <div class="deconstruction-legend-text">基座与台基</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #d4a76a;"></div>
+                                <div class="deconstruction-legend-text">门窗与装饰</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧信息面板 -->
+                <div class="deconstruction-info">
+                    <div class="deconstruction-info-card">
+                        <h3 class="deconstruction-info-title">构件详解</h3>
+                        <div class="deconstruction-component-name" id="componentName2D">请选择或悬停一个构件</div>
+                        <div class="deconstruction-component-desc" id="componentDesc2D">鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。</div>
+                        <ul class="deconstruction-feature-list" id="featureList2D"></ul>
+                        <div class="deconstruction-current-selection" id="currentSelection2D">当前未选择任何构件</div>
+                    </div>
+                </div>
+            </div>
+        </section>
     
         <div class="description-section">
             <h3 class="section-title">建筑介绍</h3>
@@ -674,68 +755,7 @@
                 <p>故宫以红墙黄瓦、雕梁画栋、金碧辉煌为特色，代表了中国古代宫殿建筑的最高成就，1987年被联合国教科文组织列为世界文化遗产，现为故宫博物院，收藏海量文物，是中华文明的重要象征。</p>
             </div>
         </div>
-
-        <!-- ========== 新增：2D结构拆解模块 (严格保持原左右布局) ========== -->
-        <div class="description-section">
-            <div class="structure-deconstruction-section">
-                <h3 class="structure-main-title">太和殿建筑结构交互拆解</h3>
-                <p class="structure-subtitle">探索故宫核心建筑——太和殿的经典构造。点击或悬停图中标记点，了解其核心构件的名称、功能与建筑智慧。</p>
-                
-                <div class="structure-content-wrapper">
-                    <!-- 左侧：结构图与图例 -->
-                    <div class="structure-left-panel">
-                        <h4 class="structure-diagram-title">太和殿立面结构图</h4>
-                        <div class="structure-diagram-container">
-                            <!-- 太和殿结构图 -->
-                            <img src="assets/images/gugong_2D.jpg" alt="太和殿立面结构图" class="structure-base-image" id="structure-base-image">
-                            <!-- 交互层 -->
-                            <div class="structure-interactive-layer" id="structure-interactive-layer">
-                                <!-- 热点将通过JS动态生成 -->
-                            </div>
-                        </div>
-                        
-                        <!-- 图例 -->
-                        <div class="structure-legend">
-                            <div class="structure-legend-grid">
-                                <div class="structure-legend-item">
-                                    <div class="structure-legend-color" style="background-color: #8b0000;"></div>
-                                    <div class="structure-legend-text">屋顶与斗拱</div>
-                                </div>
-                                <div class="structure-legend-item">
-                                    <div class="structure-legend-color" style="background-color: #2e5c8a;"></div>
-                                    <div class="structure-legend-text">梁柱结构</div>
-                                </div>
-                                <div class="structure-legend-item">
-                                    <div class="structure-legend-color" style="background-color: #4a7c59;"></div>
-                                    <div class="structure-legend-text">基座与台基</div>
-                                </div>
-                                <div class="structure-legend-item">
-                                    <div class="structure-legend-color" style="background-color: #d4a76a;"></div>
-                                    <div class="structure-legend-text">门窗与装饰</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 右侧：构件信息面板 -->
-                    <div class="structure-right-panel">
-                        <div class="structure-info-card">
-                            <h4 class="structure-info-title">构件详解</h4>
-                            <div class="structure-component-name" id="structure-component-name">请选择或悬停一个构件</div>
-                            <div class="structure-component-desc" id="structure-component-desc">鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。</div>
-                            
-                            <ul class="structure-feature-list" id="structure-feature-list">
-                                <!-- 特征列表将通过JS动态生成 -->
-                            </ul>
-                            
-                            <div class="structure-current-selection" id="structure-current-selection">当前未选择任何构件</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ========== 2D结构拆解模块结束 ========== -->
-        </div>
-
+        
         <div class="related-section">
             <h3 class="related-title">相关古建筑</h3>
             <div class="related-grid">
@@ -773,18 +793,18 @@
                 </div>
             </div>
         </div>
-    </section>
 
         <div class="fromwhich">
             <p>数据来源：百度百科</p>
         </div>
-    </div>
+    </section>
 
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
+        // 3D模型部分
         let scene, camera, renderer, controls;
         let model = null;
         let wireframeMode = false;
@@ -814,7 +834,6 @@
             document.getElementById('error-message').style.display = 'block';
         }
         
-
         function init() {
             try {
                 scene = new THREE.Scene();
@@ -1014,245 +1033,247 @@
             }
         }
 
-        const structureComponents = [
-            {
-                id: 'roof',
-                name: '重檐庑殿顶',
-                description: '太和殿采用中国古建筑最高等级的重檐庑殿顶，覆盖黄色琉璃瓦，象征皇权至高无上。屋顶四角飞翘，屋脊两端装饰有吻兽，屋檐下有精美的斗拱层支撑。',
-                features: [
-                    '最高等级：专用于皇宫主殿、孔庙大成殿等最高级别建筑',
-                    '排水设计：曲面屋顶利于快速排水，保护木结构',
-                    '装饰艺术：屋脊上有吻兽、走兽等琉璃构件',
-                    '双层屋檐：形成丰富的层次感和庄重感'
-                ],
-                position: { x: 50, y: 30 },
-                size: { width: 85, height: 35 },
-                color: '#8b0000'
-            },
-            {
-                id: 'dougong',
-                name: '溜金斗拱',
-                description: '位于屋檐下的溜金斗拱，是中国古建筑特有的承重结构。它不仅承担屋顶重量，还具有极强的装饰性，层层叠叠的斗拱结构展现了古代工匠高超的技艺。',
-                features: [
-                    '结构功能：将屋顶的巨大荷载传递到立柱',
-                    '出挑工艺：层层出挑，形成深远飘逸的屋檐曲线',
-                    '抗震设计：榫卯连接，具有一定弹性，可消减地震能量',
-                    '装饰艺术：斗拱本身也是精美的装饰元素'
-                ],
-                position: { x: 50, y: 55 },
-                size: { width: 75, height: 8 },
-                color: '#8b0000'
-            },
-            {
-                id: 'column_left',
-                name: '金柱与檐柱(左)',
-                description: '太和殿共有72根大柱，按承重功能分为三圈：外圈檐柱、中圈重檐金柱、内圈内金柱，共同支撑殿宇。金柱通体髹金，象征皇权威严。',
-                features: [
-                    '材料：多为名贵金丝楠木，耐腐防蛀',
-                    '结构：柱身有侧脚与生起，增强稳定性',
-                    '装饰：柱身施以金龙和玺彩画',
-                    '功能：支撑整个殿宇的主要垂直承重构件'
-                ],
-                position: { x: 15, y: 55 },
-                size: { width: 20, height: 10 },
-                color: '#2e5c8a'
-            },
-            {
-                id: 'column_right',
-                name: '金柱与檐柱(右)',
-                description: '太和殿共有72根大柱，按承重功能分为三圈：外圈檐柱、中圈重檐金柱、内圈内金柱，共同支撑殿宇。金柱通体髹金，象征皇权威严。',
-                features: [
-                    '材料：多为名贵金丝楠木，耐腐防蛀',
-                    '结构：柱身有侧脚与生起，增强稳定性',
-                    '装饰：柱身施以金龙和玺彩画',
-                    '功能：支撑整个殿宇的主要垂直承重构件'
-                ],
-                position: { x: 85, y: 55 },
-                size: { width: 20, height: 10 },
-                color: '#2e5c8a'
-            },    
-            {
-                id: 'door',
-                name: '隔扇门',
-                description: '太和殿正面设有42扇隔扇门，门扇上部为菱花格心，下部为裙板，装饰有金龙和玺彩画。这些门扇不仅具有实用功能，更是重要的装饰元素。',
-                features: [
-                    '灵活空间：夏季可完全卸下，形成开放空间',
-                    '采光通风：菱花格心既美观又保证采光',
-                    '装饰工艺：棂格图案复杂，体现精细木工技艺',
-                    '等级标识：三交六椀菱花为皇宫专用图案'
-                ],
-                position: { x: 50, y: 75 },
-                size: { width: 85, height: 18 },
-                color: '#d4a76a'
-            },
-            {
-                id: 'platform',
-                name: '汉白玉三层须弥座台基',
-                description: '太和殿建于三层汉白玉须弥座台基之上，台基高8.13米，象征皇权至高无上。台基四周环绕着精美的石雕栏杆，雕刻有龙凤、云纹等图案，工艺精湛。',
-                features: [
-                    '功能：防水防潮、提高建筑等级、扩大基础面积',
-                    '构造：自上而下为枭混、束腰、莲瓣、圭角等部分',
-                    '栏板：台基周围设汉白玉栏杆，有望柱、寻杖、栏板',
-                    '装饰：台基四周伸出石雕螭首，既为装饰，又为排水口'
-                ],
-                position: { x: 50, y: 90 },
-                size: { width: 85, height: 5 },
-                color: '#4a7c59'
-            }
-        ];
-
-        function initStructureInteraction() {
-            const container = document.getElementById('structure-interactive-layer');
-            const baseImage = document.getElementById('structure-base-image');
-            const compName = document.getElementById('structure-component-name');
-            const compDesc = document.getElementById('structure-component-desc');
-            const featureList = document.getElementById('structure-feature-list');
-            const currentSel = document.getElementById('structure-current-selection');
-            
-            let activeComponent = null;
-            let hoverTimer = null;
-            
-            // 设置图片加载失败时的备用方案
-            baseImage.onerror = function() {
-                console.error('图片加载失败，请检查路径：' + baseImage.src);
-                const errorMsg = document.createElement('div');
-                errorMsg.style.cssText = `
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    padding: 20px;
-                    background: rgba(255,255,255,0.9);
-                    border-radius: 8px;
-                    text-align: center;
-                    color: #8b0000;
-                    font-weight: bold;
-                `;
-                errorMsg.innerHTML = '太和殿结构图加载失败<br>请检查图片文件是否存在';
-                container.appendChild(errorMsg);
-            };
-            
-            // 等待图片加载完成后获取实际尺寸
-            baseImage.onload = function() {
-                const imgWidth = baseImage.offsetWidth;
-                const imgHeight = baseImage.offsetHeight;
-                
-                // 清除可能存在的错误信息
-                const errorMsg = container.querySelector('div');
-                if (errorMsg && errorMsg.style.position === 'absolute') {
-                    container.removeChild(errorMsg);
-                }
-                
-                // 为每个构件创建热点区域
-                structureComponents.forEach(comp => {
-                    const hotspot = document.createElement('div');
-                    hotspot.className = 'structure-hotspot';
-                    hotspot.dataset.id = comp.id;
-                    hotspot.title = `点击查看：${comp.name}`;
-                    
-                    // 将百分比坐标转换为实际像素坐标
-                    const x = (comp.position.x / 100) * imgWidth;
-                    const y = (comp.position.y / 100) * imgHeight;
-                    const width = (comp.size.width / 100) * imgWidth;
-                    const height = (comp.size.height / 100) * imgHeight;
-                    
-                    hotspot.style.left = `${x - width/2}px`;
-                    hotspot.style.top = `${y - height/2}px`;
-                    hotspot.style.width = `${width}px`;
-                    hotspot.style.height = `${height}px`;
-                    
-                    // 创建标记点
-                    const marker = document.createElement('div');
-                    marker.className = 'structure-hotspot-marker';
-                    marker.style.left = `${width/2}px`;
-                    marker.style.top = `${height/2}px`;
-                    marker.style.backgroundColor = comp.color;
-                    marker.style.boxShadow = `0 0 0 2px ${comp.color}`;
-                    hotspot.appendChild(marker);
-                    
-                    // 鼠标悬停事件
-                    hotspot.addEventListener('mouseenter', () => {
-                        clearTimeout(hoverTimer);
-                        if (activeComponent !== comp.id) {
-                            updateStructureInfo(comp);
-                        }
-                    });
-                    
-                    // 点击事件
-                    hotspot.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        clearTimeout(hoverTimer);
-                        
-                        if (activeComponent === comp.id) {
-                            activeComponent = null;
-                            removeAllStructureActive();
-                            resetStructureInfo();
-                        } else {
-                            activeComponent = comp.id;
-                            removeAllStructureActive();
-                            hotspot.classList.add('active');
-                            updateStructureInfo(comp);
-                        }
-                    });
-                    
-                    container.appendChild(hotspot);
-                });
-                
-                // 点击容器其他地方取消激活
-                container.addEventListener('click', (e) => {
-                    if (e.target === container) {
-                        clearTimeout(hoverTimer);
-                        activeComponent = null;
-                        removeAllStructureActive();
-                        resetStructureInfo();
-                    }
-                });
-            };
-            
-            // 如果图片已缓存，手动触发load事件
-            if (baseImage.complete) {
-                baseImage.onload();
-            }
-            
-            // 移除所有激活状态
-            function removeAllStructureActive() {
-                document.querySelectorAll('.structure-hotspot').forEach(h => {
-                    h.classList.remove('active');
-                });
-            }
-            
-            // 重置信息显示
-            function resetStructureInfo() {
-                compName.textContent = '请选择或悬停一个构件';
-                compDesc.textContent = '鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。';
-                featureList.innerHTML = '';
-                currentSel.textContent = '当前未选择任何构件';
-            }
-            
-            // 更新信息显示
-            function updateStructureInfo(comp) {
-                compName.textContent = comp.name;
-                compDesc.textContent = comp.description;
-                currentSel.textContent = `当前查看：${comp.name}`;
-                
-                // 更新特征列表
-                featureList.innerHTML = '';
-                comp.features.forEach(feature => {
-                    const li = document.createElement('li');
-                    li.textContent = feature;
-                    featureList.appendChild(li);
-                });
-            }
-            
-            // 初始化显示
-            resetStructureInfo();
-        }
-            
-        window.addEventListener('DOMContentLoaded', function() {
+        // 页面加载完成后初始化3D场景
+        document.addEventListener('DOMContentLoaded', function() {
             console.log('页面加载完成，开始初始化3D场景...');
             init();
-            initStructureInteraction();
         });
+
+        // ========== 2D结构拆解交互逻辑 ==========
+        (function initStructureDeconstruction() {
+            const components = [
+                {
+                    id: 'roof',
+                    name: '重檐庑殿顶',
+                    description: '太和殿采用中国古建筑最高等级的重檐庑殿顶，覆盖黄色琉璃瓦，象征皇权至高无上。屋顶四角飞翘，屋脊两端装饰有吻兽，屋檐下有精美的斗拱层支撑。',
+                    features: [
+                        '最高等级：专用于皇宫主殿、孔庙大成殿等最高级别建筑',
+                        '排水设计：曲面屋顶利于快速排水，保护木结构',
+                        '装饰艺术：屋脊上有吻兽、走兽等琉璃构件',
+                        '双层屋檐：形成丰富的层次感和庄重感'
+                    ],
+                    position: { x: 50, y: 30 },
+                    size: { width: 85, height: 35 },
+                    color: '#8b0000'
+                },
+                {
+                    id: 'dougong',
+                    name: '溜金斗拱',
+                    description: '位于屋檐下的溜金斗拱，是中国古建筑特有的承重结构。它不仅承担屋顶重量，还具有极强的装饰性，层层叠叠的斗拱结构展现了古代工匠高超的技艺。',
+                    features: [
+                        '结构功能：将屋顶的巨大荷载传递到立柱',
+                        '出挑工艺：层层出挑，形成深远飘逸的屋檐曲线',
+                        '抗震设计：榫卯连接，具有一定弹性，可消减地震能量',
+                        '装饰艺术：斗拱本身也是精美的装饰元素'
+                    ],
+                    position: { x: 50, y: 55 },
+                    size: { width: 75, height: 8 },
+                    color: '#8b0000'
+                },
+                {
+                    id: 'column_left',
+                    name: '金柱与檐柱(左)',
+                    description: '太和殿共有72根大柱，按承重功能分为三圈：外圈檐柱、中圈重檐金柱、内圈内金柱，共同支撑殿宇。金柱通体髹金，象征皇权威严。',
+                    features: [
+                        '材料：多为名贵金丝楠木，耐腐防蛀',
+                        '结构：柱身有侧脚与生起，增强稳定性',
+                        '装饰：柱身施以金龙和玺彩画',
+                        '功能：支撑整个殿宇的主要垂直承重构件'
+                    ],
+                    position: { x: 15, y: 55 },
+                    size: { width: 20, height: 10 },
+                    color: '#2e5c8a'
+                },
+                {
+                    id: 'column_right',
+                    name: '金柱与檐柱(右)',
+                    description: '太和殿共有72根大柱，按承重功能分为三圈：外圈檐柱、中圈重檐金柱、内圈内金柱，共同支撑殿宇。金柱通体髹金，象征皇权威严。',
+                    features: [
+                        '材料：多为名贵金丝楠木，耐腐防蛀',
+                        '结构：柱身有侧脚与生起，增强稳定性',
+                        '装饰：柱身施以金龙和玺彩画',
+                        '功能：支撑整个殿宇的主要垂直承重构件'
+                    ],
+                    position: { x: 85, y: 55 },
+                    size: { width: 20, height: 10 },
+                    color: '#2e5c8a'
+                },    
+                {
+                    id: 'door',
+                    name: '隔扇门',
+                    description: '太和殿正面设有42扇隔扇门，门扇上部为菱花格心，下部为裙板，装饰有金龙和玺彩画。这些门扇不仅具有实用功能，更是重要的装饰元素。',
+                    features: [
+                        '灵活空间：夏季可完全卸下，形成开放空间',
+                        '采光通风：菱花格心既美观又保证采光',
+                        '装饰工艺：棂格图案复杂，体现精细木工技艺',
+                        '等级标识：三交六椀菱花为皇宫专用图案'
+                    ],
+                    position: { x: 50, y: 75 },
+                    size: { width: 85, height: 18 },
+                    color: '#d4a76a'
+                },
+                {
+                    id: 'platform',
+                    name: '汉白玉三层须弥座台基',
+                    description: '太和殿建于三层汉白玉须弥座台基之上，台基高8.13米，象征皇权至高无上。台基四周环绕着精美的石雕栏杆，雕刻有龙凤、云纹等图案，工艺精湛。',
+                    features: [
+                        '功能：防水防潮、提高建筑等级、扩大基础面积',
+                        '构造：自上而下为枭混、束腰、莲瓣、圭角等部分',
+                        '栏板：台基周围设汉白玉栏杆，有望柱、寻杖、栏板',
+                        '装饰：台基四周伸出石雕螭首，既为装饰，又为排水口'
+                    ],
+                    position: { x: 50, y: 90 },
+                    size: { width: 85, height: 5 },
+                    color: '#4a7c59'
+                }
+            ];
+
+            // 初始化函数
+            function initInteraction() {
+                const container = document.getElementById('interactiveLayer2D');
+                const baseImage = document.getElementById('baseImage2D');
+                const compName = document.getElementById('componentName2D');
+                const compDesc = document.getElementById('componentDesc2D');
+                const featureList = document.getElementById('featureList2D');
+                const currentSel = document.getElementById('currentSelection2D');
+
+                let activeComponent = null;
+                let hoverTimer = null;
+
+                // 设置图片加载失败时的备用方案
+                baseImage.onerror = function() {
+                    console.error('图片加载失败，请检查路径：' + baseImage.src);
+                    const errorMsg = document.createElement('div');
+                    errorMsg.style.cssText = `
+                        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        padding: 20px; background: rgba(255,255,255,0.9); border-radius: 8px;
+                        text-align: center; color: #8b0000; font-weight: bold;
+                    `;
+                    errorMsg.innerHTML = '太和殿结构图加载失败<br>请检查图片文件路径';
+                    container.appendChild(errorMsg);
+                };
+
+                // 等待图片加载完成后获取实际尺寸
+                baseImage.onload = function() {
+                    const imgWidth = baseImage.offsetWidth;
+                    const imgHeight = baseImage.offsetHeight;
+
+                    // 清除可能存在的错误信息
+                    const errorMsg = container.querySelector('div');
+                    if (errorMsg && errorMsg.style.position === 'absolute') {
+                        container.removeChild(errorMsg);
+                    }
+
+                    // 为每个构件创建热点区域
+                    components.forEach(comp => {
+                        const hotspot = document.createElement('div');
+                        hotspot.className = 'deconstruction-hotspot';
+                        hotspot.dataset.id = comp.id;
+                        hotspot.title = `点击查看：${comp.name}`;
+
+                        // 将百分比坐标转换为实际像素坐标
+                        const x = (comp.position.x / 100) * imgWidth;
+                        const y = (comp.position.y / 100) * imgHeight;
+                        const width = (comp.size.width / 100) * imgWidth;
+                        const height = (comp.size.height / 100) * imgHeight;
+
+                        hotspot.style.left = `${x - width/2}px`;
+                        hotspot.style.top = `${y - height/2}px`;
+                        hotspot.style.width = `${width}px`;
+                        hotspot.style.height = `${height}px`;
+
+                        // 创建标记点
+                        const marker = document.createElement('div');
+                        marker.className = 'deconstruction-hotspot-marker';
+                        marker.style.left = `${width/2}px`;
+                        marker.style.top = `${height/2}px`;
+                        marker.style.backgroundColor = comp.color;
+                        marker.style.boxShadow = `0 0 0 2px ${comp.color}`;
+                        hotspot.appendChild(marker);
+
+                        // 鼠标悬停事件
+                        hotspot.addEventListener('mouseenter', () => {
+                            clearTimeout(hoverTimer);
+                            if (activeComponent !== comp.id) {
+                                updateInfo(comp);
+                            }
+                        });
+                        
+                        // 点击事件
+                        hotspot.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            clearTimeout(hoverTimer);
+                            if (activeComponent === comp.id) {
+                                activeComponent = null;
+                                removeAllActive();
+                                resetInfo();
+                            } else {
+                                activeComponent = comp.id;
+                                removeAllActive();
+                                hotspot.classList.add('active');
+                                updateInfo(comp);
+                            }
+                        });
+                        
+                        container.appendChild(hotspot);
+                    });
+
+                    // 点击容器其他地方取消激活
+                    container.addEventListener('click', (e) => {
+                        if (e.target === container) {
+                            clearTimeout(hoverTimer);
+                            activeComponent = null;
+                            removeAllActive();
+                            resetInfo();
+                        }
+                    });
+                };
+
+                // 如果图片已缓存
+                if (baseImage.complete) baseImage.onload();
+
+                // 辅助函数
+                function removeAllActive() {
+                    document.querySelectorAll('.deconstruction-hotspot').forEach(h => h.classList.remove('active'));
+                }
+                function resetInfo() {
+                    compName.textContent = '请选择或悬停一个构件';
+                    compDesc.textContent = '鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。';
+                    featureList.innerHTML = '';
+                    currentSel.textContent = '当前未选择任何构件';
+                }
+                function updateInfo(comp) {
+                    compName.textContent = comp.name;
+                    compDesc.textContent = comp.description;
+                    currentSel.textContent = `当前查看：${comp.name}`;
+                    featureList.innerHTML = '';
+                    comp.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        featureList.appendChild(li);
+                    });
+                }
+                // 初始化显示
+                resetInfo();
+            }
+
+            // 页面加载完成后初始化2D图
+            document.addEventListener('DOMContentLoaded', function() {
+                // 3D场景已由原有代码初始化
+                // 现在初始化2D结构图
+                initInteraction();
+            });
+
+            // 窗口大小变化时重新计算位置
+            window.addEventListener('resize', function() {
+                const container = document.getElementById('interactiveLayer2D');
+                if (container) {
+                    container.innerHTML = '';
+                    initInteraction();
+                }
+            });
+        })();
+        // ========== 2D交互逻辑结束 ==========
     </script>
 </body>
 </html>

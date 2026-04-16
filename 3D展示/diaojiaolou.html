@@ -253,6 +253,214 @@
             font-weight: 500;
         }
 
+        /* ========== 2D结构拆解模块样式 ========== */
+        .deconstruction-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 40px 30px;
+            margin: 40px 0 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0d6c8;
+        }
+        
+        .deconstruction-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .deconstruction-title {
+            font-size: 1.8rem;
+            color: #8b0000;
+            margin-bottom: 10px;
+        }
+        
+        .deconstruction-subtitle {
+            font-size: 1.05rem;
+            color: #666;
+        }
+        
+        .deconstruction-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .deconstruction-diagram {
+            flex: 1.2;
+            min-width: 300px;
+        }
+        
+        .deconstruction-diagram-title {
+            font-size: 1.4rem;
+            color: #5d4037;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #d4a76a;
+        }
+        
+        .deconstruction-container {
+            position: relative;
+            width: 100%;
+            background: #fefcf9;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0d0c0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .base-image-2d {
+            width: 100%;
+            display: block;
+            filter: grayscale(10%) brightness(1.02);
+        }
+        
+        .deconstruction-interactive-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .deconstruction-hotspot {
+            position: absolute;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .deconstruction-hotspot:hover {
+            background-color: rgba(139, 0, 0, 0.1);
+        }
+        
+        .deconstruction-hotspot.active {
+            background-color: rgba(212, 167, 106, 0.2);
+            box-shadow: 0 0 0 2px #d4a76a;
+        }
+        
+        .deconstruction-hotspot-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #8b0000;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #8b0000;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .deconstruction-hotspot:hover .deconstruction-hotspot-marker {
+            transform: translate(-50%, -50%) scale(1.3);
+            background-color: #d4a76a;
+            box-shadow: 0 0 0 2px #d4a76a;
+        }
+        
+        /* 图例样式 */
+        .deconstruction-legend {
+            margin-top: 20px;
+        }
+        
+        .deconstruction-legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .deconstruction-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #f9f7f3, #f5f1eb);
+            border: 1px solid #e0d6c8;
+            cursor: default;
+        }
+        
+        .deconstruction-legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+        }
+        
+        .deconstruction-legend-text {
+            font-size: 13px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+        
+        /* 右侧信息面板样式 */
+        .deconstruction-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .deconstruction-info-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.08);
+            border: 1px solid #e8dfd8;
+            height: 100%;
+        }
+        
+        .deconstruction-info-title {
+            font-size: 1.5rem;
+            color: #8b0000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0e8df;
+        }
+        
+        .deconstruction-component-name {
+            font-size: 2rem;
+            color: #5d4037;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+        
+        .deconstruction-component-desc {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+        
+        .deconstruction-feature-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .deconstruction-feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e8dfd8;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        .deconstruction-feature-list li:before {
+            content: "▸";
+            color: #8b0000;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .deconstruction-current-selection {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        /* ========== 2D结构拆解模块样式结束 ========== */
+        
         .description-section {
             background-color: #fff;
             border-radius: 12px;
@@ -388,7 +596,23 @@
                 min-width: 100%;
             }
             
+            .deconstruction-content {
+                flex-direction: column;
+            }
+            
+            .deconstruction-info-card {
+                padding: 20px;
+            }
+            
+            .deconstruction-component-name {
+                font-size: 1.7rem;
+            }
+            
             .related-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .deconstruction-legend-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -479,13 +703,65 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 2D结构拆解模块 -->
+        <section class="deconstruction-section" id="structure-deconstruction">
+            <div class="deconstruction-header">
+                <h2 class="deconstruction-title">吊脚楼建筑结构拆解</h2>
+                <p class="deconstruction-subtitle">探索西南少数民族传统建筑——吊脚楼的核心构造。点击或悬停图中标记点，了解其木柱、楼板、屋檐等关键构件的名称、功能与文化内涵。</p>
+            </div>
+            
+            <div class="deconstruction-content">
+                <div class="deconstruction-diagram">
+                    <h3 class="deconstruction-diagram-title">吊脚楼立面结构图</h3>
+                    <div class="deconstruction-container">
+                        <!-- 注意：需要将图片src路径改为在您项目中的正确位置 -->
+                        <img src="assets/images/diaojiaolou_2D.jpg" alt="吊脚楼立面结构图" class="base-image-2d" id="baseImage2D">
+                        <div class="deconstruction-interactive-layer" id="interactiveLayer2D"></div>
+                    </div>
+                    
+                    <!-- 图例 -->
+                    <div class="deconstruction-legend">
+                        <div class="deconstruction-legend-grid">
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #8b0000;"></div>
+                                <div class="deconstruction-legend-text">木柱与基座</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #2e5c8a;"></div>
+                                <div class="deconstruction-legend-text">楼板与楼层</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #4a7c59;"></div>
+                                <div class="deconstruction-legend-text">屋檐与屋顶</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #d4a76a;"></div>
+                                <div class="deconstruction-legend-text">内部空间</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧信息面板 -->
+                <div class="deconstruction-info">
+                    <div class="deconstruction-info-card">
+                        <h3 class="deconstruction-info-title">构件详解</h3>
+                        <div class="deconstruction-component-name" id="componentName2D">请选择或悬停一个构件</div>
+                        <div class="deconstruction-component-desc" id="componentDesc2D">鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。</div>
+                        <ul class="deconstruction-feature-list" id="featureList2D"></ul>
+                        <div class="deconstruction-current-selection" id="currentSelection2D">当前未选择任何构件</div>
+                    </div>
+                </div>
+            </div>
+        </section>
     
         <div class="description-section">
             <h3 class="section-title">建筑介绍</h3>
             <div class="description-text">
-                <p>苗族吊脚楼是苗族先民适应山地地形与湿热气候创造的传统民居，以“无钉无铆、全木榫卯”为核心特征，2008年“苗族吊脚楼营造技艺”被列入国家级非物质文化遗产名录，是苗族文化与建筑智慧的结晶。</p>
-                <p>建筑多为3层，底层架空1.5-2米（用于通风防潮、饲养家禽、堆放农具），中层为生活核心区（设堂屋、火塘、卧室，堂屋为家族议事与待客场所，火塘是家庭活动中心），顶层用于储存粮食与杂物；外墙多保留杉木原色，屋檐设“美人靠”栏杆，窗棂雕刻苗族特色花纹，屋脊装饰牛角或鸟形构件，彰显族群文化符号。</p>
-                <p>苗族吊脚楼建造无需图纸，全凭工匠“心算”与经验，榫卯结构稳固耐用，可抵御山地滑坡与潮湿气候；其分布与苗族迁徙路线高度契合，不同区域略有差异（如黔东南吊脚更陡、湘西吊脚更舒展），不仅是居住空间，更承载着苗族的婚丧嫁娶、节庆仪式等文化活动，是活态的苗族文化载体。</p>
+                <p>苗族吊脚楼是苗族先民适应山地地形与湿热气候创造的传统民居，以"无钉无铆、全木榫卯"为核心特征，2008年"苗族吊脚楼营造技艺"被列入国家级非物质文化遗产名录，是苗族文化与建筑智慧的结晶。</p>
+                <p>建筑多为3层，底层架空1.5-2米（用于通风防潮、饲养家禽、堆放农具），中层为生活核心区（设堂屋、火塘、卧室，堂屋为家族议事与待客场所，火塘是家庭活动中心），顶层用于储存粮食与杂物；外墙多保留杉木原色，屋檐设"美人靠"栏杆，窗棂雕刻苗族特色花纹，屋脊装饰牛角或鸟形构件，彰显族群文化符号。</p>
+                <p>苗族吊脚楼建造无需图纸，全凭工匠"心算"与经验，榫卯结构稳固耐用，可抵御山地滑坡与潮湿气候；其分布与苗族迁徙路线高度契合，不同区域略有差异（如黔东南吊脚更陡、湘西吊脚更舒展），不仅是居住空间，更承载着苗族的婚丧嫁娶、节庆仪式等文化活动，是活态的苗族文化载体。</p>
             </div>
         </div>
 
@@ -538,7 +814,7 @@
     </footer>
 
     <script>
-
+        // 3D模型部分
         let scene, camera, renderer, controls;
         let model = null;
         let wireframeMode = false;
@@ -595,10 +871,8 @@
                     controls.dampingFactor = 0.05;
                     controls.minDistance = 5;
                     controls.maxDistance = 150;
-
                     controls.maxPolarAngle = Math.PI;
                     controls.minPolarAngle = 0; 
-
                     controls.autoRotate = autoRotate;
                     controls.autoRotateSpeed = 0.5; 
                 } else {
@@ -769,10 +1043,237 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             console.log('页面加载完成，开始初始化3D场景...');
             init();
         });
+
+        // ========== 2D结构拆解交互逻辑 ==========
+        (function initStructureDeconstruction() {
+            const components = [
+                {
+                    id: 'wooden_column',
+                    name: '木柱',
+                    description: '吊脚楼的核心承重构件，通常由杉木或松木制成，底部立于石砌基座之上，上部支撑楼板与屋架。木柱不直接接触地面，起到防潮、防虫、防腐蚀的作用，同时利用高差适应山地地形。',
+                    features: [
+                        '材质：多采用耐腐的杉木、松木，部分使用硬木',
+                        '结构：柱身常略带收分，增强稳定性',
+                        '防潮设计：柱脚悬空，不与地面直接接触',
+                        '适应性：可根据地形调整高度，适应山地环境'
+                    ],
+                    // 精确对应图片中木柱位置（左上、右上、中间等）
+                    position: { x: 50, y: 59 },
+                    size: { width: 10, height: 50 },
+                    color: '#8b0000'
+                },
+                {
+                    id: 'floor_board',
+                    name: '楼板',
+                    description: '楼板是吊脚楼的分层结构，通常由木板铺设而成，连接各根木柱形成水平承重面。楼板不仅提供居住空间，还起到分隔楼层、防潮隔热的作用。上下层之间通过楼梯连接。',
+                    features: [
+                        '材料：多为杉木板或松木板，拼接铺设',
+                        '结构：由穿枋、楞木等横向构件固定',
+                        '功能：分隔上下层空间，提供活动平台',
+                        '工艺：板缝严密，部分区域设透气孔防潮'
+                    ],
+                    // 精确对应图片中楼板位置（中层横向区域）
+                    position: { x: 60, y: 68 },
+                    size: { width: 70, height: 8 },
+                    color: '#2e5c8a'
+                },
+                {
+                    id: 'eaves_roof',
+                    name: '屋檐与屋顶',
+                    description: '吊脚楼的屋顶多为悬山顶或歇山顶，屋檐深远，不仅美观，更具有实用功能：遮阳避雨、保护墙体、引导雨水远离木柱。屋檐下常设挑檐构件，增强结构稳定性。',
+                    features: [
+                        '形式：多为悬山或歇山顶，坡面陡峭利于排水',
+                        '屋檐：深远出挑，形成"飞檐"效果',
+                        '材料：覆盖青瓦或小青瓦，部分用树皮或茅草',
+                        '结构：由檩条、椽子、望板构成骨架'
+                    ],
+                    // 精确对应图片中屋顶与屋檐位置（顶部区域）
+                    position: { x: 50, y: 20 },
+                    size: { width: 80, height: 25 },
+                    color: '#4a7c59'
+                },
+                {
+                    id: 'interior_space',
+                    name: '内部空间',
+                    description: '吊脚楼内部空间灵活开放，通常分为堂屋、卧室、厨房等功能区。底层多为牲畜圈或储物空间，上层为居住空间。内部不设隔墙或设轻质隔断，便于通风采光。',
+                    features: [
+                        '布局：底层架空，上层居住，功能分区明确',
+                        '通风：前后通透，利于空气流通',
+                        '采光：多设窗或天井，引入自然光',
+                        '文化：体现家族聚居、尊卑有序的空间伦理'
+                    ],
+                    // 精确对应图片中内部空间区域（中部开放区域）
+                    position: { x: 50, y: 45 },
+                    size: { width: 60, height: 15 },
+                    color: '#d4a76a'
+                },
+                {
+                    id: 'staircase',
+                    name: '楼梯',
+                    description: '吊脚楼的楼梯连接上下层，通常为木制，结构简洁实用。楼梯位置多在房屋一侧，方便进出，同时不占用主要活动空间。部分楼梯下设储物或饲养空间。',
+                    features: [
+                        '材质：木制，部分用竹材或藤条加固',
+                        '结构：直梯或折梯，踏步宽大防滑',
+                        '位置：多设于房屋一侧或后方',
+                        '功能：连接上下层，兼作储物或圈养空间'
+                    ],
+                    // 精确对应图片中楼梯位置（左下或右下）
+                    position: { x: 28, y: 65 },
+                    size: { width: 10, height: 15 },
+                    color: '#d4a76a'
+                }
+            ];
+
+            // 初始化函数
+            function initInteraction() {
+                const container = document.getElementById('interactiveLayer2D');
+                const baseImage = document.getElementById('baseImage2D');
+                const compName = document.getElementById('componentName2D');
+                const compDesc = document.getElementById('componentDesc2D');
+                const featureList = document.getElementById('featureList2D');
+                const currentSel = document.getElementById('currentSelection2D');
+
+                let activeComponent = null;
+                let hoverTimer = null;
+
+                // 设置图片加载失败时的备用方案
+                baseImage.onerror = function() {
+                    console.error('图片加载失败，请检查路径：' + baseImage.src);
+                    const errorMsg = document.createElement('div');
+                    errorMsg.style.cssText = `
+                        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        padding: 20px; background: rgba(255,255,255,0.9); border-radius: 8px;
+                        text-align: center; color: #8b0000; font-weight: bold;
+                    `;
+                    errorMsg.innerHTML = '吊脚楼结构图加载失败<br>请检查图片文件路径';
+                    container.appendChild(errorMsg);
+                };
+
+                // 等待图片加载完成后获取实际尺寸
+                baseImage.onload = function() {
+                    const imgWidth = baseImage.offsetWidth;
+                    const imgHeight = baseImage.offsetHeight;
+
+                    // 清除可能存在的错误信息
+                    const errorMsg = container.querySelector('div');
+                    if (errorMsg && errorMsg.style.position === 'absolute') {
+                        container.removeChild(errorMsg);
+                    }
+
+                    // 为每个构件创建热点区域
+                    components.forEach(comp => {
+                        const hotspot = document.createElement('div');
+                        hotspot.className = 'deconstruction-hotspot';
+                        hotspot.dataset.id = comp.id;
+                        hotspot.title = `点击查看：${comp.name}`;
+
+                        // 将百分比坐标转换为实际像素坐标
+                        const x = (comp.position.x / 100) * imgWidth;
+                        const y = (comp.position.y / 100) * imgHeight;
+                        const width = (comp.size.width / 100) * imgWidth;
+                        const height = (comp.size.height / 100) * imgHeight;
+
+                        hotspot.style.left = `${x - width/2}px`;
+                        hotspot.style.top = `${y - height/2}px`;
+                        hotspot.style.width = `${width}px`;
+                        hotspot.style.height = `${height}px`;
+
+                        // 创建标记点
+                        const marker = document.createElement('div');
+                        marker.className = 'deconstruction-hotspot-marker';
+                        marker.style.left = `${width/2}px`;
+                        marker.style.top = `${height/2}px`;
+                        marker.style.backgroundColor = comp.color;
+                        marker.style.boxShadow = `0 0 0 2px ${comp.color}`;
+                        hotspot.appendChild(marker);
+
+                        // 鼠标悬停事件
+                        hotspot.addEventListener('mouseenter', () => {
+                            clearTimeout(hoverTimer);
+                            if (activeComponent !== comp.id) {
+                                updateInfo(comp);
+                            }
+                        });
+                        
+                        // 点击事件
+                        hotspot.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            clearTimeout(hoverTimer);
+                            if (activeComponent === comp.id) {
+                                activeComponent = null;
+                                removeAllActive();
+                                resetInfo();
+                            } else {
+                                activeComponent = comp.id;
+                                removeAllActive();
+                                hotspot.classList.add('active');
+                                updateInfo(comp);
+                            }
+                        });
+                        
+                        container.appendChild(hotspot);
+                    });
+
+                    // 点击容器其他地方取消激活
+                    container.addEventListener('click', (e) => {
+                        if (e.target === container) {
+                            clearTimeout(hoverTimer);
+                            activeComponent = null;
+                            removeAllActive();
+                            resetInfo();
+                        }
+                    });
+                };
+
+                // 如果图片已缓存
+                if (baseImage.complete) baseImage.onload();
+
+                // 辅助函数
+                function removeAllActive() {
+                    document.querySelectorAll('.deconstruction-hotspot').forEach(h => h.classList.remove('active'));
+                }
+                function resetInfo() {
+                    compName.textContent = '请选择或悬停一个构件';
+                    compDesc.textContent = '鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。';
+                    featureList.innerHTML = '';
+                    currentSel.textContent = '当前未选择任何构件';
+                }
+                function updateInfo(comp) {
+                    compName.textContent = comp.name;
+                    compDesc.textContent = comp.description;
+                    currentSel.textContent = `当前查看：${comp.name}`;
+                    featureList.innerHTML = '';
+                    comp.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        featureList.appendChild(li);
+                    });
+                }
+                // 初始化显示
+                resetInfo();
+            }
+
+            // 页面加载完成后初始化2D图
+            document.addEventListener('DOMContentLoaded', function() {
+                // 3D场景已由原有代码初始化
+                // 现在初始化2D结构图
+                initInteraction();
+            });
+
+            // 窗口大小变化时重新计算位置
+            window.addEventListener('resize', function() {
+                const container = document.getElementById('interactiveLayer2D');
+                if (container) {
+                    container.innerHTML = '';
+                    initInteraction();
+                }
+            });
+        })();
+        // ========== 2D交互逻辑结束 ==========
     </script>
 </body>
 </html>

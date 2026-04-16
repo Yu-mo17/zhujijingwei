@@ -15,7 +15,6 @@
             padding: 100px 20px;
         }
 
-
         h1 {
             font-size: 2.2rem;
             color: #8b0000;
@@ -106,7 +105,7 @@
             z-index: 101;
             border: 1px solid #e0d6c8;
         }
-               
+           
         .error-text {
             color: #8b0000;
             margin-bottom: 20px;
@@ -254,6 +253,214 @@
             font-weight: 500;
         }
 
+        /* ========== 2D结构拆解模块样式 ========== */
+        .deconstruction-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 40px 30px;
+            margin: 40px 0 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0d6c8;
+        }
+        
+        .deconstruction-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .deconstruction-title {
+            font-size: 1.8rem;
+            color: #8b0000;
+            margin-bottom: 10px;
+        }
+        
+        .deconstruction-subtitle {
+            font-size: 1.05rem;
+            color: #666;
+        }
+        
+        .deconstruction-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .deconstruction-diagram {
+            flex: 1.2;
+            min-width: 300px;
+        }
+        
+        .deconstruction-diagram-title {
+            font-size: 1.4rem;
+            color: #5d4037;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #d4a76a;
+        }
+        
+        .deconstruction-container {
+            position: relative;
+            width: 100%;
+            background: #fefcf9;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0d0c0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .base-image-2d {
+            width: 100%;
+            display: block;
+            filter: grayscale(10%) brightness(1.02);
+        }
+        
+        .deconstruction-interactive-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .deconstruction-hotspot {
+            position: absolute;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .deconstruction-hotspot:hover {
+            background-color: rgba(139, 0, 0, 0.1);
+        }
+        
+        .deconstruction-hotspot.active {
+            background-color: rgba(212, 167, 106, 0.2);
+            box-shadow: 0 0 0 2px #d4a76a;
+        }
+        
+        .deconstruction-hotspot-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #8b0000;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #8b0000;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .deconstruction-hotspot:hover .deconstruction-hotspot-marker {
+            transform: translate(-50%, -50%) scale(1.3);
+            background-color: #d4a76a;
+            box-shadow: 0 0 0 2px #d4a76a;
+        }
+        
+        /* 图例样式 */
+        .deconstruction-legend {
+            margin-top: 20px;
+        }
+        
+        .deconstruction-legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .deconstruction-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #f9f7f3, #f5f1eb);
+            border: 1px solid #e0d6c8;
+            cursor: default;
+        }
+        
+        .deconstruction-legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+        }
+        
+        .deconstruction-legend-text {
+            font-size: 13px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+        
+        /* 右侧信息面板样式 */
+        .deconstruction-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .deconstruction-info-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.08);
+            border: 1px solid #e8dfd8;
+            height: 100%;
+        }
+        
+        .deconstruction-info-title {
+            font-size: 1.5rem;
+            color: #8b0000;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0e8df;
+        }
+        
+        .deconstruction-component-name {
+            font-size: 2rem;
+            color: #5d4037;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+        
+        .deconstruction-component-desc {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+        
+        .deconstruction-feature-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .deconstruction-feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e8dfd8;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        
+        .deconstruction-feature-list li:before {
+            content: "▸";
+            color: #8b0000;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .deconstruction-current-selection {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+        /* ========== 2D结构拆解模块样式结束 ========== */
+        
         .description-section {
             background-color: #fff;
             border-radius: 12px;
@@ -389,7 +596,23 @@
                 min-width: 100%;
             }
             
+            .deconstruction-content {
+                flex-direction: column;
+            }
+            
+            .deconstruction-info-card {
+                padding: 20px;
+            }
+            
+            .deconstruction-component-name {
+                font-size: 1.7rem;
+            }
+            
             .related-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .deconstruction-legend-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -408,7 +631,7 @@
         </nav>
     </header>
 
-    <section class="container">
+<section class="container">
         <div class="model-content">
             <div class="model-section">
                 <div class="model-viewer">
@@ -488,6 +711,58 @@
                 </div>
             </div>
         </div>
+        
+        <!-- 2D结构拆解模块 -->
+        <section class="deconstruction-section" id="structure-deconstruction">
+            <div class="deconstruction-header">
+                <h2 class="deconstruction-title">大政殿建筑结构拆解</h2>
+                <p class="deconstruction-subtitle">探索沈阳故宫核心建筑——大政殿的经典构造。点击或悬停图中标记点，了解其核心构件的名称、功能与建筑智慧。</p>
+            </div>
+            
+            <div class="deconstruction-content">
+                <div class="deconstruction-diagram">
+                    <h3 class="deconstruction-diagram-title">大政殿立面结构图</h3>
+                    <div class="deconstruction-container">
+                        <!-- 注意：需要将图片src路径改为在您项目中的正确位置 -->
+                        <img src="assets/images/shenyanggugong_2D.jpg" alt="沈阳故宫大政殿立面结构图" class="base-image-2d" id="baseImage2D">
+                        <div class="deconstruction-interactive-layer" id="interactiveLayer2D"></div>
+                    </div>
+                    
+                    <!-- 图例 -->
+                    <div class="deconstruction-legend">
+                        <div class="deconstruction-legend-grid">
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #8b0000;"></div>
+                                <div class="deconstruction-legend-text">屋顶与斗拱</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #2e5c8a;"></div>
+                                <div class="deconstruction-legend-text">梁柱结构</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #4a7c59;"></div>
+                                <div class="deconstruction-legend-text">基座与台基</div>
+                            </div>
+                            <div class="deconstruction-legend-item">
+                                <div class="deconstruction-legend-color" style="background-color: #d4a76a;"></div>
+                                <div class="deconstruction-legend-text">门窗与装饰</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧信息面板 -->
+                <div class="deconstruction-info">
+                    <div class="deconstruction-info-card">
+                        <h3 class="deconstruction-info-title">构件详解</h3>
+                        <div class="deconstruction-component-name" id="componentName2D">请选择或悬停一个构件</div>
+                        <div class="deconstruction-component-desc" id="componentDesc2D">鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。</div>
+                        <ul class="deconstruction-feature-list" id="featureList2D"></ul>
+                        <div class="deconstruction-current-selection" id="currentSelection2D">当前未选择任何构件</div>
+                    </div>
+                </div>
+            </div>
+        </section>
     
         <div class="description-section">
             <h3 class="section-title">建筑介绍</h3>
@@ -497,45 +772,45 @@
                 <p>沈阳故宫的建筑风格融合了满、汉、蒙、藏等多民族建筑艺术，体现了清朝早期政治制度和文化特点。2004年，沈阳故宫作为明清皇宫扩展项目被列入《世界遗产名录》，成为世界文化遗产。现为国家一级博物馆，是研究清代早期历史、建筑、艺术的重要场所。</p>
             </div>
         </div>
-        
-        <div class="related-section">
-            <h3 class="related-title">相关古建筑</h3>
-            <div class="related-grid">
-                <div class="related-card">
-                    <div class="related-thumbnail">
-                        <img src="../assets/images/3D/gugong.jpg" alt="北京故宫">
-                    </div>
-                    <div class="related-content">
-                        <h4 class="related-card-title">北京故宫</h4>
-                        <p class="related-card-desc">明清两代皇家宫殿，世界上现存规模最大、保存最完整的木质结构古建筑群，位于北京市中心。</p>
-                        <a href="beijinggugong.html" class="view-button">查看详情</a>
-                    </div>
-                </div>
-                
-                <div class="related-card">
-                    <div class="related-thumbnail">
-                        <img src="../assets/images/3D/bishushanzhuang.jpg" alt="承德避暑山庄">
-                    </div>
-                    <div class="related-content">
-                        <h4 class="related-card-title">承德避暑山庄</h4>
-                        <p class="related-card-desc">清代皇家园林，中国现存最大的古典皇家园林，融合了南北园林艺术精华，位于河北省承德市。</p>
-                        <a href="bishushanzhuang.html" class="view-button">查看详情</a>
-                    </div>
-                </div>
-                
-                <div class="related-card">
-                    <div class="related-thumbnail">
-                        <img src="../assets/images/3D/ming-zhuozhengyuan.jpg" alt="拙政园">
-                    </div>
-                    <div class="related-content">
-                        <h4 class="related-card-title">拙政园</h4>
-                        <p class="related-card-desc">中国四大名园之首，江南古典园林代表，位于江苏省苏州市姑苏区。</p>
-                        <a href="zhuozhengyuan.html" class="view-button">查看详情</a>
-                    </div>
-		        </div>
+
+<div class="related-section">
+    <h3 class="related-title">相关古建筑</h3>
+    <div class="related-grid">
+        <div class="related-card">
+            <div class="related-thumbnail">
+                <img src="../assets/images/3D/gugong.jpg" alt="北京故宫">
+            </div>
+            <div class="related-content">
+                <h4 class="related-card-title">北京故宫</h4>
+                <p class="related-card-desc">明清两代皇家宫殿，世界上现存规模最大、保存最完整的木质结构古建筑群，位于北京市中心。</p>
+                <a href="beijinggugong.html" class="view-button">查看详情</a>
             </div>
         </div>
-    </section>
+        
+        <div class="related-card">
+            <div class="related-thumbnail">
+                <img src="../assets/images/3D/bishushanzhuang.jpg" alt="承德避暑山庄">
+            </div>
+            <div class="related-content">
+                <h4 class="related-card-title">承德避暑山庄</h4>
+                <p class="related-card-desc">清代皇家园林，中国现存最大的古典皇家园林，融合了南北园林艺术精华，位于河北省承德市。</p>
+                <a href="bishushanzhuang.html" class="view-button">查看详情</a>
+            </div>
+        </div>
+        
+        <div class="related-card">
+            <div class="related-thumbnail">
+                <img src="../assets/images/3D/ming-zhuozhengyuan.jpg" alt="拙政园">
+            </div>
+            <div class="related-content">
+                <h4 class="related-card-title">拙政园</h4>
+                <p class="related-card-desc">中国四大名园之首，江南古典园林代表，位于江苏省苏州市姑苏区。</p>
+                <a href="zhuozhengyuan.html" class="view-button">查看详情</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
 
         <div class="fromwhich">
             <p>数据来源：沈阳故宫博物院</p>
@@ -773,6 +1048,248 @@
             console.log('页面加载完成，开始初始化3D场景...');
             init();
         });
+
+        // ========== 2D结构拆解交互逻辑 ==========
+        (function initStructureDeconstruction() {
+            const components = [
+                {
+                    id: 'roof',
+                    name: '八角重檐攒尖顶',
+                    description: '沈阳故宫大政殿采用八角重檐攒尖顶，这是满族建筑与汉族建筑融合的典型代表。屋顶覆盖黄琉璃瓦镶绿剪边，象征满清皇权。八条垂脊汇聚于宝顶，体现"八旗"制度，是清初宫殿建筑的最高形制。',
+                    features: [
+                        '形制：八角重檐攒尖顶，满汉融合建筑风格',
+                        '象征：八条垂脊代表满洲八旗制度',
+                        '材料：黄琉璃瓦镶绿剪边，色彩独特',
+                        '等级：清初宫殿建筑最高等级屋顶形式'
+                    ],
+                    // 精确对应图片顶部区域
+                    position: { x: 50, y: 30 },
+                    size: { width: 85, height: 35 },
+                    color: '#8b0000'
+                },
+                {
+                    id: 'dougong',
+                    name: '斗拱与梁架',
+                    description: '大政殿的斗拱系统相对简洁实用，体现了早期满族建筑的特色。斗拱层数较少但结构精巧，既承担屋顶荷载，又具有装饰作用。梁架采用抬梁式与穿斗式结合，适应北方气候特点。',
+                    features: [
+                        '风格：早期满族建筑风格，简洁实用',
+                        '结构：抬梁式与穿斗式结合结构',
+                        '功能：承重与装饰双重作用',
+                        '适应：适合北方寒冷气候的建筑构造'
+                    ],
+                    // 精确对应图片中部偏上区域
+                    position: { x: 50, y: 55 },
+                    size: { width: 65, height: 8 },
+                    color: '#8b0000'
+                },
+                {
+                    id: 'column_left',
+                    name: '内外柱网（左侧）',
+                    description: '大政殿采用内外两圈柱网布局，内圈8根金柱象征八旗，外圈檐柱围合。柱子粗壮，柱础为石质，柱身漆红，体现早期满族宫殿建筑的质朴与威严。这种柱网布局适合举行大型朝会仪式。',
+                    features: [
+                        '布局：内外两圈柱网，内圈8根金柱',
+                        '象征：内圈8柱代表八旗制度',
+                        '材料：松木柱身，石质柱础',
+                        '功能：适合举行大型朝会仪式的空间布局'
+                    ],
+                    // 精确对应图片左侧柱子区域
+                    position: { x: 15, y: 55 },
+                    size: { width: 17, height: 10 },
+                    color: '#2e5c8a'
+                },
+                {
+                    id: 'column_right',
+                    name: '内外柱网（右侧）',
+                    description: '右侧柱网与左侧对称，共同构成大政殿稳定的支撑体系。柱子略微内倾，形成侧脚，增强建筑稳定性。这种结构体现了满族建筑在吸收汉族技术基础上的创新。',
+                    features: [
+                        '对称：与左侧柱网完全对称',
+                        '稳定：柱子有侧脚设计，增强抗震性',
+                        '工艺：榫卯连接，工艺精湛',
+                        '融合：满汉建筑技术的融合体现'
+                    ],
+                    // 精确对应图片右侧柱子区域
+                    position: { x: 85, y: 55 },
+                    size: { width: 17, height: 10 },
+                    color: '#2e5c8a'
+                },    
+                {
+                    id: 'door',
+                    name: '隔扇门与槛窗',
+                    description: '大政殿正面设隔扇门，两侧为槛窗。门窗采用满族特色的几何纹样，简洁大方。门扇可拆卸，便于夏季通风和大型仪式的举行。这种灵活的空间处理方式体现了满族的生活习俗。',
+                    features: [
+                        '形制：隔扇门与槛窗结合',
+                        '纹样：满族特色几何纹样，简洁大方',
+                        '功能：门扇可拆卸，空间灵活多变',
+                        '适应：符合满族游牧传统的生活需求'
+                    ],
+                    // 精确对应图片中部区域
+                    position: { x: 50, y: 75 },
+                    size: { width: 85, height: 18 },
+                    color: '#d4a76a'
+                },
+                {
+                    id: 'platform',
+                    name: '石砌台基与栏杆',
+                    description: '大政殿建于石砌台基之上，台基不高但宽阔稳固，周边设石栏杆。台基和栏杆的雕刻相对简洁，体现了清初宫殿建筑的质朴风格。这种台基设计既抬升了建筑，又便于人员聚集。',
+                    features: [
+                        '形式：石砌台基，宽阔稳固',
+                        '栏杆：石栏杆雕刻简洁质朴',
+                        '功能：抬升建筑，便于仪式举行',
+                        '风格：体现清初宫殿建筑的简洁风格'
+                    ],
+                    // 精确对应图片底部区域
+                    position: { x: 50, y: 90 },
+                    size: { width: 85, height: 5 },
+                    color: '#4a7c59'
+                }
+            ];
+
+            // 初始化函数
+            function initInteraction() {
+                const container = document.getElementById('interactiveLayer2D');
+                const baseImage = document.getElementById('baseImage2D');
+                const compName = document.getElementById('componentName2D');
+                const compDesc = document.getElementById('componentDesc2D');
+                const featureList = document.getElementById('featureList2D');
+                const currentSel = document.getElementById('currentSelection2D');
+
+                let activeComponent = null;
+                let hoverTimer = null;
+
+                // 设置图片加载失败时的备用方案
+                baseImage.onerror = function() {
+                    console.error('图片加载失败，请检查路径：' + baseImage.src);
+                    const errorMsg = document.createElement('div');
+                    errorMsg.style.cssText = `
+                        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        padding: 20px; background: rgba(255,255,255,0.9); border-radius: 8px;
+                        text-align: center; color: #8b0000; font-weight: bold;
+                    `;
+                    errorMsg.innerHTML = '大政殿结构图加载失败<br>请检查图片文件路径';
+                    container.appendChild(errorMsg);
+                };
+
+                // 等待图片加载完成后获取实际尺寸
+                baseImage.onload = function() {
+                    const imgWidth = baseImage.offsetWidth;
+                    const imgHeight = baseImage.offsetHeight;
+
+                    // 清除可能存在的错误信息
+                    const errorMsg = container.querySelector('div');
+                    if (errorMsg && errorMsg.style.position === 'absolute') {
+                        container.removeChild(errorMsg);
+                    }
+
+                    // 为每个构件创建热点区域
+                    components.forEach(comp => {
+                        const hotspot = document.createElement('div');
+                        hotspot.className = 'deconstruction-hotspot';
+                        hotspot.dataset.id = comp.id;
+                        hotspot.title = `点击查看：${comp.name}`;
+
+                        // 将百分比坐标转换为实际像素坐标
+                        const x = (comp.position.x / 100) * imgWidth;
+                        const y = (comp.position.y / 100) * imgHeight;
+                        const width = (comp.size.width / 100) * imgWidth;
+                        const height = (comp.size.height / 100) * imgHeight;
+
+                        hotspot.style.left = `${x - width/2}px`;
+                        hotspot.style.top = `${y - height/2}px`;
+                        hotspot.style.width = `${width}px`;
+                        hotspot.style.height = `${height}px`;
+
+                        // 创建标记点
+                        const marker = document.createElement('div');
+                        marker.className = 'deconstruction-hotspot-marker';
+                        marker.style.left = `${width/2}px`;
+                        marker.style.top = `${height/2}px`;
+                        marker.style.backgroundColor = comp.color;
+                        marker.style.boxShadow = `0 0 0 2px ${comp.color}`;
+                        hotspot.appendChild(marker);
+
+                        // 鼠标悬停事件
+                        hotspot.addEventListener('mouseenter', () => {
+                            clearTimeout(hoverTimer);
+                            if (activeComponent !== comp.id) {
+                                updateInfo(comp);
+                            }
+                        });
+                        
+                        // 点击事件
+                        hotspot.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            clearTimeout(hoverTimer);
+                            if (activeComponent === comp.id) {
+                                activeComponent = null;
+                                removeAllActive();
+                                resetInfo();
+                            } else {
+                                activeComponent = comp.id;
+                                removeAllActive();
+                                hotspot.classList.add('active');
+                                updateInfo(comp);
+                            }
+                        });
+                        
+                        container.appendChild(hotspot);
+                    });
+
+                    // 点击容器其他地方取消激活
+                    container.addEventListener('click', (e) => {
+                        if (e.target === container) {
+                            clearTimeout(hoverTimer);
+                            activeComponent = null;
+                            removeAllActive();
+                            resetInfo();
+                        }
+                    });
+                };
+
+                // 如果图片已缓存
+                if (baseImage.complete) baseImage.onload();
+
+                // 辅助函数
+                function removeAllActive() {
+                    document.querySelectorAll('.deconstruction-hotspot').forEach(h => h.classList.remove('active'));
+                }
+                function resetInfo() {
+                    compName.textContent = '请选择或悬停一个构件';
+                    compDesc.textContent = '鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。';
+                    featureList.innerHTML = '';
+                    currentSel.textContent = '当前未选择任何构件';
+                }
+                function updateInfo(comp) {
+                    compName.textContent = comp.name;
+                    compDesc.textContent = comp.description;
+                    currentSel.textContent = `当前查看：${comp.name}`;
+                    featureList.innerHTML = '';
+                    comp.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        featureList.appendChild(li);
+                    });
+                }
+                // 初始化显示
+                resetInfo();
+            }
+
+            // 页面加载完成后初始化2D图
+            document.addEventListener('DOMContentLoaded', function() {
+                // 3D场景已由原有代码初始化
+                // 现在初始化2D结构图
+                initInteraction();
+            });
+
+            // 窗口大小变化时重新计算位置
+            window.addEventListener('resize', function() {
+                const container = document.getElementById('interactiveLayer2D');
+                if (container) {
+                    container.innerHTML = '';
+                    initInteraction();
+                }
+            });
+        })();
+        // ========== 2D交互逻辑结束 ==========
     </script>
 </body>
 </html>
