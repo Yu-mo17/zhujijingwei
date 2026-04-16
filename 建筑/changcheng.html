@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>万里长城 - 筑迹经纬</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <!-- 引入ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <!-- 引入Three.js库（新增，用于3D交互） -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -117,7 +114,6 @@
             font-size: 1.1rem;
         }
         
-        /* 视角控制按钮 */
         .view-controls {
             display: flex;
             flex-wrap: wrap;
@@ -182,8 +178,8 @@
         /* 触发按钮样式 */
         .trigger-btn {
             position: absolute;
-            width: 24px;
-            height: 24px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background-color: rgba(231, 76, 60, 0.9);
             border: 3px solid white;
@@ -196,7 +192,7 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 1.5rem;
         }
         
         .trigger-btn:hover {
@@ -471,11 +467,6 @@
             align-items: center;
         }
         
-        .structure-card h3 .icon {
-            margin-right: 10px;
-            font-size: 1.5rem;
-        }
-        
         .structure-card ul {
             list-style-type: none;
             padding-left: 20px;
@@ -495,27 +486,6 @@
             left: 0;
             top: -5px;
         }
-        
-        /* 材料标签 */
-        .material-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .material-tag {
-            background: #3498db;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        
-        .material-tag.brick { background: #e74c3c; }
-        .material-tag.stone { background: #7f8c8d; }
-        .material-tag.earth { background: #8e44ad; }
-        .material-tag.lime { background: #f39c12; }
         
         /* 图表区域 */
         .chart-section {
@@ -546,50 +516,6 @@
             grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 30px;
             margin-top: 30px;
-        }
-        
-        /* 防御体系 */
-        .defense-system {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .defense-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .defense-item {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            transition: transform 0.3s;
-        }
-        
-        .defense-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .defense-item h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .defense-tag {
-            display: inline-block;
-            background: #e74c3c;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
         }
         
         /* 建造技术 */
@@ -810,7 +736,7 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -823,7 +749,6 @@
         </nav>
     </header>
 
-    <!-- 英雄区域 -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">万里长城</h1>
@@ -841,7 +766,6 @@
         </div>
     </section>
 
-    <!-- === 3D模型展示 === -->
     <section class="model-section">
         <h2 class="section-title">长城三维结构探索</h2>
         <p class="section-subtitle">交互式3D模型，可多角度观察长城防御体系细节</p>
@@ -851,6 +775,7 @@
             <button class="view-btn" data-view="watchtower">敌楼近观</button>
             <button class="view-btn" data-view="battlement">垛口特写</button>
             <button class="view-btn" data-view="foundation">地基结构</button>
+            <button class="view-btn" data-view="reset">重置视角</button>
         </div>
         
         <div class="model-info">
@@ -860,14 +785,12 @@
         <div class="model-container">
             <div class="loading-overlay" id="loading-overlay">
                 <div class="loading-spinner"></div>
-                <div>模型加载中，请稍候...</div>
+                <div>模型加载中，请稍候...<span id="loading-percentage">0%</span></div>
             </div>
             <canvas id="greatwall-3d-canvas"></canvas>
             
-            <!-- 触发按钮 - 将在这里动态创建 -->
             <div id="trigger-buttons-container"></div>
             
-            <!-- 信息卡片 -->
             <div class="info-card" id="info-card">
                 <div class="info-card-header">
                     <h3 id="card-title">结构信息</h3>
@@ -885,7 +808,22 @@
         </div>
     </section>
 
-    <!-- 历史时间线 -->
+        <section class="chart-section">
+        <h2 class="section-title">图表直观展示长城的规模与构造</h2>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 style="text-align:center; margin-bottom:15px;">各朝代长城长度对比</h3>
+                <div id="dynasty-length-chart" class="chart"></div>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="text-align:center; margin-bottom:15px;">明长城材料构成分析</h3>
+                <div id="material-chart" class="chart"></div>
+            </div>
+        </div>
+    </section>
+
     <section class="timeline-section">
         <h2 class="section-title">长城建造历史时间线</h2>
         <p class="section-subtitle">多朝代接力修建的宏伟工程</p>
@@ -933,34 +871,13 @@
         </div>
     </section>
 
-    <!-- 图表区域 -->
-    <section class="chart-section">
-        <h2 class="section-title">长城数据可视化</h2>
-        <p class="section-subtitle">通过图表直观展示长城的规模与构造</p>
-        
-        <div class="charts-grid">
-            <!-- 各朝代长城长度对比 -->
-            <div class="chart-container">
-                <h3 style="text-align:center; margin-bottom:15px;">各朝代长城长度对比</h3>
-                <div id="dynasty-length-chart" class="chart"></div>
-            </div>
-            
-            <!-- 明长城材料构成 -->
-            <div class="chart-container">
-                <h3 style="text-align:center; margin-bottom:15px;">明长城材料构成分析</h3>
-                <div id="material-chart" class="chart"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 结构详情 -->
     <section class="structure-section">
         <h2 class="section-title">长城防御体系构造</h2>
         <p class="section-subtitle">明长城完善的军事防御系统</p>
         
         <div class="structure-grid">
             <div class="structure-card">
-                <h3><span class="icon">🏰</span>城墙主体</h3>
+                <h3>城墙主体</h3>
                 <ul>
                     <li><strong>剖面形状：</strong>梯形结构，底宽6-7米，顶宽4-5米，高7-8米</li>
                     <li><strong>材料构造：</strong>外部包砌条石/青砖，内部填充夯土碎石</li>
@@ -970,7 +887,7 @@
             </div>
             
             <div class="structure-card">
-                <h3><span class="icon">🗼</span>敌台/敌楼</h3>
+                <h3>敌台/敌楼</h3>
                 <ul>
                     <li><strong>结构：</strong>两层建筑，下层储物住宿，上层战斗平台</li>
                     <li><strong>功能：</strong>驻兵、储粮、武器库、观察哨</li>
@@ -980,7 +897,7 @@
             </div>
             
             <div class="structure-card">
-                <h3><span class="icon">🏹</span>防御设施</h3>
+                <h3>防御设施</h3>
                 <ul>
                     <li><strong>垛口：</strong>高1.8米，宽0.5米，用于瞭望射击</li>
                     <li><strong>射孔：</strong>分上下两排，适应立射与跪射</li>
@@ -990,22 +907,6 @@
             </div>
         </div>
         
-        <!-- 材料标签 -->
-        <div class="model-info" style="margin-top: 30px;">
-            <h3>🧱 建筑材料技术</h3>
-            <p>明长城采用多种材料，体现了古代建筑智慧：</p>
-            <div class="material-tags">
-                <span class="material-tag brick">青砖</span>
-                <span class="material-tag stone">条石</span>
-                <span class="material-tag earth">夯土</span>
-                <span class="material-tag lime">石灰粘合剂</span>
-                <span class="material-tag">碎石填充</span>
-                <span class="material-tag">木材（敌楼结构）</span>
-                <span class="material-tag">瓦（敌楼屋顶）</span>
-            </div>
-        </div>
-    </section>
-
     <!-- 建造技术 -->
     <section class="construction-tech">
         <h2 class="section-title">长城建造技术</h2>
@@ -1035,50 +936,6 @@
                 <h4>敌楼建造</h4>
                 <p>先建基础，再砌墙身，最后建屋顶，设置箭窗射孔</p>
             </div>
-    </section>
-
-    <!-- 防御体系 -->
-    <section class="defense-system">
-        <h2 class="section-title">长城防御体系</h2>
-        <p class="section-subtitle">立体化、多层次的军事防御系统</p>
-        
-        <div class="defense-grid">
-            <div class="defense-item">
-                <span class="defense-tag">城墙防御</span>
-                <h4>主体防线</h4>
-                <p>城墙是长城防御的主体，高7-8米，可有效阻挡骑兵冲锋。垛口、射孔构成火力网，控制墙前区域。</p>
-            </div>
-            
-            <div class="defense-item">
-                <span class="defense-tag">敌楼系统</span>
-                <h4>支撑节点</h4>
-                <p>敌楼间距100-200米，形成交叉火力。下层储存物资，可长期驻守；上层作战平台，视野开阔。</p>
-            </div>
-            
-            <div class="defense-item">
-                <span class="defense-tag">关城要塞</span>
-                <h4>咽喉要地</h4>
-                <p>山海关、嘉峪关等关城控制交通要道，设瓮城、敌楼、兵营，构成独立防御单元。</p>
-            </div>
-            
-            <div class="defense-item">
-                <span class="defense-tag">烽火报警</span>
-                <h4>通讯系统</h4>
-                <p>烽火台独立于城墙，白天燃烟，夜间举火，消息传递速度可达日行千里。</p>
-            </div>
-            
-            <div class="defense-item">
-                <span class="defense-tag">交通网络</span>
-                <h4>后勤保障</h4>
-                <p>城墙内侧设马道，供士兵机动；关城设仓库，储存粮草兵器，保障长期作战。</p>
-            </div>
-            
-            <div class="defense-item">
-                <span class="defense-tag">地形利用</span>
-                <h4>自然屏障</h4>
-                <p>依山就势修建，利用悬崖峭壁、河流沟壑增强防御，减少修建工程量。</p>
-            </div>
-        </div>
     </section>
 
     <!-- 文化传承 -->
@@ -1136,7 +993,6 @@
             });
         });
         
-        // 图表1：各朝代长城长度对比
         function initDynastyLengthChart() {
             const chartDom = document.getElementById('dynasty-length-chart');
             if (!chartDom) return;
@@ -1235,7 +1091,6 @@
             window.addEventListener('resize', () => chart.resize());
         }
         
-        // 图表2：明长城材料构成
         function initMaterialChart() {
     const chartDom = document.getElementById('material-chart');
     if (!chartDom) return;
@@ -1305,20 +1160,16 @@
     window.addEventListener('resize', () => chart.resize());
 }
         
-        // 3D模型展示功能 (适配万里长城)
         function initGreatWall3DModel() {
             const canvas = document.getElementById('greatwall-3d-canvas');
             if (!canvas) return;
             
-            // 创建Three.js场景
             const scene = new THREE.Scene();
             scene.background = new THREE.Color(0xf0f0f0);
             
-            // 创建相机
             const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
             camera.position.set(30, 10, 0);
             
-            // 创建渲染器
             const renderer = new THREE.WebGLRenderer({ 
                 canvas: canvas,
                 antialias: true,
@@ -1329,7 +1180,6 @@
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             
-            // 添加轨道控制器
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
@@ -1337,7 +1187,6 @@
             controls.minDistance = 10;
             controls.maxDistance = 100;
             
-            // 添加光源
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
             scene.add(ambientLight);
             
@@ -1346,22 +1195,19 @@
             directionalLight.castShadow = true;
             scene.add(directionalLight);
             
-            // 添加辅助网格
             const gridHelper = new THREE.GridHelper(100, 50, 0xcccccc, 0xcccccc);
             gridHelper.position.y = -2;
             scene.add(gridHelper);
             
-            // 触发按钮容器
             const triggerButtonsContainer = document.getElementById('trigger-buttons-container');
             
-            // 长城模型的触发点数据
             const triggerPoints = [
-                { id: 1, title: '城墙剖面', position: { x: 0, y: 4.5, z: 0 }, visibleIn: ['wall-section', 'overview'] },
-                { id: 2, title: '敌楼结构', position: { x: 8, y: 8, z: 0 }, visibleIn: ['watchtower', 'overview'] },
-                { id: 3, title: '垛口与女墙', position: { x: 0, y: 8.5, z: 3 }, visibleIn: ['battlement', 'overview', 'wall-section'] },
-                { id: 4, title: '条石地基', position: { x: 0, y: 0.5, z: 0 }, visibleIn: ['foundation', 'wall-section'] },
-                { id: 5, title: '排水系统', position: { x: 0, y: 7.5, z: 2.2 }, visibleIn: ['wall-section'] },
-                { id: 6, title: '马道', position: { x: -3, y: 5, z: 0 }, visibleIn: ['overview', 'wall-section'] }
+                { id: 1, title: '城墙主体', position: { x: 5, y: 5, z: 0 }, visibleIn: ['wall-section', 'overview'] },
+                { id: 2, title: '敌楼结构', position: { x: 0, y: 0, z: 0 }, visibleIn: ['watchtower', 'overview'] },
+                { id: 3, title: '垛口与女墙', position: { x: 0, y: 0, z: 0 }, visibleIn: ['battlement', 'overview', 'wall-section'] },
+                { id: 4, title: '条石地基', position: { x: 0, y: 0, z: 0 }, visibleIn: ['foundation', 'wall-section'] },
+                { id: 5, title: '排水系统', position: { x: 0, y: 0, z: 0 }, visibleIn: ['wall-section'] },
+                { id: 6, title: '马道', position: { x: 0, y: 0, z: 0 }, visibleIn: ['overview', 'wall-section'] }
             ];
             
             let modelTriggerPoints = [];
@@ -1456,16 +1302,14 @@
                     modelTriggerPoints.push(triggerPoint);
                 });
             }
-            
-            // 加载模型或创建默认模型
             const loadingOverlay = document.getElementById('loading-overlay');
             const modelLoader = new THREE.GLTFLoader();
-            // 修改：移除进度条更新逻辑，避免抽搐，只保留静态加载提示
             modelLoader.load(
                 'https://cdn.zhujijingwei.top/介绍-changcheng.glb',
                 function(gltf) {
+                    // 模型加载成功后的逻辑
                     const model = gltf.scene;
-                    model.scale.set(30, 30, 30);
+                    model.scale.set(35, 35, 35);
                     model.position.y = 0;
                     
                     model.traverse(function(child) {
@@ -1477,14 +1321,41 @@
                     
                     scene.add(model);
                     createTriggerPointsForModel(model);
+                    // 加载完成后，隐藏加载遮罩
                     loadingOverlay.style.display = 'none';
                     createTriggerButtons();
                 },
-                undefined, // 不再使用进度更新回调，彻底移除动态百分比显示
+                // ======== 重新添加的进度回调函数 (关键) ========
+                function(xhr) {
+                    // xhr 是一个 XMLHttpRequest 对象
+                    if (xhr.lengthComputable) {
+                        // 计算加载百分比
+                        const percentComplete = (xhr.loaded / xhr.total) * 100;
+                        // 获取页面上的百分比显示元素
+                        const percentElement = document.getElementById('loading-percentage');
+                        if (percentElement) {
+                            // 更新显示文本，例如 "75%"
+                            percentElement.textContent = Math.round(percentComplete) + '%';
+                        }
+                    } else {
+                        // 如果无法计算总大小，则显示已加载的字节数
+                        const percentElement = document.getElementById('loading-percentage');
+                        if (percentElement) {
+                            // 将字节数转换为更易读的单位 (KB, MB)
+                            const loadedMB = (xhr.loaded / (1024 * 1024)).toFixed(2);
+                            percentElement.textContent = loadedMB + ' MB 已加载';
+                        }
+                    }
+                },
+                // ======== 进度回调函数结束 ========
                 function(error) {
+                    // 加载失败的回调
                     console.error('模型加载失败:', error);
+                    const percentElement = document.getElementById('loading-percentage');
+                    if (percentElement) {
+                        percentElement.textContent = '加载失败';
+                    }
                     loadingOverlay.innerHTML = '<div style="color:red;">模型加载失败，请检查网络或刷新页面重试。</div>';
-                    // 5秒后自动隐藏错误提示
                     setTimeout(() => {
                         loadingOverlay.style.display = 'none';
                     }, 5000);
@@ -1498,7 +1369,8 @@
                 'wall-section': { position: { x: 10, y: 5, z: 15 }, target: { x: 0, y: 4, z: 0 } },
                 'watchtower': { position: { x: 15, y: 8, z: 5 }, target: { x: 8, y: 8, z: 0 } },
                 'battlement': { position: { x: 5, y: 10, z: 8 }, target: { x: 0, y: 8.5, z: 3 } },
-                'foundation': { position: { x: 0, y: -30, z: 0 }, target: { x: 0, y: 10, z: 0 }  }
+                'foundation': { position: { x: 0, y: -30, z: 0 }, target: { x: 0, y: 10, z: 0 }  },
+                'reset': { position: { x: 30, y: 15, z: 0 }, target: { x: 0, y: 5, z: 0 } }
             };
             
             viewButtons.forEach(button => {
@@ -1548,12 +1420,8 @@
             const triggerData = {
                 'trigger-1': {
                     title: '城墙',
-                    content: '明长城城墙主体呈梯形剖面，底宽6-7米，顶宽4-5米，高7-8米。这种“下宽上窄”的设计极大地增强了稳定性。外部多包砌青砖或条石，内部填充夯土、碎石和石灰的混合物。',
-                    // 应用图文并茂输出规则：此处描述与文档中的长城全景图含义强相关（都展示长城结构），因此引用该图片。
-                    image: {
-                        src: '../建筑/assets/iamges/great-wall.jpg',
-                        caption: '明长城城墙梯形剖面结构示意图'
-                    }
+                    content:`城墙为梯形结构，底宽6-7米，顶宽4-5米，高7-8米。墙体外部包砌条石或青砖，内部填充夯土碎石。墙顶铺设方砖，外侧设垛口，内侧筑女墙，并设有排水沟和吐水嘴的完整排水系统，以防雨水侵蚀。
+                    `
                 },
                 'trigger-2': {
                     title: '敌楼结构',
@@ -1704,7 +1572,7 @@
                 });
             }, observerOptions);
             
-            document.querySelectorAll('.structure-card, .defense-item, .tech-step').forEach(el => {
+            document.querySelectorAll('.structure-card, .tech-step').forEach(el => {
                 observer.observe(el);
             });
         });

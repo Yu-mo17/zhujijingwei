@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -94,8 +93,7 @@
         .hero-image:hover img {
             transform: scale(1.03);
         }
-        
-        /* 核心解密卡片区 */
+
         .cards-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -156,15 +154,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
         
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
         
         .card-content {
             padding: 25px;
@@ -205,8 +194,7 @@
             margin: 5px 0;
             font-size: 0.95rem;
         }
-        
-        /* 表格样式 */
+
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -230,7 +218,6 @@
             background: #f8f9fa;
         }
         
-        /* 对比分析区 */
         .comparison-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -289,7 +276,6 @@
             font-weight: 600;
         }
         
-        /* 时间轴样式 */
         .timeline-container {
             background: white;
             padding: 30px;
@@ -366,7 +352,6 @@
             line-height: 1.6;
         }
         
-        /* 基本信息卡区域 */
         .basic-info-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -422,7 +407,6 @@
             line-height: 1.6;
         }
         
-        /* 结语与导航 */
         .conclusion-section {
             max-width: 1200px;
             margin: 40px auto 60px;
@@ -476,10 +460,6 @@
             background: #2980b9;
         }
         
-
-        
-
-        /* 天工开物雷达图样式 */
         .radar-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -497,7 +477,6 @@
             height: 500px;
         }
         
-        /* 响应式设计 */
         @media (max-width: 1024px) {
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -557,7 +536,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -570,7 +548,6 @@
         </nav>
     </header>
 
-<!-- 英雄区域 -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">《天工开物》</h1>
@@ -586,7 +563,6 @@
         </div>
     </section>
 
-    <!-- 天工开物雷达图区域 -->
     <section class="radar-section">
         <h2 class="section-title">《天工开物》核心能力图谱</h2>
         <p class="section-subtitle">六大维度展现中国17世纪工艺百科全书的地位</p>
@@ -595,10 +571,8 @@
         </div>
     </section>
 
-    <!-- 基本信息卡区域 -->
     <section class="basic-info-section">
         <h2 class="section-title">《天工开物》基本信息</h2>
-        
         <div class="info-card">
             <div class="info-card-header">
                 <h3>文献档案</h3>
@@ -636,21 +610,17 @@
         </div>
     </section>
 
-    <!-- 核心解密卡片区 -->
     <section id="cards" class="cards-section">
         <h2 class="section-title">古代工艺的科学体系</h2>
         <p class="section-subtitle">《天工开物》建立了中国古代从农业生产到工业制造的完整技术理论框架</p>
         
         <div class="cards-container">
-            <!-- 卡片一：农业与衣食技艺 -->
             <div class="card">
-                <div class="card-icon">🎨</div>
                 <div class="card-content">
                     <h3><span class="icon">农业与衣食技艺</h3>
                     <p><strong>核心宗旨：</strong>"贵五谷而贱金玉"——以民生为本，重视粮食与衣物生产</p>
                     <p><strong>核心法则：</strong>顺应天时、因地制宜、精耕细作、技艺改良</p>
                     <p><strong>核心内容：</strong>系统记载粮食种植、养蚕、缫丝、纺织、染色、制盐、制糖等民生技艺</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>分类</th>
@@ -672,15 +642,12 @@
                 </div>
             </div>
             
-            <!-- 卡片二：工业制造技艺 -->
             <div class="card">
-                <div class="card-icon">🏯</div>
                 <div class="card-content">
                     <h3><span class="icon">工业制造技艺</h3>
                     <p><strong>冶金铸造：</strong>详细记载生铁、熟铁、钢铁、铜、锌冶炼技术，领先世界同期水平</p>
                     <p><strong>陶瓷造纸：</strong>完整记录砖瓦、陶瓷烧制、竹纸、皮纸制造全流程工艺</p>
                     <p><strong>舟车制造：</strong>系统描述船舶、车辆结构、制作工艺、航行与行驶技术</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>构件类型</th>
@@ -702,9 +669,7 @@
                 </div>
             </div>
             
-            <!-- 卡片三：系统性生产流程 -->
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
                     <h3><span class="icon">系统性生产流程</h3>
                     <p>《天工开物》建立了从原料到成品的全流程生产体系，形成可复制、可推广的科学方法论：</p>
@@ -719,9 +684,7 @@
                 </div>
             </div>
             
-            <!-- 卡片四：历史地位与传承 -->
             <div class="card">
-                <div class="card-icon">📚</div>
                 <div class="card-content">
                     <h3><span class="icon">历史地位与传承</h3>
                     <p><strong>历史地位：</strong>中国古代科技史里程碑，世界第一部综合性工农业技术百科全书。</p>
@@ -750,7 +713,6 @@
         </div>
     </section>
 
-    <!-- 对比分析区 -->
     <section class="comparison-section">
         <div class="comparison-container">
             <h2 class="comparison-title">理论对比分析</h2>
@@ -835,7 +797,6 @@
         </div>
     </section>
 
-    <!-- 结语与导航 -->
     <section class="conclusion-section">
         <p class="conclusion-text">
             《天工开物》不仅是一部古代工艺技术手册，更是一部承载中华文明实用智慧的科技经典。它以"贵五谷而贱金玉"的民生理念，将农业与手工业技艺系统整理，让中国古代千万工匠的实践智慧升华为科学体系。从农田耕作到冶金制造，从纺织造纸到舟车建造，它完整展现了17世纪中国领先世界的科技水平。这部典籍不仅是中国古代科技的"活档案"，更是世界文明史上珍贵的科技遗产，至今仍在传统工艺复原、非遗传承、文化自信建设中发挥着不可替代的价值。
@@ -847,15 +808,12 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -865,8 +823,6 @@
                     this.style.transform = 'translateY(0)';
                 });
             });
-            
-            // 平滑滚动
             const exploreBtn = document.querySelectorAll('.btn');
             exploreBtn.forEach(btn => {
                 if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
@@ -880,7 +836,6 @@
                 }
             });
             
-            // 表格行悬停效果
             const tableRows = document.querySelectorAll('.comparison-table tbody tr');
             tableRows.forEach(row => {
                 row.addEventListener('mouseenter', function() {
@@ -891,7 +846,6 @@
                 });
             });
             
-            // 基本信息卡悬停效果
             const infoCard = document.querySelector('.info-card');
             if (infoCard) {
                 infoCard.addEventListener('mouseenter', function() {
@@ -903,8 +857,7 @@
                     this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
                 });
             }
-
-            // ==================== 天工开物雷达图 ====================
+            
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},

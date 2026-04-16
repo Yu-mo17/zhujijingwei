@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>汉长安城 - 筑迹经纬</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <!-- 引入ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <!-- 引入Three.js库（新增，用于3D交互） -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        /* 英雄区域 */
+
         .hero-section {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -100,7 +98,6 @@
             border-radius: 2px;
         }
 
-        /* === 3D模型展示区域 (已完全修改为交互式) === */
         .model-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -116,8 +113,7 @@
             margin-bottom: 30px;
             font-size: 1.1rem;
         }
-        
-        /* 视角控制按钮 */
+
         .view-controls {
             display: flex;
             flex-wrap: wrap;
@@ -178,8 +174,7 @@
             height: 100%;
             display: block;
         }
-        
-        /* 触发按钮样式 */
+
         .trigger-btn {
             position: absolute;
             width: 24px;
@@ -225,8 +220,7 @@
         .trigger-btn:hover::after {
             opacity: 1;
         }
-        
-        /* 信息卡片样式 */
+
         .info-card {
             position: absolute;
             background: white;
@@ -339,8 +333,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        /* 时间轴区域 */
+ 
         .timeline-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -433,91 +426,6 @@
             line-height: 1.7;
         }
         
-        /* 结构详情 */
-        .structure-section {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .structure-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .structure-card {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            border-left: 4px solid #e74c3c;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .structure-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        
-        .structure-card h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .structure-card h3 .icon {
-            margin-right: 10px;
-            font-size: 1.5rem;
-        }
-        
-        .structure-card ul {
-            list-style-type: none;
-            padding-left: 20px;
-        }
-        
-        .structure-card li {
-            margin: 12px 0;
-            position: relative;
-            padding-left: 20px;
-        }
-        
-        .structure-card li:before {
-            content: "•";
-            color: #e74c3c;
-            font-size: 1.5rem;
-            position: absolute;
-            left: 0;
-            top: -5px;
-        }
-        
-        /* 材料标签 */
-        .material-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .material-tag {
-            background: #3498db;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        
-        .material-tag.brick { background: #e74c3c; }
-        .material-tag.stone { background: #7f8c8d; }
-        .material-tag.earth { background: #8e44ad; }
-        .material-tag.lime { background: #f39c12; }
-        
-        /* 图表区域 */
         .chart-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -547,8 +455,7 @@
             gap: 30px;
             margin-top: 30px;
         }
-        
-        /* 防御体系 */
+
         .defense-system {
             max-width: 1200px;
             margin: 40px auto;
@@ -592,43 +499,6 @@
             margin-bottom: 15px;
         }
         
-        /* 建造技术 */
-        .construction-tech {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .tech-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .tech-step {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .step-number {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            line-height: 40px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        
-        /* 文化传承 */
         .culture-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -668,7 +538,6 @@
             margin-bottom: 15px;
         }
 
-        /* 动画效果 */
         .animate-in {
             animation: fadeInUp 0.6s ease forwards;
         }
@@ -683,8 +552,7 @@
                 transform: translateY(0);
             }
         }
-        
-        /* 返回顶部按钮 */
+
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -713,8 +581,7 @@
             background: #c0392b;
             transform: translateY(-5px);
         }
-        
-        /* 响应式设计 */
+ 
         @media (max-width: 1024px) {
             .charts-grid {
                 grid-template-columns: 1fr;
@@ -727,7 +594,7 @@
                 gap: 20px;
             }
             
-            .structure-grid, .tech-steps, .defense-grid {
+             .tech-steps, .defense-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -808,7 +675,7 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -977,129 +844,6 @@
                     <h4>达到鼎盛</h4>
                     <p>汉武帝在位期间，长安城建设达到顶峰。扩建宫殿，完善城市设施，人口超过50万，成为世界级大都市。</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 结构详情 -->
-    <section class="structure-section">
-        <h2 class="section-title">汉长安城结构详解</h2>
-        <p class="section-subtitle">中国古代都城规划的经典范例</p>
-        
-        <div class="structure-grid">
-            <div class="structure-card">
-                <h3><span class="icon">🏛️</span>城墙与城门</h3>
-                <ul>
-                    <li>城墙周长约25.7公里，高约12米</li>
-                    <li>设有12座城门，每面3门</li>
-                    <li>城门建筑宏伟，设有门阙和瓮城</li>
-                    <li>采用夯土筑成，外包砖石</li>
-                </ul>
-                <div class="material-tags">
-                    <span class="material-tag earth">夯土</span>
-                    <span class="material-tag brick">砖石</span>
-                </div>
-            </div>
-            
-            <div class="structure-card">
-                <h3><span class="icon">🏰</span>宫殿区</h3>
-                <ul>
-                    <li>未央宫：皇帝主要宫殿，面积约5平方公里</li>
-                    <li>长乐宫：太后居所，位于城东南</li>
-                    <li>桂宫、明光宫、北宫等众多宫殿</li>
-                    <li>宫殿建筑采用高台基、斗拱等技术</li>
-                </ul>
-                <div class="material-tags">
-                    <span class="material-tag stone">石材</span>
-                    <span class="material-tag brick">砖瓦</span>
-                </div>
-            </div>
-            
-            <div class="structure-card">
-                <h3><span class="icon">🏪</span>市场与商业区</h3>
-                <ul>
-                    <li>东市、西市：长安城两大商业中心</li>
-                    <li>市场规划整齐，店铺林立</li>
-                    <li>交易各类商品，繁荣的经济中心</li>
-                    <li>设有专门的管理机构</li>
-                </ul>
-                <div class="material-tags">
-                    <span class="material-tag brick">砖木</span>
-                </div>
-            </div>
-            
-            <div class="structure-card">
-                <h3><span class="icon">🏘️</span>居民区</h3>
-                <ul>
-                    <li>采用"棋盘式"街道布局</li>
-                    <li>街道宽阔笔直，井字形分布</li>
-                    <li>居民住宅区分布有序</li>
-                    <li>设有里门、坊门等管理</li>
-                </ul>
-                <div class="material-tags">
-                    <span class="material-tag brick">砖木</span>
-                    <span class="material-tag earth">土坯</span>
-                </div>
-            </div>
-            
-            <div class="structure-card">
-                <h3><span class="icon">🌉</span>道路与桥梁</h3>
-                <ul>
-                    <li>安门大街：城市中轴线，宽约45米</li>
-                    <li>八街九陌：纵横交错的道路系统</li>
-                    <li>桥梁横跨渭水，连接南北</li>
-                    <li>完善的交通网络</li>
-                </ul>
-                <div class="material-tags">
-                    <span class="material-tag stone">石材</span>
-                    <span class="material-tag brick">砖石</span>
-                </div>
-            </div>
-            
-            <div class="structure-card">
-                <h3><span class="icon">🏛️</span>官署与宗庙</h3>
-                <ul>
-                    <li>太庙：祭祀祖先的场所</li>
-                    <li>社稷坛：祭祀土地和五谷之神</li>
-                    <li>各级官署分布有序</li>
-                    <li>体现封建礼制建筑</li>
-                </ul>
-                <div class="material-tags">
-                    <span class="material-tag stone">石材</span>
-                    <span class="material-tag brick">砖瓦</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 建造技术 -->
-    <section class="construction-tech">
-        <h2 class="section-title">汉代建筑技术成就</h2>
-        <p class="section-subtitle">奠定中国古代建筑技术基础</p>
-        
-        <div class="tech-steps">
-            <div class="tech-step">
-                <div class="step-number">1</div>
-                <h4>夯土技术</h4>
-                <p>大规模使用夯土筑墙技术，层夯密实，坚固耐用。长安城墙即采用此技术。</p>
-            </div>
-            
-            <div class="tech-step">
-                <div class="step-number">2</div>
-                <h4>斗拱结构</h4>
-                <p>木构建筑中广泛使用斗拱，出檐深远，增强建筑稳定性。</p>
-            </div>
-            
-            <div class="tech-step">
-                <div class="step-number">3</div>
-                <h4>砖瓦工艺</h4>
-                <p>发明了空心砖、板瓦等新型建材，提高建筑防水和保温性能。</p>
-            </div>
-            
-            <div class="tech-step">
-                <div class="step-number">4</div>
-                <h4>城市规划</h4>
-                <p>首创"棋盘式"城市布局，道路笔直，功能分区明确。</p>
             </div>
         </div>
     </section>

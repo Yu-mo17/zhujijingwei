@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -50,7 +49,6 @@
             justify-content: center;
         }
         
-
         .bilibili-video-btn {
             display: inline-flex;
             align-items: center;
@@ -122,7 +120,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* 响应式调整 */
         @media (max-width: 768px) {
             .bilibili-video-btn {
                 padding: 12px 24px;
@@ -175,7 +172,6 @@
         }
         
         
-        /* 核心解密卡片区 */
         .cards-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -236,15 +232,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
         
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
         
         .card-content {
             padding: 25px;
@@ -286,7 +273,6 @@
             font-size: 0.95rem;
         }
         
-        /* 时空影响区 */
         .timeline-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -309,7 +295,6 @@
             text-align: center;
         }
         
-        /* 时间轴样式 */
         .timeline {
             position: relative;
             padding-left: 30px;
@@ -370,7 +355,6 @@
             line-height: 1.6;
         }
         
-        /* 对比画廊 */
         .comparison-item {
             margin-bottom: 40px;
         }
@@ -418,7 +402,6 @@
             border-radius: 8px;
         }
         
-        /* 基本信息卡区域 */
         .basic-info-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -474,7 +457,6 @@
             line-height: 1.6;
         }
         
-        /* 结语与导航 */
         .conclusion-section {
             max-width: 1200px;
             margin: 40px auto 60px;
@@ -519,7 +501,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
-        /* 鲁班经雷达图样式 */
         .radar-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -537,7 +518,6 @@
             height: 500px;
         }
         
-        /* 响应式设计 */
         @media (max-width: 1024px) {
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -611,7 +591,7 @@
     </style>
 </head>
     <body>
-        <!-- 导航栏 -->
+    
         <header class="main-header">
             <nav class="main-nav">
                 <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -624,12 +604,10 @@
             </nav>
         </header>
 
-<!-- 英雄区域 -->
         <section class="hero-section">
             <div class="hero-content">
                 <h1 class="achievement-title">《鲁班经》</h1>
                 <p class="achievement-subtitle">明清民间流传最广的营造经典，由工匠祖师鲁班一脉相传。它不仅是木工营造技艺的百科全书，更融合了风水、营造法度、民俗禁忌与建筑礼仪，是中国民间建筑智慧与工匠信仰的集大成者。</p>
-        
             <div class="hero-buttons">
                 <a href="https://www.bilibili.com/video/BV12GH2zjE4o/?spm_id_from=333.337.search-card.all.click&vd_source=16067c75ae39eca8ae649ea7ab0f45ab" target="_blank" class="bilibili-video-btn" rel="noopener noreferrer">
                 <span class="play-icon">▶</span>
@@ -653,7 +631,7 @@
         </div>
     </section>
 
-    <!-- 基本信息卡区域 -->
+
     <section class="basic-info-section">
         <div class="info-card">
             <div class="info-card-header">
@@ -692,17 +670,14 @@
         </div>
     </section>
 
-    <!-- 核心解密卡片区 -->
     <section id="cards" class="cards-section">
         <h2 class="section-title">四大划时代价值</h2>
         <p class="section-subtitle">《鲁班经》之所以成为民间营造经典，在于它是技艺、风水、民俗与信仰的完美融合</p>
         
         <div class="cards-container">
-            <!-- 卡片一 -->
             <div class="card">
-                <div class="card-icon">📏</div>
                 <div class="card-content">
-                    <h3><span class="icon">📏</span>民间营造法度——民居建筑的建造准则</h3>
+                    <h3><span class="icon"></span>民间营造法度——民居建筑的建造准则</h3>
                     <p><strong>核心概念：</strong>系统记载民间房屋、厅堂、楼阁、门楼、庭院的营造尺寸、结构做法、施工流程，是民间工匠的实操手册。</p>
                     <p><strong>何以伟大：</strong>统一了全国民间建筑的营造标准，让普通民居、祠堂、庙宇都有规范可循，是乡土建筑传承千年的技术根基。</p>
                 </div>
@@ -710,9 +685,8 @@
             
             <!-- 卡片二 -->
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
-                    <h3><span class="icon">📊</span>融合风水吉凶——建筑与环境的和谐之道</h3>
+                    <h3><span class="icon"></span>融合风水吉凶——建筑与环境的和谐之道</h3>
                     <p><strong>核心概念：</strong>详细规定房屋朝向、开间尺寸、高低比例、门窗位置、梁柱布局的风水宜忌，兼顾居住安全与民俗信仰。</p>
                     <p><strong>何以伟大：</strong>将建筑技术与民俗文化深度结合，形成中国独有的民间营造哲学，让房屋不仅是居所，更是文化与信仰的载体。</p>
                 </div>
@@ -720,9 +694,8 @@
             
             <!-- 卡片三 -->
             <div class="card">
-                <div class="card-icon">📐</div>
                 <div class="card-content">
-                    <h3><span class="icon">📐</span>木工技艺图谱——传统手艺的活态传承</h3>
+                    <h3><span class="icon"></span>木工技艺图谱——传统手艺的活态传承</h3>
                     <p><strong>核心概念：</strong>记载榫卯结构、家具制作、木构件加工、雕刻工艺、工具使用等全套木工技艺，图文对照，通俗易懂。</p>
                     <p><strong>何以伟大：</strong>让高深的木工技艺得以口传心授、书面传承，保护了大量濒临失传的民间工艺，是传统木作技艺的宝库。</p>
                 </div>
@@ -730,9 +703,8 @@
             
             <!-- 卡片四 -->
             <div class="card">
-                <div class="card-icon">🎨</div>
                 <div class="card-content">
-                    <h3><span class="icon">🎨</span>工匠信仰礼仪——营造行业的精神内核</h3>
+                    <h3><span class="icon"></span>工匠信仰礼仪——营造行业的精神内核</h3>
                     <p><strong>核心概念：</strong>包含上梁仪式、开工祭祀、工匠禁忌、行业规矩，是古代工匠行业的行为准则与精神信仰。</p>
                     <p><strong>何以伟大：</strong>构建了中国工匠独有的文化体系与职业信仰，让营造技艺与人文精神共生，成为中华文明乡土文化的重要组成。</p>
                 </div>
@@ -745,11 +717,9 @@
         <h2 class="section-title">《鲁班经》的千年传承脉络</h2>
         <p class="section-subtitle">一部民间经典，如何塑造中国数百年乡土建筑与工匠文化？</p>
         
-        <!-- 时间轴容器 -->
         <div class="timeline-container">
             <h3 class="timeline-title">一部典籍的民间旅程</h3>
             <div class="timeline">
-                <!-- 时间轴项目1 -->
                 <div class="timeline-item">
                     <div class="timeline-year">春秋</div>
                     <div class="timeline-content">
@@ -758,7 +728,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目2 -->
                 <div class="timeline-item">
                     <div class="timeline-year">明代</div>
                     <div class="timeline-content">
@@ -767,7 +736,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目3 -->
                 <div class="timeline-item">
                     <div class="timeline-year">清代</div>
                     <div class="timeline-content">
@@ -776,7 +744,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目4 -->
                 <div class="timeline-item">
                     <div class="timeline-year">民国</div>
                     <div class="timeline-content">
@@ -785,7 +752,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目5 -->
                 <div class="timeline-item">
                     <div class="timeline-year">现代</div>
                     <div class="timeline-content">
@@ -794,7 +760,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目6 -->
                 <div class="timeline-item">
                     <div class="timeline-year">至今</div>
                     <div class="timeline-content">
@@ -805,11 +770,9 @@
             </div>
         </div>
         
-        <!-- 对比画廊容器 -->
         <div class="comparison-container">
             <h3 class="comparison-title">书中的法度，民间的家园</h3>
             
-            <!-- 对比案例1 -->
             <div class="comparison-item">
                 <div class="comparison-images">
                     <div class="comparison-image">
@@ -823,7 +786,6 @@
                 </div>
             </div>
             
-            <!-- 对比案例2 -->
             <div class="comparison-item">
                 <div class="comparison-images">
                     <div class="comparison-image">
@@ -843,7 +805,6 @@
         </div>
     </section>
 
-    <!-- 结语与导航 -->
     <section class="conclusion-section">
         <p class="conclusion-text">
             《鲁班经》的伟大，在于它扎根民间、守护技艺、传承信仰，将最朴素的营造智慧升华为中华文明的文化基因。它是一把尺，丈量出民间建筑的烟火气息；它是一座桥，连接起传统手艺与乡土文化的根脉。
@@ -854,15 +815,12 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -873,7 +831,6 @@
                 });
             });
             
-            // 平滑滚动到卡片区域
             const exploreBtn = document.querySelector('.btn');
             if (exploreBtn && exploreBtn.getAttribute('href') === '#cards') {
                 exploreBtn.addEventListener('click', function(e) {
@@ -884,7 +841,6 @@
                 });
             }
             
-            // 基本信息卡悬停效果
             const infoCard = document.querySelector('.info-card');
             if (infoCard) {
                 infoCard.addEventListener('mouseenter', function() {
@@ -897,7 +853,6 @@
                 });
             }
 
-            // ==================== 鲁班经雷达图 ====================
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},

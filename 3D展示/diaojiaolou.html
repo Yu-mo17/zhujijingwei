@@ -9,62 +9,24 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        @media (max-width: 768px) {
-            .main-nav {
-                flex-direction: column;
-                height: auto;
-                padding: 15px;
-            }
-            
-            .nav-links {
-                margin-top: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-    
-            .nav-links a {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-            }
-        }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 100px 20px;
         }
 
-        @media (max-width: 480px) {
-            .main-nav {
-                padding: 10px;
-            }
-    
-            .nav-links {
-                gap: 10px;
-            }
-    
-            .nav-links a {
-                padding: 4px 8px;
-                font-size: 0.8rem;
-            }
-        }
-
-        
         h1 {
             font-size: 2.2rem;
-            color: #8b0000; /* 古建红色 */
+            color: #8b0000;
             margin-bottom: 8px;
         }
         
-        /* 主内容区 - 左侧模型 + 右侧建筑卡片 */
         .model-content {
             display: flex;
             gap: 30px;
             margin-bottom: 30px;
         }
         
-        /* 左侧3D模型区域 */
         .model-section {
             flex: 3;
             min-width: 0; 
@@ -144,12 +106,6 @@
             border: 1px solid #e0d6c8;
         }
         
-        .error-icon {
-            font-size: 2.5rem;
-            color: #8b0000;
-            margin-bottom: 15px;
-        }
-        
         .error-text {
             color: #8b0000;
             margin-bottom: 20px;
@@ -170,8 +126,7 @@
         .retry-button:hover {
             background-color: #a00;
         }
-        
-        /* 外部控制面板样式 - 放在3D模型区域下方 */
+
         .external-controls {
             display: flex;
             justify-content: space-between;
@@ -232,8 +187,7 @@
             border-radius: 20px;
             border: 1px solid #e8e0d5;
         }
-        
-        /* 右侧建筑卡片区域 */
+
         .card-section {
             flex: 1;
             min-width: 300px;
@@ -298,8 +252,7 @@
             color: #3c2f2f;
             font-weight: 500;
         }
-        
-        /* 建筑简介区域 */
+
         .description-section {
             background-color: #fff;
             border-radius: 12px;
@@ -322,8 +275,7 @@
             line-height: 1.8;
             font-size: 1.05rem;
         }
-        
-        /* 相关建筑链接卡片区域 */
+
         .related-section {
             margin-bottom: 30px;
         }
@@ -468,7 +420,6 @@
                     </div>
                     
                     <div class="error-message" id="error-message">
-                        <div class="error-icon">⚠️</div>
                         <div class="error-text" id="error-text">模型加载失败，请检查控制台错误信息</div>
                         <button class="retry-button" id="retry-button">重试加载</button>
                     </div>
@@ -491,7 +442,6 @@
                 <div class="building-card">
                     <h2 class="building-title">苗族吊脚楼</h2>
                     <p class="building-address">主要分布于贵州省黔东南、湘西土家族苗族自治州、云南省文山壮族苗族自治州</p>
-                    
                     <div class="tag-container">
                         <span class="tag">苗族传统民居</span>
                         <span class="tag">木质榫卯</span>
@@ -553,7 +503,6 @@
             </div>
         </div>
         
-		<!-- 福建土楼 -->
 		<div class="related-card">
 			<div class="related-thumbnail">
                 <img src="../assets/images/3D/qing-tulou.png" alt="福建土楼">
@@ -567,10 +516,10 @@
 
         <div class="related-card">
             <div class="related-thumbnail">
-                <img src="../assets/images/3D/menggubao.jpg" alt="传统蒙古包">
+                <img src="../assets/images/3D/menggubao.jpg" alt="蒙古包">
             </div>
             <div class="related-content">
-                <h4 class="related-card-title">传统蒙古包</h4>
+                <h4 class="related-card-title">蒙古包</h4>
                 <p class="related-card-desc">蒙古族游牧民居，以毛毡、木架为主要结构，广泛分布于内蒙古草原。</p>
                 <a href="menggubao.html" class="view-button">查看详情</a>
             </div>
@@ -584,28 +533,25 @@
         </div>
     </div>
 
-          <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // Three.js 3D场景
+
         let scene, camera, renderer, controls;
         let model = null;
         let wireframeMode = false;
         let gridEnabled = false;
-        let autoRotate = true; // 默认开启自动旋转
+        let autoRotate = true; 
         
-        // DOM元素
         const canvas = document.getElementById('model-canvas');
         const loadingScreen = document.getElementById('loading-screen');
         const loadingDetails = document.getElementById('loading-details');
         const errorMessage = document.getElementById('error-message');
         const errorText = document.getElementById('error-text');
         const retryButton = document.getElementById('retry-button');
-        
-        // 检查WebGL支持
+
         function checkWebGLSupport() {
             try {
                 const canvas = document.createElement('canvas');
@@ -621,24 +567,18 @@
             document.getElementById('loading-screen').style.display = 'none';
             document.getElementById('error-message').style.display = 'block';
         }
-        
-        // 初始化Three.js场景
+
         function init() {
             try {
-                // 创建场景
                 scene = new THREE.Scene();
                 scene.background = new THREE.Color(0xf0f0f0);
-                
-                // 创建相机
                 camera = new THREE.PerspectiveCamera(
                     45, 
                     canvas.clientWidth / canvas.clientHeight, 
                     0.1, 
                     1000
                 );
-                camera.position.set(30, 20, 30); // 调整相机初始位置
-                
-                // 创建渲染器
+                camera.position.set(30, 20, 30);
                 renderer = new THREE.WebGLRenderer({ 
                     canvas: canvas,
                     antialias: true,
@@ -648,45 +588,30 @@
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 renderer.shadowMap.enabled = true;
                 renderer.outputEncoding = THREE.sRGBEncoding;
-                
-                // 添加轨道控制器 - 移除垂直角度限制
+
                 if (typeof THREE.OrbitControls !== 'undefined') {
                     controls = new THREE.OrbitControls(camera, renderer.domElement);
                     controls.enableDamping = true;
                     controls.dampingFactor = 0.05;
                     controls.minDistance = 5;
-                    controls.maxDistance = 150; // 增加最大距离
-                    // 移除垂直角度限制，允许任意角度旋转
-                    controls.maxPolarAngle = Math.PI; // 允许相机旋转到任何角度
-                    controls.minPolarAngle = 0; // 允许从底部看
-                    // 启用自动旋转
+                    controls.maxDistance = 150;
+
+                    controls.maxPolarAngle = Math.PI;
+                    controls.minPolarAngle = 0; 
+
                     controls.autoRotate = autoRotate;
-                    controls.autoRotateSpeed = 0.5; // 设置旋转速度
+                    controls.autoRotateSpeed = 0.5; 
                 } else {
                     console.error('OrbitControls未加载');
                     showError('Three.js控制器未正确加载');
                     return;
                 }
-                
-                // 添加光源
+
                 setupLights();
-                
-                // 添加辅助工具
                 setupHelpers();
-                
-                // 注意：这里注释掉了创建地面的函数调用
-                // createGround(); // 移除地面
-                
-                // 加载模型
                 loadModel();
-                
-                // 开始渲染循环
                 animate();
-                
-                // 添加窗口大小调整监听
                 window.addEventListener('resize', onWindowResize);
-                
-                // 添加控制按钮事件
                 setupControls();
                 
             } catch (error) {
@@ -694,74 +619,49 @@
                 showError('场景初始化失败: ' + error.message);
             }
         }
-        
-        // 设置光源
+
         function setupLights() {
-            // 环境光
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
-            
-            // 主定向光
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
             directionalLight.position.set(10, 20, 5);
             directionalLight.castShadow = true;
             scene.add(directionalLight);
-            
-            // 补充光
             const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
             fillLight.position.set(-10, 10, -5);
             scene.add(fillLight);
         }
-        
-        // 设置辅助工具
+
         function setupHelpers() {
-            // 网格辅助
             gridHelper = new THREE.GridHelper(30, 30, 0x888888, 0x444444);
-            gridHelper.position.y = 0; // 调整到y=0位置
+            gridHelper.position.y = 0; 
             gridHelper.visible = false;
             scene.add(gridHelper);
         }
-        
-        // 加载3D模型
+
         function loadModel() {
             const modelUrl = 'https://cdn.zhujijingwei.top/diaojiaolou.glb';
             loadingDetails.textContent = '正在加载模型文件...';
-            
-            // 创建GLTF加载器
             const loader = new THREE.GLTFLoader();
-            
-            // 加载模型
             loader.load(
                 modelUrl,
-                // 加载成功回调
                 function(gltf) {
                     console.log('模型加载成功');
                     model = gltf.scene;
-                    model.scale.set(100, 100, 100); // 放大6倍以适应场景
-                    
-                    // 计算模型包围盒，使其底部在y=0位置
+                    model.scale.set(100, 100, 100);
                     const box = new THREE.Box3().setFromObject(model);
                     const minY = box.min.y;
                     const center = box.getCenter(new THREE.Vector3());
-                    
-                    // 调整模型位置
                     model.position.set(0, -minY, 0);
-                    
-                    // 启用阴影
                     model.traverse(function(child) {
                         if (child.isMesh) {
                             child.castShadow = true;
                             child.receiveShadow = true;
                         }
                     });
-                    
-                    // 添加到场景
+
                     scene.add(model);
-                    
-                    // 调整相机位置
                     centerModel();
-                    
-                    // 隐藏加载屏幕
                     setTimeout(() => {
                         loadingScreen.style.opacity = '0';
                         setTimeout(() => {
@@ -769,7 +669,7 @@
                         }, 500);
                     }, 1000);
                 },
-                // 加载进度回调
+
                 function(xhr) {
                     if (xhr.total > 0) {
                         const percent = Math.round((xhr.loaded / xhr.total) * 100);
@@ -778,13 +678,12 @@
                         loadingDetails.textContent = `加载中...`;
                     }
                 },
-                // 加载失败回调
+
                 function(error) {
                     console.error('模型加载失败:', error);
-                    
                     let errorMsg = '模型加载失败: ';
                     if (error.message && error.message.includes('404')) {
-                        errorMsg = '模型文件未找到，请确保文件路径正确: ./assets/3D/shenyanggugong.glb';
+                        errorMsg = '模型文件未找到，请确保文件路径正确';
                     } else if (error.message && error.message.includes('NetworkError')) {
                         errorMsg = '网络错误，请检查网络连接';
                     } else {
@@ -795,8 +694,7 @@
                 }
             );
         }
-        
-        // 居中模型
+
         function centerModel() {
             if (!model) return;
             
@@ -804,13 +702,9 @@
                 const box = new THREE.Box3().setFromObject(model);
                 const center = box.getCenter(new THREE.Vector3());
                 const size = box.getSize(new THREE.Vector3());
-                
-                // 计算合适的相机距离
                 const maxDim = Math.max(size.x, size.y, size.z);
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / Math.tan(fov / 2));
-                
-                // 调整相机位置
                 camera.position.set(
                     center.x + cameraZ * 0.7,
                     center.y + cameraZ * 0.3,
@@ -824,17 +718,14 @@
                 console.warn('模型居中失败:', err);
             }
         }
-        
-        // 显示错误信息
+
         function showError(message) {
             errorText.textContent = message;
             loadingScreen.style.display = 'none';
             errorMessage.style.display = 'block';
         }
-        
-        // 设置控制按钮事件
+
         function setupControls() {
-            // 重置视图
             document.getElementById('reset-view').addEventListener('click', () => {
                 if (model) {
                     centerModel();
@@ -844,15 +735,14 @@
                 }
                 controls.update();
             });
-            
-            // 切换自动旋转
+
             document.getElementById('toggle-autorotate').addEventListener('click', function() {
                 autoRotate = !autoRotate;
                 controls.autoRotate = autoRotate;
                 this.classList.toggle('active', autoRotate);
             });
             
-            // 重试按钮
+
             retryButton.addEventListener('click', function() {
                 errorMessage.style.display = 'none';
                 loadingScreen.style.display = 'flex';
@@ -860,15 +750,13 @@
                 loadModel();
             });
         }
-        
-        // 窗口大小调整
+
         function onWindowResize() {
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         }
-        
-        // 动画循环
+
         function animate() {
             requestAnimationFrame(animate);
             
@@ -880,8 +768,7 @@
                 renderer.render(scene, camera);
             }
         }
-        
-        // 页面加载完成后初始化
+
         window.addEventListener('DOMContentLoaded', function() {
             console.log('页面加载完成，开始初始化3D场景...');
             init();

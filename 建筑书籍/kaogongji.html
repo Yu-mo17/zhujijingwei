@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -50,7 +49,6 @@
             justify-content: center;
         }
         
-
         .bilibili-video-btn {
             display: inline-flex;
             align-items: center;
@@ -122,7 +120,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* 响应式调整 */
         @media (max-width: 768px) {
             .bilibili-video-btn {
                 padding: 12px 24px;
@@ -174,8 +171,6 @@
             transform: scale(1.03);
         }
         
-        
-        /* 核心解密卡片区 */
         .cards-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -236,16 +231,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
         
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
-        
         .card-content {
             padding: 25px;
             flex-grow: 1;
@@ -286,7 +271,6 @@
             font-size: 0.95rem;
         }
         
-        /* 时空影响区 */
         .timeline-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -309,7 +293,6 @@
             text-align: center;
         }
         
-        /* 时间轴样式 */
         .timeline {
             position: relative;
             padding-left: 30px;
@@ -370,7 +353,6 @@
             line-height: 1.6;
         }
         
-        /* 对比画廊 */
         .comparison-item {
             margin-bottom: 40px;
         }
@@ -418,7 +400,6 @@
             border-radius: 8px;
         }
         
-        /* 基本信息卡区域 */
         .basic-info-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -474,7 +455,6 @@
             line-height: 1.6;
         }
         
-        /* 结语与导航 */
         .conclusion-section {
             max-width: 1200px;
             margin: 40px auto 60px;
@@ -519,7 +499,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
-        /* 考工记雷达图样式 */
         .radar-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -537,7 +516,6 @@
             height: 500px;
         }
         
-        /* 响应式设计 */
         @media (max-width: 1024px) {
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -611,7 +589,7 @@
     </style>
 </head>
     <body>
-        <!-- 导航栏 -->
+    
         <header class="main-header">
             <nav class="main-nav">
                 <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -623,13 +601,10 @@
                 </div>
             </nav>
         </header>
-
- <!-- 英雄区域 -->
         <section class="hero-section">
             <div class="hero-content">
                 <h1 class="achievement-title">《考工记》</h1>
                 <p class="achievement-subtitle">战国时期成书，是中国目前所见最早、最完整的手工业技术典籍，也是《周礼》的重要篇章。它系统记载了先秦六大手工行业、三十项工艺规范，首次确立了“天有时、地有气、材有美、工有巧”的东方造物哲学，奠定了中国数千年工艺与建筑的思想根基，被誉为“中国科技与工艺的开山经典”。</p>
-        
             <div class="hero-buttons">
                 <a href="https://www.bilibili.com/video/BV1Zj411r7KV/?spm_id_from=333.337.search-card.all.click&vd_source=16067c75ae39eca8ae649ea7ab0f45ab" target="_blank" class="bilibili-video-btn" rel="noopener noreferrer">
                 <span class="play-icon">▶</span>
@@ -644,7 +619,6 @@
     </div>
     </section>
 
-    <!-- 考工记雷达图区域 -->
     <section class="radar-section">
         <h2 class="section-title">《考工记》核心能力图谱</h2>
         <p class="section-subtitle">六大维度展现中国最早工程技术典籍的历史地位</p>
@@ -653,7 +627,6 @@
         </div>
     </section>
 
-    <!-- 基本信息卡区域 -->
     <section class="basic-info-section">
         <div class="info-card">
             <div class="info-card-header">
@@ -692,47 +665,38 @@
         </div>
     </section>
 
-    <!-- 核心解密卡片区 -->
     <section id="cards" class="cards-section">
         <h2 class="section-title">四大划时代贡献</h2>
         <p class="section-subtitle">《考工记》之所以成为文明里程碑，在于它首次将手工技艺上升为系统科学与哲学体系</p>
         
         <div class="cards-container">
-            <!-- 卡片一 -->
             <div class="card">
-                <div class="card-icon">📏</div>
                 <div class="card-content">
-                    <h3><span class="icon">📏</span>确立"匠人营国"——都城营造的千年法典</h3>
+                    <h3><span class="icon"></span>确立"匠人营国"——都城营造的千年法典</h3>
                     <p><strong>核心概念：</strong>记载中国最早的都城规划制度：“匠人营国，方九里，旁三门。国中九经九纬，经涂九轨。左祖右社，面朝后市”。</p>
                     <p><strong>何以伟大：</strong>确立了中国古代都城对称、方正、等级分明的规划体系，直接影响汉长安城、唐长安城、元大都、明清北京城的营造格局，是东方都城规划的思想源头。</p>
                 </div>
             </div>
             
-            <!-- 卡片二 -->
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
-                    <h3><span class="icon">📊</span>提出"天时地气材美工巧"——东方造物哲学</h3>
+                    <h3><span class="icon"></span>提出"天时地气材美工巧"——东方造物哲学</h3>
                     <p><strong>核心概念：</strong>“天有时、地有气、材有美、工有巧，合此四者，然后可以为良”，是世界最早的系统造物理论。</p>
                     <p><strong>何以伟大：</strong>将自然规律、材料特性、工匠技艺、审美追求完美统一，成为中国数千年工艺、建筑、器物制造的最高准则，远超同时代世界技术水平。</p>
                 </div>
             </div>
             
-            <!-- 卡片三 -->
             <div class="card">
-                <div class="card-icon">📐</div>
                 <div class="card-content">
-                    <h3><span class="icon">📐</span>规范"百工技艺"——先秦手工业的国家标准</h3>
+                    <h3><span class="icon"></span>规范"百工技艺"——先秦手工业的国家标准</h3>
                     <p><strong>核心概念：</strong>详细规范车轮、弓箭、礼器、兵器、皮革、染色、建筑、水利等30种工艺的尺寸、比例、工序、验收标准。</p>
                     <p><strong>何以伟大：</strong>建立了中国最早的手工业标准化体系，让分散的工匠有统一规范可循，标志着先秦手工业从经验走向科学，是后世《营造法式》等官书的直接源头。</p>
                 </div>
             </div>
             
-            <!-- 卡片四 -->
             <div class="card">
-                <div class="card-icon">🎨</div>
                 <div class="card-content">
-                    <h3><span class="icon">🎨</span>融合"礼器合一"——技术与礼制的文明高度</h3>
+                    <h3><span class="icon"></span>融合"礼器合一"——技术与礼制的文明高度</h3>
                     <p><strong>核心概念：</strong>所有工艺不仅追求坚固实用，更严格对应等级礼制，器物尺寸、纹饰、用途均与身份、场合、礼仪绑定。</p>
                     <p><strong>何以伟大：</strong>将技术、审美、政治礼制融为一体，让建筑与器物成为中华文明秩序的载体，塑造了中国独有的“器以载道”文化传统，影响中华文明数千年。</p>
                 </div>
@@ -740,16 +704,13 @@
         </div>
     </section>
 
-    <!-- 时空影响区 -->
     <section class="timeline-section">
         <h2 class="section-title">《考工记》的千年生命线</h2>
         <p class="section-subtitle">一部先秦典籍，如何塑造三千年中华文明的技术与审美？</p>
         
-        <!-- 时间轴容器 -->
         <div class="timeline-container">
             <h3 class="timeline-title">一部典籍的千年旅程</h3>
             <div class="timeline">
-                <!-- 时间轴项目1 -->
                 <div class="timeline-item">
                     <div class="timeline-year">战国</div>
                     <div class="timeline-content">
@@ -758,7 +719,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目2 -->
                 <div class="timeline-item">
                     <div class="timeline-year">西汉</div>
                     <div class="timeline-content">
@@ -766,8 +726,7 @@
                         <p>补入《周礼》成为官方经典，确立“匠人营国”都城制度，成为国家营造最高依据。</p>
                     </div>
                 </div>
-                
-                <!-- 时间轴项目3 -->
+
                 <div class="timeline-item">
                     <div class="timeline-year">唐宋</div>
                     <div class="timeline-content">
@@ -775,8 +734,7 @@
                         <p>成为《营造法式》等建筑典籍的思想源头，造物哲学与营造制度一脉相承。</p>
                     </div>
                 </div>
-                
-                <!-- 时间轴项目4 -->
+
                 <div class="timeline-item">
                     <div class="timeline-year">明清</div>
                     <div class="timeline-content">
@@ -784,8 +742,7 @@
                         <p>都城规划、礼制建筑、官式工艺仍以《考工记》为最高准则，文脉从未中断。</p>
                     </div>
                 </div>
-                
-                <!-- 时间轴项目5 -->
+
                 <div class="timeline-item">
                     <div class="timeline-year">近代</div>
                     <div class="timeline-content">
@@ -793,8 +750,7 @@
                         <p>成为中国科技史、建筑史、工艺史研究的起点，被世界公认为古代工程奇迹。</p>
                     </div>
                 </div>
-                
-                <!-- 时间轴项目6 -->
+
                 <div class="timeline-item">
                     <div class="timeline-year">至今</div>
                     <div class="timeline-content">
@@ -804,12 +760,10 @@
                 </div>
             </div>
         </div>
-        
-        <!-- 对比画廊容器 -->
+
         <div class="comparison-container">
             <h3 class="comparison-title">书中的法度，文明的印记</h3>
-            
-            <!-- 对比案例1 -->
+
             <div class="comparison-item">
                 <div class="comparison-images">
                     <div class="comparison-image">
@@ -822,8 +776,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- 对比案例2 -->
+
             <div class="comparison-item">
                 <div class="comparison-images">
                     <div class="comparison-image">
@@ -843,7 +796,6 @@
         </div>
     </section>
 
-    <!-- 结语与导航 -->
     <section class="conclusion-section">
         <p class="conclusion-text">
             《考工记》的伟大，在于它是中华文明技术与思想的第一块基石。它以“匠人营国”定都城格局，以“天时地气材美工巧”立造物哲学，将工艺、礼制、审美熔于一炉，成为中国三千年营造文化的精神源头。它是一把尺，度量出先秦文明的理性高度；它是一座桥，连接起东方技艺与哲学的永恒对话。
@@ -854,15 +806,13 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // 交互效果
+
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -873,7 +823,6 @@
                 });
             });
             
-            // 平滑滚动到卡片区域
             const exploreBtn = document.querySelector('.btn');
             if (exploreBtn && exploreBtn.getAttribute('href') === '#cards') {
                 exploreBtn.addEventListener('click', function(e) {
@@ -883,8 +832,7 @@
                     });
                 });
             }
-            
-            // 基本信息卡悬停效果
+
             const infoCard = document.querySelector('.info-card');
             if (infoCard) {
                 infoCard.addEventListener('mouseenter', function() {
@@ -897,7 +845,6 @@
                 });
             }
 
-            // ==================== 考工记雷达图 ====================
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},
@@ -935,7 +882,6 @@
             };
             radarChart.setOption(option);
             window.addEventListener('resize', () => radarChart.resize());
-            
             console.log('《考工记》专题页加载完成！');
         });
     </script>

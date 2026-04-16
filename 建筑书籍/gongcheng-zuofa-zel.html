@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -88,7 +87,6 @@
             display: block;
         }
         
-        /* 核心解密卡片区 */
         .cards-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -148,17 +146,7 @@
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
-        
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
-        
+    
         .card-content {
             padding: 25px;
             flex-grow: 1;
@@ -210,7 +198,6 @@
             background: #f8f9fa;
         }
         
-        /* 对比图表区域 */
         .comparison-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -241,22 +228,22 @@
         
         .comparison-table th:nth-child(1), 
         .comparison-table td:nth-child(1) {
-            width: 12%; /* 对比维度列 */
+            width: 12%;
         }
         
         .comparison-table th:nth-child(2), 
         .comparison-table td:nth-child(2) {
-            width: 25%; /* 宋代列 */
+            width: 25%;
         }
         
         .comparison-table th:nth-child(3), 
         .comparison-table td:nth-child(3) {
-            width: 25%; /* 清代列 */
+            width: 25%;
         }
         
         .comparison-table th:nth-child(4), 
         .comparison-table td:nth-child(4) {
-            width: 38%; /* 对比解读列 */
+            width: 38%;
         }
         
         .comparison-table th, .comparison-table td {
@@ -285,7 +272,6 @@
             font-weight: 600;
         }
         
-        /* 时间轴样式 - 修复文字居中问题 */
         .timeline-container {
             background: white;
             padding: 30px;
@@ -326,7 +312,6 @@
             margin-bottom: 0;
         }
         
-        /* 修复时间轴年份文字居中问题 */
         .timeline-year {
             position: absolute;
             left: -30px;
@@ -367,7 +352,6 @@
             line-height: 1.6;
         }
         
-        /* 结语与导航 */
         .conclusion-section {
             max-width: 1200px;
             margin: 40px auto 60px;
@@ -422,7 +406,6 @@
             background: #c0392b;
         }
         
-        /* 基本信息卡区域 */
         .basic-info-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -478,7 +461,6 @@
             line-height: 1.6;
         }
 
-        /* 雷达图容器样式  */
         .radar-container {
             max-width: 1200px;
             margin: 40px auto;
@@ -496,7 +478,6 @@
             height: 500px;
         }
 
-        /* 响应式设计 */
         @media (max-width: 1024px) {
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -556,7 +537,6 @@
                 width: 40%;
             }
             
-            /* 小屏幕时间轴调整 */
             .timeline {
                 padding-left: 20px;
             }
@@ -587,7 +567,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -600,26 +579,23 @@
         </nav>
     </header>
 
-    <!-- 英雄区域  -->
+
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">《工程做法则例》</h1>
             <p class="achievement-subtitle">清雍正十二年（1734年），工部颁布这部清代建筑"国标"，标志着中国古代建筑技术标准化与制度化的巅峰。它将"斗口"确立为核心模数，成为紫禁城、天坛、颐和园等清代官式建筑的营造法典。</p>
-
             <div class="hero-buttons">
                 <a href="#cards" class="btn">解读核心体系</a>
                 <a href="#comparison" class="btn btn-outline">对比《营造法式》</a>
             </div>
         </div>
         
-        <!-- 图例图片现在在右侧 -->
         <div class="hero-image">
             <img src="../建筑书籍/assets/images/gongcheng-zuofa-zel.png" alt="《工程做法则例》封面">
             <div class="image-caption"></div>
         </div>
     </section>
 
-    <!-- 工程做法则例 雷达图区域 -->
     <section class="radar-container">
         <h2 class="section-title">《工程做法则例》核心能力图谱</h2>
         <p class="section-subtitle">从六大维度直观展示清代建筑法典的技术实力与特点</p>
@@ -628,7 +604,6 @@
         </div>
     </section>
 
-    <!-- 文献档案信息卡  -->
     <section class="basic-info-section">
         <div class="info-card">
             <div class="info-card-header">
@@ -671,20 +646,15 @@
         </div>
     </section>
 
-    <!-- 核心解密卡片区 -->
     <section id="cards" class="cards-section">
         <h2 class="section-title">清代建筑标准化体系</h2>
         <p class="section-subtitle">《工程做法则例》的三大支柱性贡献，奠定清代官式建筑200余年的营造基础</p>
-        
         <div class="cards-container">
-            <!-- 卡片一：斗口模数制 -->
             <div class="card">
-                <div class="card-icon">📐</div>
                 <div class="card-content">
-                    <h3><span class="icon">📐</span>"斗口"模数制：绝对的标准化</h3>
+                    <h3><span class="icon"></span>"斗口"模数制：绝对的标准化</h3>
                     <p><strong>核心概念：</strong>以斗拱最下方坐斗的开口宽度为基本模数单位，称为"斗口"，共分为11个等级（从1寸到6寸）。所有大木构件（柱、梁、枋）的尺寸均以"斗口"的整数倍来确定。</p>
                     <p><strong>设计革命：</strong>相比宋代《营造法式》的"材分制"（比例关系），"斗口制"采用绝对尺寸，使得设计计算更加直接、固化，极大提高了施工效率和管理便利性。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>构件名称</th>
@@ -710,9 +680,7 @@
                 </div>
             </div>
             
-            <!-- 卡片二：工料预算定额 -->
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
                     <h3><span class="icon">工料预算定额：古代工程管理</h3>
                     <p><strong>预算控制：</strong>《工程做法则例》的后半部分《物料价值》开创性地列出了极其详细的工料数据，包括各类构件所需木材体积、瓦件数量、油漆用量及工匠工时。</p>
@@ -743,14 +711,11 @@
                 </div>
             </div>
             
-            <!-- 卡片三：建筑类型规定 -->
             <div class="card">
-                <div class="card-icon">🏛️</div>
                 <div class="card-content">
                     <h3><span class="icon">27种建筑类型：完整的官式体系</h3>
                     <p><strong>全面覆盖：</strong>《则例》详细规定了27种官式建筑的大木作做法，涵盖宫殿、坛庙、陵寝、衙署等所有官方建筑类型。</p>
                     <p><strong>等级森严：</strong>从最高等级的"殿"（如太和殿）到"阁"、"楼"、"亭"等，每种建筑类型都有对应的斗口等级、构件尺寸和装饰规格，体现了严格的等级礼制。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>建筑类型</th>
@@ -776,14 +741,12 @@
                 </div>
             </div>
             
-            <!-- 卡片四：历史价值 -->
+
             <div class="card">
-                <div class="card-icon">📜</div>
                 <div class="card-content">
                     <h3><span class="icon">历史价值：连接古今的密码本</h3>
                     <p><strong>权威标准：</strong>作为清代200余年官式建筑的唯一营造标准，直接指导了故宫、天坛、颐和园、清东陵、清西陵等世界遗产的建设。</p>
-                    <p><strong>研究基石：</strong>是今天研究、鉴定和修复清代古建筑最核心的文献依据。现存多个重要版本，如清雍正原刊本、民国陶湘石印本等。</p>
-                    
+                    <p><strong>研究基石：</strong>是今天研究、鉴定和修复清代古建筑最核心的文献依据。现存多个重要版本，如清雍正原刊本、民国陶湘石印本等。</p>                    
                     <table class="data-table">
                         <tr>
                             <th>影响方面</th>
@@ -807,12 +770,10 @@
         </div>
     </section>
 
-    <!-- 对比分析区 -->
     <section id="comparison" class="comparison-section">
         <div class="comparison-container">
             <h2 class="comparison-title">《工程做法则例》与《营造法式》核心对比</h2>
             <p class="section-subtitle">从宋代"比例美学"到清代"绝对规制"的演变轨迹</p>
-            
             <table class="comparison-table">
                 <thead>
                     <tr>
@@ -884,11 +845,9 @@
             </table>
         </div>
         
-        <!-- 时间轴容器 - -->
         <div class="timeline-container">
             <h3 class="timeline-title">《工程做法则例》的历史影响</h3>
             <div class="timeline">
-                <!-- 时间轴项目1 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1734</div>
                     <div class="timeline-content">
@@ -897,7 +856,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目2 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1736—1795</div>
                     <div class="timeline-content">
@@ -906,7 +864,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目3 -->
                 <div class="timeline-item">
                     <div class="timeline-year">19世纪</div>
                     <div class="timeline-content">
@@ -915,7 +872,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目4 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1925</div>
                     <div class="timeline-content">
@@ -924,7 +880,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目5 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1949—至今</div>
                     <div class="timeline-content">
@@ -937,7 +892,6 @@
     </section>
     
 
-    <!-- 结语与导航 -->
     <section class="conclusion-section">
         <p class="conclusion-text">
             《工程做法则例》代表了中国古代建筑标准化的顶峰。它将宋代《营造法式》的"比例美学"发展为清代"绝对规制"的精密工程体系，以"斗口"为纲，以工料为目，构建了一套高效、精确、可大规模复制的官式建筑营造系统。这不仅是技术的进步，更是帝国管理体制在建筑领域的深刻体现。
@@ -949,15 +903,12 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -968,7 +919,6 @@
                 });
             });
             
-            // 平滑滚动
             const exploreBtn = document.querySelectorAll('.btn');
             exploreBtn.forEach(btn => {
                 if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
@@ -982,7 +932,6 @@
                 }
             });
             
-            // 表格行悬停效果
             const tableRows = document.querySelectorAll('.comparison-table tbody tr');
             tableRows.forEach(row => {
                 row.addEventListener('mouseenter', function() {
@@ -993,7 +942,6 @@
                 });
             });
             
-            // ==================== 工程做法则例雷达图 ====================
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},

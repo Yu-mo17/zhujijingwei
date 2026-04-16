@@ -9,63 +9,24 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        /* 导航栏 */
-        @media (max-width: 768px) {
-            .main-nav {
-                flex-direction: column;
-                height: auto;
-                padding: 15px;
-            }
-            
-            .nav-links {
-                margin-top: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-    
-            .nav-links a {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-            }
-        }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 100px 20px;
         }
 
-        @media (max-width: 480px) {
-            .main-nav {
-                padding: 10px;
-            }
-    
-            .nav-links {
-                gap: 10px;
-            }
-    
-            .nav-links a {
-                padding: 4px 8px;
-                font-size: 0.8rem;
-            }
-        }
-
-        
         h1 {
             font-size: 2.2rem;
-            color: #8b0000; /* 古建红色 */
+            color: #8b0000; 
             margin-bottom: 8px;
         }
         
-        /* 主内容区 - 左侧模型 + 右侧建筑卡片 */
         .model-content {
             display: flex;
             gap: 30px;
             margin-bottom: 30px;
         }
         
-        /* 左侧3D模型区域 */
         .model-section {
             flex: 3;
             min-width: 0; 
@@ -145,12 +106,6 @@
             border: 1px solid #e0d6c8;
         }
         
-        .error-icon {
-            font-size: 2.5rem;
-            color: #8b0000;
-            margin-bottom: 15px;
-        }
-        
         .error-text {
             color: #8b0000;
             margin-bottom: 20px;
@@ -172,7 +127,6 @@
             background-color: #a00;
         }
         
-        /* 外部控制面板样式 - 放在3D模型区域下方 */
         .external-controls {
             display: flex;
             justify-content: space-between;
@@ -234,7 +188,6 @@
             border: 1px solid #e8e0d5;
         }
         
-        /* 右侧建筑卡片区域 */
         .card-section {
             flex: 1;
             min-width: 300px;
@@ -300,7 +253,6 @@
             font-weight: 500;
         }
         
-        /* 建筑简介区域 */
         .description-section {
             background-color: #fff;
             border-radius: 12px;
@@ -324,7 +276,6 @@
             font-size: 1.05rem;
         }
         
-        /* 相关建筑链接卡片区域 */
         .related-section {
             margin-bottom: 30px;
         }
@@ -407,7 +358,202 @@
             font-size: 0.9rem;
             border-top: 1px solid #e8e0d5;
         }
-        
+        /* ========== 新增：2D结构拆解模块样式 (严格保持原左右布局) ========== */
+        .structure-deconstruction-section {
+            margin-bottom: 40px;
+        }
+        .structure-main-title {
+            font-size: 1.8rem;
+            color: #8b0000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .structure-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* 核心左右布局容器 */
+        .structure-content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        /* 左侧结构图区域 */
+        .structure-left-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        .structure-diagram-title {
+            font-size: 1.4rem;
+            color: #5d4037;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #d4a76a;
+        }
+        .structure-diagram-container {
+            position: relative;
+            width: 100%;
+            background: #fefcf9;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e0d0c0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .structure-base-image {
+            width: 100%;
+            display: block;
+            filter: grayscale(20%) brightness(1.05);
+        }
+        .structure-interactive-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        /* 热点样式 */
+        .structure-hotspot {
+            position: absolute;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .structure-hotspot:hover {
+            background-color: rgba(139, 0, 0, 0.15);
+            box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.3);
+        }
+        .structure-hotspot.active {
+            background-color: rgba(212, 167, 106, 0.4);
+            box-shadow: 0 0 0 3px #d4a76a;
+        }
+        .structure-hotspot-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #8b0000;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #8b0000;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .structure-hotspot:hover .structure-hotspot-marker {
+            transform: translate(-50%, -50%) scale(1.3);
+            background-color: #d4a76a;
+            box-shadow: 0 0 0 2px #d4a76a;
+        }
+        /* 图例样式 (保持2x2网格) */
+        .structure-legend {
+            margin-top: 25px;
+        }
+        .structure-legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .structure-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #f9f7f3, #f5f1eb);
+            border: 1px solid #e0d6c8;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .structure-legend-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.1);
+            border-color: #d4a76a;
+        }
+        .structure-legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+        }
+        .structure-legend-text {
+            font-size: 13px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+        /* 右侧信息面板 */
+        .structure-right-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        .structure-info-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.08);
+            border: 1px solid #e8dfd8;
+            height: 100%;
+        }
+        .structure-info-title {
+            font-size: 1.8rem;
+            color: #8b0000;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0e8df;
+        }
+        .structure-component-name {
+            font-size: 2.2rem;
+            color: #5d4037;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+        .structure-component-desc {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 25px;
+            min-height: 120px;
+        }
+        .structure-feature-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        .structure-feature-list li {
+            padding: 12px 0;
+            border-bottom: 1px dashed #e8dfd8;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        .structure-feature-list li:before {
+            content: "▸";
+            color: #8b0000;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+        .structure-current-selection {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        /* 响应式：小屏幕下恢复上下布局 */
+        @media (max-width: 768px) {
+            .structure-content-wrapper {
+                flex-direction: column;
+            }
+            .structure-legend-grid {
+                grid-template-columns: 1fr;
+            }
+        }
         @media (max-width: 768px) {
             .model-viewer {
                 height: 400px;
@@ -469,7 +615,6 @@
                     </div>
                     
                     <div class="error-message" id="error-message">
-                        <div class="error-icon">⚠️</div>
                         <div class="error-text" id="error-text">模型加载失败，请检查控制台错误信息</div>
                         <button class="retry-button" id="retry-button">重试加载</button>
                     </div>
@@ -529,64 +674,123 @@
                 <p>故宫以红墙黄瓦、雕梁画栋、金碧辉煌为特色，代表了中国古代宫殿建筑的最高成就，1987年被联合国教科文组织列为世界文化遗产，现为故宫博物院，收藏海量文物，是中华文明的重要象征。</p>
             </div>
         </div>
-<div class="related-section">
-    <h3 class="related-title">相关古建筑</h3>
-    <div class="related-grid">
-        <div class="related-card">
-            <div class="related-thumbnail">
-                <img src="../assets/images/3D/qing-shenyanggugong.jpg" alt="沈阳故宫">
+
+        <!-- ========== 新增：2D结构拆解模块 (严格保持原左右布局) ========== -->
+        <div class="description-section">
+            <div class="structure-deconstruction-section">
+                <h3 class="structure-main-title">太和殿建筑结构交互拆解</h3>
+                <p class="structure-subtitle">探索故宫核心建筑——太和殿的经典构造。点击或悬停图中标记点，了解其核心构件的名称、功能与建筑智慧。</p>
+                
+                <div class="structure-content-wrapper">
+                    <!-- 左侧：结构图与图例 -->
+                    <div class="structure-left-panel">
+                        <h4 class="structure-diagram-title">太和殿立面结构图</h4>
+                        <div class="structure-diagram-container">
+                            <!-- 太和殿结构图 -->
+                            <img src="assets/images/gugong_2D.jpg" alt="太和殿立面结构图" class="structure-base-image" id="structure-base-image">
+                            <!-- 交互层 -->
+                            <div class="structure-interactive-layer" id="structure-interactive-layer">
+                                <!-- 热点将通过JS动态生成 -->
+                            </div>
+                        </div>
+                        
+                        <!-- 图例 -->
+                        <div class="structure-legend">
+                            <div class="structure-legend-grid">
+                                <div class="structure-legend-item">
+                                    <div class="structure-legend-color" style="background-color: #8b0000;"></div>
+                                    <div class="structure-legend-text">屋顶与斗拱</div>
+                                </div>
+                                <div class="structure-legend-item">
+                                    <div class="structure-legend-color" style="background-color: #2e5c8a;"></div>
+                                    <div class="structure-legend-text">梁柱结构</div>
+                                </div>
+                                <div class="structure-legend-item">
+                                    <div class="structure-legend-color" style="background-color: #4a7c59;"></div>
+                                    <div class="structure-legend-text">基座与台基</div>
+                                </div>
+                                <div class="structure-legend-item">
+                                    <div class="structure-legend-color" style="background-color: #d4a76a;"></div>
+                                    <div class="structure-legend-text">门窗与装饰</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧：构件信息面板 -->
+                    <div class="structure-right-panel">
+                        <div class="structure-info-card">
+                            <h4 class="structure-info-title">构件详解</h4>
+                            <div class="structure-component-name" id="structure-component-name">请选择或悬停一个构件</div>
+                            <div class="structure-component-desc" id="structure-component-desc">鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。</div>
+                            
+                            <ul class="structure-feature-list" id="structure-feature-list">
+                                <!-- 特征列表将通过JS动态生成 -->
+                            </ul>
+                            
+                            <div class="structure-current-selection" id="structure-current-selection">当前未选择任何构件</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="related-content">
-                <h4 class="related-card-title">沈阳故宫</h4>
-                <p class="related-card-desc">清代初期皇宫，中国现存完整宫殿建筑群之一，位于辽宁省沈阳市。</p>
-                <a href="shenyanggugong.html" class="view-button">查看详情</a>
+            <!-- ========== 2D结构拆解模块结束 ========== -->
+        </div>
+
+        <div class="related-section">
+            <h3 class="related-title">相关古建筑</h3>
+            <div class="related-grid">
+                <div class="related-card">
+                    <div class="related-thumbnail">
+                        <img src="../assets/images/3D/qing-shenyanggugong.jpg" alt="沈阳故宫">
+                    </div>
+                    <div class="related-content">
+                        <h4 class="related-card-title">沈阳故宫</h4>
+                        <p class="related-card-desc">清代初期皇宫，中国现存完整宫殿建筑群之一，位于辽宁省沈阳市。</p>
+                        <a href="shenyanggugong.html" class="view-button">查看详情</a>
+                    </div>
+                </div>
+                
+                <div class="related-card">
+                    <div class="related-thumbnail">
+                        <img src="../assets/images/3D/bishushanzhuang.jpg" alt="承德避暑山庄">
+                    </div>
+                    <div class="related-content">
+                        <h4 class="related-card-title">承德避暑山庄</h4>
+                        <p class="related-card-desc">清代皇家园林，中国现存最大古典皇家园林，位于河北省承德市。</p>
+                        <a href="bishushanzhuang.html" class="view-button">查看详情</a>
+                    </div>
+                </div>
+                
+                <div class="related-card">
+                    <div class="related-thumbnail">
+                        <img src="../assets/images/yuanmingyuan.png" alt="圆明园遗址">
+                    </div>
+                    <div class="related-content">
+                        <h4 class="related-card-title">圆明园遗址</h4>
+                        <p class="related-card-desc">清代皇家三山五园之一，现存烧毁后遗址，位于北京市海淀区。</p>
+                        <a href="yuanmingyuan.html" class="view-button">查看详情</a>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="related-card">
-            <div class="related-thumbnail">
-                <img src="../assets/images/3D/bishushanzhuang.jpg" alt="承德避暑山庄">
-            </div>
-            <div class="related-content">
-                <h4 class="related-card-title">承德避暑山庄</h4>
-                <p class="related-card-desc">清代皇家园林，中国现存最大古典皇家园林，位于河北省承德市。</p>
-                <a href="bishushanzhuang.html" class="view-button">查看详情</a>
-            </div>
-        </div>
-        
-        <div class="related-card">
-            <div class="related-thumbnail">
-                <img src="../assets/images/yuanmingyuan.png" alt="圆明园遗址">
-            </div>
-            <div class="related-content">
-                <h4 class="related-card-title">圆明园遗址</h4>
-                <p class="related-card-desc">清代皇家三山五园之一，现存烧毁后遗址，位于北京市海淀区。</p>
-                <a href="yuanmingyuan.html" class="view-button">查看详情</a>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
+    </section>
 
         <div class="fromwhich">
             <p>数据来源：百度百科</p>
         </div>
     </div>
 
-          <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // Three.js 3D场景
         let scene, camera, renderer, controls;
         let model = null;
         let wireframeMode = false;
         let gridEnabled = false;
-        let autoRotate = true; // 默认开启自动旋转
+        let autoRotate = true; 
         
-        // DOM元素
         const canvas = document.getElementById('model-canvas');
         const loadingScreen = document.getElementById('loading-screen');
         const loadingDetails = document.getElementById('loading-details');
@@ -594,7 +798,6 @@
         const errorText = document.getElementById('error-text');
         const retryButton = document.getElementById('retry-button');
         
-        // 检查WebGL支持
         function checkWebGLSupport() {
             try {
                 const canvas = document.createElement('canvas');
@@ -611,23 +814,20 @@
             document.getElementById('error-message').style.display = 'block';
         }
         
-        // 初始化Three.js场景
+
         function init() {
             try {
-                // 创建场景
                 scene = new THREE.Scene();
                 scene.background = new THREE.Color(0xf0f0f0);
                 
-                // 创建相机
                 camera = new THREE.PerspectiveCamera(
                     45, 
                     canvas.clientWidth / canvas.clientHeight, 
                     0.1, 
                     1000
                 );
-                camera.position.set(30, 20, 30); // 调整相机初始位置
+                camera.position.set(30, 20, 30); 
                 
-                // 创建渲染器
                 renderer = new THREE.WebGLRenderer({ 
                     canvas: canvas,
                     antialias: true,
@@ -638,44 +838,27 @@
                 renderer.shadowMap.enabled = true;
                 renderer.outputEncoding = THREE.sRGBEncoding;
                 
-                // 添加轨道控制器 - 移除垂直角度限制
                 if (typeof THREE.OrbitControls !== 'undefined') {
                     controls = new THREE.OrbitControls(camera, renderer.domElement);
                     controls.enableDamping = true;
                     controls.dampingFactor = 0.05;
                     controls.minDistance = 5;
-                    controls.maxDistance = 150; // 增加最大距离
-                    // 移除垂直角度限制，允许任意角度旋转
-                    controls.maxPolarAngle = Math.PI; // 允许相机旋转到任何角度
-                    controls.minPolarAngle = 0; // 允许从底部看
-                    // 启用自动旋转
+                    controls.maxDistance = 150;
+                    controls.maxPolarAngle = Math.PI;
+                    controls.minPolarAngle = 0;
                     controls.autoRotate = autoRotate;
-                    controls.autoRotateSpeed = 0.5; // 设置旋转速度
+                    controls.autoRotateSpeed = 0.5;
                 } else {
                     console.error('OrbitControls未加载');
                     showError('Three.js控制器未正确加载');
                     return;
                 }
-                
-                // 添加光源
+ 
                 setupLights();
-                
-                // 添加辅助工具
                 setupHelpers();
-                
-                // 注意：这里注释掉了创建地面的函数调用
-                // createGround(); // 移除地面
-                
-                // 加载模型
                 loadModel();
-                
-                // 开始渲染循环
                 animate();
-                
-                // 添加窗口大小调整监听
                 window.addEventListener('resize', onWindowResize);
-                
-                // 添加控制按钮事件
                 setupControls();
                 
             } catch (error) {
@@ -684,59 +867,41 @@
             }
         }
         
-        // 设置光源
         function setupLights() {
-            // 环境光
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
-            
-            // 主定向光
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
             directionalLight.position.set(10, 20, 5);
             directionalLight.castShadow = true;
             scene.add(directionalLight);
-            
-            // 补充光
             const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
             fillLight.position.set(-10, 10, -5);
             scene.add(fillLight);
         }
-        
-        // 设置辅助工具
+
         function setupHelpers() {
-            // 网格辅助
             gridHelper = new THREE.GridHelper(30, 30, 0x888888, 0x444444);
-            gridHelper.position.y = 0; // 调整到y=0位置
+            gridHelper.position.y = 0; 
             gridHelper.visible = false;
             scene.add(gridHelper);
         }
-        
-        // 加载3D模型
+
         function loadModel() {
             const modelUrl = 'https://cdn.zhujijingwei.top/beijinggugong.glb';
             loadingDetails.textContent = '正在加载模型文件...';
-            
-            // 创建GLTF加载器
+ 
             const loader = new THREE.GLTFLoader();
-            
-            // 加载模型
+
             loader.load(
                 modelUrl,
-                // 加载成功回调
                 function(gltf) {
                     console.log('模型加载成功');
                     model = gltf.scene;
-                    model.scale.set(100, 100, 100); // 放大6倍以适应场景
-                    
-                    // 计算模型包围盒，使其底部在y=0位置
+                    model.scale.set(100, 100, 100);
                     const box = new THREE.Box3().setFromObject(model);
                     const minY = box.min.y;
                     const center = box.getCenter(new THREE.Vector3());
-                    
-                    // 调整模型位置
                     model.position.set(0, -minY, 0);
-                    
-                    // 启用阴影
                     model.traverse(function(child) {
                         if (child.isMesh) {
                             child.castShadow = true;
@@ -744,13 +909,8 @@
                         }
                     });
                     
-                    // 添加到场景
                     scene.add(model);
-                    
-                    // 调整相机位置
                     centerModel();
-                    
-                    // 隐藏加载屏幕
                     setTimeout(() => {
                         loadingScreen.style.opacity = '0';
                         setTimeout(() => {
@@ -758,7 +918,6 @@
                         }, 500);
                     }, 1000);
                 },
-                // 加载进度回调
                 function(xhr) {
                     if (xhr.total > 0) {
                         const percent = Math.round((xhr.loaded / xhr.total) * 100);
@@ -767,13 +926,12 @@
                         loadingDetails.textContent = `加载中...`;
                     }
                 },
-                // 加载失败回调
                 function(error) {
                     console.error('模型加载失败:', error);
                     
                     let errorMsg = '模型加载失败: ';
                     if (error.message && error.message.includes('404')) {
-                        errorMsg = '模型文件未找到，请确保文件路径正确: ./assets/3D/shenyanggugong.glb';
+                        errorMsg = '模型文件未找到，请确保文件路径正确';
                     } else if (error.message && error.message.includes('NetworkError')) {
                         errorMsg = '网络错误，请检查网络连接';
                     } else {
@@ -784,8 +942,7 @@
                 }
             );
         }
-        
-        // 居中模型
+
         function centerModel() {
             if (!model) return;
             
@@ -793,13 +950,9 @@
                 const box = new THREE.Box3().setFromObject(model);
                 const center = box.getCenter(new THREE.Vector3());
                 const size = box.getSize(new THREE.Vector3());
-                
-                // 计算合适的相机距离
                 const maxDim = Math.max(size.x, size.y, size.z);
                 const fov = camera.fov * (Math.PI / 180);
                 let cameraZ = Math.abs(maxDim / Math.tan(fov / 2));
-                
-                // 调整相机位置
                 camera.position.set(
                     center.x + cameraZ * 0.7,
                     center.y + cameraZ * 0.3,
@@ -813,17 +966,14 @@
                 console.warn('模型居中失败:', err);
             }
         }
-        
-        // 显示错误信息
+
         function showError(message) {
             errorText.textContent = message;
             loadingScreen.style.display = 'none';
             errorMessage.style.display = 'block';
         }
         
-        // 设置控制按钮事件
         function setupControls() {
-            // 重置视图
             document.getElementById('reset-view').addEventListener('click', () => {
                 if (model) {
                     centerModel();
@@ -834,14 +984,12 @@
                 controls.update();
             });
             
-            // 切换自动旋转
             document.getElementById('toggle-autorotate').addEventListener('click', function() {
                 autoRotate = !autoRotate;
                 controls.autoRotate = autoRotate;
                 this.classList.toggle('active', autoRotate);
             });
             
-            // 重试按钮
             retryButton.addEventListener('click', function() {
                 errorMessage.style.display = 'none';
                 loadingScreen.style.display = 'flex';
@@ -849,31 +997,261 @@
                 loadModel();
             });
         }
-        
-        // 窗口大小调整
+
         function onWindowResize() {
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         }
-        
-        // 动画循环
+
         function animate() {
             requestAnimationFrame(animate);
-            
             if (controls) {
                 controls.update();
             }
-            
             if (renderer && scene && camera) {
                 renderer.render(scene, camera);
             }
         }
-        
-        // 页面加载完成后初始化
+
+        const structureComponents = [
+            {
+                id: 'roof',
+                name: '重檐庑殿顶',
+                description: '太和殿采用中国古建筑最高等级的重檐庑殿顶，覆盖黄色琉璃瓦，象征皇权至高无上。屋顶四角飞翘，屋脊两端装饰有吻兽，屋檐下有精美的斗拱层支撑。',
+                features: [
+                    '最高等级：专用于皇宫主殿、孔庙大成殿等最高级别建筑',
+                    '排水设计：曲面屋顶利于快速排水，保护木结构',
+                    '装饰艺术：屋脊上有吻兽、走兽等琉璃构件',
+                    '双层屋檐：形成丰富的层次感和庄重感'
+                ],
+                position: { x: 50, y: 30 },
+                size: { width: 85, height: 35 },
+                color: '#8b0000'
+            },
+            {
+                id: 'dougong',
+                name: '溜金斗拱',
+                description: '位于屋檐下的溜金斗拱，是中国古建筑特有的承重结构。它不仅承担屋顶重量，还具有极强的装饰性，层层叠叠的斗拱结构展现了古代工匠高超的技艺。',
+                features: [
+                    '结构功能：将屋顶的巨大荷载传递到立柱',
+                    '出挑工艺：层层出挑，形成深远飘逸的屋檐曲线',
+                    '抗震设计：榫卯连接，具有一定弹性，可消减地震能量',
+                    '装饰艺术：斗拱本身也是精美的装饰元素'
+                ],
+                position: { x: 50, y: 55 },
+                size: { width: 75, height: 8 },
+                color: '#8b0000'
+            },
+            {
+                id: 'column_left',
+                name: '金柱与檐柱(左)',
+                description: '太和殿共有72根大柱，按承重功能分为三圈：外圈檐柱、中圈重檐金柱、内圈内金柱，共同支撑殿宇。金柱通体髹金，象征皇权威严。',
+                features: [
+                    '材料：多为名贵金丝楠木，耐腐防蛀',
+                    '结构：柱身有侧脚与生起，增强稳定性',
+                    '装饰：柱身施以金龙和玺彩画',
+                    '功能：支撑整个殿宇的主要垂直承重构件'
+                ],
+                position: { x: 15, y: 55 },
+                size: { width: 20, height: 10 },
+                color: '#2e5c8a'
+            },
+            {
+                id: 'column_right',
+                name: '金柱与檐柱(右)',
+                description: '太和殿共有72根大柱，按承重功能分为三圈：外圈檐柱、中圈重檐金柱、内圈内金柱，共同支撑殿宇。金柱通体髹金，象征皇权威严。',
+                features: [
+                    '材料：多为名贵金丝楠木，耐腐防蛀',
+                    '结构：柱身有侧脚与生起，增强稳定性',
+                    '装饰：柱身施以金龙和玺彩画',
+                    '功能：支撑整个殿宇的主要垂直承重构件'
+                ],
+                position: { x: 85, y: 55 },
+                size: { width: 20, height: 10 },
+                color: '#2e5c8a'
+            },    
+            {
+                id: 'door',
+                name: '隔扇门',
+                description: '太和殿正面设有42扇隔扇门，门扇上部为菱花格心，下部为裙板，装饰有金龙和玺彩画。这些门扇不仅具有实用功能，更是重要的装饰元素。',
+                features: [
+                    '灵活空间：夏季可完全卸下，形成开放空间',
+                    '采光通风：菱花格心既美观又保证采光',
+                    '装饰工艺：棂格图案复杂，体现精细木工技艺',
+                    '等级标识：三交六椀菱花为皇宫专用图案'
+                ],
+                position: { x: 50, y: 75 },
+                size: { width: 85, height: 18 },
+                color: '#d4a76a'
+            },
+            {
+                id: 'platform',
+                name: '汉白玉三层须弥座台基',
+                description: '太和殿建于三层汉白玉须弥座台基之上，台基高8.13米，象征皇权至高无上。台基四周环绕着精美的石雕栏杆，雕刻有龙凤、云纹等图案，工艺精湛。',
+                features: [
+                    '功能：防水防潮、提高建筑等级、扩大基础面积',
+                    '构造：自上而下为枭混、束腰、莲瓣、圭角等部分',
+                    '栏板：台基周围设汉白玉栏杆，有望柱、寻杖、栏板',
+                    '装饰：台基四周伸出石雕螭首，既为装饰，又为排水口'
+                ],
+                position: { x: 50, y: 90 },
+                size: { width: 85, height: 5 },
+                color: '#4a7c59'
+            }
+        ];
+
+        function initStructureInteraction() {
+            const container = document.getElementById('structure-interactive-layer');
+            const baseImage = document.getElementById('structure-base-image');
+            const compName = document.getElementById('structure-component-name');
+            const compDesc = document.getElementById('structure-component-desc');
+            const featureList = document.getElementById('structure-feature-list');
+            const currentSel = document.getElementById('structure-current-selection');
+            
+            let activeComponent = null;
+            let hoverTimer = null;
+            
+            // 设置图片加载失败时的备用方案
+            baseImage.onerror = function() {
+                console.error('图片加载失败，请检查路径：' + baseImage.src);
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = `
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    padding: 20px;
+                    background: rgba(255,255,255,0.9);
+                    border-radius: 8px;
+                    text-align: center;
+                    color: #8b0000;
+                    font-weight: bold;
+                `;
+                errorMsg.innerHTML = '太和殿结构图加载失败<br>请检查图片文件是否存在';
+                container.appendChild(errorMsg);
+            };
+            
+            // 等待图片加载完成后获取实际尺寸
+            baseImage.onload = function() {
+                const imgWidth = baseImage.offsetWidth;
+                const imgHeight = baseImage.offsetHeight;
+                
+                // 清除可能存在的错误信息
+                const errorMsg = container.querySelector('div');
+                if (errorMsg && errorMsg.style.position === 'absolute') {
+                    container.removeChild(errorMsg);
+                }
+                
+                // 为每个构件创建热点区域
+                structureComponents.forEach(comp => {
+                    const hotspot = document.createElement('div');
+                    hotspot.className = 'structure-hotspot';
+                    hotspot.dataset.id = comp.id;
+                    hotspot.title = `点击查看：${comp.name}`;
+                    
+                    // 将百分比坐标转换为实际像素坐标
+                    const x = (comp.position.x / 100) * imgWidth;
+                    const y = (comp.position.y / 100) * imgHeight;
+                    const width = (comp.size.width / 100) * imgWidth;
+                    const height = (comp.size.height / 100) * imgHeight;
+                    
+                    hotspot.style.left = `${x - width/2}px`;
+                    hotspot.style.top = `${y - height/2}px`;
+                    hotspot.style.width = `${width}px`;
+                    hotspot.style.height = `${height}px`;
+                    
+                    // 创建标记点
+                    const marker = document.createElement('div');
+                    marker.className = 'structure-hotspot-marker';
+                    marker.style.left = `${width/2}px`;
+                    marker.style.top = `${height/2}px`;
+                    marker.style.backgroundColor = comp.color;
+                    marker.style.boxShadow = `0 0 0 2px ${comp.color}`;
+                    hotspot.appendChild(marker);
+                    
+                    // 鼠标悬停事件
+                    hotspot.addEventListener('mouseenter', () => {
+                        clearTimeout(hoverTimer);
+                        if (activeComponent !== comp.id) {
+                            updateStructureInfo(comp);
+                        }
+                    });
+                    
+                    // 点击事件
+                    hotspot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        clearTimeout(hoverTimer);
+                        
+                        if (activeComponent === comp.id) {
+                            activeComponent = null;
+                            removeAllStructureActive();
+                            resetStructureInfo();
+                        } else {
+                            activeComponent = comp.id;
+                            removeAllStructureActive();
+                            hotspot.classList.add('active');
+                            updateStructureInfo(comp);
+                        }
+                    });
+                    
+                    container.appendChild(hotspot);
+                });
+                
+                // 点击容器其他地方取消激活
+                container.addEventListener('click', (e) => {
+                    if (e.target === container) {
+                        clearTimeout(hoverTimer);
+                        activeComponent = null;
+                        removeAllStructureActive();
+                        resetStructureInfo();
+                    }
+                });
+            };
+            
+            // 如果图片已缓存，手动触发load事件
+            if (baseImage.complete) {
+                baseImage.onload();
+            }
+            
+            // 移除所有激活状态
+            function removeAllStructureActive() {
+                document.querySelectorAll('.structure-hotspot').forEach(h => {
+                    h.classList.remove('active');
+                });
+            }
+            
+            // 重置信息显示
+            function resetStructureInfo() {
+                compName.textContent = '请选择或悬停一个构件';
+                compDesc.textContent = '鼠标悬停左侧图中的标记点，或点击标记点固定查看，此处将显示该构件的详细说明。';
+                featureList.innerHTML = '';
+                currentSel.textContent = '当前未选择任何构件';
+            }
+            
+            // 更新信息显示
+            function updateStructureInfo(comp) {
+                compName.textContent = comp.name;
+                compDesc.textContent = comp.description;
+                currentSel.textContent = `当前查看：${comp.name}`;
+                
+                // 更新特征列表
+                featureList.innerHTML = '';
+                comp.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.textContent = feature;
+                    featureList.appendChild(li);
+                });
+            }
+            
+            // 初始化显示
+            resetStructureInfo();
+        }
+            
         window.addEventListener('DOMContentLoaded', function() {
             console.log('页面加载完成，开始初始化3D场景...');
             init();
+            initStructureInteraction();
         });
     </script>
 </body>

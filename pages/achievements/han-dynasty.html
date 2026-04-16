@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>汉朝建筑成就 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .main-header {
@@ -486,9 +485,7 @@
         </nav>
     </header>
 
-    <!-- 修改为左右分栏布局（参考秦朝布局） -->
     <div class="main-content-wrapper">
-        <!-- 左侧朝代信息栏（参考秦朝布局） -->
         <div class="dynasty-sidebar">
             <h1>汉</h1>
             <div class="dynasty-period-sidebar">公元前202年 - 公元220年</div>
@@ -501,9 +498,7 @@
             </div>
         </div>
         
-        <!-- 右侧主内容区（参考秦朝布局） -->
         <div class="dynasty-main-content">
-            <!-- 历史背景区域 -->
             <div class="historical-context">
                 <h2>历史背景</h2>
                 <p>汉朝继承秦制并推进中央集权，建筑上既延续了秦朝的宏伟气势，又发展出更为成熟的木结构体系和城镇规划理念。汉代宫殿、陵墓、都城与桥梁等大型工程的建设，展现了宏大国家机器与工匠团队的卓越组织能力。</p>
@@ -514,11 +509,9 @@
                 </ul>
             </div>
 
-            <!-- 数据可视化图表区域 -->
             <div class="data-visualization-section">
                 <h2 class="section-title">汉朝建筑工程数据可视化</h2>
                 <div class="charts-container">
-                    <!-- 左侧：建筑类型统计柱状图 -->
                     <div class="chart-wrapper">
                         <h3 class="chart-title">汉朝·建筑类型统计</h3>
                         <div class="chart-container">
@@ -527,7 +520,6 @@
                         <p class="chart-note">注：基于历史文献与考古资料统计，汉代建筑表现出宫殿与陵墓占比显著，同时水利与桥梁建设体现中央对河道与交通的高度重视。</p>
                     </div>
                     
-                    <!-- 右侧：建筑材质分析雷达图 -->
                     <div class="chart-wrapper">
                         <h3 class="chart-title">汉朝·建筑材质分析</h3>
                         <div class="chart-container">
@@ -538,15 +530,14 @@
                 </div>
             </div>
 
-            <!-- 建筑成就标题区域 -->
             <div class="achievements-title-area">
                 <h2>汉朝代表性建筑成就</h2>
                 <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
             </div>
             
-            <!-- 建筑成就网格 -->
+
             <div class="achievements-grid">
-                <!-- 长安城（汉长安城） -->
+                <!-- 长安城 -->
                 <div class="achievement-card" data-building="changancheng">
                     <div class="achievement-image">
                         <img src="../achievements/images/han-changancheng.jpg" alt="汉长安城">
@@ -617,7 +608,6 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <!-- 建筑详情模态框 -->
     <div class="modal-overlay" id="buildingModal">
         <div class="modal-content">
             <div class="modal-close" id="closeModal">&times;</div>
@@ -640,9 +630,7 @@
     </div>
 
     <script>
-        // 等待页面加载完成后初始化图表
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. 建筑类型统计柱状图
             const buildingTypesCtx = document.getElementById('buildingTypesChart').getContext('2d');
             const buildingTypesChart = new Chart(buildingTypesCtx, {
                 type: 'bar',
@@ -706,7 +694,6 @@
                 }
             });
 
-            // 2. 建筑材质分析雷达图
             const materialCtx = document.getElementById('materialChart').getContext('2d');
             const materialChart = new Chart(materialCtx, {
                 type: 'radar',
@@ -779,7 +766,6 @@
                 }
             });
 
-            // 模态框逻辑
             const modal = document.getElementById('buildingModal');
             const closeModal = document.getElementById('closeModal');
             const modalTitle = document.getElementById('modalTitle');
@@ -788,7 +774,7 @@
             const modalDescription = document.getElementById('modalDescription');
 
             const buildingData = {
-                changancheng: {
+                'changancheng': {
                     title: '长安城',
                     subtitle: '西汉首都，规模宏大，礼制显赫',
                     image: '../achievements/images/han-changanchengall.jpg',
@@ -802,7 +788,7 @@
                         </ul>
                     `
                 },
-                luoyangcheng: {
+                'luoyangcheng': {
                     title: '洛阳城',
                     subtitle: '东汉都城，政治与文化中心',
                     image: '../achievements/images/han-luoyangall.jpg',
@@ -816,7 +802,7 @@
                         </ul>
                     `
                 },
-                hanLifang: {
+                'hanLifang': {
                     title: '长安闾里',
                     subtitle: '里坊制度的成熟典范，平民居住与城市管理的基本单元',
                     image: '../achievements/images/han-lifang.jpg',
@@ -837,7 +823,7 @@
                         </ul>
                     `
                 },           
-                waterworks: {
+                'waterworks': {
                     title: '郦道元渠',
                     subtitle: '河道治理与灌溉体系',
                     image: '../achievements/images/han-waterworks.jpg',

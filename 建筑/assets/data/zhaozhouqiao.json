@@ -19,7 +19,6 @@
       "id": "stat-1",
       "label": "建成年份",
       "value": "605年",
-      "icon": "📅",
       "significance": "隋大业年间，世界桥梁史重要里程碑",
       "unit": "年"
     },
@@ -27,7 +26,6 @@
       "id": "stat-2",
       "label": "主拱跨度",
       "value": "37.02",
-      "icon": "📏",
       "significance": "当时世界最大石拱跨度",
       "unit": "米"
     }

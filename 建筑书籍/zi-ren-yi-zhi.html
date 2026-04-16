@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -95,7 +94,6 @@
             transform: scale(1.03);
         }
         
-        /* 核心解密卡片区 */
         .cards-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -156,15 +154,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
         
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
         
         .card-content {
             padding: 25px;
@@ -206,7 +195,6 @@
             font-size: 0.95rem;
         }
         
-        /* 表格样式 */
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -229,8 +217,7 @@
         .data-table tr:nth-child(even) {
             background: #f8f9fa;
         }
-        
-        /* 对比分析区 */
+
         .comparison-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -289,7 +276,6 @@
             font-weight: 600;
         }
         
-        /* 时间轴样式 */
         .timeline-container {
             background: white;
             padding: 30px;
@@ -365,8 +351,7 @@
             font-size: 0.95rem;
             line-height: 1.6;
         }
-        
-        /* 基本信息卡区域 */
+
         .basic-info-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -421,8 +406,7 @@
             flex-grow: 1;
             line-height: 1.6;
         }
-        
-        /* 结语与导航 */
+
         .conclusion-section {
             max-width: 1200px;
             margin: 40px auto 60px;
@@ -475,11 +459,7 @@
         .nav-btn-alternate:hover {
             background: #2980b9;
         }
-        
 
-        
-
-        /* 雷达图专用样式，不影响原有任何代码 */
         .radar-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -496,8 +476,7 @@
             width: 100%;
             height: 500px;
         }
-        
-        /* 响应式设计 */
+
         @media (max-width: 1024px) {
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -557,7 +536,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -570,7 +548,6 @@
         </nav>
     </header>
 
-<!-- 英雄区域 -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">《梓人遗制》</h1>
@@ -586,7 +563,6 @@
         </div>
     </section>
 
-    <!-- 梓人遗制 雷达图区域 -->
     <section class="radar-section">
         <h2 class="section-title">《梓人遗制》核心能力图谱</h2>
         <p class="section-subtitle">六大维度直观展示元代民间机械木工典籍的独特价值</p>
@@ -595,11 +571,8 @@
         </div>
     </section>
 
-    
-    <!-- 基本信息卡区域 -->
     <section class="basic-info-section">
         <h2 class="section-title">《梓人遗制》基本信息</h2>
-        
         <div class="info-card">
             <div class="info-card-header">
                 <h3>文献档案</h3>
@@ -637,21 +610,17 @@
         </div>
     </section>
 
-    <!-- 核心解密卡片区 -->
     <section id="cards" class="cards-section">
         <h2 class="section-title">木工机械的技术体系</h2>
         <p class="section-subtitle">《梓人遗制》建立了中国古代从纺织机械到交通工具的精密木工技术框架</p>
-        
         <div class="cards-container">
             <!-- 卡片一：核心机械技术 -->
             <div class="card">
-                <div class="card-icon">🎨</div>
                 <div class="card-content">
                     <h3><span class="icon">核心机械技术</h3>
                     <p><strong>核心记载：</strong>重点记录卧机、立机、布机、罗机等古代纺织机械的精密结构</p>
                     <p><strong>技术特点：</strong>构件尺寸精确、传动逻辑清晰、装配流程规范，代表元代机械木工最高水平</p>
                     <p><strong>设计原则：</strong>结构合理、传动顺畅、用料适宜、制作精准</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>分类</th>
@@ -673,15 +642,12 @@
                 </div>
             </div>
             
-            <!-- 卡片二：机械设计理念 -->
             <div class="card">
-                <div class="card-icon">🏯</div>
                 <div class="card-content">
                     <h3><span class="icon">机械设计理念</h3>
                     <p><strong>结构精密化：</strong>严格规范轴、轮、齿、杠、弦等构件尺寸，保证传动效率</p>
                     <p><strong>功能实用化：</strong>一切设计服务生产效率，兼顾耐用性与操作性</p>
                     <p><strong>制作标准化：</strong>构件可互换、可复制，便于工匠传承与批量制作</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>构件类型</th>
@@ -703,31 +669,24 @@
                 </div>
             </div>
             
-            <!-- 卡片三：系统性制作流程 -->
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
                     <h3><span class="icon">系统性制作流程</h3>
                     <p>《梓人遗制》建立了从设计到成品的完整机械制作流程，形成可直接操作的工匠技法：</p>
-                    
                     <div class="card-highlight">
                         <p><strong>1. 测量绘图 → 构件下料 → 精细加工</strong></p>
                         <p><strong>2. 部件装配 → 传动调试 → 受力检验</strong></p>
                         <p><strong>3. 整机校正 → 试用改良 → 定型传承</strong></p>
                     </div>
-                    
                     <p><strong>技法特点：</strong>图文互证、尺寸精准、步骤清晰、可直接用于生产，是古代工匠的实操技术手册。</p>
                 </div>
             </div>
             
-            <!-- 卡片四：历史地位与传承 -->
             <div class="card">
-                <div class="card-icon">📚</div>
                 <div class="card-content">
                     <h3><span class="icon">历史地位与传承</h3>
                     <p><strong>历史地位：</strong>中国古代唯一一部民间木工机械专著，元代机械技术的珍贵实物文献。</p>
                     <p><strong>流传情况：</strong>因收入《永乐大典》得以保存，是极罕见的工匠自撰技术典籍。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>对后世影响</th>
@@ -751,12 +710,10 @@
         </div>
     </section>
 
-    <!-- 对比分析区 -->
     <section class="comparison-section">
         <div class="comparison-container">
             <h2 class="comparison-title">理论对比分析</h2>
             <p class="section-subtitle">从不同视角理解《梓人遗制》的独特技术价值</p>
-            
             <table class="comparison-table">
                 <thead>
                     <tr>
@@ -836,27 +793,22 @@
         </div>
     </section>
 
-    <!-- 结语与导航 -->
     <section class="conclusion-section">
         <p class="conclusion-text">
             《梓人遗制》是中国古代民间工匠智慧的巅峰结晶，也是世界机械史上珍贵的实操典籍。它跳出建筑礼制的框架，专注于机械结构与生产效率，以精准的尺寸、严谨的结构、实用的技法，记录了元代纺织与交通工具的最高技术水平。它不仅是古代木工机械的“制造说明书”，更是中国民间科技精神的重要载体，填补了古代技术史中民间工匠文献的空白，为今天复原古代机械、传承传统技艺、研究东方科技文明提供了不可替代的珍贵资料。
         </p>
-        
         <div class="global-nav">
             <a href="architecture-books.html" class="nav-btn">返回建筑名著</a>
             <a href="./ying-zao-fa-shi.html" class="nav-btn nav-btn-alternate">对比阅读：《营造法式》</a>
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -867,7 +819,6 @@
                 });
             });
             
-            // 平滑滚动
             const exploreBtn = document.querySelectorAll('.btn');
             exploreBtn.forEach(btn => {
                 if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
@@ -880,8 +831,7 @@
                     });
                 }
             });
-            
-            // 表格行悬停效果
+           
             const tableRows = document.querySelectorAll('.comparison-table tbody tr');
             tableRows.forEach(row => {
                 row.addEventListener('mouseenter', function() {
@@ -892,7 +842,6 @@
                 });
             });
             
-            // 基本信息卡悬停效果
             const infoCard = document.querySelector('.info-card');
             if (infoCard) {
                 infoCard.addEventListener('mouseenter', function() {
@@ -905,7 +854,6 @@
                 });
             }
 
-            // ==================== 梓人遗制 雷达图 ====================
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},
@@ -943,7 +891,6 @@
             };
             radarChart.setOption(option);
             window.addEventListener('resize', () => radarChart.resize());
-            
             console.log('《梓人遗制》专题页加载完成！');
         });
     </script>

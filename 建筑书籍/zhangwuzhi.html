@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -147,7 +146,6 @@
             line-height: 1.6;
         }
 
-        /* 核心解密卡片区 */
         .cards-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -208,23 +206,13 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
         
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
-        
         .card-content {
             padding: 25px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
-        
+
         .card h3 {
             color: #2c3e50;
             margin-bottom: 15px;
@@ -244,8 +232,7 @@
             color: #555;
             flex-grow: 1;
         }
-        
-        /* 数据表格样式 */
+
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -268,8 +255,7 @@
         .data-table tr:nth-child(even) {
             background: #f8f9fa;
         }
-        
-        /* 对比图表区域 */
+
         .comparison-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -300,22 +286,22 @@
         
         .comparison-table th:nth-child(1), 
         .comparison-table td:nth-child(1) {
-            width: 12%; /* 对比维度列 */
+            width: 12%;
         }
         
         .comparison-table th:nth-child(2), 
         .comparison-table td:nth-child(2) {
-            width: 25%; /* 宋代列 */
+            width: 25%; 
         }
         
         .comparison-table th:nth-child(3), 
         .comparison-table td:nth-child(3) {
-            width: 25%; /* 清代列 */
+            width: 25%; 
         }
         
         .comparison-table th:nth-child(4), 
         .comparison-table td:nth-child(4) {
-            width: 38%; /* 对比解读列 */
+            width: 38%;
         }
         
         .comparison-table th, .comparison-table td {
@@ -344,7 +330,6 @@
             font-weight: 600;
         }
         
-        /* 时间轴样式 - 修复文字居中问题 */
         .timeline-container {
             background: white;
             padding: 30px;
@@ -384,8 +369,7 @@
         .timeline-item:last-child {
             margin-bottom: 0;
         }
-        
-        /* 修复时间轴年份文字居中问题 */
+
         .timeline-year {
             position: absolute;
             left: -30px;
@@ -425,8 +409,7 @@
             font-size: 0.95rem;
             line-height: 1.6;
         }
-        
-        /* 结语与导航 */
+
         .conclusion-section {
             max-width: 1200px;
             margin: 40px auto 60px;
@@ -481,7 +464,6 @@
             background: #c0392b;
         }
 
-        /* 长物志雷达图专用样式 */
         .radar-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -498,8 +480,7 @@
             width: 100%;
             height: 500px;
         }
-        
-        /* 响应式设计 */
+
         @media (max-width: 1024px) {
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -562,8 +543,7 @@
             .comparison-table td:nth-child(4) {
                 width: 40%;
             }
-            
-            /* 小屏幕时间轴调整 */
+
             .timeline {
                 padding-left: 20px;
             }
@@ -596,9 +576,8 @@
             }
         }
     </style>
-</head>
+    </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -611,7 +590,6 @@
         </nav>
     </header>
 
-<!-- 英雄区域 -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">《长物志》</h1>
@@ -622,15 +600,13 @@
                 <a href="#comparison" class="btn btn-outline">对比《园冶》</a>
             </div>
         </div>
-        
-        <!-- 图例图片现在在右侧 -->
+
         <div class="hero-image">
             <img src="../建筑书籍/assets/images/zhangwuzhi.jpg" alt="《长物志》古籍书影">
             <div class="image-caption"></div>
         </div>
     </section>
 
-    <!-- 长物志雷达图区域 -->
     <section class="radar-section">
         <h2 class="section-title">《长物志》核心能力图谱</h2>
         <p class="section-subtitle">六大维度直观展示文人生活美学第一典籍的理论高度</p>
@@ -639,7 +615,6 @@
         </div>
     </section>
 
-    <!-- 文献档案信息卡 - 统一风格重构 -->
     <section class="basic-info-section">
         <div class="info-card">
             <div class="info-card-header">
@@ -682,20 +657,15 @@
         </div>
     </section>
 
-    <!-- 核心解密卡片区 -->
     <section id="cards" class="cards-section">
         <h2 class="section-title">文人生活美学体系</h2>
         <p class="section-subtitle">《长物志》以“雅”为纲，构建了从空间到器物、从自然到陈设的完整审美标准</p>
-        
         <div class="cards-container">
-            <!-- 卡片一：审美核心准则 -->
             <div class="card">
-                <div class="card-icon">📐</div>
                 <div class="card-content">
-                    <h3><span class="icon">📐</span>文人审美核心：宁雅毋俗</h3>
+                    <h3><span class="icon">文人审美核心：宁雅毋俗</h3>
                     <p><strong>核心概念：</strong>全书以“雅”为最高标准，提出“宁简毋繁，宁朴毋巧，宁冷毋热”。反对堆砌、炫富、匠气，推崇简洁、疏朗、自然、含蓄的格调。</p>
                     <p><strong>审美革命：</strong>将器物与空间从实用功能提升到精神境界，强调“物为人用，境为心造”，确立了文人空间独有的价值判断体系。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>审美原则</th>
@@ -721,14 +691,11 @@
                 </div>
             </div>
             
-            <!-- 卡片二：室庐与空间营造 -->
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
                     <h3><span class="icon">室庐营造：文人空间范式</h3>
                     <p><strong>空间法则：</strong>《长物志》对堂、斋、轩、栏、台阶、门窗、墙壁等都有严格审美规定，强调“室庐贵雅，不贵丽”。</p>
                     <p><strong>布局意义：</strong>首次系统建立文人居所的空间范式，区分厅堂、书斋、卧室、庭院的气质差异，影响后世中式软装与造园陈设数百年。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>空间类型</th>
@@ -754,14 +721,11 @@
                 </div>
             </div>
             
-            <!-- 卡片三：花木水石与自然意趣 -->
             <div class="card">
-                <div class="card-icon">🏛️</div>
                 <div class="card-content">
                     <h3><span class="icon">花木水石：园林意境之本</h3>
                     <p><strong>自然审美：</strong>详细论述山、水、石、竹、花、木的配置原则，主张“石令人古，水令人远”，以小见大，咫尺山林。</p>
                     <p><strong>造园逻辑：</strong>反对刻意雕琢，推崇自然野趣。一花一木、一峰一水皆要合乎画意，为文人园林提供了可操作的意境营造方法。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>造园要素</th>
@@ -787,14 +751,11 @@
                 </div>
             </div>
             
-            <!-- 卡片四：器具陈设与生活格调 -->
             <div class="card">
-                <div class="card-icon">📜</div>
                 <div class="card-content">
                     <h3><span class="icon">器具陈设：器物即人格</h3>
                     <p><strong>器物观：</strong>对家具、书画、香炉、茶具、文房等都定立雅俗标准，强调“随方置象，各有所宜”，器物不在名贵而在格调。</p>
                     <p><strong>文化价值：</strong>是明清家具、文房、赏石、书画陈设的理论源头，也是今天中式美学、侘寂风、极简东方审美最重要的古代依据。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>影响方面</th>
@@ -818,12 +779,10 @@
         </div>
     </section>
 
-    <!-- 对比分析区 -->
     <section id="comparison" class="comparison-section">
         <div class="comparison-container">
             <h2 class="comparison-title">《长物志》与《园冶》核心对比</h2>
             <p class="section-subtitle">从造园技艺到生活美学，明代两大园林典籍的互补与分野</p>
-            
             <table class="comparison-table">
                 <thead>
                     <tr>
@@ -890,11 +849,10 @@
             </table>
         </div>
         
-        <!-- 时间轴容器  -->
         <div class="timeline-container">
             <h3 class="timeline-title">《长物志》的历史影响</h3>
             <div class="timeline">
-                <!-- 时间轴项目1 -->
+
                 <div class="timeline-item">
                     <div class="timeline-year">1634</div>
                     <div class="timeline-content">
@@ -903,7 +861,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目2 -->
                 <div class="timeline-item">
                     <div class="timeline-year">清中期</div>
                     <div class="timeline-content">
@@ -912,7 +869,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目3 -->
                 <div class="timeline-item">
                     <div class="timeline-year">民国</div>
                     <div class="timeline-content">
@@ -921,7 +877,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目4 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1990后</div>
                     <div class="timeline-content">
@@ -930,7 +885,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目5 -->
                 <div class="timeline-item">
                     <div class="timeline-year">至今</div>
                     <div class="timeline-content">
@@ -942,7 +896,6 @@
         </div>
     </section>
 
-    <!-- 结语与导航 -->
     <section class="conclusion-section">
         <p class="conclusion-text">
             《长物志》是中国文人精神在器物与空间上的最高表达。它以“雅”为尺，以“简”为法，将居住、园林、花木、陈设升华为人格与心境的延伸。它不教技巧，只传格调；不重奢华，只重意境，成为穿越数百年依然指引东方生活美学的精神坐标。
@@ -954,15 +907,12 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>  
-        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -973,7 +923,6 @@
                 });
             });
             
-            // 平滑滚动
             const exploreBtn = document.querySelectorAll('.btn');
             exploreBtn.forEach(btn => {
                 if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
@@ -987,7 +936,6 @@
                 }
             });
             
-            // 表格行悬停效果
             const tableRows = document.querySelectorAll('.comparison-table tbody tr');
             tableRows.forEach(row => {
                 row.addEventListener('mouseenter', function() {
@@ -998,7 +946,6 @@
                 });
             });
 
-            // ==================== 长物志雷达图 ====================
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},
@@ -1036,7 +983,6 @@
             };
             radarChart.setOption(option);
             window.addEventListener('resize', () => radarChart.resize());
-            
             console.log('《长物志》专题页加载完成！');
         });
     </script>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>明朝建筑成就 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .main-header {
@@ -489,9 +488,7 @@
         </nav>
     </header>
 
-    <!-- 修改为左右分栏布局-->
     <div class="main-content-wrapper">
-        <!-- 左侧朝代信息栏-->
         <div class="dynasty-sidebar">
             <h1>明</h1>
             <div class="dynasty-period-sidebar">公元1368年 - 公元1644年</div>
@@ -504,9 +501,7 @@
             </div>
         </div>
         
-        <!-- 右侧主内容区-->
         <div class="dynasty-main-content">
-            <!-- 历史背景区域 -->
             <div class="historical-context">
                 <h2>历史背景</h2>
                 <p>明朝是中国古典建筑艺术的集大成时期，宫殿、城墙、陵墓等大型工程的建设达到巅峰。明代建筑既继承了宋元以来的木构技术，又在规模与装饰上有所创新，形成独特的明式风格。</p>
@@ -517,11 +512,9 @@
                 </ul>
             </div>
 
-            <!-- 数据可视化图表区域 -->
             <div class="data-visualization-section">
                 <h2 class="section-title">明朝建筑工程数据可视化</h2>
                 <div class="charts-container">
-                    <!-- 左侧：建筑类型统计柱状图 -->
                     <div class="chart-wrapper">
                         <h3 class="chart-title">明朝·建筑类型统计</h3>
                         <div class="chart-container">
@@ -530,7 +523,6 @@
                         <p class="chart-note">注：明代建筑以宫殿、城墙与陵墓为主，反映出皇权与国防在建筑活动中的主导地位，同时民间建筑也得到发展。</p>
                     </div>
                     
-                    <!-- 右侧：建筑材质分析雷达图 -->
                     <div class="chart-wrapper">
                         <h3 class="chart-title">明朝·建筑材质分析</h3>
                         <div class="chart-container">
@@ -541,13 +533,11 @@
                 </div>
             </div>
 
-            <!-- 建筑成就标题区域 -->
             <div class="achievements-title-area">
                 <h2>明朝代表性建筑成就</h2>
                 <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
             </div>
             
-            <!-- 建筑成就网格 -->
             <div class="achievements-grid">
                 <!-- 紫禁城 -->
                 <div class="achievement-card" data-building="forbidden-city">
@@ -561,22 +551,6 @@
                             <span class="meta-tag">皇家宫殿</span>
                             <span class="meta-tag">礼制建筑</span>
                             <span class="meta-tag">中轴对称</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 明长城 -->
-                <div class="achievement-card" data-building="ming-great-wall">
-                    <div class="achievement-image">
-                        <img src="../achievements/images/ming-changcheng.jpg" alt="明长城">
-                    </div>
-                    <div class="achievement-content">
-                        <h3>明长城</h3>
-                        <p>明代长城是长城体系的最后完善阶段，砖石结构坚固，关隘密布，体现了明朝强大的组织能力和国防意识。</p>
-                        <div class="achievement-meta">
-                            <span class="meta-tag">军事防御</span>
-                            <span class="meta-tag">砖石结构</span>
-                            <span class="meta-tag">边防工程</span>
                         </div>
                     </div>
                 </div>
@@ -596,22 +570,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- 明十三陵 -->
-                <div class="achievement-card" data-building="ming-tombs">
-                    <div class="achievement-image">
-                        <img src="../achievements/images/ming-shisan.jpg" alt="明十三陵">
-                    </div>
-                    <div class="achievement-content">
-                        <h3>明十三陵</h3>
-                        <p>明代帝王陵墓群，布局严谨，石雕精美，体现了明代陵寝制度的完善与丧葬建筑的艺术成就。</p>
-                        <div class="achievement-meta">
-                            <span class="meta-tag">帝王陵墓</span>
-                            <span class="meta-tag">石雕艺术</span>
-                            <span class="meta-tag">陵寝制度</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -620,7 +578,6 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <!-- 建筑详情模态框 -->
     <div class="modal-overlay" id="buildingModal">
         <div class="modal-content">
             <div class="modal-close" id="closeModal">&times;</div>
@@ -643,9 +600,7 @@
     </div>
 
     <script>
-        // 等待页面加载完成后初始化图表
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. 建筑类型统计柱状图
             const buildingTypesCtx = document.getElementById('buildingTypesChart').getContext('2d');
             const buildingTypesChart = new Chart(buildingTypesCtx, {
                 type: 'bar',
@@ -709,7 +664,6 @@
                 }
             });
 
-            // 2. 建筑材质分析雷达图
             const materialCtx = document.getElementById('materialChart').getContext('2d');
             const materialChart = new Chart(materialCtx, {
                 type: 'radar',
@@ -782,8 +736,6 @@
                 }
             });
 
-
-            // 模态框逻辑
             const modal = document.getElementById('buildingModal');
             const closeModal = document.getElementById('closeModal');
             const modalTitle = document.getElementById('modalTitle');
@@ -806,21 +758,7 @@
                         </ul>
                     `
                 },
-                'ming-great-wall': {
-                    title: '明长城',
-                    subtitle: '长城体系的最后完善阶段，砖石长城时代的代表',
-                    image: '../achievements/images/ming-changchengall.jpg',
-                    description: `
-                        <p>明长城是长城建筑史上的最后阶段，全长超过6000公里，以砖石为主材，关隘众多，体现了明朝强大的国防能力和建筑技术。</p>
-                        <h4>建筑特色</h4>
-                        <ul>
-                            <li>砖石结构坚固，墙体宽厚，具有强大的防御功能；</li>
-                            <li>关隘建筑精美，城楼、敌楼、烽火台等设施完善；</li>
-                            <li>长城沿线形成了完整的军事防御体系。</li>
-                        </ul>
-                    `
-                },
-                minggugong: {
+                'minggugong': {
                     title: '明故宫',
                     subtitle: '明清宫城之祖，南京明代皇宫遗址',
                     image: '../achievements/images/ming-minggugongall.jpg',
@@ -841,20 +779,6 @@
                         </ul>
                     `
                 },
-                'ming-tombs': {
-                    title: '明十三陵',
-                    subtitle: '明代帝王陵墓群，陵寝制度的完善体现',
-                    image: '../achievements/images/ming-shisanall.jpg',
-                    description: `
-                        <p>明十三陵位于北京昌平区天寿山麓，是明朝十三位皇帝的陵墓群，总面积达120平方公里，体现了明代陵寝建筑的艺术成就。</p>
-                        <h4>建筑特色</h4>
-                        <ul>
-                            <li>陵墓布局严谨，神道石雕精美；</li>
-                            <li>宝城、明楼、享殿等建筑体现了丧葬礼制；</li>
-                            <li>石雕艺术达到高峰，人物、动物雕刻生动传神。</li>
-                        </ul>
-                    `
-                }
             };
 
             document.querySelectorAll('.achievement-card').forEach(card => {

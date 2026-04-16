@@ -1,16 +1,13 @@
-// AI问答 + AI出题筑学挑战 独立脚本（支持 Markdown 渲染）
 (function() {
-    // ========== DeepSeek 配置 ==========
+    //  DeepSeek 配置 
     const API_KEY = 'sk-41be33b93ed34ee2abbc020b3af78da9'; 
     const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-    
-    // ========== 筑学挑战状态 ==========
+
     let currentQuestions = [];
     let userAnswers = new Array(10).fill(-1);
     let currentIndex = 0;
     let isGenerating = false;
-    
-    // ========== 辅助函数 ==========
+
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, function(m) {
@@ -20,37 +17,29 @@
             return m;
         });
     }
-    
-    // 渲染 Markdown（如果 marked 库可用）
+
     function renderMarkdown(text) {
         if (!text) return '';
-        // 如果 marked 库已加载，使用它
         if (typeof marked !== 'undefined') {
             try {
-                // marked 新版本推荐使用异步，但为了简单，这里使用同步兼容写法
                 if (typeof marked.parse === 'function') {
-                    // 尝试同步调用（某些版本支持）
                     let result = marked.parse(text, { async: false });
                     if (result && typeof result === 'string') return result;
                 }
-                // 降级：使用 marked 默认
                 return marked(text);
             } catch(e) {
                 console.warn('Markdown 解析失败:', e);
                 return escapeHtml(text);
             }
         }
-        // 没有 marked 库，只做基本换行和转义
         return escapeHtml(text).replace(/\n/g, '<br>');
     }
     
-    // ========== AI 出题（不变） ==========
     async function generateQuizQuestions() {
         if (!API_KEY) {
             throw new Error('未配置 API Key，请在代码中设置 HARDCODED_API_KEY');
         }
-        
-        const systemPrompt = `你是一位中国古代建筑教育专家。请生成10道关于中国古代建筑的选择题，题目需覆盖建筑历史、结构技术、著名建筑、建筑师、经典著作等方面。每道题包含题干、四个选项（A、B、C、D）以及正确答案的字母。请严格按照以下 JSON 格式输出，不要包含任何其他文字：
+        const systemPrompt = `你是一位中国古代建筑教育专家。请生成10道关于中国古代建筑的选择题，题目需覆盖建筑历史、结构技术、著名建筑、建筑师、经典著作、朝代建筑特点等方面。每道题包含题干、四个选项（A、B、C、D）以及正确答案的字母。请严格按照以下 JSON 格式输出，不要包含任何其他文字：
 
 [
   {
@@ -118,13 +107,12 @@
         }
     }
     
-    // ========== 筑学挑战 UI（不变，但题目文本需要转义） ==========
     function showQuizStart() {
         const container = document.getElementById('quiz-body');
         if (!container) return;
         container.innerHTML = `
             <div class="quiz-start">
-                <h2>📜 测测建筑知多少</h2>
+                <h2>测测建筑知多少</h2>
                 <p>AI 将实时生成 <strong>10道</strong> 关于中国古代建筑的题目。<br>快来挑战最强大脑吧！</p>
                 <button class="quiz-btn" id="start-quiz-btn">开始挑战</button>
             </div>
@@ -137,7 +125,7 @@
                 const container = document.getElementById('quiz-body');
                 container.innerHTML = `
                     <div class="quiz-start">
-                        <h2>🤖 AI 正在出题...</h2>
+                        <h2>AI 正在出题...</h2>
                         <p>请稍等片刻，AI 正在精心准备10道古建题目。</p>
                         <div style="margin-top:20px;">⏳ 生成中</div>
                     </div>
@@ -150,7 +138,7 @@
                 } catch (error) {
                     container.innerHTML = `
                         <div class="quiz-start">
-                            <h2>⚠️ 出题失败</h2>
+                            <h2>出题失败</h2>
                             <p>${error.message}</p>
                             <button class="quiz-btn" id="retry-quiz-btn">重试</button>
                             <button class="quiz-btn quiz-btn-outline" id="close-quiz-error">关闭</button>
@@ -233,15 +221,15 @@
     
     function showQuizResult(score) {
         let rating = '';
-        if (score <= 3) rating = '🌱 初出茅庐 · 再读梁思成';
-        else if (score <= 6) rating = '📚 博学秀才 · 营造有术';
-        else if (score <= 9) rating = '🏆 建筑大师 · 匠心独具';
-        else rating = '🎉 营造宗师 · 满级大神';
+        if (score <= 3) rating = '初出茅庐 · 再读梁思成';
+        else if (score <= 6) rating = '博学秀才 · 营造有术';
+        else if (score <= 9) rating = '建筑大师 · 匠心独具';
+        else rating = '营造宗师 · 满级大神';
         const container = document.getElementById('quiz-body');
         if (!container) return;
         container.innerHTML = `
             <div class="quiz-result">
-                <h2>📊 挑战完成</h2>
+                <h2>挑战完成</h2>
                 <div class="result-score">得分：${score} / 10</div>
                 <div class="result-rating">${rating}</div>
                 <button class="quiz-btn" id="restart-quiz">重新挑战</button>
@@ -268,7 +256,6 @@
         }
     }
     
-    // ========== AI 问答（支持 Markdown） ==========
     let qaInitialized = false;
     function initAIQA() {
         if (qaInitialized) return;
@@ -286,10 +273,8 @@
             
             let contentHtml = '';
             if (isUser) {
-                // 用户消息纯文本转义
                 contentHtml = escapeHtml(text);
             } else {
-                // AI 消息：解析 Markdown
                 contentHtml = renderMarkdown(text);
             }
             
@@ -323,10 +308,10 @@
         
         async function callDeepSeek(userQuestion) {
             if (!API_KEY) {
-                addMessage('⚠️ 未配置 API Key，请在代码中设置 HARDCODED_API_KEY。', false, true);
+                addMessage('未配置 API Key，请在代码中设置 HARDCODED_API_KEY。', false, true);
                 return null;
             }
-            const systemPrompt = `你是一位专业的中国古代建筑专家，精通中国建筑历史、结构技术、著名建筑、建筑师和经典著作。请用中文回答用户的问题，语言通俗易懂，内容准确详实。如果问题不相关，请礼貌地引导回建筑话题。`;
+            const systemPrompt = `你是一位专业的中国古代建筑专家，精通中国建筑历史、结构技术、著名建筑、建筑师、朝代建筑特点、建筑潮流变迁和经典著作。请用中文回答用户的问题，语言通俗易懂，内容准确详实。如果问题不相关，请礼貌地引导回建筑话题。`;
             try {
                 const response = await fetch(DEEPSEEK_API_URL, {
                     method: 'POST',
@@ -377,7 +362,7 @@
         });
         
         if (!API_KEY) {
-            addMessage('⚠️ 未检测到 API Key。请在 ai-assistant.js 文件开头的 HARDCODED_API_KEY 变量中填入您的 DeepSeek API Key，然后刷新页面。', false, true);
+            addMessage('未检测到 API Key。请在 ai-assistant.js 文件开头的 HARDCODED_API_KEY 变量中填入您的 DeepSeek API Key，然后刷新页面。', false, true);
         } 
     }
     
@@ -389,7 +374,6 @@
         const quizModal = document.getElementById('quiz-modal');
         const closeQa = document.getElementById('close-qa-modal');
         const closeQuiz = document.getElementById('close-quiz-modal');
-        
         if (!aiQaCard || !quizCard) return;
         
         aiQaCard.addEventListener('click', () => {

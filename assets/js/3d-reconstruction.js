@@ -1,5 +1,4 @@
-// 全局变量
-        let currentBuildings = [];
+         let currentBuildings = [];
         let currentFilter = 'all';
         let currentSearchTerm = '';
 
@@ -91,7 +90,6 @@
                     
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #7f8c8d;">
-                        <div style="font-size: 3rem; margin-bottom: 20px;">🔍</div>
                         <h3>${currentSearchTerm ? '未找到结果' : '暂无模型'}</h3>
                         <p>${message}。请尝试其他关键词或稍后再来。</p>
                     </div>

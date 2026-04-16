@@ -118,9 +118,6 @@
             border-radius: 2px;
         }
 
-        .timeline-section,
-        .cards-section,
-        .map-section,
         .works-section,
         .impact-section,
         .conclusion-section,
@@ -133,87 +130,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .timeline {
-            position: relative;
-            margin-top: 30px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: #3498db;
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 60px;
-            display: flex;
-            align-items: center;
-            min-height: 120px;
-        }
-
-        .timeline-item:nth-child(odd) {
-            justify-content: flex-end;
-        }
-
-        .timeline-item:nth-child(even) {
-            justify-content: flex-start;
-        }
-
-        .timeline-year {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #3498db;
-            color: white;
-            width: 86px;
-            height: 86px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-            z-index: 1;
-            line-height: 1.2;
-            padding: 6px;
-        }
-
-        .timeline-content {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            width: 45%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-top: 4px solid #3498db;
-        }
-
-        .timeline-item:nth-child(odd) .timeline-content {
-            margin-right: 20px;
-        }
-
-        .timeline-item:nth-child(even) .timeline-content {
-            margin-left: 20px;
-        }
-
-        .timeline-content h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-
-        .timeline-content p {
-            color: #666;
-            line-height: 1.7;
-        }
-
-        .cards-container,
         .works-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -221,7 +137,6 @@
             margin-top: 30px;
         }
 
-        .card,
         .work-item {
             background: #f8f9fa;
             padding: 28px;
@@ -230,36 +145,14 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .card:hover,
         .work-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        .card h3,
         .work-item h4 {
             color: #2c3e50;
             margin-bottom: 12px;
-        }
-
-        .card ul {
-            list-style-type: none;
-            padding-left: 20px;
-        }
-
-        .card li {
-            margin: 12px 0;
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .card li::before {
-            content: "•";
-            color: #3498db;
-            font-size: 1.5rem;
-            position: absolute;
-            left: 0;
-            top: -5px;
         }
 
         .work-tag {
@@ -270,61 +163,6 @@
             border-radius: 4px;
             font-size: 0.9rem;
             margin-bottom: 15px;
-        }
-
-        .map-intro {
-            text-align: center;
-            color: #666;
-            margin: 0 auto 22px;
-            max-width: 860px;
-            line-height: 1.8;
-        }
-
-        .map-legend {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 18px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #2c3e50;
-            font-size: 0.9rem;
-        }
-
-        .legend-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
-        }
-
-        .dot-palace {
-            background: #1a73e8;
-        }
-
-        .dot-tomb {
-            background: #2e7d32;
-        }
-
-        .project-map {
-            height: 460px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #dfe8f2;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
-        }
-
-        .map-note {
-            margin-top: 14px;
-            color: #667788;
-            font-size: 0.9rem;
-            line-height: 1.7;
         }
 
         .impact-table {
@@ -401,31 +239,6 @@
                 gap: 20px;
             }
 
-            .timeline::before {
-                left: 20px;
-            }
-
-            .timeline-item {
-                display: block;
-                margin-bottom: 40px;
-                min-height: auto;
-            }
-
-            .timeline-year {
-                position: relative;
-                left: 0;
-                transform: none;
-                width: 74px;
-                height: 74px;
-                margin-bottom: 15px;
-                font-size: 0.9rem;
-            }
-
-            .timeline-content {
-                width: 100%;
-                margin: 0 !important;
-            }
-
             .achievement-title {
                 font-size: 2.2rem;
             }
@@ -447,10 +260,6 @@
             .impact-table {
                 display: block;
                 overflow-x: auto;
-            }
-
-            .project-map {
-                height: 360px;
             }
         }
 
@@ -496,96 +305,6 @@
         <div class="hero-image">
             <img src="../建筑师/assets/images/leifada.png" alt="雷发达主题示意图">
         </div>
-    </section>
-
-    <section class="timeline-section">
-        <h2 class="section-title">生平与营建活动（据可考与研究共识）</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-year">1619</div>
-                <div class="timeline-content">
-                    <h4>生于江西地区（雷氏家族传统来源地）</h4>
-                    <p>雷氏匠作家族与江西工匠传统关系密切，后世“样式雷”文献普遍将雷发达作为其家族谱系开端人物。</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-year">清初</div>
-                <div class="timeline-content">
-                    <h4>北上进入宫廷工程体系</h4>
-                    <p>清代都城建设与宫廷工程扩展背景下，江南与江西匠师北上任事是可考现象。雷发达被放置在这一历史进程中理解更为稳妥。</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-year">康熙<br>时期</div>
-                <div class="timeline-content">
-                    <h4>参与皇家营建及样式管理传统形成</h4>
-                    <p>据样式雷档案研究与清宫营造史叙述，雷氏在康熙朝开始建立起以图样与工艺为核心的服务模式，雷发达是这一传统的关键起点人物。</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-year">18-19<br>世纪</div>
-                <div class="timeline-content">
-                    <h4>家族谱系延续并制度化</h4>
-                    <p>雷氏后代持续服务清廷，形成“样式雷”品牌化工匠家族，相关图档成为研究清代皇家建筑的关键文献资料。</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-year">1693</div>
-                <div class="timeline-content">
-                    <h4>卒于清初</h4>
-                    <p>雷发达身后，家族由后代接续，其历史影响主要以家族工程实践与图样文献体系的形式延续。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cards-section">
-        <h2 class="section-title">雷发达的技术与制度贡献</h2>
-        <div class="cards-container">
-            <div class="card">
-                <h3>匠作知识的图样化表达</h3>
-                <ul>
-                    <li>将复杂木构与园林营建经验以图样、尺寸与工序方式组织，提升跨代传承稳定性。</li>
-                    <li>这种方法为后来的“样式雷图档”形成奠定基础。</li>
-                    <li>使皇家工程的沟通不再仅依赖口传经验。</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>宫廷工程中的协同管理</h3>
-                <ul>
-                    <li>在高等级工程中，匠师需要协调木作、瓦作、石作与彩画等多工种协同。</li>
-                    <li>雷发达代表的是“工程体系能力”，而不是单一建筑的孤立创作。</li>
-                    <li>体现清代皇家营建流程的早期成熟。</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3>家族化专业传承模式</h3>
-                <ul>
-                    <li>雷氏家族在清代形成连续服务机制，后世称“样式雷”。</li>
-                    <li>这种模式保证了技术标准在长期皇家工程中的一致性。</li>
-                    <li>也为今天研究古代工程组织提供了难得样本。</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section class="map-section">
-        <h2 class="section-title">样式雷家族作品范围地图</h2>
-        <p class="map-intro">本图展示“样式雷”家族在清代皇家工程中的主要空间分布范围。点位基于常见研究共识与样式雷图档相关工程语境整理，用于呈现家族工程版图，不等同于雷发达个人独立主持名单。</p>
-
-        <div class="map-legend">
-            <div class="legend-item"><span class="legend-dot dot-palace"></span>皇家宫苑与宫城工程圈</div>
-            <div class="legend-item"><span class="legend-dot dot-tomb"></span>皇家陵寝工程圈</div>
-        </div>
-
-        <div id="leiProjectMap" class="project-map"></div>
-        <p class="map-note">说明：圆明园、颐和园、清东陵、清西陵等点位体现的是样式雷家族跨代服务范围；紫禁城点位体现清宫工程语境中的雷氏参与传统。</p>
     </section>
 
     <section class="works-section">
@@ -656,7 +375,7 @@
                 <i class="fas fa-arrow-left"></i> 返回建筑名家
             </a>
             <a href="../pages/dimensions/books.html" class="nav-btn">
-                <i class="fas fa-book"></i> 探索建筑书籍
+                <i class="fas fa-book"></i> 探索建筑经典
             </a>
             <a href="../pages/dimensions/timeline.html" class="nav-btn">
                 <i class="fas fa-landmark"></i> 浏览时代脉络
@@ -678,39 +397,8 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const timelineItems = document.querySelectorAll('.timeline-item');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-
-            timelineItems.forEach(item => {
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-                item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(item);
-            });
-
-            const cards = document.querySelectorAll('.card, .work-item');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.boxShadow = '';
-                });
-            });
-
             const backToTopBtn = document.getElementById('backToTop');
             window.addEventListener('scroll', function() {
                 if (window.pageYOffset > 300) {
@@ -719,89 +407,8 @@
                     backToTopBtn.classList.remove('visible');
                 }
             });
-
-            backToTopBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            initLeiProjectMap();
         });
 
-        function initLeiProjectMap() {
-            const mapElement = document.getElementById('leiProjectMap');
-            if (!mapElement || typeof L === 'undefined') {
-                return;
-            }
-
-            const map = L.map('leiProjectMap', {
-                center: [39.95, 116.65],
-                zoom: 6,
-                zoomControl: true,
-                attributionControl: true
-            });
-
-            L.tileLayer('https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}', {
-                attribution: '&copy; <a href="https://www.amap.com/">高德地图</a>'
-            }).addTo(map);
-
-            const projects = [
-                {
-                    name: '北京紫禁城（宫城工程语境）',
-                    coords: [39.9163, 116.3972],
-                    type: 'palace',
-                    period: '清代（跨代）',
-                    note: '样式雷家族与清宫工程长期相关，雷发达作为家族开创者处于该传统源头。'
-                },
-                {
-                    name: '圆明园（北京）',
-                    coords: [40.0084, 116.2981],
-                    type: 'palace',
-                    period: '清代',
-                    note: '样式雷图档中保存大量圆明园相关图样，是家族代表性工程领域。'
-                },
-                {
-                    name: '颐和园（北京）',
-                    coords: [39.9997, 116.2755],
-                    type: 'palace',
-                    period: '清代中晚期',
-                    note: '后期皇家园林营建与修缮实践中，雷氏家族图样与工程组织影响显著。'
-                },
-                {
-                    name: '清东陵（河北遵化）',
-                    coords: [40.1878, 117.8085],
-                    type: 'tomb',
-                    period: '清代',
-                    note: '陵寝工程中保存有样式雷相关图样与工程文献线索。'
-                },
-                {
-                    name: '清西陵（河北易县）',
-                    coords: [39.3578, 115.5026],
-                    type: 'tomb',
-                    period: '清代',
-                    note: '清代皇家陵寝工程体系的重要节点，常与雷氏家族工程传统并论。'
-                }
-            ];
-
-            projects.forEach(project => {
-                const color = project.type === 'tomb' ? '#2e7d32' : '#1a73e8';
-                const marker = L.circleMarker(project.coords, {
-                    radius: 7,
-                    color: '#ffffff',
-                    weight: 2,
-                    fillColor: color,
-                    fillOpacity: 0.92
-                }).addTo(map);
-
-                marker.bindPopup(
-                    '<div style="max-width:280px;line-height:1.6;">' +
-                    '<div style="font-weight:700;color:#2c3e50;margin-bottom:6px;">' + project.name + '</div>' +
-                    '<div><b>时期：</b>' + project.period + '</div>' +
-                    '<div style="margin-top:6px;color:#5f6368;">' + project.note + '</div>' +
-                    '</div>'
-                );
-            });
-        }
     </script>
 </body>
 </html>

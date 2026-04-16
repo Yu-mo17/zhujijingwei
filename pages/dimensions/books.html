@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>建筑书籍 - 筑迹经纬</title>
+    <title>建筑经典 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
         .page-container {
@@ -182,7 +182,7 @@
 
     <div class="page-container">
         <div class="page-header">
-            <h1 class="page-title">建筑书籍</h1>
+            <h1 class="page-title">建筑经典</h1>
             <p class="page-subtitle">从《营造法式》到《园冶》，深入中国古代建筑理论体系</p>
         </div>
 
@@ -196,7 +196,7 @@
         </div>
 
         <div class="books-grid">
-            <!-- 《营造法式》卡片 -->
+            <!-- 《营造法式》 -->
             <a href="/建筑书籍/ying-zao-fa-shi.html" class="book-card" data-dynasty="song" data-type="technical">
                 <div class="book-info">
                     <h3>《营造法式》</h3>
@@ -211,7 +211,7 @@
                 </div>
             </a>
             
-             <!-- 《工程做法则例》卡片 -->
+             <!-- 《工程做法则例》 -->
             <a href="/建筑书籍/gongcheng-zuofa-zel.html" class="book-card" data-dynasty="ming" data-type="technical">
                 <div class="book-info">
                     <h3>《工程做法则例》</h3>
@@ -226,7 +226,7 @@
                 </div>
             </a>
 
-            <!-- 《园冶》卡片 -->
+            <!-- 《园冶》 -->
             <a href="/建筑书籍/yuan-ye.html" class="book-card" data-dynasty="ming" data-type="theory">
                 <div class="book-info">
                     <h3>《园冶》</h3>
@@ -241,7 +241,7 @@
                 </div>
             </a>
             
-           <!-- 《天工开物》卡片 -->
+           <!-- 《天工开物》 -->
             <a href="/建筑书籍/tiangongkaiwu.html" class="book-card" data-dynasty="ming" data-type="technical">
                 <div class="book-info">
                     <h3>《天工开物》</h3>
@@ -256,7 +256,7 @@
                 </div>
             </a>
             
-            <!-- 《考工记》卡片 -->
+            <!-- 《考工记》 -->
             <a href="/建筑书籍/kaogongji.html" class="book-card" data-dynasty="ancient" data-type="technical">
                 <div class="book-info">
                     <h3>《考工记》</h3>
@@ -271,7 +271,7 @@
                 </div>
             </a>
             
-            <!-- 《长物志》卡片 -->
+            <!-- 《长物志》 -->
             <a href="/建筑书籍/zhangwuzhi.html" class="book-card" data-dynasty="ming" data-type="theory">
                 <div class="book-info">
                     <h3>《长物志》</h3>
@@ -286,7 +286,7 @@
                 </div>
             </a>
             
-            <!-- 《鲁班经》卡片 -->
+            <!-- 《鲁班经》 -->
             <a href="/建筑书籍/lubanjin.html" class="book-card" data-dynasty="ming" data-type="technical">
                 <div class="book-info">
                     <h3>《鲁班经》</h3>
@@ -301,7 +301,7 @@
                 </div>
             </a>
             
-            <!-- 《梓人遗制》卡片 -->
+            <!-- 《梓人遗制》 -->
             <a href="/建筑书籍/zi-ren-yi-zhi.html" class="book-card" data-dynasty="song" data-type="technical">
                 <div class="book-info">
                     <h3>《梓人遗制》</h3>
@@ -323,24 +323,20 @@
     </footer>
 
     <script >  
-                document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function() {
             const filterButtons = document.querySelectorAll('.dynasty-filter');
             const bookCards = document.querySelectorAll('.book-card');
-            
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
-                    
                     const filter = this.getAttribute('data-dynasty');
-                    
                     bookCards.forEach(card => {
                         if (filter === 'all') {
                             card.style.display = 'flex';
                         } else {
                             const dynasty = card.getAttribute('data-dynasty');
                             const type = card.getAttribute('data-type');
-                            
                             if (dynasty === filter || type === filter) {
                                 card.style.display = 'flex';
                             } else {
@@ -355,7 +351,6 @@
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-10px)';
                 });
-                
                 card.addEventListener('mouseleave', function() {
                     this.style.transform = 'translateY(0)';
                 });

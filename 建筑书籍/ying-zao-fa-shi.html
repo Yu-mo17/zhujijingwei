@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         
-        /* 英雄区域 */
+
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -123,7 +123,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* 响应式调整 */
+
         @media (max-width: 768px) {
             .bilibili-video-btn {
                 padding: 12px 24px;
@@ -237,15 +237,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
         
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
         
         .card-content {
             padding: 25px;
@@ -612,7 +603,6 @@
     </style>
 </head>
     <body>
-        <!-- 导航栏 -->
         <header class="main-header">
             <nav class="main-nav">
                 <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -625,7 +615,6 @@
             </nav>
         </header>
 
-        <!-- 英雄区域 -->
         <section class="hero-section">
             <div class="hero-content">
                 <h1 class="achievement-title">《营造法式》</h1>
@@ -645,7 +634,14 @@
     </div>
     </section>
 
-    <!-- 基本信息卡区域 -->
+    <section class="radar-container">
+        <h2 class="section-title">《营造法式》核心能力图谱</h2>
+        <p class="section-subtitle">从六大维度直观展示《营造法式》的历史地位与技术实力</p>
+        <div class="radar-box">
+            <div id="radar-chart"></div>
+        </div>
+    </section>
+
     <section class="basic-info-section">
         <div class="info-card">
             <div class="info-card-header">
@@ -683,25 +679,12 @@
             </div>
         </div>
     </section>
-
-    <!-- 营造法式 雷达图区域  -->
-    <section class="radar-container">
-        <h2 class="section-title">《营造法式》核心能力图谱</h2>
-        <p class="section-subtitle">从六大维度直观展示《营造法式》的历史地位与技术实力</p>
-        <div class="radar-box">
-            <div id="radar-chart"></div>
-        </div>
-    </section>
-
-    <!-- 核心解密卡片区 -->
+    
     <section id="cards" class="cards-section">
         <h2 class="section-title">四大划时代贡献</h2>
         <p class="section-subtitle">《营造法式》之所以成为建筑史上的里程碑，在于它实现了从经验传承到系统科学的革命性跨越</p>
-        
         <div class="cards-container">
-            <!-- 卡片一 -->
             <div class="card">
-                <div class="card-icon">📏</div>
                 <div class="card-content">
                     <h3><span class="icon">开创"材分制"——建筑的"乐高"语法</h3>
                     <p><strong>核心概念：</strong>这是全书最伟大的发明。它以标准木枋断面——"材"为基本模数，将之分为八个等级。所有建筑构件的尺寸，都规定为"材"或其分数单位"分"的倍数。</p>
@@ -709,9 +692,7 @@
                 </div>
             </div>
             
-            <!-- 卡片二 -->
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
                     <h3><span class="icon">规定"功限料例"——古代的国家预算与审计系统</h3>
                     <p><strong>核心概念：</strong>为杜绝工程腐败与浪费，该书对用工量（功限）和材料消耗（料例）做出了史上最详尽的规定。从砍伐一根柱子需要几个工，到绘制一幅彩画需要几两颜料，全部有据可查。</p>
@@ -719,9 +700,7 @@
                 </div>
             </div>
             
-            <!-- 卡片三 -->
             <div class="card">
-                <div class="card-icon">📐</div>
                 <div class="card-content">
                     <h3><span class="icon">绘制"图样"——失传工艺的全息备份</h3>
                     <p><strong>核心概念：</strong>书中附有近600幅涵盖大木作、小木作、雕作、彩画作的工程图样。这些图样精准、写实，具有极高的技术价值。</p>
@@ -729,9 +708,7 @@
                 </div>
             </div>
             
-            <!-- 卡片四 -->
             <div class="card">
-                <div class="card-icon">🎨</div>
                 <div class="card-content">
                     <h3><span class="icon">蕴含"道器合一"——理性与诗意的哲学统一</h3>
                     <p><strong>核心概念：</strong>《营造法式》体现了"结构即装饰"的最高审美。最复杂的斗拱，首先是力学构件，其次才是艺术表现。装饰从结构逻辑中自然生长，而非后期附加。</p>
@@ -741,16 +718,13 @@
         </div>
     </section>
 
-    <!-- 时空影响区 -->
     <section class="timeline-section">
         <h2 class="section-title">《营造法式》的千年生命线</h2>
         <p class="section-subtitle">一部典籍如何穿越千年，至今仍在塑造我们对东方建筑的理解？</p>
         
-        <!-- 时间轴容器 -->
         <div class="timeline-container">
             <h3 class="timeline-title">一部典籍的千年旅程</h3>
             <div class="timeline">
-                <!-- 时间轴项目1 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1103</div>
                     <div class="timeline-content">
@@ -759,7 +733,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目2 -->
                 <div class="timeline-item">
                     <div class="timeline-year">12-13C</div>
                     <div class="timeline-content">
@@ -768,7 +741,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目3 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1734</div>
                     <div class="timeline-content">
@@ -777,7 +749,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目4 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1925</div>
                     <div class="timeline-content">
@@ -786,7 +757,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目5 -->
                 <div class="timeline-item">
                     <div class="timeline-year">1930s</div>
                     <div class="timeline-content">
@@ -795,7 +765,6 @@
                     </div>
                 </div>
                 
-                <!-- 时间轴项目6 -->
                 <div class="timeline-item">
                     <div class="timeline-year">至今</div>
                     <div class="timeline-content">
@@ -806,11 +775,9 @@
             </div>
         </div>
         
-        <!-- 对比画廊容器 -->
         <div class="comparison-container">
             <h3 class="comparison-title">书中的规定，地上的瑰宝</h3>
             
-            <!-- 对比案例1 -->
             <div class="comparison-item">
                 <div class="comparison-images">
                     <div class="comparison-image">
@@ -824,7 +791,6 @@
                 </div>
             </div>
             
-            <!-- 对比案例2 -->
             <div class="comparison-item">
                 <div class="comparison-images">
                     <div class="comparison-image">
@@ -855,15 +821,12 @@
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -873,8 +836,7 @@
                     this.style.transform = 'translateY(0)';
                 });
             });
-            
-            // 平滑滚动到卡片区域
+
             const exploreBtn = document.querySelector('.btn');
             if (exploreBtn && exploreBtn.getAttribute('href') === '#cards') {
                 exploreBtn.addEventListener('click', function(e) {
@@ -884,8 +846,7 @@
                     });
                 });
             }
-            
-            // 基本信息卡悬停效果
+
             const infoCard = document.querySelector('.info-card');
             if (infoCard) {
                 infoCard.addEventListener('mouseenter', function() {
@@ -897,8 +858,7 @@
                     this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.08)';
                 });
             }
-            
-            // ==================== 营造法式雷达图 ====================
+
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},

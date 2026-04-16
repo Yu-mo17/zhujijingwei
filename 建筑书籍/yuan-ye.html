@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
-        
-        /* 英雄区域 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -157,15 +155,6 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
         
-        .card-icon {
-            height: 150px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: #2c3e50;
-        }
         
         .card-content {
             padding: 25px;
@@ -206,8 +195,7 @@
             margin: 5px 0;
             font-size: 0.95rem;
         }
-        
-        /* 表格样式 */
+
         .data-table {
             width: 100%;
             border-collapse: collapse;
@@ -230,8 +218,7 @@
         .data-table tr:nth-child(even) {
             background: #f8f9fa;
         }
-        
-        /* 对比分析区 */
+
         .comparison-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -289,8 +276,7 @@
             background: #fffde7;
             font-weight: 600;
         }
-        
-        /* 时间轴样式 */
+
         .timeline-container {
             background: white;
             padding: 30px;
@@ -366,8 +352,7 @@
             font-size: 0.95rem;
             line-height: 1.6;
         }
-        
-        /* 基本信息卡区域 */
+
         .basic-info-section {
             max-width: 1200px;
             margin: 60px auto;
@@ -422,8 +407,7 @@
             flex-grow: 1;
             line-height: 1.6;
         }
-        
-        /* 结语与导航 */
+
         .conclusion-section {
             max-width: 1200px;
             margin: 40px auto 60px;
@@ -476,11 +460,7 @@
         .nav-btn-alternate:hover {
             background: #2980b9;
         }
-        
 
-        
-
-        /* 园冶雷达图专用样式 */
         .radar-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -497,8 +477,7 @@
             width: 100%;
             height: 500px;
         }
-        
-        /* 响应式设计 */
+
         @media (max-width: 1024px) {
             .cards-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -558,7 +537,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -571,12 +549,10 @@
         </nav>
     </header>
 
-    <!-- 英雄区域 -->
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="achievement-title">《园冶》</h1>
             <p class="achievement-subtitle">明崇祯七年（1634年），计成完成这部中国第一部系统性的园林艺术理论专著。它不仅总结了园林选址、建筑、堆山、选石、借景等具体建筑技艺，更提出了"虽由人作，宛自天开"的造园哲学，将中国古典园林从实践技艺提升为可传承、可演进的系统理论体系，被誉为"世界造园学最早的名著之一"。</p>
-            
             <div class="hero-buttons">
                 <a href="#cards" class="btn">探索核心理论</a>
                 <a href="../建筑师/ji-cheng.html" class="btn btn-outline">了解作者：计成</a>
@@ -587,7 +563,6 @@
         </div>
     </section>
 
-    <!-- 《园冶》核心能力图谱 -->
     <section class="radar-section">
         <h2 class="section-title">《园冶》核心能力图谱</h2>
         <p class="section-subtitle">六大维度直观展示中国古典园林第一典籍的理论高度</p>
@@ -596,11 +571,8 @@
         </div>
     </section>
 
-    
-    <!-- 基本信息卡区域 -->
-    <section class="basic-info-section">
+     <section class="basic-info-section">
         <h2 class="section-title">《园冶》基本信息</h2>
-        
         <div class="info-card">
             <div class="info-card-header">
                 <h3>文献档案</h3>
@@ -638,21 +610,16 @@
         </div>
     </section>
 
-    <!-- 核心解密卡片区 -->
     <section id="cards" class="cards-section">
         <h2 class="section-title">园林艺术的理论体系</h2>
         <p class="section-subtitle">《园冶》建立了中国古典园林从美学思想到建筑技艺的完整理论框架</p>
-        
         <div class="cards-container">
-            <!-- 卡片一：美学思想体系 -->
             <div class="card">
-                <div class="card-icon">🎨</div>
                 <div class="card-content">
                     <h3><span class="icon">美学思想体系</h3>
                     <p><strong>最高宗旨：</strong>"虽由人作，宛自天开"——追求人工创造与自然天成的完美和谐</p>
                     <p><strong>核心法则：</strong>"巧于因借，精在体宜"——巧妙利用环境条件，追求整体协调与适宜</p>
                     <p><strong>设计原则：</strong>"因地制宜"、"随曲合方"——顺应地形地貌，不拘泥于固定形式</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>分类</th>
@@ -673,16 +640,13 @@
                     </table>
                 </div>
             </div>
-            
-            <!-- 卡片二：园林建筑设计理念 -->
+
             <div class="card">
-                <div class="card-icon">🏯</div>
                 <div class="card-content">
                     <h3><span class="icon">园林建筑设计理念</h3>
                     <p><strong>界面模糊化：</strong>通过灵活的小木作构件，使建筑与自然之间形成渗透关系</p>
                     <p><strong>功能复合化：</strong>同一构件兼具结构、装饰、框景、导视等多重功能</p>
                     <p><strong>形制自由化：</strong>摆脱官式建筑的严格规制，追求"得体合宜"</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>构件类型</th>
@@ -703,32 +667,25 @@
                     </table>
                 </div>
             </div>
-            
-            <!-- 卡片三：系统性造园流程 -->
+
             <div class="card">
-                <div class="card-icon">📊</div>
                 <div class="card-content">
                     <h3><span class="icon">系统性造园流程</h3>
                     <p>《园冶》建立了从规划到细节的完整造园流程，形成了可操作的系统性方法论：</p>
-                    
                     <div class="card-highlight">
                         <p><strong>1. 相地选址 → 立意构思 → 总体布局（立基）</strong></p>
                         <p><strong>2. 建筑定位（屋宇）→ 空间划分（装折）→ 细部装饰（栏杆、门窗）</strong></p>
                         <p><strong>3. 山水营造（掇山、选石）→ 界面处理（墙垣、铺地）→ 意境升华（借景）</strong></p>
                     </div>
-                    
                     <p><strong>借景分类：</strong>远借、邻借、仰借、俯借、应时而借。强调"借者，园虽别内外，得景则无拘远近"。</p>
                 </div>
             </div>
-            
-            <!-- 卡片四：历史地位与传承 -->
+
             <div class="card">
-                <div class="card-icon">📚</div>
                 <div class="card-content">
                     <h3><span class="icon">历史地位与传承</h3>
                     <p><strong>历史地位：</strong>中国第一部系统性的园林艺术理论专著，世界造园学最早的名著之一。</p>
                     <p><strong>流传情况：</strong>明末清初一度失传，1931年从日本传回国内刊行，重新被发现和重视。</p>
-                    
                     <table class="data-table">
                         <tr>
                             <th>对后世影响</th>
@@ -752,12 +709,10 @@
         </div>
     </section>
 
-    <!-- 对比分析区 -->
     <section class="comparison-section">
         <div class="comparison-container">
             <h2 class="comparison-title">理论对比分析</h2>
             <p class="section-subtitle">从不同视角理解《园冶》的独特价值与理论创新</p>
-            
             <table class="comparison-table">
                 <thead>
                     <tr>
@@ -837,27 +792,22 @@
         </div>
     </section>
 
-    <!-- 结语与导航 -->
     <section class="conclusion-section">
         <p class="conclusion-text">
             《园冶》不仅是一部技术性的造园手册，更是一本蕴含深刻哲学思想和美学理念的文化经典。它确立了"虽由人作，宛自天开"的造园最高境界，将中国文人对自然的理解、对生活的态度、对美的追求凝聚在园林这一独特载体中。从明代的江南园林到现代的中式景观设计，从苏州的拙政园到纽约的明轩，《园冶》的思想如一条隐形的脉络，持续滋养着东方美学的传承与发展。它不仅是中国古典园林的"语法教科书"，更是理解中国传统自然观、审美观、生活观的重要文化密码。
         </p>
-        
         <div class="global-nav">
             <a href="architecture-books.html" class="nav-btn">返回建筑名著</a>
             <a href="./ying-zao-fa-shi.html" class="nav-btn nav-btn-alternate">对比阅读：《营造法式》</a>
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer class="main-footer">
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
     <script>
-        // 交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 卡片悬停效果增强
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -867,8 +817,7 @@
                     this.style.transform = 'translateY(0)';
                 });
             });
-            
-            // 平滑滚动
+
             const exploreBtn = document.querySelectorAll('.btn');
             exploreBtn.forEach(btn => {
                 if (btn.getAttribute('href') && btn.getAttribute('href').startsWith('#')) {
@@ -881,8 +830,7 @@
                     });
                 }
             });
-            
-            // 表格行悬停效果
+
             const tableRows = document.querySelectorAll('.comparison-table tbody tr');
             tableRows.forEach(row => {
                 row.addEventListener('mouseenter', function() {
@@ -892,8 +840,7 @@
                     this.style.backgroundColor = '';
                 });
             });
-            
-            // 基本信息卡悬停效果
+
             const infoCard = document.querySelector('.info-card');
             if (infoCard) {
                 infoCard.addEventListener('mouseenter', function() {
@@ -906,7 +853,6 @@
                 });
             }
 
-            // ==================== 园冶雷达图 ====================
             const radarChart = echarts.init(document.getElementById('radar-chart'));
             const option = {
                 tooltip: {},
@@ -944,7 +890,6 @@
             };
             radarChart.setOption(option);
             window.addEventListener('resize', () => radarChart.resize());
-            
             console.log('《园冶》专题页加载完成！');
         });
     </script>

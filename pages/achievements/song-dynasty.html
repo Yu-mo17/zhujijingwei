@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>宋朝建筑成就 - 筑迹经纬</title>
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <!-- 引入Chart.js图表库 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-
         .main-header {
             position: fixed;
             top: 0;
@@ -26,7 +24,6 @@
             padding: 100px 20px 20px; 
         }
         
-        /* 左侧朝代信息栏 */
         .dynasty-sidebar {
             width: 280px;
             min-width: 280px;
@@ -93,13 +90,11 @@
             margin: 5px;
         }
         
-        /* 右侧主内容区 */
         .dynasty-main-content {
             flex: 1;
             min-width: 0; 
         }
         
-        /* 历史背景区域  */
         .historical-context {
             background: #f8f9fa;
             padding: 40px;
@@ -108,7 +103,6 @@
             margin: 40px auto 0; 
         }
         
-        /* 图表容器样式  */
         .data-visualization-section {
             background: #f8f9fa;
             border-radius: 12px;
@@ -162,7 +156,6 @@
             line-height: 1.4;
         }
         
-        /* 建筑成就标题区域  */
         .achievements-title-area {
             max-width: 900px; 
             margin: 40px auto 20px;
@@ -180,7 +173,6 @@
             margin-bottom: 20px;
         }
         
-        /* 建筑成就网格布局*/
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -269,7 +261,6 @@
             color: #7f8c8d;
         }
         
-        /* 模态框样式 - 保持宋朝原有样式 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -404,10 +395,6 @@
             text-decoration: underline;
         }
         
-
-        
-
-        /* 响应式调整 */
         @media (max-width: 1100px) {
             .main-content-wrapper {
                 flex-direction: column;
@@ -501,7 +488,6 @@
 
 
     <div class="main-content-wrapper">
-        <!-- 左侧朝代信息栏 -->
         <div class="dynasty-sidebar">
             <h1>宋</h1>
             <div class="dynasty-period-sidebar">公元960年 - 公元1279年</div>
@@ -514,9 +500,7 @@
             </div>
         </div>
         
-        <!-- 右侧主内容区 -->
         <div class="dynasty-main-content">
-            <!-- 历史背景区域 -->
             <div class="historical-context">
                 <h2>历史背景</h2>
                 <p>宋朝是中国古代建筑技术与理论并重的集大成时期。在唐代雄浑风格的基础上，宋代建筑转向精致典雅、富于理性，木构技艺登峰造极，并颁布了第一部官方建筑规范《营造法式》，标志着中国建筑进入高度模数化、标准化的成熟阶段。</p>
@@ -527,11 +511,9 @@
                 </ul>
             </div>
 
-            <!-- 数据可视化图表区域 -->
             <div class="data-visualization-section">
                 <h2 class="section-title">宋朝建筑工程数据可视化</h2>
                 <div class="charts-container">
-                    <!-- 左侧：建筑类型统计柱状图 -->
                     <div class="chart-wrapper">
                         <h3 class="chart-title">宋朝·建筑类型统计</h3>
                         <div class="chart-container">
@@ -540,7 +522,6 @@
                         <p class="chart-note">注：基于历史文献记载与考古发现统计，反映出宋朝建筑活动的一个显著特点：民居建筑的数量规模远超其他类型，这凸显了宋代城市经济繁荣、市民生活兴盛以及建筑业向民用领域深度拓展的时代特征。</p>
                     </div>
                     
-                    <!-- 右侧：建筑材质分析雷达图 -->
                     <div class="chart-wrapper">
                         <h3 class="chart-title">宋朝·建筑材质分析</h3>
                         <div class="chart-container">
@@ -551,13 +532,11 @@
                 </div>
             </div>
 
-            <!-- 建筑成就标题区域 -->
             <div class="achievements-title-area">
                 <h2>宋朝代表性建筑成就</h2>
                 <p class="achievements-subtitle">点击任意卡片查看详细信息</p>
             </div>
             
-            <!-- 建筑成就网格 -->
             <div class="achievements-grid">
                 <!-- 北宋汴京皇宫 -->
                 <div class="achievement-card" data-building="bianjing">
@@ -630,7 +609,6 @@
         <p>© 筑迹经纬 - 中国古代建筑成就可视化系统</p>
     </footer>
 
-    <!-- 建筑详情模态框 -->
     <div class="modal-overlay" id="buildingModal">
         <div class="modal-content">
             <div class="modal-close" id="closeModal">&times;</div>
@@ -654,9 +632,7 @@
     </div>
 
     <script>
-        // 等待页面加载完成后初始化图表
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. 建筑类型统计柱状图
             const buildingTypesCtx = document.getElementById('buildingTypesChart').getContext('2d');
             const buildingTypesChart = new Chart(buildingTypesCtx, {
                 type: 'bar',
@@ -720,7 +696,6 @@
                 }
             });
 
-            // 2. 建筑材质分析雷达图
             const materialCtx = document.getElementById('materialChart').getContext('2d');
             const materialChart = new Chart(materialCtx, {
                 type: 'radar',
@@ -793,13 +768,11 @@
                 }
             });
 
-            // 添加窗口大小变化时的图表重绘
             window.addEventListener('resize', function() {
                 buildingTypesChart.resize();
                 materialChart.resize();
             });
 
-            // 建筑数据
             const buildingData = {
                 'bianjing': {
                     title: "北宋汴京皇宫",
@@ -902,8 +875,6 @@
                 }
             };
         
-
-            // 获取DOM元素
             const modal = document.getElementById('buildingModal');
             const closeBtn = document.getElementById('closeModal');
             const modalTitle = document.getElementById('modalTitle');
@@ -912,30 +883,23 @@
             const modalDescription = document.getElementById('modalDescription');
             const buildingCards = document.querySelectorAll('.achievement-card');
 
-            // 点击卡片打开模态框
             buildingCards.forEach(card => {
                 card.addEventListener('click', function() {
                     const buildingId = this.getAttribute('data-building');
                     const building = buildingData[buildingId];
                     
                     if (building) {
-                        // 更新标题和副标题
                         modalTitle.textContent = building.title;
                         modalSubtitle.textContent = building.subtitle;
-                        
-                        // 更新描述
                         modalDescription.innerHTML = building.description;
-                        
-                        // 更新图片 - 这是关键部分
+
                         if (building.image) {
-                            // 清空模态框图片区域，然后添加新的图片
                             modalImage.innerHTML = '';
                             const img = document.createElement('img');
                             img.src = building.image;
                             img.alt = building.title;
                             modalImage.appendChild(img);
                         } else {
-                            // 如果没有图片，显示占位符
                             modalImage.innerHTML = `
                                 <div class="modal-image-placeholder">
                                     <div style="font-size: 1.5rem; margin-bottom: 10px;">🏗️</div>
@@ -945,20 +909,17 @@
                             `;
                         }
                         
-                        // 显示模态框
                         modal.classList.add('active');
                         document.body.style.overflow = 'hidden'; // 防止背景滚动
                     }
                 });
             });
 
-            // 关闭模态框
             closeBtn.addEventListener('click', function() {
                 modal.classList.remove('active');
                 document.body.style.overflow = 'auto';
             });
 
-            // 点击模态框外部关闭
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     modal.classList.remove('active');
@@ -966,7 +927,6 @@
                 }
             });
 
-            // 按ESC键关闭模态框
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && modal.classList.contains('active')) {
                     modal.classList.remove('active');

@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
-        /* 英雄区域 */
+
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -564,7 +564,7 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+
     <header class="main-header">
         <nav class="main-nav">
             <a href="../home.html" class="nav-logo">筑迹经纬</a>
@@ -586,7 +586,7 @@
                 <span class="tag dynasty">隋朝（595-605年）</span>
                 <span class="tag location">河北赵县洨河</span>
                 <span class="tag type">桥梁建筑</span>
-                <span class="tag architect">设计：<a href="../architects/li-chun.html">李春</a></span>
+                <span class="tag architect">设计：李春</a></span>
             </div>
             
             <!-- B站视频按钮 -->
@@ -742,9 +742,6 @@
         <div class="related-links">
             <a href="../pages/achievements/sui-dynasty.html" class="related-card">
                 <span>隋唐时期建筑</span>
-            </a>
-            <a href="../建筑师/li-chun.html" class="related-card">
-                <span>设计师：李春</span>
             </a>
         </div>
     </section>
@@ -1159,8 +1156,7 @@
                     model.scale.set(20, 20, 20);
                     model.position.y = 0;
                     model.rotation.y = Math.PI;
-                    
-                    // 启用阴影
+
                     model.traverse(function(child) {
                         if (child.isMesh) {
                             child.castShadow = true;
@@ -1654,8 +1650,7 @@
                     // 调整模型大小
                     model.scale.set(5, 5, 5);
                     model.position.y = 0;
-                    
-                    // 启用阴影
+
                     model.traverse(function(child) {
                         if (child.isMesh) {
                             child.castShadow = true;
